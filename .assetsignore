@@ -1,0 +1,33 @@
+# .assetsignore — Cloudflare 部署时上传静态资产的排除清单（语法同 .gitignore）
+# 原则：只发布「站点本身」需要的文件；开发工具、草稿、研究笔记一律不进公网 CDN。
+
+# ── 仓库 / 环境 ──
+.git
+.gitignore
+.workbuddy
+.vscode
+.idea
+.env
+.env.*
+.dev.vars
+.wrangler
+
+# ── 部署配置与服务端代码（不作为静态文件暴露）──
+wrangler.jsonc
+wrangler.toml
+worker
+
+# ── 开发脚本与工具 ──
+scripts
+package.json
+package-lock.json
+*.py
+*.mjs
+
+# ── 本地草稿与研究文档（绝不公开：含竞品分析等内部材料）──
+*.md
+logo-drafts
+_design-check
+
+# ── 旧版备份 ──
+assets/css/style.v3.cupertino.bak.css

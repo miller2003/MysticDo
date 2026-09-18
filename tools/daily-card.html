@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Free Daily Tarot Card Pull — one card, one reflective prompt | MysticDo</title>
+<meta name="description" content="One free tarot card with a reflective prompt. The lowest-stakes way to feel what tarot does. No signup, no email.">
+<meta name="robots" content="index, follow">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/brand/favicon-48.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png">
+<style>
+  .tarot-card {
+    width: 220px; height: 360px; margin: 0 auto;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(170deg, #ffffff 0%, #FAF5EA 100%);
+    border: 1px solid rgba(138,101,26,0.34);
+    box-shadow: 0 12px 40px rgba(138,101,26,0.16), var(--shadow-md);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--ink-900);
+    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.5s;
+  }
+  .tarot-card.flipping { transform: rotateY(180deg) scale(0.96); }
+  .tarot-card .card-frame {
+    position: absolute; inset: 12px;
+    border: 1px solid rgba(138,101,26,0.24);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: var(--s5);
+  }
+  .tarot-card .roman { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--gold-600); letter-spacing: 0.14em; margin-bottom: var(--s4); }
+  .tarot-card .card-glyph { width: 80px; height: 80px; color: var(--gold-500); margin-bottom: var(--s4); }
+  .tarot-card .card-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; letter-spacing: 0; text-align: center; line-height: 1.15; }
+  .tarot-card .card-suit { font-size: 0.74rem; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.5rem; }
+  .card-back {
+    width: 220px; height: 360px; margin: 0 auto;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(170deg, #F8F3E7 0%, #EFE5CE 100%);
+    border: 1px solid rgba(138,101,26,0.36);
+    box-shadow: var(--shadow-md);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s;
+    color: var(--gold-500);
+    position: relative;
+  }
+  .card-back:hover { transform: translateY(-4px); box-shadow: 0 16px 44px rgba(138,101,26,0.20); }
+  .card-back:active { transform: scale(0.97); }
+  .card-back::before {
+    content: ''; position: absolute; inset: 12px;
+    border: 1px solid rgba(138,101,26,0.26); border-radius: var(--radius);
+    pointer-events: none;
+  }
+  .card-back svg { width: 60px; height: 60px; opacity: 0.85; }
+  .card-reveal-area { min-height: 380px; display: flex; align-items: center; justify-content: center; }
+</style>
+    <!-- SEO-INJECTED-START -->
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#FCFAF5">
+    <link rel="canonical" href="https://mysticdo.com/tools/daily-card.html">
+    <meta property="og:url" content="https://mysticdo.com/tools/daily-card.html">
+    <meta property="og:site_name" content="MysticDo">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://mysticdo.com/assets/og/logo-card.png">
+    <meta property="og:image:alt" content="MysticDo — Match Your Spiritual Needs. Choose What to Do Next.">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Free Daily Tarot Card Pull — one card, one reflective prompt", "url": "https://mysticdo.com/tools/daily-card.html", "description": "One free tarot card with a reflective prompt. The lowest-stakes way to feel what tarot does. No signup, no email.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "MysticDo", "url": "https://mysticdo.com/"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mysticdo.com/"}, {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://mysticdo.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Free Daily Tarot Card Pull — one card, one reflective prompt", "item": "https://mysticdo.com/tools/daily-card.html"}]}</script>
+    <!-- SEO-INJECTED-END -->
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="section-tight">
+  <div class="container container-narrow">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/tools/daily-card.html">Free Tools</a><span class="sep">/</span>
+      <span style="color:var(--gold-600)">Daily Card</span>
+    </nav>
+    <div class="quiz-head" style="padding-top:var(--s2)">
+      <span class="eyebrow center">Free tool · no signup</span>
+      <h1 class="mt-2">Free Daily Card Pull</h1>
+      <p class="quiz-sub">One card, one reflective prompt. The lowest-stakes way to feel what a tarot reading actually does — before you decide whether to pay for a full one.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:var(--s2)">
+  <div class="container container-narrow">
+    <div class="card-reveal-area" id="reveal-area">
+      <div class="card-back" id="card-back" role="button" tabindex="0" aria-label="Pull a card">
+        <svg viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="26" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M30 14l4 9 10 1.5-7 7 1.5 10-9-4.5-9 4.5 1.5-10-7-7 10-1.5z" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <p class="text-muted" id="pull-hint">Tap the card to draw. One card per day — your pull is saved locally so you can revisit it.</p>
+      <button class="btn btn-ghost btn-sm mt-3 hidden" id="pull-again">Pull a new card</button>
+    </div>
+
+    <div id="card-prompt" class="hidden" style="margin-top:var(--s7)">
+      <div class="direct-answer">
+        <h3>Reflective prompt</h3>
+        <p id="prompt-text" style="margin:0;color:var(--ink-900);font-size:1.05rem"></p>
+      </div>
+      <div class="key-takeaways mt-4">
+        <h3>How to use this card</h3>
+        <ul>
+          <li>Don't treat it as a prediction. Treat it as a lens on the day.</li>
+          <li>If the prompt lands, write down what comes up — that's where the value is.</li>
+          <li>One card can't unpack a complex situation. If this surfaces something real, consider a <a href="/tarot/" style="color:var(--gold-600)">full tarot reading</a> or take the <a href="/do-what-fits.html" style="color:var(--gold-600)">intent quiz</a> to see if tarot is actually the right fit.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-parchment">
+  <div class="container">
+    <div class="grid grid-2">
+      <div>
+        <span class="eyebrow">What is this</span>
+        <h2 class="mt-3">A single-card pull, not a reading</h2>
+        <p class="lead mt-3">A single tarot card with a reflective prompt. It's the smallest possible tarot experience — useful for daily reflection, for feeling out the format, or for opening a question. It is not a substitute for a structured reading on a real question.</p>
+        <div class="direct-answer mt-4">
+          <h3>The honest framing</h3>
+          <p style="margin:0;color:var(--ink-700)">Tarot is symbolic. A single card pulled for a vague “my day” question is light interpretation, not a forecast. If you have a real question, a structured spread with a reader does more.</p>
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow">From free to paid</span>
+        <h2 class="mt-3">When a free card isn't enough</h2>
+        <p class="lead mt-3">If a free daily card keeps surfacing the same thread — a relationship pattern, a recurring question, a stuck decision — that's the signal a fuller reading might help.</p>
+        <div class="mt-5 flex flex-col gap-3">
+          <a href="/do-what-fits.html" class="card" style="display:block"><strong>Do What Fits</strong><p class="text-muted" style="font-size:0.9rem;margin-top:0.3rem">Confirm tarot is the right fit for your situation.</p></a>
+          <a href="/tarot/" class="card" style="display:block"><strong>Explore tarot readings</strong><p class="text-muted" style="font-size:0.9rem;margin-top:0.3rem">Spreads, costs, how to choose a reader.</p></a>
+          <a href="/guides/psychic-vs-tarot.html" class="card" style="display:block"><strong>Psychic vs Tarot</strong><p class="text-muted" style="font-size:0.9rem;margin-top:0.3rem">Which one actually fits your question.</p></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="/assets/js/arcana.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+</html>

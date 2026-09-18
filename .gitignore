@@ -1,0 +1,21 @@
+# MysticDo — pure static site, no build step
+# (dist/, .astro/, out-verify/ 等构建产物规则已随旧骨架移除)
+
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env.production
+
+# cloudflare wrangler local state & secrets
+.wrangler/
+.dev.vars
+
+# OS / editor
+.DS_Store
+.idea/
+Thumbs.db
+
+# agent workspace data (session memory & logs — local only)
+.workbuddy/

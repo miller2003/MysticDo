@@ -1,0 +1,56 @@
+# MysticDo
+
+> Match Your Spiritual Needs. Choose What to Do Next.
+> An intent-driven spiritual decision platform: get personalized guidance for your spiritual questions about psychic readings, tarot, astrology, numerology, manifestation, and more — so you can find what fits your needs and avoid making the wrong choice.
+> MysticDo sits in the narrow space between "I'm curious" and "I'm ready to buy." It does not publish horoscopes or a knowledge encyclopedia. It helps users figure out whether they need a psychic, tarot, astrology, or medium reading — and which provider is worth their money — before they pay.
+
+## Start here (comprehensive matcher)
+- Do What Fits (7-question matcher, no signup): https://mysticdo.com/do-what-fits.html
+
+## Practices (browse by spiritual practice)
+- Astrology readings: https://mysticdo.com/astrology/
+- Psychic & Medium readings: https://mysticdo.com/psychic/
+- Tarot readings: https://mysticdo.com/tarot/
+- Medium readings: https://mysticdo.com/medium/
+- Astrology quiz (which reading type fits): https://mysticdo.com/quiz/astrology.html
+- Psychic quiz (which format fits): https://mysticdo.com/quiz/psychic.html
+- Tarot quiz (which spread fits): https://mysticdo.com/quiz/tarot.html
+- Medium quiz (is it right for you, which kind): https://mysticdo.com/quiz/medium.html
+
+## Questions (browse by user intent)
+- Love & Relationships: https://mysticdo.com/questions/love-relationships/
+- Career & Work: https://mysticdo.com/questions/career-work/
+- Money & Wealth: https://mysticdo.com/questions/money-wealth/
+- Life Direction: https://mysticdo.com/questions/life-direction/
+- Loss & Closure: https://mysticdo.com/questions/loss-closure/
+- Spiritual Growth: https://mysticdo.com/questions/spiritual-growth/
+
+## Decision guides (read before you pay)
+- Before Paying for a Psychic Reading: https://mysticdo.com/guides/before-paying-psychic-reading.html
+- How to Choose a Psychic Reader: https://mysticdo.com/guides/how-to-choose-psychic-reader.html
+- How Much Does a Psychic Reading Cost: https://mysticdo.com/guides/psychic-reading-cost.html
+- How to Tell If an Online Psychic Is Legit: https://mysticdo.com/guides/is-online-psychic-legit.html
+- How Much Does a Tarot Reading Cost: https://mysticdo.com/guides/tarot-reading-cost.html
+- How to Choose a Tarot Reader: https://mysticdo.com/guides/how-to-choose-tarot-reader.html
+- How Much Does a Birth Chart Reading Cost: https://mysticdo.com/guides/birth-chart-reading-cost.html
+- How to Choose an Astrology Reader: https://mysticdo.com/guides/how-to-choose-astrologer.html
+- What Does a Medium Reading Actually Do: https://mysticdo.com/guides/medium-reading-guide.html
+
+## Comparisons (which practice fits your question)
+- Psychic vs Tarot: https://mysticdo.com/guides/psychic-vs-tarot.html
+- Psychic vs Medium: https://mysticdo.com/guides/psychic-vs-medium.html
+- Tarot vs Astrology: https://mysticdo.com/guides/tarot-vs-astrology.html
+- Online Psychic Reading vs In-Person: https://mysticdo.com/guides/online-psychic-vs-in-person.html
+- Astrology Reading vs Horoscope: https://mysticdo.com/guides/astrology-reading-vs-horoscope.html
+
+## Free tools
+- Daily Card Pull (free tarot card + reflective prompt): https://mysticdo.com/tools/daily-card.html
+
+## Trust & methodology
+- Methodology (how we source, review, disclose): https://mysticdo.com/methodology.html
+- About MysticDo (positioning, roadmap, disclaimers): https://mysticdo.com/about.html
+
+## Notes
+- All content is HTML text — key facts, prices, and comparison data are never trapped in images.
+- Each commercial page uses a GEO-friendly structure: Direct Answer → Key Takeaways → Comparison table → Real user scenarios → Decision tree → FAQ → Methodology.
+- Affiliate links are disclosed and never affect ranking. See /methodology.html.

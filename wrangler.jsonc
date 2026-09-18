@@ -1,0 +1,41 @@
+/**
+ * MysticDo — Cloudflare Workers 配置（静态资产 + Worker）
+ *
+ * 部署方式：GitHub 推送自动部署（Workers Builds）。
+ * 这个文件是 Cloudflare 官方的部署配置文件（不是需要安装的软件）——
+ * 每次推送到 GitHub 后，Cloudflare 的构建机会读取它并在云端执行
+ * `npx wrangler deploy`，本地电脑无需安装任何东西。
+ *
+ * 上传排除清单见根目录 `.assetsignore`（语法同 .gitignore）。
+ */
+{
+  "name": "mysticdo",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-01",
+
+  "assets": {
+    // 站点根目录即资产根目录
+    "directory": ".",
+    // Worker 内通过 env.ASSETS 取静态文件
+    "binding": "ASSETS",
+    // /psychic/ ↔ /psychic/index.html 自动尾斜杠处理
+    "html_handling": "auto-trailing-slash",
+    // 未命中路径返回 /404.html，且带 404 状态码
+    "not_found_handling": "404-page",
+    // 所有请求先进 Worker（主机名 301 + markdown 协商），再由 Worker 转交资产层。
+    // 注：这会让资产请求也计入 Worker 请求数（免费版 10 万/天）；流量上来后可改为
+    // 数组形式，用 !*.png 等负向 glob 让图片类请求绕过 Worker 直连资产层。
+    "run_worker_first": true
+  },
+
+  "vars": {
+    // PostHog 摄入端点；项目 API key 在 Cloudflare 控制台配置：
+    // Worker → Settings → Variables and Secrets → 添加 PUBLIC_POSTHOG_KEY（类型 Secret）
+    "PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com"
+  },
+
+  // 免费版可用：控制台可查 Worker 实时日志，postback 排障用
+  "observability": {
+    "enabled": true
+  }
+}

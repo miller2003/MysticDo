@@ -1,0 +1,29 @@
+# robots.txt — MysticDo
+# Allow all crawlers full access (static content site; JS/CSS needed for render)
+
+User-agent: *
+Allow: /
+Disallow:
+
+# Explicit allow for AI crawlers (GEO — generative engine optimization)
+# These help ChatGPT, Claude, Perplexity, Google AI Overviews cite MysticDo
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Sitemap
+Sitemap: https://mysticdo.com/sitemap.xml

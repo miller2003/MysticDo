@@ -1,0 +1,10 @@
+{
+  "name": "mysticdo",
+  "version": "0.3.0",
+  "private": true,
+  "description": "MysticDo — pure static site deployed to Cloudflare Workers via GitHub (Workers Builds). Zero dependencies, nothing to install locally.",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "start": "node scripts/dev-server.mjs"
+  }
+}

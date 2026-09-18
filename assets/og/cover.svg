@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="-apple-system, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <radialGradient id="halo" cx="0.5" cy="0.1" r="0.7">
+      <stop offset="0" stop-color="#B8933A" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#B8933A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C9AE6B"/>
+      <stop offset="1" stop-color="#8A651A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="630" fill="#FCFAF5"/>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+
+  <!-- brand mark: the MysticDo emblem, positioned for the raster compositor.
+       The PNG card is generated from this vector plus the raster emblem, since
+       social crawlers render SVG inconsistently. -->
+  <image x="100" y="92" width="112" height="112" href="logo-mark-256.png" preserveAspectRatio="xMidYMid meet"/>
+  <text x="240" y="162" font-size="60" font-weight="700" letter-spacing="-1.5" fill="#211B10">MysticDo</text>
+
+  <!-- eyebrow -->
+  <text x="100" y="268" font-size="20" font-weight="600" fill="#8A651A" letter-spacing="3">AN INTENT-DRIVEN SPIRITUAL DECISION PLATFORM</text>
+
+  <!-- main slogan -->
+  <text x="100" y="360" font-size="72" font-weight="700" letter-spacing="-2.2" fill="#211B10">Match Your Spiritual Needs.</text>
+  <text x="100" y="446" font-size="72" font-weight="700" letter-spacing="-2.2" fill="#211B10">Choose What to Do <tspan fill="#8A651A">Next.</tspan></text>
+
+  <!-- sub-slogan -->
+  <text x="100" y="512" font-size="24" fill="#6E6552">Get personalized guidance for psychic readings, tarot, astrology, numerology,</text>
+  <text x="100" y="546" font-size="24" fill="#6E6552">manifestation, and more — so you find what fits and avoid the wrong choice.</text>
+
+  <!-- footer url -->
+  <text x="100" y="598" font-size="21" font-weight="600" fill="#8A651A" letter-spacing="1">mysticdo.com</text>
+</svg>
