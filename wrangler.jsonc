@@ -7,6 +7,9 @@
  * `npx wrangler deploy`，本地电脑无需安装任何东西。
  *
  * 上传排除清单见根目录 `.assetsignore`（语法同 .gitignore）。
+ *
+ * 注：原 EA 时代的 PUBLIC_POSTHOG_* 环境变量已随 PostHog 移除（2026-09-19）；
+ *     PostHog 重新接入时再在此处加回摄入端点变量，Key 用控制台 Secret 配置。
  */
 {
   "name": "mysticdo",
@@ -28,13 +31,7 @@
     "run_worker_first": true
   },
 
-  "vars": {
-    // PostHog 摄入端点；项目 API key 在 Cloudflare 控制台配置：
-    // Worker → Settings → Variables and Secrets → 添加 PUBLIC_POSTHOG_KEY（类型 Secret）
-    "PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com"
-  },
-
-  // 免费版可用：控制台可查 Worker 实时日志，postback 排障用
+  // 免费版可用：控制台可查 Worker 实时日志
   "observability": {
     "enabled": true
   }

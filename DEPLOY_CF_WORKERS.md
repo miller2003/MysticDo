@@ -14,7 +14,7 @@ wrangler 是 Cloudflare 官方的部署命令行工具。**你不需要用它**�
 | 文件 | 作用 |
 |---|---|
 | `wrangler.jsonc` | Cloudflare 部署配置（云端读取，本地无需安装任何工具） |
-| `worker/index.js` + `worker/_lib/` | Worker 边缘代码：www→apex 301、Markdown for Agents、`/api/postback` 联盟回调 |
+| `worker/index.js` + `worker/_lib/` | Worker 边缘代码：www→apex 301、Markdown for Agents |
 | `.assetsignore` | 决定哪些文件**不进**公网 CDN（开发脚本、`*.md` 研究文档、草稿目录等已全部排除） |
 | `.gitignore` | 已排除 `.env`、`.workbuddy/`、`.dev.vars` 等本机文件，不会进仓库 |
 
@@ -76,15 +76,7 @@ git push -u origin main
 
 4. 点 **Create and deploy**。约 1–2 分钟后完成，得到预览地址 `https://mysticdo.<你的子域>.workers.dev`，先在浏览器里把主要页面点一遍。
 
-### 步骤 4：配置 PostHog 密钥（控制台操作，不用命令行）
-
-控制台 → **Workers & Pages** → `mysticdo` → **Settings** → **Variables and Secrets** → **Add**：
-- Name：`PUBLIC_POSTHOG_KEY`
-- Type：**Secret**
-- Value：粘贴 `phc_` 开头的 PostHog 项目 Key
-- 保存后**需要再触发一次部署才生效**：随便 `git commit --allow-empty -m "trigger deploy"` 再 `git push`，或在 Deployments 页面重试最近一次部署。
-
-### 步骤 5：绑定自定义域名 mysticdo.com
+### 步骤 4：绑定自定义域名 mysticdo.com
 
 1. **域名接入 Cloudflare**（若还没接入）：控制台 → **Add a domain** → 输入 `mysticdo.com` → Free 计划 → 拿到两个 NS 地址 → 到域名注册商处把 Nameservers 改成这两个 → 等状态变为 Active（几分钟到几小时）。
 2. **绑定**：**Workers & Pages** → `mysticdo` → **Settings** → **Domains & Routes** → **Add** → **Custom domain**：
@@ -96,7 +88,7 @@ git push -u origin main
 
 > ⚠️ 如果这个域名以前绑过别的 Cloudflare 项目，必须先去那个项目的设置里移除该域名，同一个域只能服务一个项目。
 
-### 步骤 6：上线核验清单
+### 步骤 5：上线核验清单
 
 ```powershell
 # 1) 页面 200
@@ -110,9 +102,6 @@ curl.exe -o NUL -s -w "%{http_code}" https://mysticdo.com/this-page-does-not-exi
 
 # 4) Markdown for Agents（GEO 核心，应输出 markdown 正文）
 curl.exe -s -H "Accept: text/markdown" https://mysticdo.com/about.html | Select-Object -First 5
-
-# 5) 联盟回调自检（期望 ok:true / dry_run:true）
-curl.exe "https://mysticdo.com/api/postback?dry=1&click_id=test.abc&transaction_id=t1&payout=50"
 ```
 
 再人工确认一条：浏览器打开 `https://mysticdo.com/EEAT_COMPETITOR_RESEARCH.md` 应为 404（内部研究文档不能公开，`.assetsignore` 已挡住）。
@@ -131,7 +120,7 @@ git push
 
 - **回滚**：控制台 → Workers & Pages → `mysticdo` → **Deployments** → 每次部署记录旁的菜单 → **Rollback**（秒级生效，不需要动 git）。也可以 `git revert` 后 push 重新部署。
 - **构建日志**：Deployments → 点某次部署 → View build，出错时看这里。
-- **实时日志**（排障 postback 用）：Worker → **Logs**（已开启 observability）。
+- **实时日志**：Worker → **Logs**（已开启 observability）。
 
 ---
 
@@ -154,5 +143,4 @@ git push
 | 构建失败 | Deployments → View build 看日志；最常见是 `wrangler.jsonc` 没提交进仓库 |
 | 页面 404 但文件存在 | 文件被 `.assetsignore` 误伤（gitignore 语法），调整清单后 push |
 | 自定义域报错 | 域名 NS 未切到 Cloudflare 或状态未 Active |
-| postback 500 Missing key | 步骤 4 的 Secret 没配或名字拼错（必须叫 `PUBLIC_POSTHOG_KEY`） |
 | push 了但没触发部署 | 确认推的是 `main` 分支（Production branch） |
