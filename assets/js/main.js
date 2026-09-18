@@ -116,10 +116,6 @@
     + '<header class="site-header">'
     + '  <div class="container header-inner">'
     + '    <a href="/" class="brand" aria-label="MysticDo home">'
-    + '      <picture>'
-    + '        <source srcset="/assets/brand/mysticdo-mark-48.webp 1x, /assets/brand/mysticdo-mark-96.webp 2x" type="image/webp">'
-    + '        <img class="brand-mark" src="/assets/brand/mysticdo-mark-48.png" srcset="/assets/brand/mysticdo-mark-48.png 1x, /assets/brand/mysticdo-mark-96.png 2x" width="26" height="26" alt="" decoding="async" fetchpriority="high">'
-    + '      </picture>'
     + '      <span class="brand-word">MysticDo</span>'
     + '    </a>'
     + '    <nav class="nav" aria-label="Primary">'
@@ -234,27 +230,52 @@
     }, { passive: true });
   }
 
+  /* ---------- iOS-safe page scroll lock ----------
+     `overflow:hidden` on <html> is what actually stops the page behind
+     an open drawer from scrolling in Safari. The scroll offset is
+     captured and restored afterwards so closing the drawer never
+     leaves the reader back at the top of the page. */
+  var lockedScrollY = 0;
+  function setPageScrollLock(lock) {
+    var de = document.documentElement;
+    if (lock) {
+      lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      de.classList.add('nav-open');
+      document.body.classList.add('nav-open');
+    } else {
+      if (!de.classList.contains('nav-open')) return;
+      de.classList.remove('nav-open');
+      document.body.classList.remove('nav-open');
+      if (Math.abs((window.scrollY || 0) - lockedScrollY) > 1) {
+        var prev = de.style.scrollBehavior;
+        de.style.scrollBehavior = 'auto';
+        window.scrollTo(0, lockedScrollY);
+        de.style.scrollBehavior = prev;
+      }
+    }
+  }
+
   /* ---------- Nav behavior ---------- */
   function initNav() {
     var toggle = document.querySelector('.nav-toggle');
     var nav    = document.querySelector('.nav');
     if (toggle && nav) {
-      // Inject a CTA at the bottom of the mobile nav (visible only on mobile via CSS)
+      /* Full-width CTA closing the drawer. It lives inside a wrapper so
+         the stylesheet can draw a hairline separator above it. */
+      var ctaWrap = document.createElement('div');
+      ctaWrap.className = 'nav-cta-mobile';
       var mobileCta = document.createElement('a');
       mobileCta.href = '/do-what-fits.html';
-      mobileCta.className = 'btn btn-primary mobile-nav-cta';
-      mobileCta.style.cssText = 'margin: var(--s3) var(--s4) 0; width: calc(100% - 2 * var(--s4)); display: none; justify-content: center;';
+      mobileCta.className = 'btn btn-primary btn-block';
       mobileCta.textContent = 'Do What Fits';
-      nav.appendChild(mobileCta);
+      ctaWrap.appendChild(mobileCta);
+      nav.appendChild(ctaWrap);
 
       toggle.addEventListener('click', function () {
         var open = toggle.classList.toggle('open');
         nav.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', String(open));
-        // Show/hide the mobile CTA
-        mobileCta.style.display = open ? 'flex' : 'none';
-        // Prevent body scroll when nav open on mobile
-        document.body.style.overflow = open ? 'hidden' : '';
+        if (window.matchMedia('(max-width: 760px)').matches) setPageScrollLock(open);
       });
       nav.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', function () {
@@ -262,7 +283,7 @@
             toggle.classList.remove('open');
             nav.classList.remove('open');
             toggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+            setPageScrollLock(false);
           }
         });
       });
@@ -612,6 +633,31 @@
     if (existing) pull(false);
   }
 
+  /* ---------- iOS form ergonomics ----------
+     `type="email"` alone still lets iOS smart-capitalise, autocorrect
+     and show the wrong keyboard. These attributes are what keep the
+     input sane — applied centrally so no page can get it wrong. */
+  function initInputAttrs() {
+    document.querySelectorAll('input[type="email"]').forEach(function (inp) {
+      inp.setAttribute('autocapitalize', 'off');
+      inp.setAttribute('autocorrect', 'off');
+      inp.setAttribute('spellcheck', 'false');
+      inp.setAttribute('inputmode', 'email');
+      if (!inp.getAttribute('autocomplete')) inp.setAttribute('autocomplete', 'email');
+    });
+    document.querySelectorAll('input[type="tel"]').forEach(function (inp) {
+      inp.setAttribute('inputmode', 'tel');
+      if (!inp.getAttribute('autocomplete')) inp.setAttribute('autocomplete', 'tel');
+    });
+    document.querySelectorAll('input[type="text"], input:not([type])').forEach(function (inp) {
+      var n = (inp.getAttribute('name') || inp.id || '').toLowerCase();
+      if (n.indexOf('name') > -1) inp.setAttribute('autocomplete', inp.getAttribute('autocomplete') || 'name');
+    });
+    document.querySelectorAll('textarea').forEach(function (t) {
+      if (!t.getAttribute('rows')) t.setAttribute('rows', '5');
+    });
+  }
+
   /* ---------- Init ---------- */
   document.addEventListener('DOMContentLoaded', function () {
     injectLayout();
@@ -619,6 +665,7 @@
     highlightNav();
     initScrollHeader();
     initQuiz();
+    initInputAttrs();
     bindEmailForms();
     initDailyCard();
   });

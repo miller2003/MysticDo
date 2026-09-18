@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>probe</title>
+<style>
+  html,body{margin:0;padding:0;background:#fff;font:12px monospace}
+  iframe{border:0;display:block}
+  pre{white-space:pre-wrap;word-break:break-all;padding:8px}
+</style>
+</head>
+<body>
+<iframe id="f" scrolling="no"></iframe>
+<pre id="probe-result">PENDING</pre>
+<script>
+(function () {
+  var qs   = new URLSearchParams(location.search);
+  var page = qs.get('p') || '/index.html';
+  var W    = parseInt(qs.get('w') || '390', 10);
+  var H    = parseInt(qs.get('h') || '844', 10);
+
+  var f = document.getElementById('f');
+  f.style.width  = W + 'px';
+  f.style.height = H + 'px';
+
+  function pathOf(el) {
+    var parts = [];
+    while (el && el.nodeType === 1 && parts.length < 5) {
+      var s = el.tagName.toLowerCase();
+      if (el.id) { s += '#' + el.id; parts.unshift(s); break; }
+      var cls = (el.getAttribute('class') || '').trim().split(/\s+/).filter(Boolean).slice(0, 3);
+      if (cls.length) s += '.' + cls.join('.');
+      var p = el.parentElement;
+      if (p) {
+        var sib = Array.prototype.filter.call(p.children, function (c) { return c.tagName === el.tagName; });
+        if (sib.length > 1) s += ':nth-of-type(' + (sib.indexOf(el) + 1) + ')';
+      }
+      parts.unshift(s);
+      el = p;
+    }
+    return parts.join(' > ');
+  }
+
+  function hasText(el) {
+    for (var i = 0; i < el.childNodes.length; i++) {
+      var n = el.childNodes[i];
+      if (n.nodeType === 3 && n.nodeValue.trim().length > 1) return true;
+    }
+    return false;
+  }
+
+  /* Union rect of everything actually painted by the element's content.
+     This is what tells us whether glyphs escape the box and get cut. */
+  function paintedRect(el) {
+    var r = document.createRange();
+    r.selectNodeContents(el);
+    var rects = r.getClientRects();
+    if (!rects.length) return null;
+    var L = Infinity, T = Infinity, R = -Infinity, B = -Infinity;
+    for (var i = 0; i < rects.length; i++) {
+      var q = rects[i];
+      if (q.width === 0 && q.height === 0) continue;
+      L = Math.min(L, q.left); T = Math.min(T, q.top);
+      R = Math.max(R, q.right); B = Math.max(B, q.bottom);
+    }
+    if (L === Infinity) return null;
+    return { left: L, top: T, right: R, bottom: B };
+  }
+
+  /* Only a genuine per-element scroll container excuses overflow.
+     body/html are excluded: body's overflow-x propagates to the
+     viewport, so anything clipped there is unreachable content. */
+  function scrollerAncestor(el) {
+    var p = el.parentElement;
+    while (p && p !== document.body && p !== document.documentElement) {
+      var ox = getComputedStyle(p).overflowX;
+      if (ox === 'auto' || ox === 'scroll' || ox === 'hidden' || ox === 'clip') return p;
+      p = p.parentElement;
+    }
+    return null;
+  }
+
+  function audit(doc) {
+    var de   = doc.documentElement;
+    var winW = doc.defaultView.innerWidth;
+    var res  = {
+      innerWidth: winW,
+      docScrollWidth: de.scrollWidth,
+      bodyScrollWidth: doc.body ? doc.body.scrollWidth : null,
+      docScrollHeight: de.scrollHeight,
+      overflow: [], clipped: [], tap: [], tinyFont: [], wideFixed: [], counts: {}
+    };
+
+    var all = doc.querySelectorAll('*');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      var cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      var r = el.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) continue;
+
+      // Painted rect is costly, so only build it when the element's own
+      // content is wider than its box (the only way glyphs can escape).
+      var overflowing = el.scrollWidth > el.clientWidth + 1;
+      var pr = (overflowing && el.children.length < 40) ? paintedRect(el) : null;
+
+      // -- painted content beyond the viewport
+      var prRight = pr ? pr.right : r.right;
+      var prLeft = pr ? pr.left : r.left;
+      if (prRight > winW + 1 || prLeft < -1) {
+        var anc = scrollerAncestor(el);
+        if (!anc) {
+          res.overflow.push({
+            sel: pathOf(el),
+            left: Math.round(prLeft), right: Math.round(prRight),
+            w: Math.round(r.width), tag: el.tagName
+          });
+        }
+      }
+
+      // -- glyphs actually cut off by a clipping box
+      if (pr && el.clientWidth > 0 &&
+          (cs.overflowX === 'hidden' || cs.overflow === 'hidden' || cs.overflowX === 'clip')) {
+        var cutL = Math.round(r.left - pr.left);
+        var cutR = Math.round(pr.right - r.right);
+        if (Math.max(cutL, cutR) > 1) {
+          res.clipped.push({
+            sel: pathOf(el),
+            cutLeft: Math.max(0, cutL), cutRight: Math.max(0, cutR),
+            boxW: Math.round(r.width),
+            text: (el.textContent || '').trim().slice(0, 46).replace(/\s+/g, ' ')
+          });
+        }
+      }
+
+      // -- tap targets
+      var isTap = /^(A|BUTTON|SUMMARY|INPUT|SELECT|TEXTAREA)$/.test(el.tagName) ||
+                  el.getAttribute('role') === 'button';
+      if (isTap) {
+        var inline = el.closest && el.closest('p') && el.tagName === 'A';
+        if (!inline && (r.height < 44 || r.width < 44)) {
+          res.tap.push({
+            sel: pathOf(el),
+            w: Math.round(r.width), h: Math.round(r.height),
+            text: (el.textContent || '').trim().slice(0, 34).replace(/\s+/g, ' ')
+          });
+        }
+      }
+
+      // -- tiny type
+      var fs = parseFloat(cs.fontSize);
+      if (hasText(el) && fs && fs < 12) {
+        res.tinyFont.push({
+          sel: pathOf(el), px: Math.round(fs * 10) / 10,
+          text: (el.textContent || '').trim().slice(0, 34).replace(/\s+/g, ' ')
+        });
+      }
+
+      // -- fixed/sticky elements wider than viewport
+      if ((cs.position === 'fixed' || cs.position === 'sticky') && r.width > winW + 1) {
+        res.wideFixed.push({ sel: pathOf(el), w: Math.round(r.width), pos: cs.position });
+      }
+    }
+    res.counts = {
+      overflow: res.overflow.length,
+      clipped: res.clipped.length,
+      tap: res.tap.length,
+      tinyFont: res.tinyFont.length,
+      wideFixed: res.wideFixed.length
+    };
+    return res;
+  }
+
+  f.src = page;
+  f.onload = function () {
+    setTimeout(function () {
+      var out;
+      try {
+        out = audit(f.contentDocument);
+        out.page = page;
+        out.width = W;
+      } catch (e) {
+        out = { page: page, width: W, error: String(e) };
+      }
+      document.getElementById('probe-result').textContent = 'PROBE_JSON:' + JSON.stringify(out) + ':END_PROBE_JSON';
+    }, 250);
+  };
+})();
+</script>
+</body>
+</html>

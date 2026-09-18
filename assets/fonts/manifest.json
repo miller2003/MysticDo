@@ -1,0 +1,37 @@
+[
+ {
+  "weight": "500",
+  "style": "italic",
+  "file": "cormorant-garamond-latin-500-italic.woff2",
+  "sha1": "01c9275aa0d8",
+  "bytes": 39304
+ },
+ {
+  "weight": "500",
+  "style": "normal",
+  "file": "cormorant-garamond-latin-500-normal.woff2",
+  "sha1": "5a7f94a1fa09",
+  "bytes": 37776
+ },
+ {
+  "weight": "600",
+  "style": "italic",
+  "file": "cormorant-garamond-latin-600-italic.woff2",
+  "sha1": "01c9275aa0d8",
+  "bytes": 39304
+ },
+ {
+  "weight": "600",
+  "style": "normal",
+  "file": "cormorant-garamond-latin-600-normal.woff2",
+  "sha1": "5a7f94a1fa09",
+  "bytes": 37776
+ },
+ {
+  "weight": "700",
+  "style": "normal",
+  "file": "cormorant-garamond-latin-700-normal.woff2",
+  "sha1": "5a7f94a1fa09",
+  "bytes": 37776
+ }
+]

@@ -3,7 +3,7 @@
 
 User-agent: *
 Allow: /
-Disallow:
+Disallow: /_design-check/
 
 # Explicit allow for AI crawlers (GEO — generative engine optimization)
 # These help ChatGPT, Claude, Perplexity, Google AI Overviews cite MysticDo
