@@ -1,0 +1,179 @@
+# MysticDo 欢迎邮件 · 文案 + 视觉改造清单
+
+> 用途：新订阅者加入后自动收到的第一封邮件。
+> 你现在用的是 MailerLite 的 **Christmas Sale（节日促销）** 模板——布局骨架可以留，但节日元素必须全部换掉。
+
+---
+
+## 一、模板改造对照表
+
+| 模板里的东西 | 怎么处理 |
+|---|---|
+| 顶部圣诞袜 / 圣诞球装饰 | **删掉**（或换一张克制的氛围图，见第三节） |
+| `WELCOME! FREE for you get in.` | 换成下面的 eyebrow + 大标题 |
+| 礼物盒插图 | **删掉** |
+| 黑色按钮 `SAVE ON SHIPPING` | 换成金色按钮 **Find what fits** |
+| "节日免运费" 说明段 | 换成下面的正文 |
+| 页脚地址 `401 Forest Knoll, Roselle` | **必须改成你的真实地址**（第四节，法律要求） |
+| 页脚 `Unsubscribe` 链接 | **保留，不要删**（合规必需） |
+
+---
+
+## 二、邮件正文（可直接复制）
+
+### Subject（主题行）
+
+```
+You're in — here's what to expect
+```
+
+### Preview text（预览文字）
+
+```
+One note a week. Decision guides, not horoscopes.
+```
+
+### 正文各块
+
+**① 顶部小字（eyebrow / 那个小号大写字母的位置）**
+
+```
+WELCOME
+```
+
+**② 大标题（H1）**
+
+```
+Before you pay, decide.
+```
+
+**③ 开场段**
+
+```
+Thanks for joining MysticDo.
+
+Most spiritual content online is written to make you buy something. This newsletter is written for a narrower moment — the one where you're about to spend money on a reading, and you want to know whether it's worth it, which kind actually fits your situation, and how to avoid the obvious traps.
+```
+
+**④ 小标题**
+
+```
+What you'll get — roughly one email a week
+```
+
+**⑤ 列表（模板里那三条图标行正好用得上）**
+
+```
+One decision guide — what things cost, how to tell legit from not, how to choose
+
+One free tool or exercise — five minutes, no signup required
+
+Occasionally, a plain-language note on how this industry actually works
+```
+
+**⑥ 小标题**
+
+```
+What you won't get
+```
+
+**⑦ 列表**
+
+```
+Daily horoscopes
+
+Lists of affiliate offers dressed up as advice
+
+Anything that pretends to know your future
+```
+
+**⑧ 按钮（模板里那个黑色按钮的位置）**
+
+按钮文字：
+
+```
+Find what fits
+```
+
+按钮链接：
+
+```
+https://mysticdo.com/do-what-fits
+```
+
+**⑨ 收尾段（按钮下方那段说明文字的位置）**
+
+```
+One thing worth saying up front: we're not here to tell you what to believe. We're here to help you decide what to do next — and to say "skip it, save your money" when that's the honest answer.
+
+If a specific question is on your mind, just reply to this email.
+```
+
+**⑩ 签名**
+
+```
+— MysticDo
+mysticdo.com
+```
+
+---
+
+## 三、配色与排版（跟网站保持一致）
+
+MysticDo 的视觉是「象牙白纸 + 墨黑字 + 古金点缀」，邮件照这个来就不会显得像另一个品牌：
+
+| 用途 | 颜色值 | 备注 |
+|---|---|---|
+| 整封底色 | `#FCFAF5` | 象牙白，比纯白暖 |
+| 正文文字 | `#211B10` | 墨黑；别用 `#000`，太硬 |
+| 按钮 | `#8A651A` | 古金，白字 |
+| 次要文字 / 页脚 | `#5F5E5A` | 灰褐 |
+| 标题字体 | **衬线体**（Georgia / Times New Roman） | 邮件客户端基本不加载自定义字体，用系统衬线体最稳，气质也对 |
+
+**关于配图：建议少用或不用。**
+
+理由有三：① 邮件里图片常被默认拦截，读者看到的是空白块；② 廉价库存图会让"我们帮你判断"的可信度打折；③ 你卖的是冷静的判断力，克制本身就是品牌信号。
+
+如果一定要一张头图，按这个标准找（MailerLite 图片库里搜）：
+
+- 关键词：`celestial minimal`、`tarot still life muted`、`night sky minimal`
+- 风格：**低饱和、暖调、留白多**
+- 避开：紫色渐变 + 星星、发光水晶球、夸张光效——那是廉价玄学站的视觉
+
+---
+
+## 四、两个必须处理的细节
+
+### 1. 页脚地址要改成真实的（法律要求，别跳过）
+
+你截图页脚里的 `401 Forest Knoll, Roselle, United States of America` 是**模板示例**。
+
+美国 CAN-SPAM 法案（以及多数国家的反垃圾邮件法）要求：**每封营销邮件都必须包含真实有效的邮寄地址**。去 MailerLite → **Account settings → Company profile** 改掉：
+
+- 有办公地址就填办公地址
+- 没有的话，填你本人能收到信的地址也行（家庭地址、或租的信箱）
+- **不要留示例地址，也不要填假地址**——这会让你的域名被投诉、进而连累整站邮件送达率
+
+### 2. 退订链接必须保留
+
+模板底部的 `Unsubscribe` 是 MailerLite 自动生成的，**不要删**。它是合规必需项，也是保护你域名声誉的东西。
+
+---
+
+## 五、做完怎么验证
+
+1. 用 **Send test** 发到**你自己的个人邮箱**（先别群发）
+2. **在手机上看一遍**——大多数读者用手机读邮件，确认文字不挤、按钮好点
+3. 确认发件人显示为 `MysticDo <hello@mysticdo.com>`
+4. 都没问题 → 保存 → 回到 **Automations** 把开关打开
+
+---
+
+## 六、先别急着改的部分
+
+「What you'll get」里写了"每周一封"。如果你现在还没准备好每周产出，两个选择：
+
+- **改文案**：把"roughly one email a week"改成"when there's something worth saying"——这是更诚实的承诺，也更适合起步阶段
+- **保持文案，按期兑现**：那就先把前 3 期的选题想好（可以从 `/guides/` 里挑现成的改写成邮件版）
+
+我建议**起步阶段用第一种**：宁少承诺、多兑现。等你能稳定产出后再改回"每周一封"。

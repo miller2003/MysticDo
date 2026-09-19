@@ -255,42 +255,22 @@ MailerLite 的订阅者列表
 1. MailerLite → 左侧 **Automations（自动化）** → **Create new automation**
 2. 触发条件（Trigger）选：**Subscriber joins a group**（订阅者加入分组）→ 选 `MysticDo Subscribers`
 3. 下一步加一个 **Email** 动作 → 打开邮件编辑器
-4. 写欢迎信（下面有可直接用的英文草稿）
+4. 写欢迎信 —— **文案和视觉改造清单在独立文件：`email-welcome-copy.md`**（含可直接复制的正文各块、配色表、模板改造对照表、合规提醒）
 5. 右上角保存 → 把**启用开关打开**（不打开不会跑）
 
 免费版可建 3 个自动化流程，够用。
 
 **怎么验证它真的在工作**：用另一个邮箱去 https://mysticdo.com/join 订阅一次，几分钟内那个邮箱应该收到欢迎信（第一次可能延迟几分钟）。
 
-#### 欢迎信草稿（可直接抄；你的读者是英文用户，所以是英文）
+#### 欢迎信写什么
 
-**Subject：** `You're in — here's what to expect`
+**完整文案 + 视觉改造清单在独立文件：`email-welcome-copy.md`**
 
-**Preview text（可选）：** `One note a week. Decision guides, not horoscopes.`
+写邮件时的三条硬规则：
 
-**正文：**
-
-> Hi,
->
-> Thanks for joining MysticDo — glad you're here.
->
-> Quick note on what this is. MysticDo isn't a horoscope newsletter. It's a decision guide for people who are about to spend money on a spiritual service and want to know whether it's worth it, which kind actually fits their situation, and how to avoid the obvious traps.
->
-> **What you'll get:** roughly one email a week —
-> - one decision guide (what things cost, how to tell legit from not, how to choose)
-> - one free tool or exercise you can use in five minutes
-> - occasionally, a plain-language note about how this industry actually works
->
-> **What you won't get:** daily horoscopes, affiliate link dumps, or anything that pretends to know your future.
->
-> One thing worth knowing up front: I'm not here to tell you what to believe. I'm here to help you decide what to do next — and to say "skip it, save your money" when that's the honest answer.
->
-> If you ever want a specific question answered, just reply to this email. Replies land in my inbox.
->
-> — MysticDo
-> mysticdo.com
-
-> 💡 这段文案刻意保持了与网站一致的语气：冷静、证据化、不承诺超自然效果。你可以先原样用，跑几期再按自己的表达调整。**注意别加"我们会预测你的未来"这类话**——那会和你方法论页面的承诺矛盾。
+1. **别用节日/促销模板的节日元素**（圣诞袜、礼物盒、"免运费"）——那会让人以为 MysticDo 是电商站。
+2. **语气保持"冷静、证据化、不承诺超自然效果"**，与网站一致。不要写"我们会预测你的未来"——那会和你的方法论页面自相矛盾。
+3. **页脚地址必须是你的真实地址**（CAN-SPAM 等法规要求），**退订链接不能删**。
 
 ### 3.2 让联系表单真正送达
 
