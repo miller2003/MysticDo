@@ -88,17 +88,38 @@ MailerLite 的订阅者列表
 
 ### 1.5 把密钥放进 Cloudflare（关键一步）
 
+> ⚠️ **这一步最容易填错，先看懂两个框的区别再动手：**
+>
+> | 框 | 填什么 | 说明 |
+> |---|---|---|
+> | **Name / 密钥** | 给变量**起名字** | 必须是**英文字母**开头。代码就是按这个名字去读数据的 |
+> | **Value / 值** | 你的**数据** | token 或数字填在这里 |
+>
+> **★ 名称栏不是放数据的地方。** 把 token 或 Group ID 填进"名称"会立刻报错：*变量名称必须以字母开头…*
+
+要加的是**两个独立变量**：
+
+| | Name（名称）— 逐字照抄 | Value（值）— 粘贴 |
+|---|---|---|
+| 第 1 个 | `MAILERLITE_API_KEY` | 1.4 复制的**那串很长的 token**（`eyJ` 开头） |
+| 第 2 个 | `MAILERLITE_GROUP_ID` | 1.3 复制的**那串纯数字** |
+
+操作：
+
 1. 打开 → **https://dash.cloudflare.com/** 并登录
 2. 左侧 **Workers & Pages** → 点你的 Worker，名字是 **mysticdo**
 3. 顶部 **Settings（设置）** → 左侧 **Variables and Secrets（变量和密钥）**
-4. 点 **Add（添加）** → 类型选 **Secret（密钥）**
-   - Name（名称）填：`MAILERLITE_API_KEY`
-   - Value（值）粘贴刚才复制的 token
-   - 保存
-5. 再点一次 **Add**：
-   - Name 填：`MAILERLITE_GROUP_ID`
-   - Value 粘贴 1.3 复制的**数字** Group ID
-   - 保存
+4. 点 **Add（添加）**，类型保持 **Secret（加密）**
+   - **Name** 填：`MAILERLITE_API_KEY`
+   - **Value** 粘贴：那串 token
+5. 点 **+ 添加** 再开一行（一次把两个都加上再部署）：
+   - **Name** 填：`MAILERLITE_GROUP_ID`
+   - **Value** 粘贴：那串数字
+6. 点 **Add 2 variables and deploy**（按钮上会显示你加了几条）
+
+> ✅ **名称必须一字不差**：全大写 + 下划线。写成小写 `mailerlite_api_key`、或带短横线的 `MAILERLITE-API-KEY`，代码都读不到 → `/api/health` 会一直显示 `not_configured`。
+> ✅ **token 要完整**：很长，别只复制开头一小段。
+> ⚠️ 密钥属于敏感信息，截图分享前记得遮一下。
 
 保存后 Cloudflare 会自动重新部署，等 1 分钟左右。
 
