@@ -11,21 +11,47 @@
 
 **文件：`email-templates/welcome.html`**
 
-### 导入步骤
+### 导入步骤（官方路径，已核实）
 
 1. 用记事本或 VS Code 打开 `email-templates/welcome.html` → **全选复制**（Ctrl+A、Ctrl+C）
-2. 回到 MailerLite，创建邮件时在**选模板**那一步选 **Custom HTML**（自定义 HTML）
-   - 入口一般在模板列表的侧边或底部，写着 Custom HTML / HTML editor
-   - 找不到就把选模板那一屏截图发我，我帮你定位
-3. 把内容**粘贴进 HTML 编辑区** → 保存
-4. ⚠️ **必须替换一处占位符**：找到这一行
+2. MailerLite → **Campaigns** → **Create campaign**
+   （如果是在 Automation 里，就点那个 **Email** 动作 → 编辑邮件）
+3. 选 **Regular campaign** → 点 **Next**
+4. 在模板列表里选 **Start from scratch**（从零开始）
+5. 选 **Custom HTML editor** → 再选 **Code from scratch**（从空白代码开始）
+6. 把复制的代码**粘贴进右侧代码区**
+7. 左侧会实时预览 → 确认排版正常 → 保存
 
-   ```
-   [REPLACE WITH YOUR REAL POSTAL ADDRESS]
-   ```
+> ✅ 官方确认：**Custom HTML editor 在所有计划（含免费版）可用**。
+> ✅ 官方会在保存时自动把你代码里 `<style>` 标签内的 CSS **转成内联样式**，所以我写的手机适配、预览文字设置都会保留。
+> ✅ 代码看起来乱就点 **Beautify** 一键整理。
 
-   换成你的**真实邮寄地址**（法律要求，详见第四节）
-5. 用 **Send test** 发到自己的个人邮箱 → **在手机上也看一眼**（多数读者用手机读邮件）
+### 导入后必须做的三件事
+
+**① 替换地址占位符（法律要求）**
+
+找到这一行：
+
+```
+[REPLACE WITH YOUR REAL POSTAL ADDRESS]
+```
+
+换成你的真实邮寄地址。
+
+**② 用官方方式插入退订链接（比我模板里的写法更可靠）**
+
+侧边栏找 **Fields and variables** → **Link variables** → **Unsubscribe link** → 点 **Copy**，
+然后把它粘贴**替换掉**我模板里的 `{$unsubscribe}`。
+
+> MailerLite 明文规定：**每封邮件都必须有可见的退订链接**。这是合规硬性要求，不能省。
+
+**③ 检查 Settings 有没有"重复添加"**
+
+编辑器 **Settings** 里有"自动添加 preheader / footer / CSS inline"这类开关。如果有：
+
+- **preheader 自动添加 → 关掉**（我模板自带，开着会出现两行预览文字）
+- **footer 自动添加 → 关掉**（我模板自带，开着会出现两个页脚）
+- **CSS inline → 保持开启**（它帮我保证各客户端样式一致）
 
 ### 这个模板已经替你处理好的细节
 
