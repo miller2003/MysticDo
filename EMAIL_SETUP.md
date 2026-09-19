@@ -231,13 +231,20 @@ MailerLite 的订阅者列表
 
 ### 2.3 设置发件人并做第一次测试
 
-1. MailerLite → **Account settings** → 找 **Sender（发件人信息）**，填：
+> 💡 **发件人不在 Account settings 里。** MailerLite 把"发件人"放在**创建邮件（Campaign）时**填写。（Account settings 只有五个标签：Company profile / Default settings / Domains / E-commerce integration / Link tracking——里面没有 Sender。）
+>
+> ✅ **验证成功的样子**：Domains 标签里，你的域名状态显示 **Authenticated（绿色）**。看到这个就说明 SPF + DKIM 都通过了，可以往下走。
+
+1. 左侧点 **Campaigns** → **Create campaign** → 选 **Regular campaign**
+2. 收件人（Recipients）选分组 `MysticDo Subscribers`
+3. 走到 **发送设置**（或邮件编辑器里的 **From / 发件人** 字段）填：
    - 名字：`MysticDo`
    - 邮箱：`hello@mysticdo.com`
-2. 测试：**Campaigns** → **Create campaign** → 收件人选 `MysticDo Subscribers` → 随便写个标题正文 → 用**发送测试邮件**功能发到你个人邮箱
-3. 检查那封信：
-   - 发件人是否显示 `MysticDo <hello@mysticdo.com>`？
-   - 有没有进垃圾箱？（进了说明 2.2 没生效，或 DNS 还没生效，等几小时）
+4. 标题和正文随便写几句（这封只是测试）
+5. **先别点群发**：用 **Send test / 发送测试** 发到**你自己的个人邮箱**
+6. 检查那封信：
+   - 发件人是否显示 `MysticDo <hello@mysticdo.com>`
+   - **有没有进垃圾箱**（没进 = SPF/DKIM 真的起效了）
 
 ---
 
