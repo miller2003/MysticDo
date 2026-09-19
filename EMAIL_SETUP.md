@@ -165,13 +165,26 @@ MailerLite 的订阅者列表
 **为什么做**：你以后发出的邮件，发件人显示 `hello@mysticdo.com`。读者直接回复那封信时，得有人收得到——这一步就是给这个地址装一条"转接到你个人邮箱"的通道。
 
 1. Cloudflare 控制台 → 点 **mysticdo.com** 这个域名
-2. 左侧找 **Email（电子邮件）** → **Email Routing（电子邮件路由）**
-3. 点 **Enable / 启用**；它问"要不要自动添加 MX 记录" → **同意**（它自动加，不用你手动填）
-4. 在 **Destination addresses（目标地址）** 点添加 → 填你的**个人邮箱**（Gmail 之类）
-5. 去那个个人邮箱收 Cloudflare 的验证信 → 点里面的**确认链接**
-6. 回到 Email Routing 页面，在 **Custom addresses（自定义地址）** 创建：
-   - `hello@mysticdo.com` → 转送到你刚验证的个人邮箱
+2. 左侧 **「电子邮件」** → **「电子邮件路由」**（英文版：Email → Email Routing）
+3. 点 **启用**；它问"要不要自动添加 MX 记录" → **同意**（它自动加，不用你手动填）
+4. **先加"目标地址"**：点顶部标签 **「目标地址」**（英文：Destination addresses）→ 添加你的**个人邮箱**（Gmail 之类）
+5. 去那个个人邮箱收 Cloudflare 的验证信 → 点里面的**确认链接** → 回来确认状态变成「已验证」
+6. **再建"自定义地址"**：点顶部标签 **「路由规则」**（英文：Routing rules）→ 找到自定义地址区块 → **创建地址**：
+   - 自定义地址填 `hello`（或完整 `hello@mysticdo.com`）→ 操作选**「发送到」** → 目标选你刚验证的个人邮箱
    - 再建一个 `contact@mysticdo.com`（阶段三的联系表单要用）
+
+> ⚠️ **顺序不能反**：必须先有"已验证的目标地址"，才能创建自定义地址，否则下拉框里选不到目标。
+
+#### 界面术语对照（中文 ↔ 英文）
+
+| 中文界面 | 英文界面 | 在这里干什么 |
+|---|---|---|
+| **目标地址** | Destination addresses | 添加并验证你要收信的个人邮箱 |
+| **路由规则** | Routing rules | 创建 `hello@mysticdo.com` 这类地址 |
+| 活动日志 | Activity log | 看转发有没有成功（排查用） |
+| 设置 → DNS 记录 | Settings → DNS records | 查看 MX / SPF 是否正常 |
+
+> 💡 **MX 记录显示「已锁定」是正常的**——说明 Cloudflare 在自动管理，你不用动它。
 
 **配完自测**：用你另一个邮箱给 `hello@mysticdo.com` 发一封信，看个人邮箱能不能收到。
 
