@@ -49,29 +49,44 @@ MailerLite 的订阅者列表
 > - 你的订阅者来源：`Website signup form on mysticdo.com`
 > - 如果它要求用域名邮箱注册而你没有，先跳过，用个人邮箱即可（不影响后面）
 
-### 1.2 建一个分组（Group）
+### 1.2 先处理首页那个 "Let's get you started" 清单
+
+你一进后台会看到中间有个 4 步引导清单。**除了第 4 步，其他现在都不用做**，可以点右下角 **Dismiss checklist** 先收起来：
+
+| 清单里的那一步 | 要不要做 |
+|---|---|
+| 1. Give subscribers a way to sign up | ❌ **不用**。那是给"用 MailerLite 自带表单/弹窗"的人准备的。你的订阅表单已经在你自己的网站上，通过 API 直接写进列表——正是我们这一步在配的东西 |
+| 2. Set up your brand styles | ⏸ 可选。以后想让 MailerLite 发出的邮件更像你的品牌再弄 |
+| 3. Engage your subscribers | ⏸ 以后做（就是阶段三的自动欢迎邮件） |
+| 4. Connect your domain | ✅ **以后要做**，就是阶段二——让邮件别进垃圾箱 |
+
+> 界面是英文的？左侧 **Account settings** 里可以找 **Language** 切成简体中文（找不到也没关系，按本手册的英文菜单名点就行）。
+
+### 1.3 建一个分组（Group）
 
 分组是用来装"从网站表单订阅来的人"的，以后发信就发给这个组。
 
-1. 左侧菜单 → **订阅者 / Subscribers** → **Groups（分组）**
-2. 点 **Create group**（创建分组）
-3. 名字填：`MysticDo Subscribers`
-4. 创建好后**点进这个分组**，看浏览器地址栏，找到类似这一串数字：
+1. 左侧菜单点 **Subscribers**
+2. 页面上方切到 **Groups** 标签（旁边一般还有 Subscribers / Segments / Fields）
+3. 点右上角 **Create group**
+4. 名字填：`MysticDo Subscribers` → 保存
+5. **点进刚建好的这个组**，看浏览器**地址栏**（不是页面里的文字），找到类似这样的一串：
 
-   `.../subscribers/groups/123456789012345678`
+   `app.mailerlite.com/subscribers/groups/123456789012345678`
 
-   波浪线后面那串**纯数字**就是 Group ID，复制下来先存在记事本。
+   最后那串**纯数字**就是 Group ID。复制下来先存记事本。
 
-### 1.3 生成 API 密钥
+### 1.4 生成 API 密钥
 
-1. 右上角头像 → **Integrations（集成）**
-2. 找到 **MailerLite API** → 点 **Use** / **Generate new token**
-3. 名字随便填，比如 `mysticdo-website`
-4. **复制生成的 token**（很长的一串字符，通常以 `eyJ` 开头）
+1. 左侧菜单点 **Integrations**
+2. 在列表里找到 **MailerLite API**（可能需要往下滚一点）
+3. 点 **Use** 或 **Generate new token**
+4. 名字填 `mysticdo-website`
+5. 点生成 → **立刻复制**出现的那串字符（很长，通常以 `eyJ` 开头）
 
 > ⚠️ **这个 token 只显示一次，关掉就再也看不到了。** 先粘到记事本。如果丢了，删掉重新生成一个即可。
 
-### 1.4 把密钥放进 Cloudflare（关键一步）
+### 1.5 把密钥放进 Cloudflare（关键一步）
 
 1. 打开 → **https://dash.cloudflare.com/** 并登录
 2. 左侧 **Workers & Pages** → 点你的 Worker，名字是 **mysticdo**
@@ -82,12 +97,12 @@ MailerLite 的订阅者列表
    - 保存
 5. 再点一次 **Add**：
    - Name 填：`MAILERLITE_GROUP_ID`
-   - Value 粘贴 1.2 复制的**数字** Group ID
+   - Value 粘贴 1.3 复制的**数字** Group ID
    - 保存
 
 保存后 Cloudflare 会自动重新部署，等 1 分钟左右。
 
-### 1.5 验证是否成功
+### 1.6 验证是否成功
 
 打开这个网址：
 
@@ -216,7 +231,7 @@ MailerLite 免费版（2026 年 6 月起）：
 |---|---|---|
 | `/api/health` 显示 `not_configured` | Secret 名称拼错 / 还没部署完 | 检查名称是否**精确**为 `MAILERLITE_API_KEY`，等 1 分钟再刷新 |
 | 提交后仍显示 "Noted on this device." | 密钥没生效，或 token 无效 | 看 `/api/health`；确认 token 完整（以 `eyJ` 开头）没漏字符 |
-| MailerLite 里看不到订阅者 | Group ID 填错 | 重做 1.2，只复制**纯数字**部分 |
+| MailerLite 里看不到订阅者 | Group ID 填错 | 重做 1.3，只复制**纯数字**部分 |
 | 邮件进垃圾箱 | 阶段二没做 | 完成 2.1 / 2.2 |
 | 提示 401 / Unauthorized | token 被删了或复制不全 | 在 Integrations 里重新生成一个，更新 Cloudflare 里的 Secret |
 | 提示已达到订阅者上限 | 超过 250 人 | 清理不活跃订阅者，或升级 Comfort |
