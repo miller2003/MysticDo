@@ -107,16 +107,16 @@ window.MYSTICDO_QUIZZES = {
         archetype: 'You\u2019re looking for a responsive outside perspective on a specific person or situation.',
         primary: { name: 'Psychic Reading', fit: 'when you want a direct, conversational read on a specific question', href: '/psychic/' },
         secondary: { name: 'Tarot Reading', fit: 'if you also want to reflect on the dynamics around it', href: '/tarot/' },
-        before: '/guides/before-paying-psychic-reading.html',
-        quiz: '/quiz/psychic.html'
+        before: '/guides/before-paying-psychic-reading',
+        quiz: '/quiz/psychic'
       },
       tarot: {
         path: 'A structured reflection',
         archetype: 'You\u2019re looking to reflect on a dynamic or pattern rather than be told an answer.',
         primary: { name: 'Tarot Reading', fit: 'when you want a structured spread to surface angles you can\u2019t see alone', href: '/tarot/' },
         secondary: { name: 'Astrology Reading', fit: 'if timing or long-arc patterns are also part of the question', href: '/astrology/' },
-        before: '/guides/psychic-vs-tarot.html',
-        quiz: '/quiz/tarot.html'
+        before: '/guides/psychic-vs-tarot',
+        quiz: '/quiz/tarot'
       },
       astrology: {
         path: 'Patterns, timing, and the big picture',
@@ -124,7 +124,7 @@ window.MYSTICDO_QUIZZES = {
         primary: { name: 'Astrology Reading', fit: 'when timing, transits, and long-arc patterns are what you need', href: '/astrology/' },
         secondary: { name: 'Tarot Reading', fit: 'for a structured reflection on a specific decision within that arc', href: '/tarot/' },
         before: '/astrology/',
-        quiz: '/quiz/astrology.html'
+        quiz: '/quiz/astrology'
       },
       medium: {
         path: 'Connection and meaning around loss',
@@ -132,7 +132,7 @@ window.MYSTICDO_QUIZZES = {
         primary: { name: 'Medium Reading', fit: 'when you want to connect with someone who has passed', href: '/medium/' },
         secondary: { name: 'Psychic Reading', fit: 'if you also want intuitive clarity on unanswered questions', href: '/psychic/' },
         before: '/medium/',
-        quiz: '/quiz/medium.html'
+        quiz: '/quiz/medium'
       }
     },
     /* Custom resolver: general quiz infers category from cat-question + cross-references */
@@ -398,7 +398,7 @@ window.MYSTICDO_QUIZZES = {
       redirect_tarot: {
         path: 'Actually, tarot may fit better',
         archetype: 'You\u2019re asking about your own patterns \u2014 and that\u2019s tarot\u2019s core strength, not psychic\u2019s. A psychic reads a person or situation; tarot reflects a pattern.',
-        primary: { name: 'Take the Tarot quiz instead', fit: 'tarot fits pattern questions better than psychic', href: '/quiz/tarot.html' },
+        primary: { name: 'Take the Tarot quiz instead', fit: 'tarot fits pattern questions better than psychic', href: '/quiz/tarot' },
         budget: 'Free quiz',
         before: 'If you still want a psychic read on a specific person after the tarot quiz, come back here \u2014 but start with tarot.'
       }
@@ -480,14 +480,14 @@ window.MYSTICDO_QUIZZES = {
       self_read: {
         path: 'Self-read with the Daily Card',
         archetype: 'You want to reflect, free, on your own. Self-reads are a legitimate practice \u2014 the risk is reading toward the answer you want.',
-        primary: { name: 'Daily Card Pull', fit: 'one free card with a reflective prompt, daily', href: '/tools/daily-card.html' },
+        primary: { name: 'Daily Card Pull', fit: 'one free card with a reflective prompt, daily', href: '/tools/daily-card' },
         budget: 'Free',
         before: 'If a pattern keeps surfacing, a second reader\u2019s outside read still has value. Try the platform short session below.'
       },
       daily_card: {
         path: 'Daily Card + low-stakes platform',
         archetype: 'Start free, then try a short paid session if something surfaces.',
-        primary: { name: 'Daily Card + platform short session', fit: 'free card first, then $15\u2013$30 platform read', href: '/tools/daily-card.html' },
+        primary: { name: 'Daily Card + platform short session', fit: 'free card first, then $15\u2013$30 platform read', href: '/tools/daily-card' },
         budget: 'Free \u2013 $30',
         before: 'Pull a card daily for a week. If the same thread surfaces, that\u2019s your question for a reader.'
       },
@@ -529,7 +529,7 @@ window.MYSTICDO_QUIZZES = {
       redirect_astrology: {
         path: 'Actually, astrology may fit better',
         archetype: 'You\u2019re asking about timing \u2014 when something will happen. Tarot isn\u2019t built for that. Astrology is.',
-        primary: { name: 'Take the Astrology quiz instead', fit: 'astrology answers timing; tarot doesn\u2019t', href: '/quiz/astrology.html' },
+        primary: { name: 'Take the Astrology quiz instead', fit: 'astrology answers timing; tarot doesn\u2019t', href: '/quiz/astrology' },
         budget: 'Free quiz',
         before: 'If you still want a tarot reflection on the situation around the timing question, come back here. But start with astrology.'
       }

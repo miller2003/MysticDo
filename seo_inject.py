@@ -51,7 +51,7 @@ SEG_NAMES = {
     "life-direction": "Life Direction",
     "loss-closure": "Loss & Closure",
     "spiritual-growth": "Spiritual Growth",
-    "do-what-fits.html": "Do What Fits",
+    "do-what-fits": "Do What Fits",
 }
 
 # Pages that should NOT be indexed (redirect / 404)
@@ -130,6 +130,9 @@ def path_to_url(rel):
     p = "/" + p
     # /psychic/index.html -> /psychic/
     p = re.sub(r'/index\.html$', '/', p)
+    # Cloudflare auto-trailing-slash serves /about for about.html and 308s the
+    # .html form, so every published URL must be extension-less.
+    p = re.sub(r'\.html$', '', p)
     return p
 
 def build_breadcrumbs(rel, title):

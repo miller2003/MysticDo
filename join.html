@@ -24,16 +24,16 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#FCFAF5">
     <link rel="ai-catalog" href="/.well-known/ai-catalog.json">
-    <link rel="canonical" href="https://mysticdo.com/join.html">
-    <meta property="og:url" content="https://mysticdo.com/join.html">
+    <link rel="canonical" href="https://mysticdo.com/join">
+    <meta property="og:url" content="https://mysticdo.com/join">
     <meta property="og:site_name" content="MysticDo">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="https://mysticdo.com/assets/og/logo-card.png">
     <meta property="og:image:alt" content="MysticDo — Match Your Spiritual Needs. Choose What to Do Next.">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Join MysticDo — your spiritual decision mailbox", "description": "Join MysticDo by email. One weekly note tuned to your situation — a decision guide, a free tool, and one relevant provider worth knowing.", "url": "https://mysticdo.com/join.html", "isPartOf": {"@type": "WebSite", "name": "MysticDo", "url": "https://mysticdo.com/"}, "publisher": {"@type": "Organization", "name": "MysticDo", "url": "https://mysticdo.com/"}}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mysticdo.com/"}, {"@type": "ListItem", "position": 2, "name": "Join MysticDo — your spiritual decision mailbox", "item": "https://mysticdo.com/join.html"}]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Join MysticDo — your spiritual decision mailbox", "description": "Join MysticDo by email. One weekly note tuned to your situation — a decision guide, a free tool, and one relevant provider worth knowing.", "url": "https://mysticdo.com/join", "isPartOf": {"@type": "WebSite", "name": "MysticDo", "url": "https://mysticdo.com/"}, "publisher": {"@type": "Organization", "name": "MysticDo", "url": "https://mysticdo.com/"}}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://mysticdo.com/"}, {"@type": "ListItem", "position": 2, "name": "Join MysticDo — your spiritual decision mailbox", "item": "https://mysticdo.com/join"}]}</script>
     <!-- SEO-INJECTED-END -->
 </head>
 <body>
@@ -85,12 +85,12 @@
             </select>
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block">Join MysticDo</button>
-          <p class="form-note">Free. Unsubscribe anytime. We never sell your data. See our <a href="/methodology.html" style="color:var(--gold-600)">methodology</a>.</p>
+          <p class="form-note">Free. Unsubscribe anytime. We never sell your data. See our <a href="/methodology" style="color:var(--gold-600)">methodology</a>.</p>
         </form>
         <div id="join-success" class="hidden mt-5">
           <div class="direct-answer" style="background:rgba(45,138,138,0.06);border-color:rgba(45,138,138,0.25)">
-            <h3 style="color:var(--teal-500)">You're on the list</h3>
-            <p style="margin:0">Your signup is saved in this browser while our mailing system is finalized. When it goes live, you'll get a welcome note tuned to your situation.</p>
+            <h3 style="color:var(--teal-500)">Noted on this device</h3>
+            <p style="margin:0">Our email delivery is still in setup, so nothing was sent to your inbox. When it goes live, this form becomes a real signup — no action needed from you today.</p>
           </div>
         </div>
       </div>
@@ -133,21 +133,39 @@
     var form = document.getElementById('join-form');
     var success = document.getElementById('join-success');
     if (!form) return;
+    var endpoint = function(payload){
+      var ep = window.MYSTICDO_EMAIL_ENDPOINT;
+      if (!ep || typeof fetch !== 'function') return Promise.resolve(false);
+      return fetch(ep, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+        .then(function(r){ return r.ok; }).catch(function(){ return false; });
+    };
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var email = document.getElementById('jf-email').value.trim();
       var intent = document.getElementById('jf-intent').value;
       var format = document.getElementById('jf-format').value;
       if (!email) return;
+      var payload = { email: email, intent: intent, format: format, source: 'join', joinedAt: new Date().toISOString() };
       try {
         var list = JSON.parse(localStorage.getItem('mysticdo_signups') || '[]');
         if (list.indexOf(email) === -1) list.push(email);
         localStorage.setItem('mysticdo_signups', JSON.stringify(list));
-        localStorage.setItem('mysticdo_profile', JSON.stringify({email: email, intent: intent, format: format, joinedAt: new Date().toISOString()}));
+        localStorage.setItem('mysticdo_profile', JSON.stringify({email: email, intent: intent, format: format, joinedAt: payload.joinedAt}));
       } catch(err) {}
-      form.classList.add('hidden');
-      success.classList.remove('hidden');
-      success.scrollIntoView({behavior:'smooth', block:'center'});
+      endpoint(payload).then(function(sent){
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+        var h = success.querySelector('h3');
+        var p = success.querySelector('p');
+        if (sent) {
+          if (h) h.textContent = 'You\u2019re subscribed.';
+          if (p) p.textContent = 'Check your inbox for a welcome note tuned to your situation.';
+        } else {
+          if (h) h.textContent = 'Noted on this device.';
+          if (p) p.textContent = 'Our email delivery is still in setup, so nothing was sent to your inbox. When it goes live, this form becomes a real signup \u2014 no action needed from you today.';
+        }
+        success.scrollIntoView({behavior:'smooth', block:'center'});
+      });
     });
   })();
 </script>

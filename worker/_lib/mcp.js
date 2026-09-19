@@ -86,7 +86,7 @@ const TOOLS = [
         path: {
           type: 'string',
           description:
-            'Site-relative path (e.g. "/guides/psychic-vs-tarot.html") or a full ' +
+            'Site-relative path (e.g. "/guides/psychic-vs-tarot") or a full ' +
             'https://mysticdo.com URL.',
         },
       },
@@ -197,6 +197,10 @@ function normalizePath(input) {
   }
 
   if (pathname.includes('..') || pathname.includes('//')) return null;
+  // Published URLs are extension-less (Cloudflare auto-trailing-slash), but
+  // a caller may still hold a legacy ".html" path — normalize it so both
+  // generations of URL resolve to the same page.
+  if (pathname.endsWith('.html')) pathname = pathname.slice(0, -'.html'.length);
   return pathname;
 }
 
@@ -258,7 +262,7 @@ async function callTool(name, args, env, requestUrl) {
     case 'get_mysticdo_page': {
       const pathname = normalizePath(input.path);
       if (!pathname) {
-        return { text: 'The `path` argument must be a site-relative path on mysticdo.com, e.g. "/guides/psychic-vs-tarot.html".', isError: true };
+        return { text: 'The `path` argument must be a site-relative path on mysticdo.com, e.g. "/guides/psychic-vs-tarot".', isError: true };
       }
       // Prefer short-circuiting on a known path so the markdown conversion cost
       // is only paid for pages that exist.

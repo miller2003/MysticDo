@@ -333,7 +333,7 @@ group('mcp');
       jsonrpc: '2.0',
       id: 7,
       method: 'tools/call',
-      params: { name: 'get_mysticdo_page', arguments: { path: '/guides/psychic-vs-tarot.html' } },
+      params: { name: 'get_mysticdo_page', arguments: { path: '/guides/psychic-vs-tarot' } },
     }),
   });
   const md = page.json?.result?.structuredContent?.markdown || '';

@@ -61,8 +61,8 @@ export function openapiDocument() {
         'HTML; this document describes the machine-facing behaviour layered on top of it ' +
         'by an edge Worker: markdown content negotiation, a prebuilt content index, and a ' +
         'Streamable HTTP MCP endpoint. No endpoint requires authentication.',
-      contact: { name: 'MysticDo', url: ORIGIN + '/methodology.html' },
-      license: { name: 'Content use: attribution requested', url: ORIGIN + '/methodology.html' },
+      contact: { name: 'MysticDo', url: ORIGIN + '/methodology' },
+      license: { name: 'Content use: attribution requested', url: ORIGIN + '/methodology' },
     },
     servers: [{ url: ORIGIN }],
     tags: [
@@ -269,7 +269,7 @@ export function apiCatalog() {
             title: 'LLM-oriented site map',
           },
           {
-            href: ORIGIN + '/methodology.html',
+            href: ORIGIN + '/methodology',
             type: 'text/html',
             title: 'Editorial methodology',
           },
@@ -488,8 +488,8 @@ export function oauthAuthorizationServerMetadata() {
     revocation_endpoint_auth_methods_supported: ['none'],
     service_documentation: ORIGIN + '/auth.md',
     ui_locales_supported: ['en'],
-    op_policy_uri: ORIGIN + '/methodology.html',
-    op_tos_uri: ORIGIN + '/about.html',
+    op_policy_uri: ORIGIN + '/methodology',
+    op_tos_uri: ORIGIN + '/about',
     resource_indicators_supported: true,
     'x-token-format': 'opaque',
     'x-access-model': ACCESS_MODEL_NOTE,

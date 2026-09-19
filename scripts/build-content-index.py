@@ -90,6 +90,7 @@ def page_url(rel):
     if p == "index.html":
         return "/"
     p = "/" + p
+    p = re.sub(r"\.html$", "", p)
     return re.sub(r"/index\.html$", "/", p)
 
 

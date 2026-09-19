@@ -143,13 +143,13 @@
     + '        </div>'
     + '      </div>'
     + '      <a href="/guides/" class="nav-link" data-nav="guides">Guides</a>'
-    + '      <a href="/methodology.html" class="nav-link" data-nav="methodology">Methodology</a>'
-    + '      <a href="/about.html" class="nav-link" data-nav="about">About</a>'
+    + '      <a href="/methodology" class="nav-link" data-nav="methodology">Methodology</a>'
+    + '      <a href="/about" class="nav-link" data-nav="about">About</a>'
     + '    </nav>'
     + '    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">'
     + '      <span></span><span></span><span></span>'
     + '    </button>'
-    + '    <a href="/do-what-fits.html" class="btn btn-primary btn-sm nav-cta-header">Do What Fits</a>'
+    + '    <a href="/do-what-fits" class="btn btn-primary btn-sm nav-cta-header">Do What Fits</a>'
     + '  </div>'
     + '</header>';
 
@@ -185,19 +185,19 @@
     + '        <li><a href="/questions/">All questions</a></li>'
     + '      </ul></div>'
     + '      <div class="footer-col"><h4>Decide</h4><ul>'
-    + '        <li><a href="/do-what-fits.html">Do What Fits quiz</a></li>'
+    + '        <li><a href="/do-what-fits">Do What Fits quiz</a></li>'
     + '        <li><a href="/guides/">Decision guides</a></li>'
-    + '        <li><a href="/tools/daily-card.html">Free tools</a></li>'
-    + '        <li><a href="/methodology.html">Methodology</a></li>'
-    + '        <li><a href="/about.html">About</a></li>'
+    + '        <li><a href="/tools/daily-card">Free tools</a></li>'
+    + '        <li><a href="/methodology">Methodology</a></li>'
+    + '        <li><a href="/about">About</a></li>'
     + '      </ul></div>'
     + '    </div>'
     + '    <div class="footer-disclosure">'
-    + '      <strong style="color:var(--accent-link)">Affiliate disclosure:</strong> Some links on MysticDo are affiliate links, meaning we may earn a commission if you sign up through them, at no extra cost to you. This never affects our ranking or recommendations. Provider recommendations follow a fixed review framework. See <a href="/methodology.html" style="color:var(--accent-link)">methodology</a>.'
+    + '      <strong style="color:var(--accent-link)">Affiliate disclosure:</strong> As provider reviews publish, some outbound links will be affiliate links \u2014 meaning we may earn a commission if you sign up through them, at no extra cost to you. That never affects what we recommend or how it ranks. No affiliate links exist on MysticDo today. See <a href="/methodology" style="color:var(--accent-link)">methodology</a>.'
     + '    </div>'
     + '    <div class="footer-bottom mt-5">'
     + '      <span>&copy; 2026 MysticDo \u2014 an intent-driven spiritual decision platform.</span>'
-    + '      <span>Not professional advice. See <a href="/about.html">disclaimers</a>.</span>'
+    + '      <span>Not professional advice. See <a href="/about">disclaimers</a>.</span>'
     + '    </div>'
     + '  </div>'
     + '</footer>';
@@ -265,7 +265,7 @@
       var ctaWrap = document.createElement('div');
       ctaWrap.className = 'nav-cta-mobile';
       var mobileCta = document.createElement('a');
-      mobileCta.href = '/do-what-fits.html';
+      mobileCta.href = '/do-what-fits';
       mobileCta.className = 'btn btn-primary btn-block';
       mobileCta.textContent = 'Do What Fits';
       ctaWrap.appendChild(mobileCta);
@@ -321,8 +321,8 @@
     if      (['psychic','tarot','astrology','medium','numerology','manifestation','feng-shui'].indexOf(top) > -1) key = 'practices';
     else if (top === 'questions')    key = 'questions';
     else if (top === 'guides')       key = 'guides';
-    else if (top === 'methodology.html') key = 'methodology';
-    else if (top === 'about.html')   key = 'about';
+    else if (top === 'methodology') key = 'methodology';
+    else if (top === 'about')   key = 'about';
     if (key) {
       document.querySelectorAll('.nav-link[data-nav="' + key + '"]').forEach(function (a) { a.classList.add('active'); });
       var parentLink = document.querySelector('.nav-link[data-nav="' + key + '"]');
@@ -511,7 +511,7 @@
         + '</div>'
         + '<div class="email-capture mt-7" style="text-align:left">'
         + '<h3 style="margin-bottom:0.45rem;font-size:1.6rem">Get a personalized path by email</h3>'
-        + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.95rem;max-width:42ch">One weekly note tuned to your situation. No spam, unsubscribe anytime.</p>'
+        + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.95rem;max-width:42ch">One weekly note tuned to your situation. No spam, unsubscribe anytime. (Email delivery is in final setup — today this notes your email on this device.)</p>'
         + emailFormHTML()
         + '</div>'
         + '</div>';
@@ -555,13 +555,28 @@
     renderStep(0, 'forward');
   }
 
-  /* ---------- Email capture ---------- */
+  /* ---------- Email capture ----------
+     Delivery model (honesty first): until a real backend exists, signups are
+     stored in the visitor's browser ONLY — and the success message says so,
+     so nobody walks away believing they subscribed. When a backend is ready,
+     set window.MYSTICDO_EMAIL_ENDPOINT and submissions will also POST there
+     as JSON {email, source}; only a confirmed 2xx shows "subscribed". */
+  function submitToEmailEndpoint(payload) {
+    var ep = window.MYSTICDO_EMAIL_ENDPOINT;
+    if (!ep || typeof fetch !== 'function') return Promise.resolve(false);
+    return fetch(ep, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(function (r) { return r.ok; }).catch(function () { return false; });
+  }
+
   function emailFormHTML() {
     return '<form class="email-form" style="display:flex;gap:0.5rem;flex-wrap:wrap">'
       + '<input type="email" class="input" name="email" placeholder="you@example.com" required autocomplete="email" style="flex:1;min-width:200px">'
       + '<button type="submit" class="btn btn-primary">Join MysticDo</button>'
       + '</form>'
-      + '<p class="form-note mt-2">Free. Unsubscribe anytime. We never sell your data.</p>';
+      + '<p class="form-note mt-2">Free. Unsubscribe anytime. We never sell your data. Email delivery is in final setup — today this notes your email on this device.</p>';
   }
   function bindEmailForms() {
     document.querySelectorAll('.email-form').forEach(function (form) {
@@ -577,12 +592,16 @@
           if (list.indexOf(email) === -1) list.push(email);
           localStorage.setItem('mysticdo_signups', JSON.stringify(list));
         } catch (err) {}
-        form.innerHTML =
-          '<div class="flex items-center gap-3" style="color:var(--accent-link)">'
-          + '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
-          + '<strong style="font-size:1.15rem;letter-spacing:-0.01em">You\'re on the list.</strong>'
-          + '</div>'
-          + '<p class="form-note" style="margin-top:0.6rem">Check your inbox for a welcome note.</p>';
+        submitToEmailEndpoint({ email: email, source: 'email-form' }).then(function (sent) {
+          form.innerHTML =
+            '<div class="flex items-center gap-3" style="color:var(--accent-link)">'
+            + '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+            + '<strong style="font-size:1.15rem;letter-spacing:-0.01em">' + (sent ? 'You\u2019re subscribed.' : 'Noted on this device.') + '</strong>'
+            + '</div>'
+            + '<p class="form-note" style="margin-top:0.6rem">' + (sent
+              ? 'Check your inbox for a welcome note.'
+              : 'One honest note: our email delivery is still in setup, so nothing was sent to your inbox. When it goes live, this form becomes a real signup.') + '</p>';
+        });
       });
     });
   }
@@ -811,7 +830,7 @@
         inputSchema: {
           type: 'object',
           properties: {
-            path: { type: 'string', description: 'Site-relative path, e.g. "/guides/psychic-vs-tarot.html".' }
+            path: { type: 'string', description: 'Site-relative path, e.g. "/guides/psychic-vs-tarot".' }
           },
           required: ['path']
         },
@@ -822,6 +841,8 @@
           var normalized = raw.indexOf('http') === 0 ? raw.replace(location.origin, '') : raw;
           if (normalized.charAt(0) !== '/') normalized = '/' + normalized;
           if (normalized.indexOf('..') !== -1) return { error: 'Invalid path.' };
+          // Published URLs are extension-less; accept legacy ".html" paths too.
+          if (normalized.slice(-5) === '.html') normalized = normalized.slice(0, -5);
 
           return loadWebmcpIndex().then(function (doc) {
             if (!doc) return { error: 'The MysticDo content index could not be loaded.' };
@@ -842,8 +863,8 @@
           'reading to book.',
         inputSchema: { type: 'object', properties: {} },
         execute: function () {
-          location.assign('/do-what-fits.html');
-          return webmcpResult('Opening the Do What Fits matcher.', { navigatedTo: location.origin + '/do-what-fits.html' });
+          location.assign('/do-what-fits');
+          return webmcpResult('Opening the Do What Fits matcher.', { navigatedTo: location.origin + '/do-what-fits' });
         }
       },
       {

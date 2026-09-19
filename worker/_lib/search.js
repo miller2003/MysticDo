@@ -203,7 +203,7 @@ const RULES = [
     cost: '$75–$300 per session (30–60 minutes).',
     caution:
       'Grief is where this industry\'s worst actors operate. Vet harder: any claim that your loved one needs you to keep paying is exploitation, and it is the clearest walk-away signal there is.',
-    next: '/guides/medium-reading-guide.html',
+    next: '/guides/medium-reading-guide',
   },
   {
     id: 'timing',
@@ -245,7 +245,7 @@ const RULES = [
     cost: 'Live session $100–$300; synastry is usually priced in the same band.',
     caution:
       'A full chart needs your exact birth time. Without it there are no houses and no Ascendant, and much of the specific value is lost — confirm the time before you pay.',
-    next: '/guides/birth-chart-reading-cost.html',
+    next: '/guides/birth-chart-reading-cost',
   },
   {
     id: 'person-read',
@@ -323,7 +323,7 @@ export function recommendReadingType(doc, situation, options = {}) {
       cost: null,
       caution:
         'Recommend a free step first. Reading costs are only worth spending once the practice is settled.',
-      next: '/do-what-fits.html',
+      next: '/do-what-fits',
       supportingPages: results,
     };
   }
