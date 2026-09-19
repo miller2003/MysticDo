@@ -159,11 +159,19 @@ const big = [...all].reverse().find((x) => x.size > MAX_CONVERT_BYTES);
   const a = await call('https://mysticdo.com/go/kasamba/', AGENT);
   ok('/go/ 不协商', !(a.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
   const b = await call('https://mysticdo.com/sitemap.xml', AGENT);
-  ok('带扩展名不协商', !(b.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+  ok('静态资源后缀（.xml）不协商', !(b.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
   const c = await call('https://mysticdo.com/api/postback?x=1', AGENT);
   ok('/api/ 不协商', !(c.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
   const d = await call('https://abc.mysticdo.workers.dev/', BROWSER);
   ok('workers.dev 预览域名不被 301', d.res.status !== 301);
+
+  // .html 是正文页的后缀，必须参与协商（全站 guide 都是 .html）。
+  // 2026-09-19 修正：原先 `last.includes('.')` 把 .html 一并排除了。
+  const htmlPage = join(DIST, 'about.html');
+  if (existsSync(htmlPage)) {
+    const e = await call('https://mysticdo.com/about.html', AGENT);
+    ok('.html 正文页参与协商 → markdown', (e.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+  }
 }
 if (big) {
   try {

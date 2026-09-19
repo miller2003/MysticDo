@@ -1,24 +1,42 @@
 /**
  * MysticDo — Cloudflare Worker（静态资产 + 边缘逻辑）
  *
- * 由原 Cloudflare Pages Functions（已随转向 Workers 删除）合并而来，两段职责：
+ * 职责分四层，全部在一个入口里按顺序判定：
  *
  *   1) 主机名规范化 —— www → apex 301（GSC 收录口径统一）
- *   2) Markdown for Agents —— Accept: text/markdown 时在边缘把 HTML 转成 markdown
+ *   2) 智能体发现层 —— /.well-known/*、/auth.md、/api/health
+ *   3) 智能体接口层 —— /mcp（MCP）、/oauth/*（OAuth 2.0）
+ *   4) 内容层 —— Markdown for Agents 内容协商 + Link 响应头（RFC 8288）
  *
  * 其余请求一律转交静态资产层（env.ASSETS）：
  *   · html_handling = "auto-trailing-slash" → /psychic/ ↔ /psychic/index.html
  *   · not_found_handling = "404-page"      → 缺路径返回 /404.html（404 状态码）
  *
- * ⚠️ 两条硬约束：
- *   · 转换绝不能把页面弄坏 —— 任何异常都退回原始 HTML
- *   · Workers 免费版 10ms CPU/请求 —— 体积上限 + 异常兜底，超限退回 HTML
+ * ⚠️ 三条硬约束：
+ *   · Worker 是整个站点的唯一入口，任何新增分支都必须异常安全 ——
+ *     发现层与接口层的异常一律就地兜底，**绝不把静态页面弄坏**。
+ *   · Markdown 转换绝不能把页面弄坏 —— 任何异常都退回原始 HTML。
+ *   · Workers 免费版 10ms CPU/请求 —— 体积上限 + 异常兜底，超限退回 HTML。
  *
- * 注：原 EA 时代的 /api/postback（联盟 S2S 回调 → PostHog）已于 2026-09-19
- *     随 PostHog 整体移除；PostHog 重新接入时再实现（历史实现见 git 提交 bd80527）。
+ * 发现层文档的唯一事实源是 worker/_lib/agent-discovery.js；
+ * 这里只做路由与响应头，不内联任何文档内容。
  */
 
 import { convertPage } from './_lib/html-to-md.js';
+import {
+  ORIGIN,
+  AUTH_MD,
+  openapiDocument,
+  apiCatalog,
+  aiCatalog,
+  mcpServerCard,
+  oauthAuthorizationServerMetadata,
+  oauthProtectedResourceMetadata,
+  jwks,
+} from './_lib/agent-discovery.js';
+import { skillsIndex, findSkill } from './_lib/agent-skills.js';
+import { handleMcp } from './_lib/mcp.js';
+import { handleRegister, handleAuthorize, handleToken, handleRevoke } from './_lib/oauth.js';
 
 const APEX = 'mysticdo.com';
 const MD_TYPE = 'text/markdown; charset=utf-8';
@@ -29,16 +47,203 @@ const MD_TYPE = 'text/markdown; charset=utf-8';
  */
 const MAX_CONVERT_BYTES = 150 * 1024;
 
-/* ═══════════════ 1+2. 主机名规范化 & Markdown for Agents ═══════════════ */
+/**
+ * RFC 8288 Link 头：把本站的机器可读资源通告给智能体。
+ * 关系类型全部取自已注册集合（RFC 8631 定义 service-desc / service-doc /
+ * service-meta / status；api-catalog 由 RFC 9727 §3 定义）。
+ * 只在 HTML 响应上发 —— 静态资源（图片、字体、CSS）不需要。
+ */
+const LINK_HEADER = [
+  '</.well-known/api-catalog>; rel="api-catalog"',
+  '</.well-known/openapi.json>; rel="service-desc"',
+  '</llms.txt>; rel="service-doc"',
+  '</.well-known/ai-catalog.json>; rel="service-meta"',
+  '</api/health>; rel="status"',
+].join(', ');
 
-/** 不该参与内容协商的路径：联盟跳转、API、带扩展名的静态资源、well-known */
+const CORS_ANY = { 'Access-Control-Allow-Origin': '*' };
+
+/* ═══════════════ 1. 通用响应工具 ═══════════════ */
+
+/** 保证响应带 Vary: Accept —— 内容协商的正确性前提，缺了会让缓存串味 */
+function mergeVary(h) {
+  const v = h.get('Vary');
+  if (!v) h.set('Vary', 'Accept');
+  else if (!/(^|,)\s*Accept\s*($|,)/i.test(v)) h.set('Vary', v + ', Accept');
+  return h;
+}
+
+/** 复制响应头，补 Vary，并在 HTML 上补 Link（RFC 8288）。 */
+function decorate(res) {
+  const h = mergeVary(new Headers(res.headers));
+  const ctype = h.get('Content-Type') || '';
+  if (!h.has('Link') && (ctype.includes('text/html') || ctype.includes('text/markdown'))) {
+    h.set('Link', LINK_HEADER);
+  }
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h });
+}
+
+/**
+ * 用已经读出来的明文重新构造 HTML 响应。
+ * ⚠️ 不能复用原 res —— 它的 body 已被 res.text() 消费，
+ * 再用 `new Response(res.body, …)` 会抛 "body object should not be disturbed"。
+ */
+function htmlResponse(res, html) {
+  const h = new Headers(res.headers);
+  h.delete('Content-Length');
+  h.delete('Content-Encoding');
+  h.delete('ETag');
+  return new Response(html, { status: res.status, headers: mergeVary(h) });
+}
+
+function jsonDoc(body, status = 200, contentType = 'application/json; charset=utf-8', extra = {}) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      'Content-Type': contentType,
+      'Cache-Control': 'public, max-age=3600',
+      ...CORS_ANY,
+      ...extra,
+    },
+  });
+}
+
+function textDoc(body, contentType = MD_TYPE) {
+  return new Response(body, {
+    status: 200,
+    headers: {
+      'Content-Type': contentType,
+      'Cache-Control': 'public, max-age=3600',
+      ...CORS_ANY,
+    },
+  });
+}
+
+/* ═══════════════ 2. 智能体发现层 + 接口层 ═══════════════ */
+
+/**
+ * 返回 Response 表示已处理；返回 null 表示该路径不归这里管。
+ * 调用方负责异常兜底。
+ */
+async function routeAgentSurface(request, env, pathname) {
+  const method = request.method;
+
+  /* ---- 2.1 发现文档 ---- */
+  switch (pathname) {
+    case '/.well-known/api-catalog':
+      return jsonDoc(apiCatalog(), 200, 'application/linkset+json; charset=utf-8');
+
+    case '/.well-known/ai-catalog.json':
+      return jsonDoc(aiCatalog());
+
+    case '/.well-known/openapi.json':
+      return jsonDoc(openapiDocument());
+
+    case '/.well-known/mcp/server-card.json':
+      return jsonDoc(mcpServerCard());
+
+    case '/.well-known/oauth-authorization-server':
+      return jsonDoc(oauthAuthorizationServerMetadata());
+
+    case '/.well-known/oauth-protected-resource':
+      return jsonDoc(oauthProtectedResourceMetadata());
+
+    case '/.well-known/jwks.json':
+      return jsonDoc(jwks(), 200, 'application/json; charset=utf-8', { 'Cache-Control': 'public, max-age=86400' });
+
+    case '/.well-known/agent-skills/index.json':
+      // digest 由服务端在请求时按实际字节计算，索引与制品不可能不一致。
+      return jsonDoc(await skillsIndex());
+
+    case '/auth.md':
+      return textDoc(AUTH_MD);
+
+    case '/api/health':
+      return jsonDoc(
+        {
+          status: 'ok',
+          service: 'mysticdo',
+          origin: ORIGIN,
+          time: new Date().toISOString(),
+          checks: {
+            content: 'ok',
+            markdownNegotiation: 'ok',
+            mcp: 'ok',
+          },
+        },
+        200,
+        'application/json; charset=utf-8',
+        { 'Cache-Control': 'no-store' },
+      );
+
+    default:
+      break;
+  }
+
+  /* ---- 2.2 Agent Skills 制品 / SKILL.md ---- */
+  const skillsPrefix = '/.well-known/agent-skills/';
+  if (pathname.startsWith(skillsPrefix) && pathname.endsWith('/SKILL.md')) {
+    const name = pathname.slice(skillsPrefix.length, -'/SKILL.md'.length);
+    if (name && !name.includes('/')) {
+      const skill = findSkill(name);
+      if (skill) return textDoc(skill.body);
+      return jsonDoc({ error: 'not_found', message: 'No skill named "' + name + '".', index: skillsPrefix + 'index.json' }, 404);
+    }
+    return jsonDoc({ error: 'not_found', index: skillsPrefix + 'index.json' }, 404);
+  }
+
+  /* ---- 2.3 MCP ---- */
+  if (pathname === '/mcp' || pathname === '/mcp/') {
+    return handleMcp(request, env);
+  }
+
+  /* ---- 2.4 OAuth 2.0 ---- */
+  if (pathname === '/oauth/register') {
+    if (method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...CORS_ANY, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' } });
+    if (method !== 'POST') return jsonDoc({ error: 'invalid_request', error_description: 'Use POST.' }, 405, undefined, { Allow: 'POST, OPTIONS' });
+    return handleRegister(request, env);
+  }
+
+  if (pathname === '/oauth/token') {
+    if (method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...CORS_ANY, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' } });
+    if (method !== 'POST') return jsonDoc({ error: 'invalid_request', error_description: 'Use POST.' }, 405, undefined, { Allow: 'POST, OPTIONS' });
+    return handleToken(request, env);
+  }
+
+  if (pathname === '/oauth/authorize') {
+    if (method !== 'GET') return jsonDoc({ error: 'invalid_request', error_description: 'Use GET.' }, 405, undefined, { Allow: 'GET, OPTIONS' });
+    return handleAuthorize(request, env);
+  }
+
+  if (pathname === '/oauth/revoke') {
+    if (method !== 'POST') return jsonDoc({ error: 'invalid_request', error_description: 'Use POST.' }, 405, undefined, { Allow: 'POST, OPTIONS' });
+    return handleRevoke(request, env);
+  }
+
+  return null;
+}
+
+/* ═══════════════ 3. 内容层（内容协商 + Link） ═══════════════ */
+
+/**
+ * 不该参与内容协商的路径。
+ *
+ * `.html` 是**要**协商的 —— 全站正文页都是 .html（/guides/xxx.html、
+ * /about.html…），把它们排除掉等于对最有价值的内容关闭 Markdown for Agents。
+ * 排除的只有真正的静态资源后缀（图片/字体/CSS/JS/XML/TXT/JSON）。
+ */
 function isNegotiable(pathname) {
   if (pathname.startsWith('/go/')) return false;
   if (pathname.startsWith('/api/')) return false;
   if (pathname.startsWith('/.well-known/')) return false;
+  if (pathname.startsWith('/oauth/')) return false;
   const last = pathname.split('/').pop() || '';
-  if (last.includes('.')) return false;   // 例如 /sitemap.xml、/favicon.ico
-  return true;
+  const dot = last.lastIndexOf('.');
+  if (dot > 0) {
+    const ext = last.slice(dot).toLowerCase();
+    return ext === '.html' || ext === '.htm';
+  }
+  return true;   // 目录式 URL（/psychic/）与根路径
 }
 
 /**
@@ -58,32 +263,7 @@ function wantsMarkdown(request) {
   return q('text/markdown') >= q('text/html');
 }
 
-/** 保证响应带 Vary: Accept —— 内容协商的正确性前提，缺了会让缓存串味 */
-function mergeVary(h) {
-  const v = h.get('Vary');
-  if (!v) h.set('Vary', 'Accept');
-  else if (!/(^|,)\s*Accept\s*($|,)/i.test(v)) h.set('Vary', v + ', Accept');
-  return h;
-}
-
-function withVary(res) {
-  return new Response(res.body, { status: res.status, statusText: res.statusText, headers: mergeVary(new Headers(res.headers)) });
-}
-
-/**
- * 用已经读出来的明文重新构造 HTML 响应。
- * ⚠️ 不能复用原 res —— 它的 body 已被 res.text() 消费，
- * 再用 `new Response(res.body, …)` 会抛 "body object should not be disturbed"。
- */
-function htmlResponse(res, html) {
-  const h = new Headers(res.headers);
-  h.delete('Content-Length');
-  h.delete('Content-Encoding');
-  h.delete('ETag');
-  return new Response(html, { status: res.status, headers: mergeVary(h) });
-}
-
-/** 静态资产服务（含 markdown 内容协商） */
+/** 静态资产服务（含 markdown 内容协商与 Link 头） */
 async function serveAsset(request, env) {
   const url = new URL(request.url);
 
@@ -92,7 +272,7 @@ async function serveAsset(request, env) {
     wantsMarkdown(request) &&
     isNegotiable(url.pathname);
 
-  if (!negotiate) return withVary(await env.ASSETS.fetch(request));
+  if (!negotiate) return decorate(await env.ASSETS.fetch(request));
 
   // 去掉 Accept-Encoding 再取一次，确保拿到**未压缩**明文；
   // 否则 response.text() 会得到 gzip 字节流。取不到就退回默认请求。
@@ -109,7 +289,7 @@ async function serveAsset(request, env) {
 
   const ctype = res.headers.get('Content-Type') || '';
   if (!res.ok || !ctype.includes('text/html') || res.headers.get('Content-Encoding')) {
-    return withVary(res);
+    return decorate(res);
   }
 
   let html;
@@ -118,7 +298,7 @@ async function serveAsset(request, env) {
   } catch {
     // 读不出明文（极少见）：改用原始请求再取一次，保证仍能返回 HTML
     try {
-      return withVary(await env.ASSETS.fetch(request));
+      return decorate(await env.ASSETS.fetch(request));
     } catch {
       return new Response('Upstream error', { status: 502, headers: { Vary: 'Accept' } });
     }
@@ -143,6 +323,7 @@ async function serveAsset(request, env) {
   headers.set('Vary', 'Accept');
   headers.set('Cache-Control', 'public, max-age=3600');
   headers.set('X-Markdown-For-Agents', '1');
+  headers.set('Link', LINK_HEADER);
   headers.delete('Content-Length');
   headers.delete('Content-Encoding');
   headers.delete('ETag');
@@ -169,7 +350,25 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    // 2) 其余请求 → 静态资产（含 Markdown for Agents 协商）
+    // 2) 智能体发现层与接口层。
+    //    任何异常都就地兜底：这一层坏掉可以，但绝不能让整个站点跟着坏。
+    try {
+      const handled = await routeAgentSurface(request, env, url.pathname);
+      if (handled) return handled;
+    } catch (err) {
+      return jsonDoc(
+        {
+          error: 'internal_error',
+          message: 'The agent surface is temporarily unavailable. Static content is unaffected.',
+          detail: err && err.message ? String(err.message) : undefined,
+        },
+        500,
+        'application/json; charset=utf-8',
+        { 'Cache-Control': 'no-store' },
+      );
+    }
+
+    // 3) 其余请求 → 静态资产（含 Markdown for Agents 协商与 Link 头）
     return serveAsset(request, env);
   },
 };

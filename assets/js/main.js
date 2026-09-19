@@ -658,6 +658,256 @@
     });
   }
 
+  /* ---------- WebMCP — expose site tools to browser AI agents ----------
+   * Spec: https://webmachinelearning.github.io/webmcp/
+   *
+   * Why here: WebMCP tools only exist while a page is loaded, and the detector
+   * loads the page and looks for tools registered on load — so registration has
+   * to happen from the site's own script, not from a lazy widget.
+   *
+   * Both API generations are supported, because the spec is still moving:
+   *   · registerTool(tool, { signal })  — current draft
+   *   · provideContext({ tools })       — earlier Chrome EPP
+   *
+   * The tools mirror the server-side MCP server (worker/_lib/mcp.js) so an agent
+   * gets the same answers whether it runs in the browser or over HTTP. Search
+   * runs entirely client-side against /assets/data/content-index.json — no
+   * network round trip beyond the index itself, and no data leaves the page.
+   * ---------------------------------------------------------------- */
+
+  var webmcpIndexPromise = null;
+
+  function loadWebmcpIndex() {
+    if (!webmcpIndexPromise) {
+      webmcpIndexPromise = fetch('/assets/data/content-index.json', { credentials: 'omit' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    }
+    return webmcpIndexPromise;
+  }
+
+  var WEBMCP_STOPWORDS = {
+    a: 1, an: 1, and: 1, are: 1, as: 1, at: 1, be: 1, but: 1, by: 1, can: 1, do: 1,
+    does: 1, for: 1, from: 1, get: 1, how: 1, i: 1, if: 1, in: 1, is: 1, it: 1,
+    its: 1, me: 1, my: 1, of: 1, on: 1, or: 1, should: 1, so: 1, that: 1, the: 1,
+    their: 1, them: 1, then: 1, there: 1, these: 1, they: 1, this: 1, to: 1,
+    was: 1, we: 1, what: 1, when: 1, where: 1, which: 1, who: 1, why: 1, will: 1,
+    with: 1, you: 1, your: 1
+  };
+
+  function webmcpTerms(query) {
+    var raw = String(query || '').toLowerCase().match(/[a-z0-9']+/g) || [];
+    var out = [];
+    for (var i = 0; i < raw.length; i++) {
+      var t = raw[i];
+      if (t.length > 1 && !WEBMCP_STOPWORDS[t] && out.indexOf(t) === -1) out.push(t);
+    }
+    return out;
+  }
+
+  function webmcpCount(haystack, needle) {
+    if (!haystack) return 0;
+    var n = 0;
+    var at = haystack.indexOf(needle);
+    while (at !== -1 && n < 5) { n++; at = haystack.indexOf(needle, at + needle.length); }
+    return n;
+  }
+
+  function webmcpSearch(doc, query, limit) {
+    var terms = webmcpTerms(query);
+    if (!terms.length) return [];
+    var scored = [];
+
+    for (var i = 0; i < doc.pages.length; i++) {
+      var page = doc.pages[i];
+      var title = String(page.title || '').toLowerCase();
+      var h1 = String(page.h1 || '').toLowerCase();
+      var desc = String(page.description || '').toLowerCase();
+      var heads = (page.headings || []).join(' ').toLowerCase();
+      var faq = (page.faqQuestions || []).join(' ').toLowerCase();
+      var text = String(page.text || '').toLowerCase();
+
+      var score = 0;
+      var matched = 0;
+      for (var j = 0; j < terms.length; j++) {
+        var term = terms[j];
+        var hit = webmcpCount(title, term) * 6 + webmcpCount(h1, term) * 5 +
+                  webmcpCount(desc, term) * 4 + webmcpCount(heads, term) * 3 +
+                  webmcpCount(faq, term) * 3 + webmcpCount(text, term);
+        if (hit > 0) matched++;
+        score += hit;
+      }
+      if (!score) continue;
+      score *= 0.4 + 0.6 * (matched / terms.length);
+      scored.push({ page: page, score: Math.round(score * 10) / 10 });
+    }
+
+    scored.sort(function (a, b) {
+      return b.score - a.score || (a.page.url < b.page.url ? -1 : 1);
+    });
+
+    return scored.slice(0, limit).map(function (entry) {
+      var p = entry.page;
+      return {
+        url: location.origin + p.url,
+        path: p.url,
+        title: p.title,
+        kind: p.kind,
+        description: p.description,
+        excerpt: String(p.text || '').slice(0, 400)
+      };
+    });
+  }
+
+  function webmcpResult(text, structured) {
+    return { content: [{ type: 'text', text: text }], structuredContent: structured };
+  }
+
+  function webmcpJson(value) {
+    return JSON.stringify(value, null, 2);
+  }
+
+  function buildWebmcpTools() {
+    return [
+      {
+        name: 'search_mysticdo',
+        description: 'Search MysticDo for decision guidance on psychic, tarot, astrology and ' +
+          'medium readings — costs, comparisons, whether a reader is legit, and which practice ' +
+          'fits a situation. Use this before navigating anywhere.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string', description: 'Natural-language query.' },
+            limit: { type: 'integer', minimum: 1, maximum: 10, description: 'Max results. Defaults to 5.' }
+          },
+          required: ['query']
+        },
+        execute: function (args) {
+          args = args || {};
+          var query = String(args.query || '').trim();
+          if (!query) return { error: 'The `query` argument is required.' };
+          return loadWebmcpIndex().then(function (doc) {
+            if (!doc) return { error: 'The MysticDo content index could not be loaded.' };
+            var limit = Math.min(Math.max(parseInt(args.limit, 10) || 5, 1), 10);
+            var results = webmcpSearch(doc, query, limit);
+            if (!results.length) {
+              return webmcpResult('No MysticDo page matched "' + query + '". Browse /llms.txt for the full catalogue.', { query: query, resultCount: 0, results: [] });
+            }
+            var lines = ['MysticDo results for "' + query + '":', ''];
+            results.forEach(function (r, i) {
+              lines.push((i + 1) + '. ' + r.title);
+              lines.push('   ' + r.url);
+              if (r.description) lines.push('   ' + r.description);
+              lines.push('');
+            });
+            return webmcpResult(lines.join('\n').trim(), { query: query, resultCount: results.length, results: results });
+          });
+        }
+      },
+      {
+        name: 'open_mysticdo_page',
+        description: 'Navigate the current tab to a MysticDo page. Only paths that exist in the ' +
+          'site index are accepted, so this cannot be used to leave the site.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            path: { type: 'string', description: 'Site-relative path, e.g. "/guides/psychic-vs-tarot.html".' }
+          },
+          required: ['path']
+        },
+        execute: function (args) {
+          args = args || {};
+          var raw = String(args.path || '').trim();
+          if (!raw) return { error: 'The `path` argument is required.' };
+          var normalized = raw.indexOf('http') === 0 ? raw.replace(location.origin, '') : raw;
+          if (normalized.charAt(0) !== '/') normalized = '/' + normalized;
+          if (normalized.indexOf('..') !== -1) return { error: 'Invalid path.' };
+
+          return loadWebmcpIndex().then(function (doc) {
+            if (!doc) return { error: 'The MysticDo content index could not be loaded.' };
+            var known = doc.pages.some(function (p) { return p.url === normalized; });
+            var isRoot = normalized === '/' && doc.pages.some(function (p) { return p.url === '/'; });
+            if (!known && !isRoot) {
+              return { error: 'No MysticDo page at ' + normalized + '. Use search_mysticdo to find one.' };
+            }
+            location.assign(normalized);
+            return webmcpResult('Navigating to ' + normalized, { navigatedTo: location.origin + normalized });
+          });
+        }
+      },
+      {
+        name: 'start_need_matcher',
+        description: 'Open MysticDo\'s 7-question matcher, which maps a described spiritual need to ' +
+          'the practice that fits it. The best first step when the user is unsure which kind of ' +
+          'reading to book.',
+        inputSchema: { type: 'object', properties: {} },
+        execute: function () {
+          location.assign('/do-what-fits.html');
+          return webmcpResult('Opening the Do What Fits matcher.', { navigatedTo: location.origin + '/do-what-fits.html' });
+        }
+      },
+      {
+        name: 'get_current_page_summary',
+        description: 'Return the title, URL, meta description and opening text of the page the user ' +
+          'is currently viewing, so the agent can reason about on-screen context without scraping DOM.',
+        inputSchema: { type: 'object', properties: {} },
+        execute: function () {
+          function meta(name) {
+            var el = document.querySelector('meta[name="' + name + '"], meta[property="' + name + '"]');
+            return el ? el.getAttribute('content') || '' : '';
+          }
+          var body = document.querySelector('.direct-answer, .article-body, main, .container');
+          var opening = body ? String(body.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 600) : '';
+          var summary = {
+            url: location.href,
+            title: document.title,
+            description: meta('description'),
+            h1: (document.querySelector('h1') || {}).textContent || '',
+            opening: opening
+          };
+          return webmcpResult(webmcpJson(summary), summary);
+        }
+      }
+    ];
+  }
+
+  function initWebMcp() {
+    try {
+      var nav = typeof navigator !== 'undefined' ? navigator : null;
+      if (!nav || !nav.modelContext) return;
+
+      var mc = nav.modelContext;
+      var tools = buildWebmcpTools();
+      var controller = typeof AbortController === 'function' ? new AbortController() : null;
+      var registered = 0;
+
+      if (typeof mc.registerTool === 'function') {
+        for (var i = 0; i < tools.length; i++) {
+          try {
+            if (controller) mc.registerTool(tools[i], { signal: controller.signal });
+            else mc.registerTool(tools[i]);
+            registered++;
+          } catch (err) {
+            /* One rejected tool must not stop the others. */
+          }
+        }
+      } else if (typeof mc.provideContext === 'function') {
+        mc.provideContext({ tools: tools });
+        registered = tools.length;
+      }
+
+      // Exposed so a host can tear the tools down when it navigates away, and so
+      // the registration can be asserted from a test.
+      window.__mysticdoWebMcp = {
+        registered: registered,
+        tools: tools.map(function (t) { return t.name; }),
+        unregister: function () { if (controller) controller.abort(); }
+      };
+    } catch (err) {
+      /* WebMCP is experimental: a failure here must never break the page. */
+    }
+  }
+
   /* ---------- Init ---------- */
   document.addEventListener('DOMContentLoaded', function () {
     injectLayout();
@@ -668,5 +918,6 @@
     initInputAttrs();
     bindEmailForms();
     initDailyCard();
+    initWebMcp();
   });
 })();

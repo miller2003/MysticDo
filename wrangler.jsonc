@@ -10,6 +10,12 @@
  *
  * 注：原 EA 时代的 PUBLIC_POSTHOG_* 环境变量已随 PostHog 移除（2026-09-19）；
  *     PostHog 重新接入时再在此处加回摄入端点变量，Key 用控制台 Secret 配置。
+ *
+ * 注：智能体层（agent surface）见 worker/_lib/ 与 AGENT_READINESS.md。
+ *     OAuth 签发密钥走 Secret，不写进仓库：
+ *       npx wrangler secret put OAUTH_HMAC_KEY
+ *     未配置时代码使用文档化的默认常量；因为 /mcp 只暴露公开内容，
+ *     伪造 token 不会拿到任何额外权限，但正式启用前仍建议配置。
  */
 {
   "name": "mysticdo",

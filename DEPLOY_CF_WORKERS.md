@@ -104,7 +104,37 @@ curl.exe -o NUL -s -w "%{http_code}" https://mysticdo.com/this-page-does-not-exi
 curl.exe -s -H "Accept: text/markdown" https://mysticdo.com/about.html | Select-Object -First 5
 ```
 
+**智能体接口层核验（v0.4 新增，一条命令全查完）**：
+
+```powershell
+python scripts/verify-agent-surface.py
+```
+
+它会逐项验证 Link 头、全部 `/.well-known/*` 文档、MCP 端点、OAuth 注册/发 token、
+Agent Skills 的 sha256 是否与实际制品一致、robots.txt 的 Content-Signal、
+以及 DNS-AID 记录（缺记录只报警告，不算失败）。全绿即代表这次部署的智能体层是完好的。
+
+单独抽查：
+
+```powershell
+# Link 响应头
+curl.exe -sI https://mysticdo.com/ | findstr /i link
+
+# MCP 工具列表
+curl.exe -s -X POST https://mysticdo.com/mcp -H "Content-Type: application/json" -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}"
+
+# ARD 清单
+curl.exe -s https://mysticdo.com/.well-known/ai-catalog.json
+
+# auth.md
+curl.exe -s https://mysticdo.com/auth.md
+```
+
 再人工确认一条：浏览器打开 `https://mysticdo.com/EEAT_COMPETITOR_RESEARCH.md` 应为 404（内部研究文档不能公开，`.assetsignore` 已挡住）。
+
+> ⚠️ 推送前请先在本地跑 `npm test`（Worker 路由 + WebMCP + markdown 三套回归）。
+> Worker 是全站唯一入口，这一层出错会连带内容层一起挂，所以本地回归是硬门槛。
+> 详见 `AGENT_READINESS.md`。
 
 ---
 

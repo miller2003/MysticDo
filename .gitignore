@@ -4,6 +4,10 @@
 # dependencies
 node_modules/
 
+# python bytecode (scripts/ is stdlib-only, but --check runs create these)
+__pycache__/
+*.pyc
+
 # environment variables
 .env
 .env.production

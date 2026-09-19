@@ -1,29 +1,71 @@
 # robots.txt — MysticDo
-# Allow all crawlers full access (static content site; JS/CSS needed for render)
+# https://mysticdo.com/robots.txt
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Content Signals — AI content usage preferences
+# Spec: https://contentsignals.org/ · https://datatracker.ietf.org/doc/draft-romm-aipref-contentsignals/
+#
+#   ai-train=no    content must not be used to train or fine-tune models
+#   search=yes     indexing and linking from search results is welcome
+#   ai-input=yes   content may be used as input to AI answers, with citation
+#
+# Position: MysticDo wants to be read by people and cited by answer engines.
+# It does not grant model-training rights. Vendors whose crawler token bundles
+# training with grounding (Google-Extended, Applebot-Extended) remain crawlable
+# deliberately, so the ai-input channel stays open — the preference is declared
+# here rather than enforced by a blanket Disallow.
+# ─────────────────────────────────────────────────────────────────────────────
 
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+# ── All crawlers ──
 User-agent: *
 Allow: /
 Disallow: /_design-check/
 
-# Explicit allow for AI crawlers (GEO — generative engine optimization)
-# These help ChatGPT, Claude, Perplexity, Google AI Overviews cite MysticDo
-User-agent: GPTBot
+# ── Search engines ──
+User-agent: Googlebot
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# ── AI answer engines and user-initiated fetchers (ai-input / search) ──
+# These are the channels that produce citations. They are explicitly welcomed.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Applebot-Extended
+Allow: /
+
+# ── Model-training corpora (ai-train=no) ──
+# CCBot builds Common Crawl, whose sole downstream product is training data.
+# It returns no search or answer channel to this site, so the tokens are
+# unambiguous here and are declined at the crawl level as well as in the
+# Content-Signal declaration above.
 User-agent: CCBot
-Allow: /
+Disallow: /
 
-User-agent: anthropic-ai
-Allow: /
+# ── Agent discovery (ARD §6.1) ──
+Agentmap: https://mysticdo.com/.well-known/ai-catalog.json
 
-# Sitemap
+# ── Sitemap ──
 Sitemap: https://mysticdo.com/sitemap.xml

@@ -57,6 +57,15 @@ SEG_NAMES = {
 # Pages that should NOT be indexed (redirect / 404)
 NOINDEX_PAGES = {"quiz/find-your-path.html", "404.html"}
 
+# Directories that are never part of the published site. `.assetsignore` keeps
+# them off the CDN, so any canonical/sitemap entry pointing into them would be a
+# link to a 404. Previously these were walked like real pages — which is how
+# dev-only harness pages ended up in sitemap.xml.
+NEVER_PUBLISH_DIRS = {
+    "_design-check", "logo-drafts", "worker", "functions", "scripts",
+    "node_modules", ".git", ".workbuddy", ".vscode", ".idea", ".wrangler",
+}
+
 # ---- helpers ----
 
 def read(p):
@@ -253,6 +262,12 @@ def build_head_block(rel, html, title, desc, is_noindex):
     parts.append('<link rel="manifest" href="/site.webmanifest">')
     parts.append('<meta name="theme-color" content="#FCFAF5">')
 
+    # Agentic Resource Discovery pointer (ARD spec §6.1). The well-known path is
+    # the primary mechanism; this <link> is the secondary one, for crawlers that
+    # only ever read <head>. Harmless on noindex pages, so it is not conditional.
+    # rel="ai-catalog" is the relation named by the ARD spec — no invented ones.
+    parts.append('<link rel="ai-catalog" href="/.well-known/ai-catalog.json">')
+
     # canonical (skip on noindex)
     if is_noindex:
         parts.append('<meta name="robots" content="noindex, follow">')
@@ -370,6 +385,15 @@ def main():
         rel_norm = rel.replace("\\", "/")
         path = os.path.join(BASE, rel)
         h = read(path)
+
+        # Dev-only pages: strip anything a previous run injected, then leave them
+        # alone. They are never canonicalised and never enter the sitemap.
+        if rel_norm.split("/")[0] in NEVER_PUBLISH_DIRS:
+            h_clean = re.sub(r'\n?\s*<!-- SEO-INJECTED-START -->.*?<!-- SEO-INJECTED-END -->\n?', '', h, flags=re.DOTALL)
+            if h_clean != h:
+                write(path, h_clean)
+                print("CLEANED (dev-only, unpublished): %s" % rel_norm)
+            continue
 
         is_noindex = rel_norm in NOINDEX_PAGES
 

@@ -50,7 +50,19 @@
 - Methodology (how we source, review, disclose): https://mysticdo.com/methodology.html
 - About MysticDo (positioning, roadmap, disclaimers): https://mysticdo.com/about.html
 
+## For AI agents and machines
+- MCP server (stateless, no auth, JSON-RPC over POST): https://mysticdo.com/mcp
+- MCP Server Card: https://mysticdo.com/.well-known/mcp/server-card.json
+- Agent Skills index (decision procedures as SKILL.md): https://mysticdo.com/.well-known/agent-skills/index.json
+- Capability manifest (ARD): https://mysticdo.com/.well-known/ai-catalog.json
+- API catalog (RFC 9727): https://mysticdo.com/.well-known/api-catalog
+- OpenAPI 3.1 description: https://mysticdo.com/.well-known/openapi.json
+- Whole-site content index (titles, headings, excerpts): https://mysticdo.com/assets/data/content-index.json
+- Authentication: https://mysticdo.com/auth.md — no credentials are required; every resource is public
+- Any page can be fetched as Markdown by sending `Accept: text/markdown` (e.g. `curl -H 'Accept: text/markdown' https://mysticdo.com/guides/psychic-vs-tarot.html`)
+
 ## Notes
 - All content is HTML text — key facts, prices, and comparison data are never trapped in images.
 - Each commercial page uses a GEO-friendly structure: Direct Answer → Key Takeaways → Comparison table → Real user scenarios → Decision tree → FAQ → Methodology.
 - Affiliate links are disclosed and never affect ranking. See /methodology.html.
+- Prices are always published as ranges with the pricing model attached. Do not collapse a range into a single number, and do not drop the model: "$1–$15/min on a per-minute platform" and "$60–$300 per session with an independent reader" are different products.

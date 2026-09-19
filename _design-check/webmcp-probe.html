@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>webmcp-probe</title>
+<style>body{font:13px/1.5 ui-monospace,monospace;padding:1rem}pre{white-space:pre-wrap}</style></head>
+<body>
+
+<!-- ============================================================
+     WebMCP probe (development only — excluded from deployment by
+     .assetsignore and disallowed in robots.txt).
+
+     Headless Chrome has no navigator.modelContext, so this page installs a
+     recording stub BEFORE assets/js/main.js runs, then reports what the site
+     registered and exercises one tool end to end.
+
+     Run with:  node scripts/test-webmcp.mjs
+     ============================================================ -->
+
+<div id="site-header"></div>
+<div id="site-footer"></div>
+
+<pre id="result">PENDING</pre>
+
+<script>
+(function () {
+  window.__webmcpCalls = [];
+  var mc = {
+    registerTool: function (tool, opts) {
+      window.__webmcpCalls.push({ kind: 'registerTool', tool: tool, opts: opts || null });
+    },
+    provideContext: function (ctx) {
+      window.__webmcpCalls.push({ kind: 'provideContext', ctx: ctx });
+    }
+  };
+  try {
+    Object.defineProperty(navigator, 'modelContext', {
+      value: mc, configurable: true, writable: true
+    });
+    window.__webmcpStubOk = true;
+  } catch (e) {
+    window.__webmcpStubOk = false;
+    window.__webmcpStubError = String(e && e.message);
+  }
+})();
+</script>
+
+<script src="/assets/js/main.js"></script>
+
+<script>
+window.addEventListener('load', function () {
+  function finish(payload) {
+    document.getElementById('result').textContent = JSON.stringify(payload, null, 2);
+  }
+
+  var calls = window.__webmcpCalls || [];
+  var tools = calls
+    .filter(function (c) { return c.kind === 'registerTool' && c.tool; })
+    .map(function (c) { return c.tool; });
+
+  var provided = calls.filter(function (c) { return c.kind === 'provideContext'; });
+
+  var report = {
+    stubOk: window.__webmcpStubOk === true,
+    stubError: window.__webmcpStubError || null,
+    registerCallCount: tools.length,
+    provideCallCount: provided.length,
+    api2Recorded: window.__mysticdoWebMcp || null,
+    tools: tools.map(function (t) {
+      return {
+        name: t.name,
+        hasDescription: typeof t.description === 'string' && t.description.length > 20,
+        hasInputSchema: !!t.inputSchema && t.inputSchema.type === 'object',
+        hasExecute: typeof t.execute === 'function'
+      };
+    }),
+    signalHonoured: calls.every(function (c) {
+      return c.kind !== 'registerTool' || !c.opts || c.opts.signal === undefined || c.opts.signal instanceof AbortSignal;
+    })
+  };
+
+  var searchTool = tools.filter(function (t) { return t.name === 'search_mysticdo'; })[0];
+  if (!searchTool) {
+    report.searchExercise = { ok: false, reason: 'search_mysticdo not registered' };
+    finish(report);
+    return;
+  }
+
+  Promise.resolve(searchTool.execute({ query: 'how much does a tarot reading cost', limit: 3 }))
+    .then(function (out) {
+      var results = (out && out.structuredContent && out.structuredContent.results) || [];
+      report.searchExercise = {
+        ok: results.length > 0,
+        resultCount: results.length,
+        firstPath: results[0] ? results[0].path : null,
+        firstTitle: results[0] ? results[0].title : null,
+        hasContentEnvelope: !!(out && out.content && out.content[0] && out.content[0].type === 'text'),
+        textPreview: out && out.content && out.content[0] ? String(out.content[0].text).slice(0, 160) : null
+      };
+      return null;
+    })
+    .catch(function (err) {
+      report.searchExercise = { ok: false, reason: String(err && err.message || err) };
+    })
+    .then(function () {
+      // Guard-rail: the navigation tool must refuse a path that is not in the index.
+      var navTool = tools.filter(function (t) { return t.name === 'open_mysticdo_page'; })[0];
+      if (!navTool) return null;
+      return Promise.resolve(navTool.execute({ path: '/definitely-not-a-real-page.html' }))
+        .then(function (out) {
+          report.navigationGuard = {
+            rejectedUnknownPath: !!(out && out.error),
+            error: out && out.error ? out.error : null
+          };
+          return null;
+        })
+        .catch(function (err) {
+          report.navigationGuard = { rejectedUnknownPath: false, reason: String(err && err.message || err) };
+        });
+    })
+    .then(function () { finish(report); })
+    .catch(function (err) { finish({ fatal: String(err && err.message || err) }); });
+});
+</script>
+
+</body>
+</html>

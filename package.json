@@ -1,10 +1,17 @@
 {
   "name": "mysticdo",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
+  "type": "module",
   "description": "MysticDo — pure static site deployed to Cloudflare Workers via GitHub (Workers Builds). Zero dependencies, nothing to install locally.",
   "scripts": {
     "dev": "node scripts/dev-server.mjs",
-    "start": "node scripts/dev-server.mjs"
+    "start": "node scripts/dev-server.mjs",
+    "test": "node scripts/test-worker-agent-routes.mjs && node scripts/test-webmcp.mjs && node scripts/test-markdown-for-agents.mjs --dist=.",
+    "test:agents": "node scripts/test-worker-agent-routes.mjs",
+    "test:webmcp": "node scripts/test-webmcp.mjs",
+    "test:markdown": "node scripts/test-markdown-for-agents.mjs --dist=.",
+    "build:index": "python scripts/build-content-index.py",
+    "verify": "python scripts/verify-agent-surface.py"
   }
 }
