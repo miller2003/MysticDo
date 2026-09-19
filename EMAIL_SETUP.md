@@ -194,6 +194,25 @@ MailerLite 的订阅者列表
 
 **目的**：让邮件服务商（Gmail 等）确认"这封信确实来自 mysticdo.com"（技术上叫 SPF / DKIM）。不做的后果是进垃圾箱，或显示"通过 mailerlite.com 代发"。
 
+> ✅ **如果你看到的是「从第三方应用程序授权 DNS 记录」页面 —— 直接点「授权」即可。**
+>
+> MailerLite 支持让 Cloudflare 代它添加记录，而且它**会读取你现有的 SPF 并自动合并**（这正是最容易踩的坑，它替你处理了）。授权页面通常显示：
+>
+> | 动作 | 记录 |
+> |---|---|
+> | **添加** | 1 条 CNAME（DKIM，如 `litesrv._domainkey`） |
+> | **添加** | 1 条 TXT（域名验证，`mailerlite-domain-verification=...`） |
+> | **添加** | 1 条 TXT（**合并后的 SPF**，同时含 `_spf.mx.cloudflare.net` 和 `_spf.mlsend.com`） |
+> | **删除** | 你现有那条旧 SPF |
+>
+> **红字提示"可能导致停机"是例行文案**，可以放心：它动的只是 SPF（发信认证），**不碰 MX（收信）**，而且新记录包含旧记录的全部内容，切换过程中不丢功能。授权也是**一次性**的，不会给 MailerLite 长期改你 DNS 的权限。
+>
+> **授权后建议复核**：SPF 应该**只剩一条**，内容里同时出现两个 `include:`。
+>
+> 顺便：这一页的「代理状态」MailerLite 已经替你设成「仅 DNS」（灰色云朵），不用你再改。
+
+**如果它没有给授权按钮，就手动添加**（跳过上面的提示，走下面步骤）：
+
 1. MailerLite 后台 → 左侧 **Account settings（账户设置）** → 找 **Domains（域名）**
 2. 点 **Add domain** → 填 `mysticdo.com`
 3. MailerLite 生成几条 DNS 记录（一般 1 条 TXT = SPF，加 1–2 条 CNAME = DKIM）
