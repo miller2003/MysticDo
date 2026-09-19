@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "node scripts/dev-server.mjs",
     "start": "node scripts/dev-server.mjs",
-    "test": "node scripts/test-worker-agent-routes.mjs && node scripts/test-email-api.mjs && node scripts/test-webmcp.mjs && node scripts/test-markdown-for-agents.mjs --dist=.",
+    "test": "node scripts/test-worker-agent-routes.mjs && node scripts/test-email-api.mjs && node scripts/test-webmcp.mjs && node scripts/test-markdown-for-agents.mjs --dist=. && node scripts/test-love-quiz.mjs",
     "test:agents": "node scripts/test-worker-agent-routes.mjs",
     "test:email": "node scripts/test-email-api.mjs",
     "test:webmcp": "node scripts/test-webmcp.mjs",
     "test:markdown": "node scripts/test-markdown-for-agents.mjs --dist=.",
     "build:index": "python scripts/build-content-index.py",
+    "indexnow": "node scripts/indexnow.mjs",
     "verify": "python scripts/verify-agent-surface.py"
   }
 }
