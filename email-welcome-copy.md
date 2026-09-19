@@ -59,7 +59,8 @@
 | 手机适配 | 窄屏自动缩小字号与内边距 |
 | 收件箱预览文字 | `One note a week. Decision guides, not horoscopes.` |
 | 退订链接 | 已用 `{$unsubscribe}` 变量，MailerLite 保存时会自动替换成真实链接 |
-| 零图片 | 所以不存在"图片被拦截后一片空白"的问题 |
+| **顶部 logo** | 直接引用网站上的 `assets/brand/icon-192.png`（**不用上传到 MailerLite**）；图片被拦截时 `alt` 会显示 "MysticDo" |
+| 正文无图 | 除顶部 logo 外没有任何图片，避免"图片被拦截后一片空白" |
 
 ### 导入后检查三件事
 
