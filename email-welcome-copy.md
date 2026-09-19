@@ -241,3 +241,23 @@ MysticDo 的视觉是「象牙白纸 + 墨黑字 + 古金点缀」，邮件照�
 - **保持文案，按期兑现**：那就先把前 3 期的选题想好（可以从 `/guides/` 里挑现成的改写成邮件版）
 
 我建议**起步阶段用第一种**：宁少承诺、多兑现。等你能稳定产出后再改回"每周一封"。
+
+---
+
+## 附：Automation 邮件设置面板 · 逐项说明
+
+点开 Automation 里的 **Email** 动作后，右侧会出现这个面板：
+
+| 字段 | 填什么 | 说明 |
+|---|---|---|
+| **Email content** | 点 **Edit content** 进去编辑 | 走 Custom HTML editor → Code from scratch → 粘贴 `email-templates/welcome.html` |
+| **Email name** | `Welcome email` | 只是给**你自己**看的内部标签，读者看不到 |
+| **Subject** | `You're in — here's what to expect` | 读者在收件箱里看到的标题 |
+| **Who is it from?** | `MysticDo` | 发件人显示的名字 |
+| **Sender email** | `hello@mysticdo.com` | 域名认证通过后才能选到自己的地址 |
+| **Use different Reply-to email** | **不勾** | 不勾时，读者回复会发到 `hello@mysticdo.com`，而它已经转发到你的个人邮箱 |
+| **Opens tracking** | **保持勾选** | 能看到多少人打开了邮件，是最基础的反馈数据 |
+| **UTM tags** | 建议勾上 | 邮件里的链接会带追踪参数，方便看出多少访问来自邮件 |
+| **Language** | `English` | 保持默认 |
+
+> 💡 填完用面板上的 **Send a test email** 发一封到自己邮箱，**手机上也打开看一眼**——那是读者最终看到的样子。
