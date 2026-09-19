@@ -112,7 +112,7 @@ WELCOME
 **② 大标题（H1）**
 
 ```
-Before you pay, decide.
+Know What To Do Next.
 ```
 
 **③ 开场段**
@@ -120,7 +120,7 @@ Before you pay, decide.
 ```
 Thanks for joining MysticDo.
 
-Most spiritual content online is written to make you buy something. This newsletter is written for a narrower moment — the one where you're about to spend money on a reading, and you want to know whether it's worth it, which kind actually fits your situation, and how to avoid the obvious traps.
+Most spiritual content online is written to make you buy something. This newsletter is written for a narrower moment — the one *before* you pay, when you're weighing whether a reading is worth it, which kind actually fits your situation, and how to avoid the obvious traps.
 ```
 
 **④ 小标题**
