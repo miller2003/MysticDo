@@ -164,7 +164,8 @@ def main():
             d
             for d in dirs
             if d not in ("node_modules", ".workbuddy", ".git", ".vscode", "assets",
-                         "_design-check", "logo-drafts", "worker", "scripts", "functions")
+                         "_design-check", "logo-drafts", "worker", "scripts", "functions",
+                         "email-templates")
         ]
         for fn in sorted(files):
             if not fn.endswith(".html"):

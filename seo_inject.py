@@ -64,6 +64,7 @@ NOINDEX_PAGES = {"quiz/find-your-path.html", "404.html"}
 NEVER_PUBLISH_DIRS = {
     "_design-check", "logo-drafts", "worker", "functions", "scripts",
     "node_modules", ".git", ".workbuddy", ".vscode", ".idea", ".wrangler",
+    "email-templates",
 }
 
 # ---- helpers ----

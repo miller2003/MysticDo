@@ -29,5 +29,8 @@ package-lock.json
 logo-drafts
 _design-check
 
+# ── 邮件模板（给 MailerLite 用的 HTML，不是网站页面）──
+email-templates
+
 # ── 旧版备份 ──
 assets/css/style.v3.cupertino.bak.css
