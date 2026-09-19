@@ -556,19 +556,23 @@
   }
 
   /* ---------- Email capture ----------
-     Delivery model (honesty first): until a real backend exists, signups are
-     stored in the visitor's browser ONLY — and the success message says so,
-     so nobody walks away believing they subscribed. When a backend is ready,
-     set window.MYSTICDO_EMAIL_ENDPOINT and submissions will also POST there
-     as JSON {email, source}; only a confirmed 2xx shows "subscribed". */
+     Delivery model: the form POSTs to /api/subscribe on our own origin; the
+     Cloudflare Worker forwards it to MailerLite with a server-side key that
+     never reaches the browser. The address is also kept in this browser as a
+     convenience. Only a confirmed upstream signup shows "subscribed" — any
+     other outcome falls back to the honest "noted on this device" state.
+     window.MYSTICDO_EMAIL_ENDPOINT can override the path if ever needed. */
   function submitToEmailEndpoint(payload) {
-    var ep = window.MYSTICDO_EMAIL_ENDPOINT;
-    if (!ep || typeof fetch !== 'function') return Promise.resolve(false);
+    if (typeof fetch !== 'function') return Promise.resolve(false);
+    var ep = window.MYSTICDO_EMAIL_ENDPOINT || '/api/subscribe';
     return fetch(ep, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; })
+      .then(function (data) { return !!(data && data.ok && data.subscribed !== false); });
   }
 
   function emailFormHTML() {

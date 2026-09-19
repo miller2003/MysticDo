@@ -119,10 +119,12 @@
     var success = document.getElementById('contact-success');
     if (!form) return;
     var endpoint = function(payload){
-      var ep = window.MYSTICDO_EMAIL_ENDPOINT;
-      if (!ep || typeof fetch !== 'function') return Promise.resolve(false);
+      if (typeof fetch !== 'function') return Promise.resolve(false);
+      var ep = window.MYSTICDO_EMAIL_ENDPOINT_CONTACT || '/api/contact';
       return fetch(ep, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-        .then(function(r){ return r.ok; }).catch(function(){ return false; });
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .catch(function(){ return null; })
+        .then(function(d){ return !!(d && d.ok && d.delivered); });
     };
     form.addEventListener('submit', function(e){
       e.preventDefault();
@@ -132,6 +134,7 @@
         type: document.getElementById('cf-type').value,
         message: document.getElementById('cf-msg').value,
         source: 'contact',
+        page: location.pathname,
         at: new Date().toISOString()
       };
       try {

@@ -36,6 +36,7 @@ import {
 } from './_lib/agent-discovery.js';
 import { skillsIndex, findSkill } from './_lib/agent-skills.js';
 import { handleMcp } from './_lib/mcp.js';
+import { handleSubscribe, handleContact } from './_lib/subscribe.js';
 import { handleRegister, handleAuthorize, handleToken, handleRevoke } from './_lib/oauth.js';
 
 const APEX = 'mysticdo.com';
@@ -169,6 +170,9 @@ async function routeAgentSurface(request, env, pathname) {
             content: 'ok',
             markdownNegotiation: 'ok',
             mcp: 'ok',
+            // 邮件配置状态：站主配好 Secret 后，这里会从 not_configured 变成 configured。
+            subscribe: env.MAILERLITE_API_KEY ? 'configured' : 'not_configured',
+            contact: env.CONTACT_EMAIL && env.CONTACT_TO ? 'configured' : 'not_configured',
           },
         },
         200,
@@ -180,7 +184,11 @@ async function routeAgentSurface(request, env, pathname) {
       break;
   }
 
-  /* ---- 2.2 Agent Skills 制品 / SKILL.md ---- */
+  /* ---- 2.2 邮件接口：订阅（→ MailerLite）+ 联系表单（→ send_email binding） ---- */
+  if (pathname === '/api/subscribe') return handleSubscribe(request, env);
+  if (pathname === '/api/contact') return handleContact(request, env);
+
+  /* ---- 2.3 Agent Skills 制品 / SKILL.md ---- */
   const skillsPrefix = '/.well-known/agent-skills/';
   if (pathname.startsWith(skillsPrefix) && pathname.endsWith('/SKILL.md')) {
     const name = pathname.slice(skillsPrefix.length, -'/SKILL.md'.length);

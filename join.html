@@ -134,10 +134,12 @@
     var success = document.getElementById('join-success');
     if (!form) return;
     var endpoint = function(payload){
-      var ep = window.MYSTICDO_EMAIL_ENDPOINT;
-      if (!ep || typeof fetch !== 'function') return Promise.resolve(false);
+      if (typeof fetch !== 'function') return Promise.resolve(false);
+      var ep = window.MYSTICDO_EMAIL_ENDPOINT || '/api/subscribe';
       return fetch(ep, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
-        .then(function(r){ return r.ok; }).catch(function(){ return false; });
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .catch(function(){ return null; })
+        .then(function(d){ return !!(d && d.ok && d.subscribed !== false); });
     };
     form.addEventListener('submit', function(e){
       e.preventDefault();
