@@ -90,12 +90,23 @@ MailerLite 的订阅者列表
 
 > ⚠️ **这一步最容易填错，先看懂两个框的区别再动手：**
 >
-> | 框 | 填什么 | 说明 |
-> |---|---|---|
-> | **Name / 密钥** | 给变量**起名字** | 必须是**英文字母**开头。代码就是按这个名字去读数据的 |
-> | **Value / 值** | 你的**数据** | token 或数字填在这里 |
+> ### 中文界面的「密钥」出现了两次，含义完全不同
 >
-> **★ 名称栏不是放数据的地方。** 把 token 或 Group ID 填进"名称"会立刻报错：*变量名称必须以字母开头…*
+> | 界面上的位置 | 真正的含义 | 你要填什么 |
+> |---|---|---|
+> | **左边那行的标签**「密钥」（英文版是 Name） | 变量的**名字** | **英文字母**开头的标识符，逐字照抄下面的表 |
+> | **右边的小开关**「密钥」（带勾选框） | 是否加密保存 | 保持**勾选**即可 |
+>
+> ### 每个变量是「名字 + 数据」的一对，不能交叉配
+>
+> - **名字**必须是英文字母（代码按这个名字去读数据）
+> - **数据**（token 或数字）填在「值」栏
+>
+> **★ 最常见的两个错误：**
+> 1. 把 token 填进了「密钥」（名字）栏 → 报错"变量名称必须以字母开头"。**token 是数据，不是名字。**
+> 2. 名字和数据配错对（比如名字写 API_KEY、值却填 Group ID）→ 不报错，但 `/api/health` 会一直显示 `not_configured`。
+>
+> **填完之后自查一遍：名字是纯英文标识符，值才是 token / 数字。**
 
 要加的是**两个独立变量**：
 
@@ -145,62 +156,117 @@ MailerLite 的订阅者列表
 
 ## 阶段二：配好发件身份（约 15 分钟，强烈建议）
 
-不配这一步，你的邮件会从 MailerLite 的公共地址发出，**容易进垃圾箱**，看起来也不够专业。
+不做这一步，你的邮件会从 MailerLite 的公共地址发出，**容易进垃圾箱**，读者看到的发件人也是乱码地址。
+
+三小步，**2.1 必须先做**（它是 2.2 和阶段三的前提）。
 
 ### 2.1 让 hello@mysticdo.com 能收信（Cloudflare Email Routing，免费）
 
+**为什么做**：你以后发出的邮件，发件人显示 `hello@mysticdo.com`。读者直接回复那封信时，得有人收得到——这一步就是给这个地址装一条"转接到你个人邮箱"的通道。
+
 1. Cloudflare 控制台 → 点 **mysticdo.com** 这个域名
 2. 左侧找 **Email（电子邮件）** → **Email Routing（电子邮件路由）**
-3. 点 **Enable / 启用**，它问是否自动添加 MX 记录 → **同意**
-4. 在 **Destination addresses（目标地址）** 里添加你的**个人邮箱**
-5. 去个人邮箱收验证信，点里面的确认链接
-6. 回到页面，在 **Custom addresses（自定义地址）** 里创建：
-   - `hello@mysticdo.com` → 转发到你的个人邮箱
-   - `contact@mysticdo.com` → 转发到你的个人邮箱
+3. 点 **Enable / 启用**；它问"要不要自动添加 MX 记录" → **同意**（它自动加，不用你手动填）
+4. 在 **Destination addresses（目标地址）** 点添加 → 填你的**个人邮箱**（Gmail 之类）
+5. 去那个个人邮箱收 Cloudflare 的验证信 → 点里面的**确认链接**
+6. 回到 Email Routing 页面，在 **Custom addresses（自定义地址）** 创建：
+   - `hello@mysticdo.com` → 转送到你刚验证的个人邮箱
+   - 再建一个 `contact@mysticdo.com`（阶段三的联系表单要用）
 
-现在这两个地址收到的信都会转到你个人邮箱了。
+**配完自测**：用你另一个邮箱给 `hello@mysticdo.com` 发一封信，看个人邮箱能不能收到。
 
-### 2.2 在 MailerLite 里验证发件域名
+> ⚠️ **前提检查**：如果你这个域名**已经在用企业邮箱**（Google Workspace、腾讯企业邮等），启用 Email Routing 会改 MX 记录、导致原邮箱收不到信。你目前用个人邮箱，所以**没问题**；如果以后要接企业邮箱，先告诉我。
 
-1. MailerLite 后台 → **设置 / Settings** → **Domains（域名）**
-2. 点 **Add domain**，填 `mysticdo.com`
-3. MailerLite 会给你几条 DNS 记录（通常是 1 条 TXT + 2 条 CNAME）
-4. 新开一个浏览器标签 → Cloudflare → **mysticdo.com** → 左侧 **DNS** → **Records**
-5. 把 MailerLite 给的记录**一条一条**加进去：
-   - 点 **Add record**，Type/Name/Value 照抄，**逐字**复制
-   - ⚠️ 如果加的是 **CNAME**，把那个橙色小云朵点成**灰色**（显示 "DNS only"）——这一步很重要
-6. 全部加完后，回 MailerLite 点 **Verify（验证）**
-7. 变成绿色 / **Verified** 就成功了
+### 2.2 在 MailerLite 里验证"发件域名"
 
-> 💡 如果你在 MailerLite 免费版里**找不到 Domains 设置**，告诉我一声——免费版功能时有调整，我帮你换一条路线，不影响订阅功能继续用。
+**目的**：让邮件服务商（Gmail 等）确认"这封信确实来自 mysticdo.com"（技术上叫 SPF / DKIM）。不做的后果是进垃圾箱，或显示"通过 mailerlite.com 代发"。
 
-### 2.3 设置发件人地址
+1. MailerLite 后台 → 左侧 **Account settings（账户设置）** → 找 **Domains（域名）**
+2. 点 **Add domain** → 填 `mysticdo.com`
+3. MailerLite 生成几条 DNS 记录（一般 1 条 TXT = SPF，加 1–2 条 CNAME = DKIM）
+4. **新开一个标签页** → Cloudflare → **mysticdo.com** → 左侧 **DNS** → **Records**
+5. 把 MailerLite 给的记录**一条一条照抄**加进去：
+   - 点 **Add record**，Type / Name / Content 逐字复制（区分大小写）
+   - ⚠️ **加 CNAME 时，把"代理状态"点成灰色（DNS only）**——Cloudflare 默认橙色（Proxied），橙色会挡住验证，必须点灰
+6. 全部加完，回 MailerLite 点 **Verify（验证）**
+7. 显示 **Verified / 绿色对勾** = 成功
 
-在 MailerLite 设置里把发件人填成：
+> 💡 **如果免费版找不到 Domains 入口**：MailerLite 免费版不含"自定义域名"功能——但那指的是把**它的落地页**挂在你域名下（我们不需要）。发件域名认证**通常**免费版可用。万一点不进去，告诉我，两条备选：
+> - **① 先不认证**：邮件照样能发，只是容易进垃圾箱、发件人显示 MailerLite 的地址。**对你现在的阶段完全够用。**
+> - **② 升级 Comfort（$12/月）**：等订阅者多了再决定值不值。
+>
+> 结论：这一步**做不成也不影响系统运行**，别为它卡住。
 
-- 名字：`MysticDo`
-- 地址：`hello@mysticdo.com`
+### 2.3 设置发件人并做第一次测试
+
+1. MailerLite → **Account settings** → 找 **Sender（发件人信息）**，填：
+   - 名字：`MysticDo`
+   - 邮箱：`hello@mysticdo.com`
+2. 测试：**Campaigns** → **Create campaign** → 收件人选 `MysticDo Subscribers` → 随便写个标题正文 → 用**发送测试邮件**功能发到你个人邮箱
+3. 检查那封信：
+   - 发件人是否显示 `MysticDo <hello@mysticdo.com>`？
+   - 有没有进垃圾箱？（进了说明 2.2 没生效，或 DNS 还没生效，等几小时）
 
 ---
 
-## 阶段三：欢迎邮件 + 联系表单（约 10 分钟，可选）
+## 阶段三：欢迎邮件 + 联系表单（约 10 分钟）
 
-### 3.1 自动欢迎邮件
+### 3.1 自动欢迎邮件（新订阅者自动收到）
 
-1. MailerLite → **Automation（自动化）** → **Create workflow**
-2. 触发条件选：**当订阅者加入分组** → 选 `MysticDo Subscribers`
-3. 加一个 **Email** 步骤，写一封欢迎信（一屏以内，说清你是谁、多久发一次、有什么值得看）
-4. 保存 → 打开开关 / 启用
+1. MailerLite → 左侧 **Automations（自动化）** → **Create new automation**
+2. 触发条件（Trigger）选：**Subscriber joins a group**（订阅者加入分组）→ 选 `MysticDo Subscribers`
+3. 下一步加一个 **Email** 动作 → 打开邮件编辑器
+4. 写欢迎信（下面有可直接用的英文草稿）
+5. 右上角保存 → 把**启用开关打开**（不打开不会跑）
 
-免费版最多 3 个自动化流程，够用。
+免费版可建 3 个自动化流程，够用。
 
-### 3.2 联系表单真正送达
+**怎么验证它真的在工作**：用另一个邮箱去 https://mysticdo.com/join 订阅一次，几分钟内那个邮箱应该收到欢迎信（第一次可能延迟几分钟）。
 
-现在联系表单会诚实地告诉你"暂存在本机"。要让它真正发到你邮箱，需要我在后台加一段配置。
+#### 欢迎信草稿（可直接抄；你的读者是英文用户，所以是英文）
 
-**你只需要告诉我"Email Routing 配好了"，我来加剩下的部分**（这是代码改动，你不用动手）。
+**Subject：** `You're in — here's what to expect`
 
-原理是先启用阶段二的 Email Routing，然后我加一个 Cloudflare 的免费发信配置。
+**Preview text（可选）：** `One note a week. Decision guides, not horoscopes.`
+
+**正文：**
+
+> Hi,
+>
+> Thanks for joining MysticDo — glad you're here.
+>
+> Quick note on what this is. MysticDo isn't a horoscope newsletter. It's a decision guide for people who are about to spend money on a spiritual service and want to know whether it's worth it, which kind actually fits their situation, and how to avoid the obvious traps.
+>
+> **What you'll get:** roughly one email a week —
+> - one decision guide (what things cost, how to tell legit from not, how to choose)
+> - one free tool or exercise you can use in five minutes
+> - occasionally, a plain-language note about how this industry actually works
+>
+> **What you won't get:** daily horoscopes, affiliate link dumps, or anything that pretends to know your future.
+>
+> One thing worth knowing up front: I'm not here to tell you what to believe. I'm here to help you decide what to do next — and to say "skip it, save your money" when that's the honest answer.
+>
+> If you ever want a specific question answered, just reply to this email. Replies land in my inbox.
+>
+> — MysticDo
+> mysticdo.com
+
+> 💡 这段文案刻意保持了与网站一致的语气：冷静、证据化、不承诺超自然效果。你可以先原样用，跑几期再按自己的表达调整。**注意别加"我们会预测你的未来"这类话**——那会和你方法论页面的承诺矛盾。
+
+### 3.2 让联系表单真正送达
+
+现在联系表单会诚实地说"暂存在本机"。要让它真正发到你邮箱：
+
+**你先做：**
+1. 确认阶段 **2.1（Email Routing）已配好并通过验证**
+2. 把**你要收信的个人邮箱地址**告诉我
+
+**我随后做**（你提供邮箱后我改代码，你 push 一次即可）：
+- 在 `wrangler.jsonc` 里加上 Cloudflare 的免费发信配置（`send_email` binding）
+- 部署后 `/api/health` 里的 `contact` 会从 `not_configured` 变成 `configured`
+- 你在网站联系页发一条测试消息，检查个人邮箱是否收到
+
+> ⚠️ **安全说明**：这个配置在 Cloudflare 侧被硬性限制为**只能发到你自己验证过的那个邮箱**，所以即使配置泄露也无法被人拿去群发垃圾邮件。
 
 ---
 
