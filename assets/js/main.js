@@ -5,7 +5,7 @@
    - Multi-quiz engine with Apple-grade interactions
    - SVG icon system for quiz options
    - Enhanced result page with layered cards
-   - Email capture (localStorage)
+   - Email capture (POST /api/subscribe → MailerLite via Worker)
    - Daily card (/tools/daily-card.html)
    - Scroll-aware header + iOS safe-area handling
    Pages need: <div id="site-header">, <div id="site-footer">,
@@ -587,7 +587,7 @@
         + '</div>'
         + '<div class="email-capture mt-7" style="text-align:left">'
         + '<h3 style="margin-bottom:0.45rem;font-size:1.6rem">Get a personalized path by email</h3>'
-        + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.95rem;max-width:42ch">One weekly note tuned to your situation. No spam, unsubscribe anytime. (Email delivery is in final setup — today this notes your email on this device.)</p>'
+        + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.95rem;max-width:42ch">One weekly note tuned to your situation. No spam, unsubscribe anytime.</p>'
         + emailFormHTML()
         + '</div>'
         + '</div>';
@@ -640,8 +640,9 @@
      Delivery model: the form POSTs to /api/subscribe on our own origin; the
      Cloudflare Worker forwards it to MailerLite with a server-side key that
      never reaches the browser. The address is also kept in this browser as a
-     convenience. Only a confirmed upstream signup shows "subscribed" — any
-     other outcome falls back to the honest "noted on this device" state.
+     silent backup. Only a confirmed upstream signup shows "subscribed" — any
+     other outcome shows an honest "didn't go through" state and asks the user
+     to retry; it never pretends a failed signup succeeded.
      window.MYSTICDO_EMAIL_ENDPOINT can override the path if ever needed. */
   function submitToEmailEndpoint(payload) {
     if (typeof fetch !== 'function') return Promise.resolve(false);
@@ -661,7 +662,7 @@
       + '<input type="email" class="input" name="email" placeholder="you@example.com" required autocomplete="email" style="flex:1;min-width:200px">'
       + '<button type="submit" class="btn btn-primary">Join MysticDo</button>'
       + '</form>'
-      + '<p class="form-note mt-2">Free. Unsubscribe anytime. We never sell your data. Email delivery is in final setup — today this notes your email on this device.</p>';
+      + '<p class="form-note mt-2">Free. Unsubscribe anytime. We never sell your data.</p>';
   }
   function bindEmailForms() {
     document.querySelectorAll('.email-form').forEach(function (form) {
@@ -678,14 +679,22 @@
           localStorage.setItem('mysticdo_signups', JSON.stringify(list));
         } catch (err) {}
         submitToEmailEndpoint({ email: email, source: 'email-form' }).then(function (sent) {
+          if (!sent) {
+            /* Honest failure state: keep the form so the user can retry. */
+            form.innerHTML =
+              '<div class="flex items-center gap-3" style="color:var(--gold-600)">'
+              + '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>'
+              + '<strong style="font-size:1.15rem;letter-spacing:-0.01em">That didn\u2019t go through.</strong>'
+              + '</div>'
+              + '<p class="form-note" style="margin-top:0.6rem">Your signup didn\u2019t reach us \u2014 nothing was sent. Please try again in a moment, or use our <a href="/contact" style="color:var(--gold-600)">contact form</a> and we\u2019ll add you manually.</p>';
+            return;
+          }
           form.innerHTML =
             '<div class="flex items-center gap-3" style="color:var(--accent-link)">'
             + '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
-            + '<strong style="font-size:1.15rem;letter-spacing:-0.01em">' + (sent ? 'You\u2019re subscribed.' : 'Noted on this device.') + '</strong>'
+            + '<strong style="font-size:1.15rem;letter-spacing:-0.01em">You\u2019re subscribed.</strong>'
             + '</div>'
-            + '<p class="form-note" style="margin-top:0.6rem">' + (sent
-              ? 'Check your inbox for a welcome note.'
-              : 'One honest note: our email delivery is still in setup, so nothing was sent to your inbox. When it goes live, this form becomes a real signup.') + '</p>';
+            + '<p class="form-note" style="margin-top:0.6rem">Check your inbox for a welcome note.</p>';
         });
       });
     });
