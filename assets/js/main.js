@@ -230,7 +230,6 @@
     + '          <span class="badge badge-ghost">Numerology</span>'
     + '          <span class="badge badge-ghost">Manifestation</span>'
     + '        </div>'
-    + '        <p class="footer-tag mt-4">Reach us: <a href="mailto:contact@mysticdo.com" style="color:var(--accent-link)">contact@mysticdo.com</a></p>'
     + '      </div>'
     + '      <div class="footer-col"><h4>Practices</h4><ul>'
     + '        <li><a href="/astrology/">Astrology</a></li>'
