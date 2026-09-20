@@ -130,14 +130,13 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
                         不确定问题时落到 general；不许全部导向付费
   customResult: function (ctx) {
     window.mysticdoPatternResult(ctx, '<slug>', {
-      emailTitle: '…', emailText: '…',
       negativePatternTip: { pattern: '<负面pattern>', text: '<诚实提醒>' }  // 可选
     });
   }
 }
 ```
 
-**渲染器已共享**：`window.mysticdoPatternResult(ctx, slug, opts)` 在 quizzes.js 文件头部，自动渲染三固定块（suggest / don't-tell / watch-next）+ underneath + practice 匹配（含 choose 行）+ negativePatternTip + 邮件捕获 + fineprint 诚实小字（可用 `opts.fineprint` 覆盖）+ PostHog 事件。**新 Quiz 的 customResult 永远只有上面那几行，禁止复制整段渲染代码。**
+**渲染器已共享**：`window.mysticdoPatternResult(ctx, slug, opts)` 在 quizzes.js 文件头部，自动渲染三固定块（suggest / don't-tell / watch-next）+ underneath + practice 匹配（含 choose 行）+ negativePatternTip + fineprint 诚实小字（可用 `opts.fineprint` 覆盖）+ PostHog 事件。**结果尾部无邮箱收集（2026-09-20 用户决策：邮箱块截断"结果 → 实践推荐"的 aff 转化动线，勿加回）**。**新 Quiz 的 customResult 永远只有上面那几行，禁止复制整段渲染代码。**
 
 **接缝纪律（最高危操作）**：追加新对象时，`old_string` 必须从**上一个 quiz 的最后一个完整条目 + 其全部闭合括号**开始匹配。改完立即 `node --check assets/js/quizzes.js`，再重读接缝处 20 行确认。图标：引擎用 `o.score` 当 icon key；新 score 值需在 `main.js` ICONS 补 Lucide 风格图标（stroke 1.8、round caps），否则落默认 sparkle（可接受）。
 

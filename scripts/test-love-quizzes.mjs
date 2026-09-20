@@ -231,7 +231,10 @@ for (const slug of SLUGS) {
           && html.includes('Your best-fit next step')
           && html.includes('btn-gold')
           && html.includes('data-offer-key')
-          && html.includes('Not ready for a reading?'),
+          && html.includes('quiz-result-fineprint')
+          && html.includes('data-love-retake')
+          && !html.includes('love-email-kicker')
+          && !html.includes('email-form'),
           `v2 render has all layers for want=${w}/help=${h}/align=${al}`);
       } else {
         _ok(html.includes('love-result') && html.includes('What your answers suggest') && html.includes('What they don') && html.includes('What to look at next'), `render has 3 blocks for want=${w}/help=${h}/align=${al}`);

@@ -814,14 +814,10 @@
         + '<p class="text-muted mb-5">Before you pay, read the matching decision guide.</p>'
         + beforeBtn
         + '</div>'
-        + '<div class="email-capture mt-7" style="text-align:left">'
-        + '<h3 style="margin-bottom:0.45rem;font-size:1.6rem">Get a personalized path by email</h3>'
-        + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.95rem;max-width:42ch">One weekly note tuned to your situation. No spam, unsubscribe anytime.</p>'
-        + emailFormHTML()
-        + '</div>'
+        /* Email capture removed from the result tail (2026-09-20 user
+           decision): it interrupted the path from result to the guide /
+           practice links — the conversion the site runs on. */
         + '</div>';
-
-      bindEmailForms();
       if (modalMode) {
         if (modalBody) modalBody.scrollTop = 0;
       } else {

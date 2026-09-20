@@ -33,7 +33,7 @@ QUIZ → 被理解的结果 → 个性化解读 → 未解决信息缺口 → �
 | 5 | What to look at next | **免费行动价值**：未来几周可观察的具体事项 | `results[k].watch(a)` |
 | 6 | Underneath current（条件层） | **深层命名**：把表面问题之下的真问题说出来（closure/cycle/decision/reassurance/meaning） | `underneath(a, pattern)` |
 | 7 | Your best-fit next step | **决策层**：唯一最佳实践匹配 + 为什么匹配你的处境 + 个性化金按钮 CTA + 诚实替代项 + 选购指南 + before-you-pay 提醒 | `matchPractice()` × `practice` × `opts.ctaText` |
-| 8 | Email capture | **未购买者的承接**："Not ready for a reading?" 框架，捕获当下不转化的人 | `opts.emailTitle/emailText` |
+| 8 | ~~Email capture~~ | **已移除**（2026-09-20 用户决策：邮箱收集截断"结果 → 实践推荐"的转化动线，影响 aff 转化）。尾部现为 divider → fineprint → retake 直连 | — |
 | 9 | Fineprint + retake | 诚实声明（渲染器内置，不可删）+ 重做入口 | 渲染器 |
 
 设计约束：

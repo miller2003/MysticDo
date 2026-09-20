@@ -186,12 +186,13 @@ window.mysticdoPartnerOffersHTML = function () {
 /* ---- Shared pattern-result renderer (engine hook implementation) ----
    Renders the three fixed blocks (suggest / don't-tell / watch-next),
    an optional underneath current, the practice match (primary +
-   secondary + optional choose-guide link + before-you-pay note), an
-   optional negative-pattern honesty tip, and the email capture.
+   secondary + optional choose-guide link + before-you-pay note), and
+   an optional negative-pattern honesty tip. No email capture — removed
+   from the result tail (2026-09-20 user decision: it interrupted the
+   result → practice conversion path).
    Usage in a quiz object:
      customResult: function (ctx) {
        window.mysticdoPatternResult(ctx, '<quiz-slug>', {
-         emailTitle: '…', emailText: '…',
          negativePatternTip: { pattern: 'uneven', text: '…' }   // optional
        });
      }
@@ -380,22 +381,17 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
   }
   html += '</div>';
 
-  /* Divider + email capture. v2 frames it as the honest "not ready"
-     path — it catches the people the CTA doesn't fit, today. */
+  /* Divider + fineprint close. The email capture that used to sit here
+     was removed (2026-09-20 user decision): it interrupted the path
+     from result to the practice recommendations — the conversion the
+     site runs on. */
   html += '<div class="divider-mystic mt-6">' + star() + '</div>'
-    + '<div class="text-center mt-4">'
-    + (v2 ? '<p class="love-email-kicker">Not ready for a reading?</p>' : '')
-    + '<h3 style="margin-bottom:0.45rem;font-size:1.5rem">' + esc(opts.emailTitle || 'Get guidance tuned to this question by email') + '</h3>'
-    + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.92rem;max-width:46ch;margin-inline:auto">' + esc(opts.emailText || 'One weekly note — a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.') + '</p>'
-    + ctx.emailFormHTML()
-    + '</div>'
     + '<p class="quiz-result-fineprint">' + esc(opts.fineprint || 'This pattern is an interpretation of observable behavior \u2014 a perspective to weigh, not a verdict on what anyone privately feels.') + '</p>'
     + '<p class="text-center" style="margin-top:var(--s6)"><button type="button" class="btn btn-ghost btn-sm" data-love-retake>Start over</button></p>';
 
   html += '</div>';
 
   ctx.body.innerHTML = html;
-  ctx.bindEmailForms();
 
   var retakeBtn = ctx.body.querySelector('[data-love-retake]');
   if (retakeBtn) retakeBtn.addEventListener('click', function () { ctx.restart(); });
@@ -1637,8 +1633,6 @@ window.MYSTICDO_QUIZZES = {
           '*:tarot_deep': 'Get a deeper read on the connection',
           '*:closure': 'Get a reading focused on closure'
         },
-        emailTitle: 'Get relationship-tuned guidance by email',
-        emailText: 'One weekly note for people navigating exactly this \u2014 a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.',
         negativePatternTip: {
           pattern: 'uneven',
           text: 'when effort is this one-sided, a reading about his feelings can quietly become a more expensive way of holding the connection together. If you book one, frame it on your situation \u2014 not on him.'
@@ -1850,8 +1844,6 @@ window.MYSTICDO_QUIZZES = {
     matchPractice: window.loveMatchPractice,
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'does-he-think-about-me', {
-        emailTitle: 'Get presence-pattern guidance by email',
-        emailText: 'One weekly note for people navigating exactly this \u2014 a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.',
         negativePatternTip: {
           pattern: 'one-sided',
           text: 'when the reaching is this one-sided, a reading about what he\u2019s thinking can quietly become a more expensive way of holding the connection together. If you book one, frame it on the dynamic between you \u2014 not on his mind.'
@@ -2062,8 +2054,6 @@ window.MYSTICDO_QUIZZES = {
     matchPractice: window.loveMatchPractice,
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'does-my-crush-like-me-back', {
-        emailTitle: 'Get early-stage guidance by email',
-        emailText: 'One weekly note for people navigating exactly this \u2014 a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.',
         negativePatternTip: {
           pattern: 'unclear-direction',
           text: 'when signals are this conflicting, a reading about whether he likes you can quietly become a more expensive way of staying in the uncertainty. If you book one, frame it on your own clarity \u2014 not on his feelings.'
@@ -2274,8 +2264,6 @@ window.MYSTICDO_QUIZZES = {
     matchPractice: window.loveMatchPractice,
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'is-he-the-one', {
-        emailTitle: 'Get foundation-pattern guidance by email',
-        emailText: 'One weekly note for people navigating exactly this \u2014 a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.',
         negativePatternTip: {
           pattern: 'identity-hesitation',
           text: 'when the hesitation runs this deep, a reading about whether he\u2019s \u201Cthe one\u201D can quietly become a way of outsourcing a decision that belongs to you. If you book one, frame it on your own clarity \u2014 not on a verdict about him.'
@@ -2487,8 +2475,6 @@ window.MYSTICDO_QUIZZES = {
     matchPractice: window.loveMatchPractice,
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'does-he-miss-me', {
-        emailTitle: 'Get absence-pattern guidance by email',
-        emailText: 'One weekly note for people navigating exactly this \u2014 a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.',
         negativePatternTip: {
           pattern: 'suppressed-avoidant',
           text: 'when the reaching has thinned this much, a reading about whether he misses you can quietly become a more expensive way of staying attached to someone who isn\u2019t reaching back. If you book one, frame it on your own situation \u2014 not on his feelings.'
@@ -2700,8 +2686,6 @@ window.MYSTICDO_QUIZZES = {
     matchPractice: window.loveMatchPractice,
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'is-he-serious-about-me', {
-        emailTitle: 'Get intention-pattern guidance by email',
-        emailText: 'One weekly note for people navigating exactly this \u2014 a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.',
         negativePatternTip: {
           pattern: 'avoidant-uncertainty',
           text: 'when the engagement thins this much under depth, a reading about whether he\u2019s \u201Cserious\u201D can quietly become a more expensive way of staying in a relationship that isn\u2019t building. If you book one, frame it on your own direction \u2014 not on his intention.'

@@ -214,7 +214,7 @@ A page is not done until every box is green.
 ## 11. Reusable assets (already built — don't rebuild)
 
 - **Engine:** `main.js` `initQuiz()` + `Q.customResult(ctx)` hook + `startQuiz()` (retake). All existing quizzes unaffected (no `customResult` → standard path).
-- **CSS:** `.love-result`, `.love-block`, `.love-underneath`, `.love-match`, `.love-match-title`, `.love-practice-name`, `.love-summary`, `.love-result-head`. Plus the shared `.result-path-badge`, `.result-primary-card`, `.result-secondary-card`, `.result-tip`, `.divider-mystic`, `.email-capture`, `.btn-outline-gold`, `.btn-ghost`.
+- **CSS:** `.love-result`, `.love-block`, `.love-underneath`, `.love-match`, `.love-match-title`, `.love-practice-name`, `.love-summary`, `.love-result-head`. Plus the shared `.result-path-badge`, `.result-primary-card`, `.result-secondary-card`, `.result-tip`, `.divider-mystic`, `.btn-outline-gold`, `.btn-ghost`.（结果尾部邮箱收集已移除——2026-09-20 用户决策，`.email-capture` 仅剩 hub 页静态订阅块使用）
 - **Icon library:** ~50 Lucide-style icons in `main.js` ICONS for love-quiz semantics (status, trigger, communication, effort, space, alignment, want, help). Many are reusable across the love cluster; a new cluster needs new icons only for new score-values.
 - **Test harness:** `scripts/test-love-quiz.mjs` — exhaustive combo walker + render sweep. To use for a new quiz, change the slug string and the expected counts.
 - **Render-check harness:** `_design-check/_probe_love_render.js` — headless Chrome `--dump-dom` + assertions. Change the URL constant per page.
