@@ -1,0 +1,12 @@
+﻿
+node.exe : 91897 bytes written to file C:\Users\samja\Desktop\site\mysticdo\_de
+sign-check\shots\v2-390-uneven-boundary-psychic.png
+所在位置 行:445 字符: 266
++ ... e-me.html"; & $node "$root\_design-check\modal.cjs" $page 390 844 her ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (91897 bytes wri...ary-psychic.png 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+v2-390-uneven-boundary-psychic | /questions/love-relationships/does-he-love-me.html | modal-8 | C:\Users\samja\Desktop\site\mysticdo\_design-check\shots\v2-390-uneven-boundary-psychic.png
+shot1 exit=0

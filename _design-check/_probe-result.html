@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>result probe</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+  /* Probe-only shell: mimic the modal card's reading column so the
+     result renders at the same width it has in production. */
+  body { background: var(--bg-page, #FCFAF5); }
+  .probe-shell { max-width: 640px; margin: 0 auto; padding: 24px 18px 48px; }
+  #probe-h { position: fixed; left: 0; bottom: 0; font: 11px monospace; background: #222; color: #fff; padding: 2px 8px; z-index: 9; }
+</style>
+</head>
+<body>
+<div class="probe-shell"><div id="quiz"></div></div>
+<pre id="probe-h">PENDING</pre>
+<script src="/assets/js/quizzes.js"></script>
+<script>
+(function () {
+  /* Full-result probe: renders a quiz's customResult INLINE (not in the
+     modal) so the whole nine-layer page can be reviewed in one tall shot.
+     quiz= slug · answers as qid=val pairs separated by ';'
+     e.g. ?quiz=does-he-love-me&a=status:dating;trigger:distant;... */
+  var qs = new URLSearchParams(location.search);
+  var slug = qs.get('quiz') || 'does-he-love-me';
+  var a = {};
+  (qs.get('a') || '').split(';').forEach(function (pair) {
+    var kv = pair.split(':');
+    if (kv[0]) a[kv[0]] = kv[1];
+  });
+  var QZ = window.MYSTICDO_QUIZZES[slug];
+  var out = document.getElementById('probe-h');
+  if (!QZ) { out.textContent = 'NO-QUIZ'; return; }
+  var host = document.getElementById('quiz');
+  try {
+    QZ.customResult({
+      answers: a,
+      body: host,
+      emailFormHTML: function () { return '<div style="border:1px dashed #999;padding:12px">[email form]</div>'; },
+      bindEmailForms: function () {},
+      restart: function () {}
+    });
+    out.textContent = 'RENDERED ' + slug + ' :: ' + (QZ.resolve(a)) + ' / ' + (QZ.matchAha ? QZ.matchAha(a, QZ.resolve(a)) : 'v1');
+  } catch (e) {
+    out.textContent = 'CRASH ' + e.message;
+  }
+})();
+</script>
+</body>
+</html>

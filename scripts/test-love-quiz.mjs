@@ -106,7 +106,7 @@ for (const w of wants) for (const h of helps) for (const al of align) {
   const a = { status:'talking', trigger:'distant', communication:'reactive', effort:'me', space:'returns', alignment:al, want:w, help:h };
   try {
     const html = renderOnce(a);
-    ok(html.includes('love-result') && html.includes('What your answers suggest') && html.includes('What they don') && html.includes('What to look at next'), `render has 3 fixed blocks for want=${w}/help=${h}/align=${al}`);
+    ok(html.includes('love-result') && html.includes('What your answers suggest') && html.includes('love-aha') && html.includes('The honest edge of this pattern') && html.includes('What to look at next') && html.includes('Your best-fit next step') && html.includes('btn-gold'), `render has v2 blocks for want=${w}/help=${h}/align=${al}`);
   } catch (e) {
     renderCrashes++; failures++;
     console.error('  RENDER CRASH for', { w, h, al }, '\n', e.stack);

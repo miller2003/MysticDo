@@ -22,6 +22,7 @@
   var VH     = parseInt(qs.get('vh') || '844', 10);
   var open   = qs.get('open') || 'hero';
   var clicks = parseInt(qs.get('clicks') || '0', 10);
+  var opts   = (qs.get('opts') || '').split(',').map(function (s) { return s === '' ? NaN : parseInt(s, 10); });
   var delay  = parseInt(qs.get('delay') || '700', 10);
   var settle = qs.get('settle') === '1';   // freeze transitions for a settled shot
   var f = document.getElementById('f'), out = document.getElementById('probe-h');
@@ -52,7 +53,9 @@
       var i = 0;
       function step() {
         if (i >= clicks) { setTimeout(function () { report('modal-' + clicks); }, 600); return; }
-        var opt = d.querySelector('.quiz-modal-overlay .quiz-step.active .quiz-option');
+        var optList = d.querySelectorAll('.quiz-modal-overlay .quiz-step.active .quiz-option');
+        var pick = isNaN(opts[i]) ? 0 : opts[i];
+        var opt = optList[Math.max(0, Math.min(pick, optList.length - 1))];
         if (opt) opt.click();
         i++;
         setTimeout(step, delay);

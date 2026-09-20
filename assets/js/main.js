@@ -299,9 +299,23 @@
     var de = document.documentElement;
     if (lock) {
       lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      /* PC fix: overflow:hidden removes the classic scrollbar and the
+         whole page reflows ~17px wider — the visible jump when the quiz
+         opens/closes on desktop. Equal padding on body and the sticky
+         header holds the layout still while locked. Overlay-scrollbar
+         platforms (macOS, mobile) measure 0 and skip this entirely. */
+      var sbw = window.innerWidth - de.clientWidth;
+      if (sbw > 0) {
+        document.body.style.paddingRight = sbw + 'px';
+        var hd = document.querySelector('.site-header');
+        if (hd) hd.style.paddingRight = sbw + 'px';
+      }
       de.classList.add('nav-open');
       document.body.classList.add('nav-open');
     } else {
+      document.body.style.paddingRight = '';
+      var hd = document.querySelector('.site-header');
+      if (hd) hd.style.paddingRight = '';
       if (!de.classList.contains('nav-open')) return;
       de.classList.remove('nav-open');
       document.body.classList.remove('nav-open');
@@ -336,6 +350,24 @@
         toggle.setAttribute('aria-expanded', String(open));
         if (window.matchMedia('(max-width: 760px)').matches) setPageScrollLock(open);
       });
+      /* Escape closes the drawer; and leaving the mobile breakpoint
+         (window resize / device-emulation toggle) must release the page
+         scroll lock — an orphaned html.nav-open freezes scrolling with
+         no visible way back, which reads as the whole site hanging. */
+      var closeDrawer = function () {
+        if (!toggle.classList.contains('open')) return;
+        toggle.classList.remove('open');
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        setPageScrollLock(false);
+      };
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeDrawer();
+      });
+      var mqMobile = window.matchMedia('(max-width: 760px)');
+      var onMqChange = function (e) { if (!e.matches) closeDrawer(); };
+      if (mqMobile.addEventListener) mqMobile.addEventListener('change', onMqChange);
+      else if (mqMobile.addListener) mqMobile.addListener(onMqChange);
       nav.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', function () {
           if (toggle.classList.contains('open')) {
@@ -568,7 +600,8 @@
                   : phase === 'running' ? 'Resume the check'
                   : 'Begin the check';
       card.innerHTML =
-        '<div class="quiz-launch-icon">' + glyphStar() + '</div>'
+        '<span class="quiz-launch-flag">Free &middot; 2 minutes</span>'
+        + '<div class="quiz-launch-icon">' + glyphStar() + '</div>'
         + '<h3 class="quiz-launch-title">' + escapeHTML(Q.title || 'Read the pattern') + '</h3>'
         + '<p class="quiz-launch-sub">'
         +   escapeHTML(Q.launchSub || 'Eight questions, about two minutes \u2014 a personalized read of what the pattern suggests, what it doesn\u2019t, and what to watch next.')
@@ -578,7 +611,7 @@
         +   '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.4-7 10-4-1.6-7-5.6-7-10V6l7-3z"/></svg>Private \u2014 stays in your browser</span>'
         +   '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Free, no signup</span>'
         + '</div>'
-        + '<button type="button" class="btn btn-primary btn-lg" data-quiz-begin>' + btnText + ' &rarr;</button>'
+        + '<button type="button" class="btn btn-gold btn-lg" data-quiz-begin>' + btnText + ' &rarr;</button>'
         + (phase === 'done'
             ? '<p class="quiz-launch-resume">Want a clean read? <button type="button" data-quiz-retake>Start over</button></p>'
             : '');
@@ -846,6 +879,24 @@
     }
 
     if (modalMode) {
+      /* High-intent page: the global nav CTAs become this page's own
+         check — one gold action with the same meaning as the hero and
+         launcher buttons. Runs before the [data-quiz-open] binding
+         below so the swapped buttons get wired to the overlay too. */
+      var navCta = document.querySelector('.nav-cta-header');
+      if (navCta) {
+        navCta.className = 'btn btn-gold btn-sm nav-cta-header';
+        navCta.setAttribute('href', '#pattern-check');
+        navCta.setAttribute('data-quiz-open', '');
+        navCta.textContent = 'Begin the check';
+      }
+      var drawerCta = document.querySelector('.nav-cta-mobile .btn');
+      if (drawerCta) {
+        drawerCta.className = 'btn btn-gold btn-block';
+        drawerCta.setAttribute('href', '#pattern-check');
+        drawerCta.setAttribute('data-quiz-open', '');
+        drawerCta.textContent = 'Begin the check';
+      }
       /* The invitation card replaces the inline quiz; hero CTAs marked
          data-quiz-open jump straight into the overlay. The href anchor
          keeps working as a no-JS fallback. */
@@ -856,6 +907,12 @@
           openModal();
         });
       });
+      /* Pre-build the overlay while the browser is idle so the first
+         open doesn't pay DOM construction + first-blur-init cost in the
+         same frame (visible as a hitch on slower desktop GPUs). */
+      var warm = window.requestIdleCallback
+        || function (f) { setTimeout(f, 1500); };
+      warm(function () { if (!overlay) modalSkeleton(); });
     } else {
       startQuiz();
     }

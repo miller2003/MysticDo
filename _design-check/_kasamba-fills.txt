@@ -1,0 +1,5 @@
+﻿KASAMBA unique fills:
+fill="#788EFF"
+fill="#8CD056"
+
+stops:

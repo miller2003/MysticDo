@@ -1,0 +1,5 @@
+﻿kasamba-wordmark.svg len=10046
+kasamba-combo.svg len=10252
+purplegarden-icon.svg len=5712
+purplegarden-wordmark.svg len=10046
+purplegarden-combo.svg len=10252

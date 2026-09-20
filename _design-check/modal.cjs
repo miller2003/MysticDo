@@ -19,8 +19,9 @@ const VH     = args[2] || '844';
 const open   = args[3] || 'hero';
 const clicks = args[4] || '0';
 const tag    = args[5] || ('modal-' + W + '-' + open + '-c' + clicks);
+const opts   = args[6] || '';
 
-const url = `${BASE}?p=${encodeURIComponent(page)}&w=${W}&vh=${VH}&open=${open}&clicks=${clicks}&settle=1`;
+const url = `${BASE}?p=${encodeURIComponent(page)}&w=${W}&vh=${VH}&open=${open}&clicks=${clicks}&settle=1${opts ? '&opts=' + opts : ''}`;
 const budget = String(9000 + Number(clicks) * 900);
 
 function chrome(extra) {

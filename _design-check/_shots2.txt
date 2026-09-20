@@ -1,0 +1,14 @@
+﻿node.exe : [17900:10748:0920/160625.439:ERROR:chrome\browser\web_applications\e
+xternally_managed_app_manager.cc:680] https://www.youtube.com/s/notifications/m
+anifest/cr_install.html from install source 1 failed to install with reason 21
+所在位置 行:445 字符: 190
++ ... e-me.html"; & $node "$root\_design-check\modal.cjs" $page 390 844 her ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([17900:10748:09... with reason 21 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+99163 bytes written to file C:\Users\samja\Desktop\site\mysticdo\_design-check\
+shots\v2-390-exes-suddenloss-closure.png
+v2-390-exes-suddenloss-closure | /questions/love-relationships/does-he-love-me.html | modal-8 | C:\Users\samja\Desktop\site\mysticdo\_design-check\shots\v2-390-exes-suddenloss-closure.png
+exit=0

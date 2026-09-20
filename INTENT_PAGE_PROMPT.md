@@ -45,12 +45,13 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 
 ---
 
-## 4. 页面结构（14 节，顺序固定；每节目的固定；文案全新）
+## 4. 页面结构（15 节，顺序固定；每节目的固定；文案全新）
 
 > 固定的是"结构与功能"，自由的是"措辞与例子"。禁止整句搬运母版——同一句话出现在两页上，两页的原创性都受损。
+> **测验布局（2026-09-20 二次调整定稿）：前屏合成带 + 三点 CTA**。Hero 之下是一个双栏前屏（左 = 编辑式 Direct answer，右 = quiz 工具卡，960px 以下堆叠且 answer 在前）；说明文案留在正文原位（GEO 引用资产，不随组件移动），文章中后部用 `.quiz-inline-cta` 纯按钮补两个转化点（2026-09-20 用户指令"只要按钮即可"：无卡片外壳/note/带内 eyebrow）。**两个独立 CTA 节用 `.cta-band`（2026-09-20 晚：紧排节，`padding: var(--s2) 0 var(--s5)`、移动端 `var(--s1) 0 var(--s4)`——用户指令"CTA 与上方文字间距大幅缩短"，禁改回 `section-sm` 的 48px 大留白）；说明区内 CTA 用 `mt-3` 紧贴说明卡（原 mt-5 已废）。以上约定由 `scripts/test-intent-conventions.mjs`（已入 `npm test` 链，`npm run test:intent` 可单独跑）机械拦截：新文章写错自动 FAIL，无需人工复查。**
 
-1. **Hero**：breadcrumbs（Home / Questions / \<cluster\> / 本页）+ eyebrow（`<cluster> · Decision guide`）+ H1 + lead（2–3 句，承认读者处境 + 预告本页方法）+ `Updated: <Month Year> · Reading time: ~N min · No signup` + 双 CTA（primary → `#pattern-check`，secondary → `#which-practice`）
-2. **Direct answer band**（`section-sm`+`bg-elevated`）：80–100 词，自成一体的诚实回答——**必须同时说出"能判断什么"和"什么无法判断"**。这是全页最重要的 citation atom。
+1. **Hero**：breadcrumbs（Home / Questions / \<cluster\> / 本页）+ eyebrow（`<cluster> · Decision guide`）+ H1 + lead（2–3 句，承认读者处境 + 预告本页方法）+ `Updated: <Month Year> · Reading time: ~N min · No signup` + **单 CTA**（`btn-gold` → `#pattern-check`；**不设副按钮**——任何副 CTA 都会分走主转化注意力，2026-09-20 起 "See which practice fits" 已移除，`#which-practice` 靠正文到达）。头部与抽屉的导航 CTA 由引擎在意图页自动换成金色的 "Begin the check"（打开弹层；无 JS 时锚点滚到启动卡）——其余页面保持 "Do What Fits"。
+2. **Front panel——答案×工具合成带**（`<section class="front-panel" id="pattern-check">` + `.container.front-panel-grid`，紧跟 Hero；取代早期"Direct answer 白条 + 居中启动卡"两个孤岛）：双栏 PC 左 `1.25fr`/右 `1fr`、`align-items:center`，≤960px 单栏堆叠且 answer 在前（answer-first 不变）。**左栏 `.front-panel-answer`**：`h2.front-panel-kicker`（文字仍为 "Direct answer"——citation 友好的字面标题，金色 kicker 样式）+ 80–100 词编辑式段落（纯排版无框；**必须同时说出"能判断什么"和"什么无法判断"**；位置指代一律用 "on this page"，禁 below/beside）。这是全页最重要的 citation atom。**右栏 `.front-panel-tool`**：`<div id="quiz" data-quiz="<slug>" data-quiz-modal>`（noscript 兜底，措辞 "The full framework below…"）+ 卡下 `.front-panel-fineprint` 隐私一句。引擎渲染邀请启动卡（Begin / Resume / See your pattern 三态）；quiz 对象需提供 `launchSub`（见 §7）。
 3. **Key takeaways**：5 条，每条一个可独立引用的判断句。
 4. **问题拆解模块**：H2 指出"这个问题不是一个问题"，两列表（你可能在问 → 你实际想确定什么），5–6 行 + 一段为什么这个区分改变一切。
 5. **"为什么通用内容失效"**：点名现有 listicle/套路内容的 3–4 个结构性缺陷（非嘲讽，是分析），引出"需要的不是更多迹象，而是框架"。
@@ -58,11 +59,12 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 7. **At-a-glance 表**（`cmp-scroll`+`cmp-table`，**4 列**：You're seeing / What it may indicate / **Other explanations to consider** / What it cannot prove）：5–6 行。全页最强 GEO 资产，先设计它。
 8. **证据层**：H2 `What <domain> research can — and can't — tell you`。≤3 条已核实发现（每条：发现 + 一句"这也不能证明"）+ 一段"研究描述的是人群与相关，不是你的处境" + Sources 块（完整引用，样式照母版）。
 9. **N 信号框架**：4–5 个编号 h3。每个：是什么 → suggests 什么 → doesn't prove 什么。收尾一般**不加**对冲框；若该页需要问题重构框（如 is-he-the-one 的 "partly the wrong question"），框必须以指向 quiz 的正向句收束——禁止以"不是科学测试/不能替代对话"类免责收尾（见 §5 诚实放置规则）。
-10. **Quiz 区**（`#pattern-check`，2026-09-20 起为沉浸式弹层）：eyebrow + h2 + **邀请式副标题**（一句话，禁止 "No score, no verdict, no signup" 这类对冲串）+ **静态说明卡**（`key-takeaways` 样式："What this pattern check looks at"——context / 四个信号 / 意图，尾句正向："…and end with the read plus the next step that fits yours"）+ `<div class="mt-5" id="quiz" data-quiz="<slug>" data-quiz-modal>` + noscript 兜底 + 隐私一句（只写 "Your answers stay in your browser — nothing is stored, sent, or tied to you."）。**Hero 主 CTA 必须加 `data-quiz-open`**（JS 存在时直接打开弹层，无 JS 时仍是锚点）；引擎会渲染邀请启动卡（Begin / Resume / See your pattern 三态），quiz 对象需提供 `launchSub`（见 §7）。
-11. **Spiritual bridge**：quiz 后紧接的短节（2 段）：观察有极限 → 想再要一个视角是正当的 → psychic/tarot/astrology 各自回答这个问题的哪一面。不推销，只分工。
+10. **Quiz 说明区 + CTA**（`section-parchment`，**无 id**——id 已由第 2 节接管）：eyebrow（"Apply it to your situation"）+ h2（与启动卡 title 同向，**用户自身导向** sentence case，如 "What are you really asking?"——2026-09-20 方向纠正，him/处境导向同步废除）+ **邀请式副标题**（一句话，禁止 "No score, no verdict, no signup" 这类对冲串）+ **静态说明卡**（`key-takeaways` 样式："What this pattern check looks at"——context / 信号 / 意图，尾句正向："…and end with the read plus the next step that fits yours"）+ `.quiz-inline-cta mt-3`（**一枚纯按钮** `href="#pattern-check" data-quiz-open`——2026-09-20 起去掉卡片外壳与 note，组件只剩居中按钮；mt-3 紧贴说明卡，2026-09-20 晚用户指令"间距大幅缩短"，禁 mt-5）。**本节全部静态文案保留在正文中——这是 GEO 引用资产；Hero 主 CTA 必须加 `data-quiz-open`。**
+11. **Spiritual bridge**：说明区后紧接的短节（2 段）：观察有极限 → 想再要一个视角是正当的 → psychic/tarot/astrology 各自回答这个问题的哪一面。不推销，只分工。
 12. **"你真正想知道的可能是什么"**：underneath 暗流的静态版，3–5 个编号 h3（每个：这个暗流是什么 + What fits），收尾 `result-tip` 说明"命名真实问题，就完成了一半工作"。
-13. **Which practice fits**（`#which-practice`）：`cmp-table`（你的真实问题 / 有用的起点 / 它能诚实提供什么）+ **"How to use a reading well" 框**（保护性正向表述：值得付钱的 reading 怎么用 + 指向下面的 red flags；禁止再叫 "What no reading can do"）+ red flags 一段 + Do What Fits 链接。
-14. **收尾四件套**：Before you book（4 张卡 + "何时该等"框——这套卡片文案与具体问题的耦合度低，可高度复用母版结构）→ FAQ（6–8 个 `<details class="faq-item">`，见 §6 格式纪律；其中 1–2 条直接呼应问题拆解模块，1 条覆盖最大长尾变体）→ Methodology（5 条编辑原则 + 研究证据使用原则一条 + not-therapy 免责）→ Related cards（`grid-3`，**只链已存在的页面**）。
+13. **Mid CTA band**（`.cta-band` 紧排独立节，紧贴 `#which-practice` 之前——2026-09-20 晚由 `section-sm` 改 tight 版）：`.quiz-inline-cta`（单按钮 "Run the pattern check →" `data-quiz-open`；无 eyebrow/note/外壳）。
+14. **Which practice fits**（`#which-practice`）：`cmp-table`（你的真实问题 / 有用的起点 / 它能诚实提供什么）+ **"How to use a reading well" 框**（保护性正向表述：值得付钱的 reading 怎么用 + 指向下面的 red flags；禁止再叫 "What no reading can do"）+ red flags 一段 + Do What Fits 链接。
+15. **收尾五件套**：Before you book（4 张卡 + "何时该等"框）→ **End CTA band**（`.cta-band` 紧排独立节，紧贴 FAQ 之前：`.quiz-inline-cta` 单按钮 `data-quiz-open`，无 eyebrow/note/外壳）→ FAQ（6–8 个 `<details class="faq-item">`，见 §6 格式纪律；其中 1–2 条直接呼应问题拆解模块，1 条覆盖最大长尾变体）→ Methodology（5 条编辑原则 + 研究证据使用原则一条 + not-therapy 免责）→ Related cards（`grid-3`，**只链已存在的页面**）。
 
 ---
 
@@ -98,10 +100,17 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 
 **对象契约**（追加进 `assets/js/quizzes.js` 的 `window.MYSTICDO_QUIZZES`，key = slug）：
 
-```
+```js
 '<slug>': {
   id, title, subtitle,
-  launchSub,          // 弹层启动卡副标题（邀请式一句话；subtitle 保留不动）
+  // title = 启动卡大标题：**用户自身导向**（2026-09-20 方向纠正）——quiz 的角色
+  // 是挖掘提问者自身的心理根源、理顺她真正的需求、再匹配合适的玄学服务，
+  // 不是替她读他。问题指向提问者自己（如 "What Are You Really Asking?"、
+  // "Why Is This on Your Mind?"、"What Would Make You Feel Sure?"）。
+  // 双重禁止："Read His/Its X Pattern" 模板腔 + "…With Him?" 式 him/处境导向。
+  launchSub,          // 弹层启动卡副标题（邀请式一句话；subtitle 保留不动）。
+                      // 六个 love quiz 均已显式给出，勿依赖 main.js 回退
+                      // （回退文案仍是"读 pattern"旧框架）。
   questions: [ { id, q, hint, options:[{text, detail, score}] } ×8 ],
   resolve(a)          → 返回 ≤5 个 pattern key 之一；≥2 个 null 且 |sum|<3 →
                         not-enough-evidence；写明 edge override（如单向努力→uneven）

@@ -1,0 +1,35 @@
+﻿
+=== test-worker-agent-routes.mjs ===
+
+==================================================================
+  129 passed, 0 failed, 129 total
+==================================================================
+exit=0
+=== test-email-api.mjs ===
+
+==================================================================
+  40 passed, 0 failed, 40 total
+==================================================================
+exit=0
+=== test-webmcp.mjs ===
+
+============================================================
+  15 passed, 0 failed, 15 total
+============================================================
+exit=0
+=== test-love-quiz.mjs ===
+--- sample render (first 600 chars) ---
+<div class="quiz-result love-result"><div class="love-result-head"><div class="result-path-badge"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg> Your pattern</div><h2>Uneven investment</h2><p class="love-summary">The connection runs on your effort.</p></div><div class="love-block"><h3>What your answers suggest</h3><p>Much of the visible effort in this connection appears to come from your side. You鈥檙e the one holding the thread. That doesn鈥檛 reveal how he feels. What it does reveal is some
+
+288 FAILURE(S)
+exit=1
+node.exe : 鏈壘鍒?C:\Users\samja\Desktop\site\mysticdo\C:\Users\samja\Desktop\sit
+e\mysticdo 鈥斺€?璇风敤 --dist=. 鎸囧悜绔欑偣鏍圭洰褰?
+所在位置 行:445 字符: 530
++ ... ing utf8 }; & $node "$root\scripts\test-markdown-for-agents.mjs" --di ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (鏈壘鍒?C:\Users\s...t=. 鎸囧悜绔欑偣鏍圭洰褰? 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+markdown exit=2

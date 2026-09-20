@@ -1,0 +1,14 @@
+﻿node.exe : [14672:20928:0920/160625.471:ERROR:chrome\browser\web_applications\e
+xternally_managed_app_manager.cc:680] https://docs.google.com/document/installw
+ebapp?usp=chrome_default from install source 1 failed to install with reason 21
+所在位置 行:445 字符: 190
++ ... e-me.html"; & $node "$root\_design-check\modal.cjs" $page 1280 900 he ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([14672:20928:09... with reason 21 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+272927 bytes written to file C:\Users\samja\Desktop\site\mysticdo\_design-check
+\shots\v2-1280-uneven-boundary-psychic.png
+v2-1280-uneven-boundary-psychic | /questions/love-relationships/does-he-love-me.html | modal-8 | C:\Users\samja\Desktop\site\mysticdo\_design-check\shots\v2-1280-uneven-boundary-psychic.png
+exit=0

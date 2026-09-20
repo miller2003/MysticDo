@@ -1,0 +1,32 @@
+
+=== does-he-love-me ===
+  walked 1512 signal combos; 5 distinct patterns
+  walked 48 intent combos; 7 distinct practices
+  ALL GREEN
+
+=== does-he-think-about-me ===
+  walked 1512 signal combos; 5 distinct patterns
+  walked 48 intent combos; 7 distinct practices
+  ALL GREEN
+
+=== does-my-crush-like-me-back ===
+  walked 1512 signal combos; 5 distinct patterns
+  walked 48 intent combos; 7 distinct practices
+  ALL GREEN
+
+=== is-he-the-one ===
+  walked 1512 signal combos; 5 distinct patterns
+  walked 48 intent combos; 7 distinct practices
+  ALL GREEN
+
+=== does-he-miss-me ===
+  walked 1512 signal combos; 5 distinct patterns
+  walked 48 intent combos; 7 distinct practices
+  ALL GREEN
+
+=== is-he-serious-about-me ===
+  walked 1512 signal combos; 5 distinct patterns
+  walked 48 intent combos; 7 distinct practices
+  ALL GREEN
+
+ALL QUIZZES GREEN (11179 checks across 6 quizzes)

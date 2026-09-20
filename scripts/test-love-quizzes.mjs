@@ -77,6 +77,25 @@ const BENEATH = {
   ]
 };
 
+/* Result-engine v2 (QUIZ_RESULT_ENGINE.md §2): per-quiz aha-matching
+ * scenarios. Each: { name, a (answers), expect (aha key) } — one case
+ * per rule branch, so every branch is proven reachable. */
+const AHA_SCENARIOS = {
+  'does-he-love-me': [
+    { name: 'want=wait → choice_friction', a: { status:'together', trigger:'clarity', communication:'consistent', effort:'equal', space:'stays', alignment:'very', want:'wait', help:'guidance' }, expect: 'choice_friction' },
+    { name: 'exes + fresh ending → sudden_loss', a: { status:'exes', trigger:'distant', communication:'barely', effort:'me', space:'worse', alignment:'contradict', want:'still', help:'insight' }, expect: 'sudden_loss' },
+    { name: 'one-sided (uneven) → boundary_invasion', a: { status:'dating', trigger:'inconsistent', communication:'reactive', effort:'me', space:'returns', alignment:'sometimes', want:'going', help:'heading' }, expect: 'boundary_invasion' },
+    { name: 'complicated + mixed → toxic_loop', a: { status:'complicated', trigger:'inconsistent', communication:'hotcold', effort:'variable', space:'nothing', alignment:'sometimes', want:'feelings', help:'insight' }, expect: 'toxic_loop' },
+    { name: 'not-enough-evidence → illusion_fixation', a: { status:'talking', trigger:'clarity', communication:'frequent', effort:'hard', space:'notell', alignment:'dontknow', want:'feelings', help:'insight' }, expect: 'illusion_fixation' },
+    { name: 'unknown + steady → scarcity_panic', a: { status:'together', trigger:'unknown', communication:'consistent', effort:'equal', space:'stays', alignment:'very', want:'feelings', help:'insight' }, expect: 'scarcity_panic' },
+    { name: 'want=beneath + data present → illusion_fixation', a: { status:'dating', trigger:'changed', communication:'frequent', effort:'equal', space:'stays', alignment:'usually', want:'beneath', help:'deeper' }, expect: 'illusion_fixation' },
+    { name: 'default → scarcity_panic', a: { status:'dating', trigger:'distant', communication:'frequent', effort:'equal', space:'stays', alignment:'usually', want:'feelings', help:'insight' }, expect: 'scarcity_panic' }
+  ]
+};
+
+/* v2 quizzes render the new layers; v1 quizzes keep the classic blocks. */
+const V2_SLUGS = new Set(['does-he-love-me']);
+
 let totalFail = 0;
 let totalChecks = 0;
 
@@ -155,13 +174,68 @@ for (const slug of SLUGS) {
     _ok(got === sc.expect, `${sc.name} -> ${sc.expect} (got ${got})`);
   }
 
+  // Aha matching (v2): validity + determinism across the full walk,
+  // then one scenario per rule branch.
+  if (typeof QZ.matchAha === 'function') {
+    const AHA_KEYS = Object.keys(window.MYSTICDO_AHA || {});
+    _ok(AHA_KEYS.length === 8, `MYSTICDO_AHA has 8 patterns — got ${AHA_KEYS.length}`);
+    let ahaBad = 0;
+    for (const c of comms) for (const e of eff) for (const s of space) for (const al of align) {
+      for (const w of wants) {
+        const a = { ...base, communication: c, effort: e, space: s, alignment: al, want: w };
+        const k1 = QZ.matchAha(a, QZ.resolve(a));
+        const k2 = QZ.matchAha(a, QZ.resolve(a));
+        if (!AHA_KEYS.includes(k1) || k1 !== k2) {
+          ahaBad++;
+          if (ahaBad <= 3) _ok(false, `matchAha invalid/non-deterministic for ${c}/${e}/${s}/${al}/${w} -> ${k1}/${k2}`);
+        }
+      }
+    }
+    _ok(ahaBad === 0, `matchAha valid + deterministic across ${comboCount * wants.length} combos`);
+    for (const sc of (AHA_SCENARIOS[slug] || [])) {
+      const got = QZ.matchAha(sc.a, QZ.resolve(sc.a));
+      _ok(got === sc.expect, `${sc.name} -> ${sc.expect} (got ${got})`);
+    }
+  }
+
+  // v2 personalized CTA copy: want × practice resolves to the
+  // intent-matched text, not a generic "Book Now" (§3.2).
+  if (V2_SLUGS.has(slug)) {
+    const ctaCases = [
+      { a: { ...base, want: 'feelings', help: 'insight' }, text: 'Get personal insight into his feelings' },
+      { a: { ...base, want: 'why', help: 'insight' }, text: 'Get insight into what changed' },
+      { a: { ...base, want: 'wait', help: 'guidance' }, text: 'Get guidance on your next step' },
+      { a: { ...base, status: 'exes', want: 'still', help: 'insight' }, text: 'Get a reading focused on closure' },
+      { a: { ...base, want: 'going', help: 'heading' }, text: 'Get a reading on where this is heading' },
+      { a: { ...base, want: 'beneath', help: 'deeper' }, text: 'Get a deeper read on the connection' }
+    ];
+    for (const c of ctaCases) {
+      const html = renderOnce(QZ, c.a);
+      _ok(html.includes(c.text), `v2 CTA text for want=${c.a.want} -> "${c.text}"`);
+    }
+  }
+
   // Render crash sweep
   let renderCrashes = 0;
   for (const w of wants) for (const h of helps) for (const al of align) {
     const a = { status:'talking', trigger:'distant', communication:'reactive', effort:'me', space:'returns', alignment:al, want:w, help:h };
     try {
       const html = renderOnce(QZ, a);
-      _ok(html.includes('love-result') && html.includes('What your answers suggest') && html.includes('What they don') && html.includes('What to look at next'), `render has 3 blocks for want=${w}/help=${h}/align=${al}`);
+      if (V2_SLUGS.has(slug)) {
+        _ok(html.includes('love-result')
+          && html.includes('What your answers suggest')
+          && html.includes('love-aha')
+          && html.includes('The honest edge of this pattern')
+          && html.includes('What it can tell you')
+          && html.includes('What to look at next')
+          && html.includes('Your best-fit next step')
+          && html.includes('btn-gold')
+          && html.includes('data-offer-key')
+          && html.includes('Not ready for a reading?'),
+          `v2 render has all layers for want=${w}/help=${h}/align=${al}`);
+      } else {
+        _ok(html.includes('love-result') && html.includes('What your answers suggest') && html.includes('What they don') && html.includes('What to look at next'), `render has 3 blocks for want=${w}/help=${h}/align=${al}`);
+      }
     } catch (e) {
       renderCrashes++; _ok(false, `RENDER CRASH for ${w}/${h}/${al}: ${e.message}`);
     }
@@ -169,6 +243,21 @@ for (const slug of SLUGS) {
   _ok(renderCrashes === 0, 'customResult never throws across intent x alignment sweep');
 
   console.log(`  ${fails === 0 ? 'ALL GREEN' : fails + ' FAILURE(S)'}`);
+}
+
+/* ---- Aha library data integrity (QUIZ_RESULT_ENGINE.md §5) ---- */
+{
+  const AHA = window.MYSTICDO_AHA || {};
+  const keys = Object.keys(AHA);
+  ok(keys.length === 8, `aha library: exactly 8 patterns — got ${keys.length}`);
+  for (const k of keys) {
+    const p = AHA[k];
+    ok(p && typeof p.name === 'string' && typeof p.heading === 'string'
+      && typeof p.explanation === 'string' && p.explanation.length > 120
+      && p.practice && typeof p.practice.name === 'string'
+      && typeof p.practice.text === 'string' && typeof p.practice.mechanism === 'string',
+      `aha pattern "${k}" has name/heading/explanation/practice{name,text,mechanism}`);
+  }
 }
 
 console.log(`\n${totalFail === 0 ? 'ALL QUIZZES GREEN' : totalFail + ' TOTAL FAILURE(S)'} (${totalChecks} checks across ${SLUGS.length} quizzes)`);
