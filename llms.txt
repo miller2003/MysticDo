@@ -91,6 +91,7 @@ Content availability:
 
 - [Methodology](https://mysticdo.com/methodology): How the site sources, reviews, and discloses.
 - [About MysticDo](https://mysticdo.com/about): Positioning, scope, roadmap, and disclaimers.
+- [Privacy policy](https://mysticdo.com/privacy): What analytics and email data is collected, what stays in your browser, and your choices.
 
 ## For AI agents and machines
 

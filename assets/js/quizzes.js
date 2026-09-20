@@ -9,6 +9,15 @@
    high-intent quizzes delegate customResult to it in one line.
    ============================================================ */
 
+/* ---- GA4 mirror (snippet injected by scripts/inject_ga4.py) ----
+   Quiz events also go to Google Analytics when gtag.js is present.
+   Guarded: no-op when GA4 is not on the page. */
+function mdGaEvent(evt, props) {
+  try {
+    if (typeof window.gtag === 'function') window.gtag('event', evt, props || {});
+  } catch (err) {}
+}
+
 /* ---- Aha-moment library (v2 result engine, QUIZ_RESULT_ENGINE.md §2) ----
    Eight evolutionary-psychology explanations of why a question hooks the
    user. Matched deterministically per quiz via QZ.matchAha(answers,
@@ -399,14 +408,11 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
   var cta = ctx.body.querySelector('[data-love-cta]');
   if (cta) cta.addEventListener('click', function () {
     try {
+      var ctaProps = { quiz: slug, practice: practiceKey, cta_href: ctaHref, offer: !!offer };
       if (window.posthog && typeof window.posthog.capture === 'function') {
-        window.posthog.capture('quiz_cta_click', {
-          quiz: slug,
-          practice: practiceKey,
-          cta_href: ctaHref,
-          offer: !!offer
-        });
+        window.posthog.capture('quiz_cta_click', ctaProps);
       }
+      mdGaEvent('quiz_cta_click', ctaProps);
     } catch (err) {}
   });
 
@@ -416,31 +422,31 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
   Array.prototype.forEach.call(partnerCtas, function (el) {
     el.addEventListener('click', function () {
       try {
+        var offerProps = { quiz: slug, partner: el.getAttribute('data-partner'), cta_href: el.getAttribute('href') };
         if (window.posthog && typeof window.posthog.capture === 'function') {
-          window.posthog.capture('quiz_offer_click', {
-            quiz: slug,
-            partner: el.getAttribute('data-partner'),
-            cta_href: el.getAttribute('href')
-          });
+          window.posthog.capture('quiz_offer_click', offerProps);
         }
+        mdGaEvent('quiz_offer_click', offerProps);
       } catch (err) {}
     });
   });
 
   /* First-party intent signal (see the KPI system) */
   try {
+    var doneProps = {
+      quiz: slug,
+      pattern: patternKey,
+      status: a.status,
+      trigger: a.trigger,
+      want: a.want,
+      underneath: under ? under.key : null,
+      practice: practiceKey,
+      aha: ahaKey
+    };
     if (window.posthog && typeof window.posthog.capture === 'function') {
-      window.posthog.capture('quiz_completed', {
-        quiz: slug,
-        pattern: patternKey,
-        status: a.status,
-        trigger: a.trigger,
-        want: a.want,
-        underneath: under ? under.key : null,
-        practice: practiceKey,
-        aha: ahaKey
-      });
+      window.posthog.capture('quiz_completed', doneProps);
     }
+    mdGaEvent('quiz_completed', doneProps);
   } catch (err) {}
 };
 

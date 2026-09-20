@@ -18,10 +18,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Directories that never contain deployable HTML pages
+# Directories that never contain deployable HTML pages.
+# email-templates is excluded on purpose: scripts inside emails are useless
+# (clients strip them) and hurt deliverability.
 EXCLUDE_DIRS = {
     ".workbuddy", ".astro", ".git", "node_modules",
     "_design-check", "logo-drafts", "scripts", "assets", "functions", "worker",
+    "email-templates",
 }
 
 START = "<!-- POSTHOG-ANALYTICS-START (managed by scripts/inject_posthog.py) -->"

@@ -455,6 +455,11 @@
           window.posthog.capture(evt, props);
         }
       } catch (e) {}
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', evt, props || {});
+        }
+      } catch (e) {}
     }
 
     function modalSkeleton() {
