@@ -257,6 +257,12 @@ def webpage_jsonld(title, desc, url, extra_type=None):
 def build_head_block(rel, html, title, desc, is_noindex):
     url = BASE_URL + path_to_url(rel)
     date_mod = extract_updated_date(html)
+    # dateModified must never precede datePublished. "Updated: <Month Year>" maps
+    # to the 1st of that month, which predates PUBLISHED_DEFAULT for a page that
+    # was published and last edited in the same month (does-he-love-me shipped
+    # 2026-09-17 with dateModified 2026-09-01 — an inconsistent signal set).
+    if date_mod is None or date_mod < PUBLISHED_DEFAULT:
+        date_mod = PUBLISHED_DEFAULT
     faqs = extract_faqs(html)
 
     parts = []
@@ -309,6 +315,12 @@ def build_head_block(rel, html, title, desc, is_noindex):
             "guides/birth-chart-reading-cost.html",
             "guides/psychic-vs-medium.html",
             "guides/medium-reading-guide.html",
+            "questions/love-relationships/does-he-love-me.html",
+            "questions/love-relationships/does-he-think-about-me.html",
+            "questions/love-relationships/does-my-crush-like-me-back.html",
+            "questions/love-relationships/is-he-the-one.html",
+            "questions/love-relationships/does-he-miss-me.html",
+            "questions/love-relationships/is-he-serious-about-me.html",
         ):
             parts.append('<meta property="og:type" content="article">')
             parts.append('<meta property="article:published_time" content="%s">' % (PUBLISHED_DEFAULT + "T00:00:00+00:00"))
@@ -333,9 +345,15 @@ def build_head_block(rel, html, title, desc, is_noindex):
         "guides/astrology-reading-vs-horoscope.html",
         "guides/how-to-choose-astrologer.html",
         "guides/birth-chart-reading-cost.html",
-        "guides/psychic-vs-medium.html",
-        "guides/medium-reading-guide.html",
-    )
+            "guides/psychic-vs-medium.html",
+            "guides/medium-reading-guide.html",
+            "questions/love-relationships/does-he-love-me.html",
+            "questions/love-relationships/does-he-think-about-me.html",
+            "questions/love-relationships/does-my-crush-like-me-back.html",
+            "questions/love-relationships/is-he-the-one.html",
+            "questions/love-relationships/does-he-miss-me.html",
+            "questions/love-relationships/is-he-serious-about-me.html",
+        )
     is_daily_card = (rel == "tools/daily-card.html")
     is_contact = (rel == "contact.html")
     is_about = (rel == "about.html")

@@ -89,16 +89,27 @@ else:
 
 # 5. Check internal links resolve to existing files
 def url_to_file(url):
-    """/psychic/ -> psychic/index.html, /do-what-fits.html -> do-what-fits.html"""
+    """/psychic/ -> psychic/index.html, /do-what-fits.html -> do-what-fits.html,
+    /do-what-fits -> do-what-fits.html (clean URLs are canonical; Cloudflare
+    serves the extensionless form, so the checker must too)."""
     p = urlparse(url).path
     if not p or p == "/":
         return "index.html"
     p = p.lstrip("/")
     if p.endswith("/"):
         return os.path.join(p, "index.html")
+    if "." not in os.path.basename(p):
+        return p + ".html"
     return p
 
 href_re = re.compile(r'href="((?:/)[^"#:]*)(?:#.*?)?"')
+# Routes answered dynamically by the Worker (worker/index.js), not by files on
+# disk — the filesystem check cannot see them, so whitelist them here.
+WORKER_ROUTES = {
+    "/.well-known/ai-catalog.json", "/.well-known/api-catalog",
+    "/.well-known/openapi.json", "/.well-known/agent-skills",
+    "/.well-known/mcp", "/api/health",
+}
 broken = []
 checked = set()
 for rel in sorted(all_pages):
@@ -110,6 +121,8 @@ for rel in sorted(all_pages):
         if link in checked:
             continue
         checked.add(link)
+        if link in WORKER_ROUTES:
+            continue
         target = url_to_file(link)
         full = os.path.join(BASE, target.replace("/", os.sep))
         if not os.path.exists(full):

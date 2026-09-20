@@ -1,0 +1,84 @@
+# Intent Page Source Bank — verified citations by cluster
+
+_Purpose: pre-verified research sources for the evidence layer of high-intent pages. Every entry has been independently verified (title / journal / volume / pages / DOI) via web search. **Never cite a source on a page unless it is in this bank or has just been verified the same way.** A hallucinated citation is worse than none._
+
+_Usage per page: pick 2–3 sources max. Assert only what the abstract supports. Hedge: studies describe populations and correlations, not the reader's partner or situation. After using a source on a page, note the page in "Used on" so later pages vary their picks._
+
+_Verification protocol for new entries: WebSearch the paper → confirm exact title, authors, year, journal, volume(issue), pages → record the claim ONLY as the abstract states it → append here with verification date._
+
+---
+
+## Love & relationships pool
+
+### 1. Investment Model meta-analysis
+- **Citation:** Tran, P., Judge, M., & Kashima, Y. (2019). Commitment in relationships: An updated meta-analysis of the Investment Model. *Personal Relationships, 26*(1), 158–180. doi:10.1111/pere.12268
+- **Verified:** 2026-09-19 (University of Groningen portal + Wiley abstract).
+- **Abstract supports:** 202 independent samples, 50,427 participants. Satisfaction had the largest aggregate association with commitment (r = 0.65), followed by investments (r = 0.53) and quality of alternatives (r = −0.43).
+- **Safe page phrasing:** "A 2019 meta-analysis pooling 202 independent samples and 50,427 participants found that how much a person has invested in a relationship tracked their commitment to it (r = 0.53) — the second-strongest correlate after satisfaction itself (r = 0.65)."
+- **Do NOT say:** that investment *causes* commitment, that the study proves anything about an individual, or that satisfaction is unimportant.
+- **Used on:** does-he-love-me (2026-09-19).
+
+### 2. Feelings vs. sustained caring behavior
+- **Citation:** Kammrath, L. K., & Peetz, J. (2011). The limits of love: Predicting immediate versus sustained caring behaviors in close relationships. *Journal of Experimental Social Psychology, 47*(2), 411–417. doi:10.1016/j.jesp.2010.11.004
+- **Verified:** 2026-09-19 (OpenAIRE/PlumX/abstract).
+- **Abstract supports:** Positive feelings predicted pro-relational behaviors when they could be completed immediately and in a short timespan, but NOT behaviors requiring days of delay or a week of sustained self-regulation. Sustained behavior was better predicted by self-regulation strength (trait conscientiousness) than by relationship feelings. "Immediate pro-relational behaviors are more likely to be acts of the heart, whereas delayed, sustained pro-relational behaviors are more likely to be acts of will."
+- **Safe page phrasing:** "Warm feelings predicted the caring things people did immediately — but not the caring that required sustained effort over days and weeks; those were better predicted by self-regulation than by love."
+- **Do NOT say:** feelings don't matter; that all consistent behavior is loveless; that conscientious people love less.
+- **Used on:** does-he-love-me (2026-09-19).
+
+### 3. Romantic love as an attachment process
+- **Citation:** Hazan, C., & Shaver, P. R. (1987). Romantic love conceptualized as an attachment process. *Journal of Personality and Social Psychology, 52*(3), 511–524. doi:10.1037/0022-3514.52.3.511
+- **Verified:** 2026-09-19 (Semantic Scholar + citing sources).
+- **Abstract supports:** Romantic love can be conceptualized as an attachment process — a biosocial process by which affectional bonds form between adult lovers; adult styles (secure / anxious / avoidant) parallel infant patterns and shape how people experience love.
+- **Safe page phrasing:** "The founding paper of adult attachment research described romantic love as an attachment process — a bond shaped by distinct styles (secure, anxious, avoidant) that change how people express and experience it."
+- **Used on:** does-he-love-me (2026-09-19).
+
+### 4. Excessive reassurance seeking & attachment anxiety
+- **Citation:** Shaver, P. R., Schachner, D. A., & Mikulincer, M. (2005). Attachment style, excessive reassurance seeking, relationship processes, and depression. *Personality and Social Psychology Bulletin, 31*(3), 343–359. doi:10.1177/0146167204271709
+- **Verified:** 2026-09-19 (PubMed abstract + publisher PDF).
+- **Abstract supports:** Excessive reassurance seeking (ERS) relates to depression largely through attachment anxiety; reassurance received tends to be discounted, feeding a cycle. ERS is a facet of attachment anxiety more than of relationship quality.
+- **Safe page phrasing:** "Research on excessive reassurance seeking found the cycle runs on attachment anxiety more than on evidence: reassurance received tends to be discounted, which is why the question keeps returning even when things are good."
+- **Good for:** reassurance/anxiety currents; "why do I keep asking" FAQs.
+- **Used on:** — (reserve for ex/reassurance pages).
+
+### 5. Ex-partner online surveillance & recovery
+- **Citation:** Marshall, T. C. (2012). Facebook surveillance of former romantic partners: Associations with post-breakup recovery and personal growth. *Cyberpsychology, Behavior, and Social Networking, 15*(10), 521–526. doi:10.1089/cyber.2012.0125
+- **Verified:** 2026-09-19 (REF 2021 impact case study citing the paper; publication record).
+- **Abstract supports:** Keeping tabs on a former partner online is associated with greater post-breakup distress and reduced personal growth / delayed recovery. (The paper's findings directly informed Facebook's 2015 "See Less" feature.)
+- **Safe page phrasing:** "Research on post-breakup behavior found that keeping tabs on an ex online is associated with greater distress and slower recovery — checking the feed reads as staying informed and functions as re-opening the question."
+- **Good for:** ex / no-contact / "should I check his socials" / closure pages.
+- **Used on:** — (reserve for ex cluster).
+
+### 6. Attachment, distress & growth after breakups
+- **Citation:** Marshall, T. C., Bejanyan, K., & Ferenczi, N. (2013). Attachment styles and personal growth following romantic breakups: The mediating roles of distress, rumination, and tendency to rebound. *PLoS ONE, 8*(9), e75161. doi:10.1371/journal.pone.0075161
+- **Verified:** 2026-09-19 (REF 2021 impact case study; PLoS ONE record).
+- **Abstract supports:** After breakups, attachment anxiety is linked to higher distress and rumination; distress and rumination mediate (reduce) personal growth. Rebound tendency relates to attachment patterns.
+- **Safe page phrasing:** "Breakup research links anxious attachment to more rumination, and rumination to less post-breakup growth — the loop is the mind re-asking the question, not gathering new information."
+- **Good for:** ex / rumination / "why can't I stop thinking about him" pages.
+- **Used on:** — (reserve for ex cluster).
+
+---
+
+## Career & work pool
+_(empty — build on first career-cluster page: 2–4 searches, append entries here.)_
+Candidate themes to verify when building: job crafting (Wrzesniewski), career decision self-efficacy, calling orientation research, quarter-life/liminal transition research.
+
+## Future / timing / uncertainty pool
+_(empty.)_
+Candidate themes: intolerance of uncertainty (Buhr & Dugas), affective-forecasting errors (Gilbert/Wilson impact bias), planning fallacy.
+
+## Money / manifestation pool
+_(empty.)_
+Candidate themes: financial anxiety & avoidance (money scripts, Klontz), scarcity mindset (Mullainathan & Shafir).
+
+## Loss & closure pool
+_(empty — note: grief content has higher accuracy stakes; verify with extra care.)_
+Candidate themes: continuing bonds (Klass), meaning reconstruction (Neimeyer), dual process model (Stroebe & Schut).
+
+## Interpretation (numbers/dreams/signs) pool
+_(empty.)_
+Candidate themes: apophenia/patternicity, Barnum effect (Forer 1949), frequency illusion (Baader-Meinhof / selective attention).
+
+## Life direction / spiritual growth pool
+_(empty.)_
+Candidate themes: purpose-in-life research (Steger), self-concordance (Sheldon), post-traumatic growth (Tedeschi & Calhoun).

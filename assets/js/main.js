@@ -101,6 +101,65 @@
     closure:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12" opacity="0.4"/><circle cx="12" cy="12" r="9"/></svg>',
     general:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8.5 14.5s1 2 3.5 2 3.5-2 3.5-2"/><line x1="9" y1="9" x2="9.01" y2="9" stroke-width="3"/><line x1="15" y1="9" x2="15.01" y2="9" stroke-width="3"/></svg>',
     unsure:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 1 1 4.5 2.6c-.8.5-1.5 1.2-1.5 2.4"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>',
+    // Love signal-check (does-he-love-me) — relationship status
+    together:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></svg>',
+    dating:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5C6.5 15.8 3 12.2 3 8.5A4.5 4.5 0 0 1 7.5 4c1.9 0 3.5 1 4.5 2.6A4.5 4.5 0 0 1 16.5 4 4.5 4.5 0 0 1 21 8.5c0 3.7-3.5 7.3-9 11z"/></svg>',
+    talking:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    friends:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 14.7c.6-.2 1.3-.3 2-.3 2.5 0 4.5 2 4.5 4.6"/></svg>',
+    separated:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12H2m0 0l3-3m-3 3l3 3"/><path d="M15 12h7m0 0l-3-3m3 3l-3 3"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>',
+    exes:         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5C6.5 15.8 3 12.2 3 8.5A4.5 4.5 0 0 1 9.5 4L12 6l2.5-2A4.5 4.5 0 0 1 21 8.5c0 3.7-3.5 7.3-9 11z"/><path d="M12 6l-1.5 4L12 14l-1 4.5"/></svg>',
+    complicated:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8.5 9.5c-3 0-3 5 0 5s4-5 7-5 3 5 0 5-4-5-7-5z"/></svg>',
+    // Love signal-check — what made you wonder
+    distant:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h11"/><path d="M15 12l-3-3m3 3l-3 3"/><circle cx="20" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>',
+    inconsistent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l4-6 4 6 5-8 5 8"/></svg>',
+    words:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 11h10M4 16h13"/></svg>',
+    conflict:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
+    stalled:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5v14M15 5v14"/></svg>',
+    changed:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l4-4 4 4M8 17l4 4 4-4"/><path d="M12 3v18"/></svg>',
+    // Love signal-check — communication
+    consistent:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 12h12"/><circle cx="3" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="21" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>',
+    frequent:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 18v-2M10 18v-5M15 18v-8M20 18V5"/></svg>',
+    reactive:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v5"/></svg>',
+    hotcold:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 4a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0z"/><path d="M12 10v5"/></svg>',
+    convenient:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    quieter:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg>',
+    barely:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h2m3 0h2m3 0h2m3 0h2"/></svg>',
+    // Love signal-check — who takes the lead
+    him:          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M5 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>',
+    equal:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 10h14M5 14h14"/></svg>',
+    me:           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M6 21c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>',
+    variable:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h5l8 10h5"/><path d="M3 17h5l8-10h5"/><path d="M18 4l3 3-3 3"/><path d="M18 14l3 3-3 3"/></svg>',
+    rarely:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 14A8 8 0 1 1 10 4a7 7 0 0 0 10 10z"/></svg>',
+    hard:         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>',
+    // Love signal-check — what happens with space
+    notices:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+    stays:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7L12 5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 19"/></svg>',
+    nothing:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M5.5 5.5l13 13"/></svg>',
+    worse:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 14"/><path d="M19 12v7h-7"/></svg>',
+    returns:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h11a5 5 0 0 1 0 10h-4"/><path d="M8 5L4 9l4 4"/></svg>',
+    notell:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>',
+    // Love signal-check — words vs actions
+    very:         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>',
+    usually:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg>',
+    sometimes:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>',
+    notvery:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
+    contradict:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10m0 0l-3-3m3 3l-3 3"/><path d="M17 17H7m0 0l3-3m-3 3l3 3"/></svg>',
+    dontknow:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 1 1 4.5 2.6c-.8.5-1.5 1.2-1.5 2.4"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>',
+    // Love signal-check — what you want to know
+    feelings:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5C6.5 15.8 3 12.2 3 8.5A4.5 4.5 0 0 1 7.5 4c1.9 0 3.5 1 4.5 2.6A4.5 4.5 0 0 1 16.5 4 4.5 4.5 0 0 1 21 8.5c0 3.7-3.5 7.3-9 11z"/></svg>',
+    why:          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+    going:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 21c2.5-5 2.5-13 0-18M19 21c-2.5-5-2.5-13 0-18"/><path d="M12 8v2m0 4v2"/></svg>',
+    commit:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"/><path d="M9 5.5L10.5 3h3L15 5.5 12 9z"/></svg>',
+    still:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5C6.5 15.8 3 12.2 3 8.5A4.5 4.5 0 0 1 7.5 4c1.9 0 3.5 1 4.5 2.6A4.5 4.5 0 0 1 16.5 4 4.5 4.5 0 0 1 21 8.5c0 3.7-3.5 7.3-9 11z"/><path d="M17 3a4 4 0 0 1 4 4"/><path d="M21 3v4h-4"/></svg>',
+    wait:         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 21V9"/><path d="M12 9c0-3 3-4 3-7"/><path d="M12 9c0-3-3-4-3-7"/></svg>',
+    beneath:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>',
+    justclarity:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1.4 1.5 1.6 2.5h4.8c.2-1 .8-1.8 1.6-2.5A6 6 0 0 0 12 3z"/></svg>',
+    // Love signal-check — what would help
+    interpret:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>',
+    insight:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>',
+    heading:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M12 6h5l3 2-3 2h-5"/><path d="M12 12H8l-2 2 2 2h4"/></svg>',
+    guidance:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
+    deeper:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 19h16"/></svg>',
   };
 
   function getIcon(score) {
@@ -468,6 +527,23 @@
 
     /* Result page */
     function renderResult() {
+      /* A quiz may define customResult(ctx) to render its own, richer result
+         page (used by the love signal-check). ctx carries everything the
+         renderer needs, so quiz code never touches engine internals. */
+      if (typeof Q.customResult === 'function') {
+        var body = root.querySelector('.quiz-body');
+        Q.customResult({
+          answers: answers,
+          body: body,
+          emailFormHTML: emailFormHTML,
+          bindEmailForms: bindEmailForms,
+          restart: startQuiz
+        });
+        setTimeout(function () {
+          body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 60);
+        return;
+      }
       var resultKey = Q.resolve(answers);
       var r         = Q.results[resultKey];
       var body      = root.querySelector('.quiz-body');
@@ -546,13 +622,18 @@
       });
     }
 
-    /* Init */
-    var bodyEl = document.createElement('div');
-    bodyEl.className = 'quiz-body';
-    root.innerHTML = '<div class="quiz-progress-row"><div class="quiz-progress"></div><span class="quiz-counter"></span></div>';
-    root.appendChild(bodyEl);
-    renderProgress();
-    renderStep(0, 'forward');
+    /* Init — extracted so a custom result page can offer a retake */
+    function startQuiz() {
+      answers = {};
+      current = 0;
+      root.innerHTML = '<div class="quiz-progress-row"><div class="quiz-progress"></div><span class="quiz-counter"></span></div>';
+      var bodyEl = document.createElement('div');
+      bodyEl.className = 'quiz-body';
+      root.appendChild(bodyEl);
+      renderProgress();
+      renderStep(0, 'forward');
+    }
+    startQuiz();
   }
 
   /* ---------- Email capture ----------

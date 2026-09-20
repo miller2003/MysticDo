@@ -897,7 +897,7 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
   border-radius: var(--radius-sm);
   padding: var(--s5) var(--s6); margin: var(--s6) 0;
 }
-.key-takeaways h3 { margin-bottom: var(--s3); color: var(--ink-900); font-size: 1.28rem; }
+.key-takeaways h2, .key-takeaways h3 { margin-bottom: var(--s3); color: var(--ink-900); font-size: 1.28rem; }
 .key-takeaways ul { list-style: none; padding-left: 0; }
 .key-takeaways li { position: relative; padding-left: 1.4rem; margin-bottom: 0.55rem; }
 .key-takeaways li::before {
@@ -912,7 +912,7 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
   border-radius: var(--radius);
   padding: var(--s5) var(--s6); margin: var(--s6) 0;
 }
-.direct-answer h3 { color: var(--gold-700); margin-bottom: var(--s2); font-size: 1.24rem; }
+.direct-answer h2, .direct-answer h3 { color: var(--gold-700); margin-bottom: var(--s2); font-size: 1.24rem; }
 
 /* ---------- Provider card ---------- */
 .provider-card {
@@ -1195,6 +1195,76 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
   text-align: left;
 }
 .result-tip strong { color: var(--ink-900); }
+
+/* ---------- Love signal-check result (does-he-love-me) ----------
+   Lives inside .quiz-result, so it inherits the rise-in animation,
+   but is left-aligned and content-dense where the standard result is
+   a sparse card stack. Max-width keeps long paragraphs readable. */
+.love-result { text-align: left; max-width: 660px; margin: 0 auto; }
+.love-result .love-result-head { text-align: center; margin-bottom: var(--s6); }
+.love-result .love-result-head h2 {
+  font-size: clamp(1.55rem, 3.4vw, 2.05rem);
+  color: var(--ink-900); margin: var(--s3) 0 0; font-weight: 600;
+}
+.love-result .love-summary {
+  color: var(--text-muted); max-width: 52ch; margin: var(--s3) auto 0;
+  font-size: 0.98rem; line-height: 1.6;
+}
+.love-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--s5) var(--s6);
+  margin-bottom: var(--s3);
+}
+.love-block h3 {
+  display: flex; align-items: center; gap: 0.55rem;
+  font-family: var(--font-body); font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold-700); margin: 0 0 var(--s3);
+}
+.love-block p {
+  color: var(--ink-700); margin: 0 0 var(--s3);
+  font-size: 0.97rem; line-height: 1.65;
+}
+.love-block p:last-child { margin-bottom: 0; }
+.love-block ul { list-style: none; padding-left: 0; margin: 0; }
+.love-block li {
+  position: relative; padding-left: 1.4rem;
+  color: var(--ink-700); font-size: 0.97rem; line-height: 1.6;
+  margin-bottom: 0.55rem;
+}
+.love-block li:last-child { margin-bottom: 0; }
+.love-block li::before {
+  content: ''; position: absolute; left: 0; top: 0.6em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold-400);
+}
+.love-underneath {
+  background: var(--bg-band);
+  border: 1px solid rgba(138,101,26,0.22);
+  border-left: 3px solid var(--gold-400);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--s4) var(--s5);
+  margin: var(--s4) 0;
+}
+.love-underneath h3 {
+  font-family: var(--font-body); font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold-700); margin: 0 0 var(--s3);
+}
+.love-underneath p { color: var(--ink-700); font-size: 0.95rem; line-height: 1.62; margin: 0; }
+.love-match { margin-top: var(--s5); }
+.love-match-title {
+  font-size: 1.05rem; color: var(--ink-900); font-weight: 600;
+  margin: 0 0 var(--s2); text-align: left;
+}
+.love-match-intro {
+  color: var(--text-muted); font-size: 0.92rem; margin: 0 0 var(--s4);
+  line-height: 1.55; text-align: left;
+}
+.love-practice-name { font-size: 1.12rem; font-weight: 600; color: var(--ink-900); margin-bottom: 0.5rem; }
+.love-result .result-primary-card .btn,
+.love-result .result-primary-card .btn-sm { margin-top: var(--s3); }
 
 /* ---------- Footer — light parchment closure ---------- */
 .site-footer {
