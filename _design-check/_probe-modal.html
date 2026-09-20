@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>modal shot</title>
+<style>
+  html,body{margin:0;padding:0;background:#9aa0a6}
+  .wrap{padding:20px}
+  iframe{border:0;display:block;background:#fff}
+  pre{font:11px monospace;color:#fff;padding:6px 20px}
+</style></head>
+<body>
+<div class="wrap"><iframe id="f" scrolling="no"></iframe></div>
+<pre id="probe-h">PENDING</pre>
+<script>
+(function () {
+  /* Modal-quiz probe: opens the frosted-glass overlay (hero CTA or launcher
+     card), optionally auto-answers N questions inside it, then reports.
+     p= page path · w= iframe width · vh= iframe height (viewport mode)
+     open= hero|launcher · clicks= N answers · phase= leave empty */
+  var qs = new URLSearchParams(location.search);
+  var page   = qs.get('p') || '/index.html';
+  var W      = parseInt(qs.get('w') || '390', 10);
+  var VH     = parseInt(qs.get('vh') || '844', 10);
+  var open   = qs.get('open') || 'hero';
+  var clicks = parseInt(qs.get('clicks') || '0', 10);
+  var delay  = parseInt(qs.get('delay') || '700', 10);
+  var settle = qs.get('settle') === '1';   // freeze transitions for a settled shot
+  var f = document.getElementById('f'), out = document.getElementById('probe-h');
+  f.style.width = W + 'px';
+  f.style.height = VH + 'px';
+  f.src = page;
+
+  function report(tag) {
+    var d = f.contentDocument;
+    var h = d ? Math.max(d.documentElement.scrollHeight, d.body.scrollHeight) : 0;
+    out.textContent = 'PROBE_H:' + h + ':W:' + W + ':VH:' + VH + ':' + tag + ':END_H';
+  }
+
+  f.onload = function () {
+    var d = f.contentDocument;
+    if (!d) { out.textContent = 'PROBE_H:0:END_H'; return; }
+    if (settle) {
+      var st = d.createElement('style');
+      st.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}';
+      d.head.appendChild(st);
+    }
+    var trigger = open === 'launcher'
+      ? d.querySelector('[data-quiz-begin]')
+      : d.querySelector('[data-quiz-open]');
+    if (!trigger) { report('NO-TRIGGER'); return; }
+    setTimeout(function () {
+      trigger.click();
+      var i = 0;
+      function step() {
+        if (i >= clicks) { setTimeout(function () { report('modal-' + clicks); }, 600); return; }
+        var opt = d.querySelector('.quiz-modal-overlay .quiz-step.active .quiz-option');
+        if (opt) opt.click();
+        i++;
+        setTimeout(step, delay);
+      }
+      setTimeout(step, 500);
+    }, 500);
+  };
+})();
+</script>
+</body>
+</html>

@@ -127,6 +127,7 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
     + '<p style="color:var(--text-muted);margin-bottom:var(--s5);font-size:0.92rem;max-width:46ch;margin-inline:auto">' + esc(opts.emailText || 'One weekly note — a decision guide, a free tool, one honest recommendation. No spam, unsubscribe anytime.') + '</p>'
     + ctx.emailFormHTML()
     + '</div>'
+    + '<p class="quiz-result-fineprint">' + esc(opts.fineprint || 'This pattern is an interpretation of observable behavior \u2014 a perspective to weigh, not a verdict on what anyone privately feels.') + '</p>'
     + '<p class="text-center" style="margin-top:var(--s6)"><button type="button" class="btn btn-ghost btn-sm" data-love-retake>Start over</button></p>';
 
   html += '</div>';
@@ -1535,6 +1536,7 @@ window.MYSTICDO_QUIZZES = {
     id: 'does-my-crush-like-me-back',
     title: 'Read the Early-Stage Pattern',
     subtitle: 'Eight questions, about two minutes. A read of what the signals available so far may honestly suggest \u2014 and where they stop. No score, no verdict, no signup.',
+    launchSub: 'Eight questions, about two minutes \u2014 see what the signals so far add up to, and the one move worth considering.',
     questions: [
       { id: 'status', q: 'What\u2019s your situation with him right now?', hint: 'This matters more than it sounds \u2014 early signals mean something different in week one than month three.', options: [
         { text: 'We\u2019re in a relationship', detail: 'together, official', score: 'together' },
@@ -1746,6 +1748,7 @@ window.MYSTICDO_QUIZZES = {
     id: 'is-he-the-one',
     title: 'Read the Foundation Pattern',
     subtitle: 'Eight questions, about two minutes. A read of what the relationship\u2019s behavioral material may suggest about rightness \u2014 and where it can\u2019t answer. No score, no verdict, no signup.',
+    launchSub: 'Eight questions, about two minutes \u2014 see which foundation pattern your relationship traces: where it\u2019s strong, and where it\u2019s still open.',
     questions: [
       { id: 'status', q: 'What\u2019s your relationship with him right now?', hint: 'This matters more than it sounds \u2014 \u201Cthe one\u201D means different things in week three and year three.', options: [
         { text: 'We\u2019re in a relationship', detail: 'together, official', score: 'together' },

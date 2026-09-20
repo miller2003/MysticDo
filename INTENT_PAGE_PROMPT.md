@@ -57,16 +57,18 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 6. **迹象情境化模块**：5–6 个经典迹象，每个 2–3 句：为何重要 / 另一种解释 / 仍不能证明什么。吃掉 signs 搜索意图，但不退化成 listicle。
 7. **At-a-glance 表**（`cmp-scroll`+`cmp-table`，**4 列**：You're seeing / What it may indicate / **Other explanations to consider** / What it cannot prove）：5–6 行。全页最强 GEO 资产，先设计它。
 8. **证据层**：H2 `What <domain> research can — and can't — tell you`。≤3 条已核实发现（每条：发现 + 一句"这也不能证明"）+ 一段"研究描述的是人群与相关，不是你的处境" + Sources 块（完整引用，样式照母版）。
-9. **N 信号框架**：4–5 个编号 h3。每个：是什么 → suggests 什么 → doesn't prove 什么。收尾一个 `direct-answer` 框："这是解读可观察行为的实用框架，不是科学测试，也不能替代直接对话。"
-10. **Quiz 区**（`#pattern-check`）：eyebrow + h2 + 副标题 + **静态说明卡**（`key-takeaways` 样式："What this pattern check looks at"——context / 四个信号 / 意图 + 一句"测的是行为模式，不是他的心"）+ `<div class="quiz-shell" id="quiz" data-quiz="<slug>">` + noscript 兜底 + 隐私一句。
+9. **N 信号框架**：4–5 个编号 h3。每个：是什么 → suggests 什么 → doesn't prove 什么。收尾一般**不加**对冲框；若该页需要问题重构框（如 is-he-the-one 的 "partly the wrong question"），框必须以指向 quiz 的正向句收束——禁止以"不是科学测试/不能替代对话"类免责收尾（见 §5 诚实放置规则）。
+10. **Quiz 区**（`#pattern-check`，2026-09-20 起为沉浸式弹层）：eyebrow + h2 + **邀请式副标题**（一句话，禁止 "No score, no verdict, no signup" 这类对冲串）+ **静态说明卡**（`key-takeaways` 样式："What this pattern check looks at"——context / 四个信号 / 意图，尾句正向："…and end with the read plus the next step that fits yours"）+ `<div class="mt-5" id="quiz" data-quiz="<slug>" data-quiz-modal>` + noscript 兜底 + 隐私一句（只写 "Your answers stay in your browser — nothing is stored, sent, or tied to you."）。**Hero 主 CTA 必须加 `data-quiz-open`**（JS 存在时直接打开弹层，无 JS 时仍是锚点）；引擎会渲染邀请启动卡（Begin / Resume / See your pattern 三态），quiz 对象需提供 `launchSub`（见 §7）。
 11. **Spiritual bridge**：quiz 后紧接的短节（2 段）：观察有极限 → 想再要一个视角是正当的 → psychic/tarot/astrology 各自回答这个问题的哪一面。不推销，只分工。
 12. **"你真正想知道的可能是什么"**：underneath 暗流的静态版，3–5 个编号 h3（每个：这个暗流是什么 + What fits），收尾 `result-tip` 说明"命名真实问题，就完成了一半工作"。
-13. **Which practice fits**（`#which-practice`）：`cmp-table`（你的真实问题 / 有用的起点 / 它能诚实提供什么）+ "What no reading can do" 框 + red flags 一段 + Do What Fits 链接。
+13. **Which practice fits**（`#which-practice`）：`cmp-table`（你的真实问题 / 有用的起点 / 它能诚实提供什么）+ **"How to use a reading well" 框**（保护性正向表述：值得付钱的 reading 怎么用 + 指向下面的 red flags；禁止再叫 "What no reading can do"）+ red flags 一段 + Do What Fits 链接。
 14. **收尾四件套**：Before you book（4 张卡 + "何时该等"框——这套卡片文案与具体问题的耦合度低，可高度复用母版结构）→ FAQ（6–8 个 `<details class="faq-item">`，见 §6 格式纪律；其中 1–2 条直接呼应问题拆解模块，1 条覆盖最大长尾变体）→ Methodology（5 条编辑原则 + 研究证据使用原则一条 + not-therapy 免责）→ Related cards（`grid-3`，**只链已存在的页面**）。
 
 ---
 
 ## 5. 声音与编辑纪律
+
+- **诚实放置规则（2026-09-20 起，用户明确指令：免责声明不进正文转化路径）**：劝退句不进 hero → quiz CTA 之间的阅读动线。Direct answer 保留**一句**可辩护的诚实限定（这是 E-E-A-T 骨架，也是 GEO 引用点）；全页其余 "no reading can / not a substitute / where it stops" 类表述只允许出现在三处：① takeaways 的**桥接式**一条（"A reading is a perspective to think with…"）；② "How to use a reading well" 框；③ FAQ。quiz 结果页底部自带 fineprint（渲染器内置，"a perspective to weigh, not a verdict"），正文不再重复。保护性内容（red flags、何时该等）保留——那是买家智能，不是劝退。
 
 - **声线**：克制、具体、有立场的诚实。短句优先。可以用第二人称。可以下判断（"Investment under inconvenience is the clearest observable signal behavior can offer."），但判断必须可辩护。
 - **Citation atom 纪律**：每节第一段 = 该节的 citation atom（自成一体、具体、有限定语，AI 可直接引用）。全页 3–5 个"诚实原子"（任何方法都做不到什么）——这是与 listicle 的核心差异。
@@ -99,6 +101,7 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 ```
 '<slug>': {
   id, title, subtitle,
+  launchSub,          // 弹层启动卡副标题（邀请式一句话；subtitle 保留不动）
   questions: [ { id, q, hint, options:[{text, detail, score}] } ×8 ],
   resolve(a)          → 返回 ≤5 个 pattern key 之一；≥2 个 null 且 |sum|<3 →
                         not-enough-evidence；写明 edge override（如单向努力→uneven）
@@ -125,7 +128,7 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 }
 ```
 
-**渲染器已共享**：`window.mysticdoPatternResult(ctx, slug, opts)` 在 quizzes.js 文件头部，自动渲染三固定块（suggest / don't-tell / watch-next）+ underneath + practice 匹配（含 choose 行）+ negativePatternTip + 邮件捕获 + PostHog 事件。**新 Quiz 的 customResult 永远只有上面那几行，禁止复制整段渲染代码。**
+**渲染器已共享**：`window.mysticdoPatternResult(ctx, slug, opts)` 在 quizzes.js 文件头部，自动渲染三固定块（suggest / don't-tell / watch-next）+ underneath + practice 匹配（含 choose 行）+ negativePatternTip + 邮件捕获 + fineprint 诚实小字（可用 `opts.fineprint` 覆盖）+ PostHog 事件。**新 Quiz 的 customResult 永远只有上面那几行，禁止复制整段渲染代码。**
 
 **接缝纪律（最高危操作）**：追加新对象时，`old_string` 必须从**上一个 quiz 的最后一个完整条目 + 其全部闭合括号**开始匹配。改完立即 `node --check assets/js/quizzes.js`，再重读接缝处 20 行确认。图标：引擎用 `o.score` 当 icon key；新 score 值需在 `main.js` ICONS 补 Lucide 风格图标（stroke 1.8、round caps），否则落默认 sparkle（可接受）。
 

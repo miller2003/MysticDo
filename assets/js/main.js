@@ -389,7 +389,15 @@
     }
   }
 
-  /* ---------- Multi-quiz engine (Apple-grade) ---------- */
+  /* ---------- Multi-quiz engine (Apple-grade) ----------
+     Two hosts:
+     - inline (default): the quiz renders inside #quiz on the page
+       (standalone /quiz/ pages, Do What Fits).
+     - modal (data-quiz-modal on #quiz, used by article question
+       pages): the article shows a quiet invitation card; the check
+       runs in a full-screen frosted-glass overlay that blurs the page
+       behind it. Closing the overlay preserves state — the launcher
+       switches Begin → Resume → See your pattern. */
   function initQuiz() {
     var root = document.getElementById('quiz');
     if (!root || !window.MYSTICDO_QUIZZES) return;
@@ -397,14 +405,192 @@
     var Q   = window.MYSTICDO_QUIZZES[key];
     if (!Q) return;
 
+    var modalMode = root.hasAttribute('data-quiz-modal');
+
     var answers = {};
     var current = 0;
     var total   = Q.questions.length;
     var lock    = false;
+    var phase   = 'idle';        /* idle | running | done */
+
+    /* ===== Modal scaffolding (built once, on first open) ===== */
+    var overlay = null, modalCard = null, modalBody = null;
+    var modalOpen = false, lastFocused = null;
+
+    function capture(evt, props) {
+      try {
+        if (window.posthog && typeof window.posthog.capture === 'function') {
+          window.posthog.capture(evt, props);
+        }
+      } catch (e) {}
+    }
+
+    function modalSkeleton() {
+      overlay = document.createElement('div');
+      overlay.className = 'quiz-modal-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      overlay.setAttribute('aria-label', (Q.title || 'Pattern check') + ' \u2014 MysticDo');
+      overlay.innerHTML =
+        '<div class="quiz-modal-scrim" data-quiz-close></div>'
+        + '<div class="quiz-modal-card" data-phase="questions">'
+        +   '<div class="quiz-modal-handle" aria-hidden="true"></div>'
+        +   '<div class="quiz-modal-topbar">'
+        +     '<span class="quiz-modal-brand">' + glyphStar() + 'Pattern check</span>'
+        +     '<button type="button" class="quiz-modal-close" data-quiz-close aria-label="Close the check">'
+        +       '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>'
+        +     '</button>'
+        +   '</div>'
+        +   '<div class="quiz-modal-progress">'
+        +     '<div class="quiz-progress-row"><div class="quiz-progress"></div><span class="quiz-counter"></span></div>'
+        +   '</div>'
+        +   '<div class="quiz-body quiz-modal-body"></div>'
+        + '</div>';
+      document.body.appendChild(overlay);
+      modalCard = overlay.querySelector('.quiz-modal-card');
+      modalBody = overlay.querySelector('.quiz-modal-body');
+      overlay.querySelectorAll('[data-quiz-close]').forEach(function (el) {
+        el.addEventListener('click', function () { closeModal(); });
+      });
+    }
+
+    function getBody() {
+      return modalMode ? modalBody : root.querySelector('.quiz-body');
+    }
+    function getProgressRow() {
+      return modalMode
+        ? (modalCard ? modalCard.querySelector('.quiz-progress-row') : null)
+        : root.querySelector('.quiz-progress-row');
+    }
+    function setCardPhase(p) {
+      if (modalCard) modalCard.setAttribute('data-phase', p);
+    }
+
+    function openModal(restart) {
+      if (!overlay) modalSkeleton();
+      if (modalOpen) { if (restart) startQuiz(); return; }
+      modalOpen = true;
+      lastFocused = document.activeElement;
+      setPageScrollLock(true);
+      document.addEventListener('keydown', onModalKey);
+      window.addEventListener('popstate', onModalPop);
+      try { history.pushState({ quizModal: true }, ''); } catch (e) {}
+      overlay.classList.add('preopen');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { overlay.classList.add('open'); });
+      });
+      if (phase === 'idle' || restart) {
+        startQuiz();
+        capture('quiz_started', { quiz: key });
+      } else if (phase === 'running') {
+        setCardPhase('questions');
+        renderProgress();
+        renderStep(current, 'forward');
+      }
+      /* phase === 'done': the result is still in modalBody — just reveal it. */
+      setTimeout(focusStepQuestion, 140);
+    }
+
+    function closeModal(viaPop) {
+      if (!modalOpen) return;
+      modalOpen = false;
+      overlay.classList.remove('open');
+      overlay.classList.add('closing');
+      document.removeEventListener('keydown', onModalKey);
+      window.removeEventListener('popstate', onModalPop);
+      setPageScrollLock(false);
+      if (!viaPop && history.state && history.state.quizModal) {
+        try { history.back(); } catch (e) {}
+      }
+      setTimeout(function () {
+        overlay.classList.remove('closing', 'preopen');
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+          try { lastFocused.focus(); } catch (e) {}
+        }
+      }, 320);
+      updateLauncher();
+    }
+    function onModalPop() { if (modalOpen) closeModal(true); }
+
+    function onModalKey(e) {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        e.preventDefault();
+        closeModal();
+        return;
+      }
+      if (e.key === 'Tab') {
+        var focusables = overlay.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        var list = Array.prototype.filter.call(focusables, function (el) {
+          return el.offsetParent !== null;
+        });
+        if (!list.length) return;
+        var first = list[0], last = list[list.length - 1];
+        var active = document.activeElement;
+        if (e.shiftKey && (active === first || !overlay.contains(active))) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && (active === last || !overlay.contains(active))) {
+          e.preventDefault(); first.focus();
+        }
+        return;
+      }
+      /* number keys select an option — the quiet power-user path */
+      if (phase === 'running' && e.key >= '1' && e.key <= '9') {
+        var opts = modalBody.querySelectorAll('.quiz-step.active .quiz-option');
+        var target = opts[parseInt(e.key, 10) - 1];
+        if (target) { e.preventDefault(); target.click(); }
+      }
+    }
+
+    function focusStepQuestion() {
+      if (!modalBody) return;
+      var q = modalBody.querySelector('.quiz-step.active .quiz-question');
+      if (q) {
+        q.setAttribute('tabindex', '-1');
+        try { q.focus({ preventScroll: true }); } catch (e) { q.focus(); }
+      } else {
+        var close = overlay.querySelector('.quiz-modal-close');
+        if (close) close.focus();
+      }
+    }
+
+    /* ===== Launcher — the invitation card inside the article ===== */
+    function updateLauncher() {
+      if (!modalMode) return;
+      var card = root.querySelector('.quiz-launch');
+      if (!card) {
+        card = document.createElement('div');
+        card.className = 'quiz-launch';
+        root.insertBefore(card, root.firstChild);
+      }
+      var btnText = phase === 'done' ? 'See your pattern'
+                  : phase === 'running' ? 'Resume the check'
+                  : 'Begin the check';
+      card.innerHTML =
+        '<div class="quiz-launch-icon">' + glyphStar() + '</div>'
+        + '<h3 class="quiz-launch-title">' + escapeHTML(Q.title || 'Read the pattern') + '</h3>'
+        + '<p class="quiz-launch-sub">'
+        +   escapeHTML(Q.launchSub || 'Eight questions, about two minutes \u2014 a personalized read of what the pattern suggests, what it doesn\u2019t, and what to watch next.')
+        + '</p>'
+        + '<div class="quiz-launch-meta">'
+        +   '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>About 2 minutes</span>'
+        +   '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.4-7 10-4-1.6-7-5.6-7-10V6l7-3z"/></svg>Private \u2014 stays in your browser</span>'
+        +   '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Free, no signup</span>'
+        + '</div>'
+        + '<button type="button" class="btn btn-primary btn-lg" data-quiz-begin>' + btnText + ' &rarr;</button>'
+        + (phase === 'done'
+            ? '<p class="quiz-launch-resume">Want a clean read? <button type="button" data-quiz-retake>Start over</button></p>'
+            : '');
+      var beginBtn = card.querySelector('[data-quiz-begin]');
+      if (beginBtn) beginBtn.addEventListener('click', function () { openModal(); });
+      var retakeBtn = card.querySelector('[data-quiz-retake]');
+      if (retakeBtn) retakeBtn.addEventListener('click', function () { openModal(true); });
+    }
 
     /* Progress bar */
     function renderProgress() {
-      var row = root.querySelector('.quiz-progress-row');
+      var row = getProgressRow();
       if (!row) return;
       var bar = row.querySelector('.quiz-progress');
       bar.innerHTML = '';
@@ -421,12 +607,13 @@
     /* Build one step */
     function renderStep(idx, dir) {
       var step   = Q.questions[idx];
-      var stepEl = root.querySelector('[data-step="' + idx + '"]');
+      var body   = getBody();
+      var stepEl = body.querySelector('[data-step="' + idx + '"]');
       if (!stepEl) {
         stepEl = document.createElement('div');
         stepEl.className = 'quiz-step';
         stepEl.setAttribute('data-step', idx);
-        root.querySelector('.quiz-body').appendChild(stepEl);
+        body.appendChild(stepEl);
       }
       stepEl.classList.remove('leaving', 'back-active');
       if (dir === 'back') stepEl.classList.add('back-active');
@@ -486,6 +673,7 @@
     }
 
     function keepShellInView() {
+      if (modalMode) return;
       // Only scroll UP to reveal quiz if it's hidden behind the sticky header.
       // Never force-scroll DOWN — that's the annoying behavior after each answer.
       var headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
@@ -497,7 +685,7 @@
     }
 
     function leaveStep(idx) {
-      var el = root.querySelector('[data-step="' + idx + '"]');
+      var el = getBody().querySelector('[data-step="' + idx + '"]');
       if (!el) return;
       el.classList.remove('active');
       el.classList.add('leaving');
@@ -510,6 +698,7 @@
         current = idx + 1;
         renderProgress();
         renderStep(current, 'forward');
+        if (modalMode && modalBody) { modalBody.scrollTop = 0; focusStepQuestion(); }
       } else {
         renderResult();
       }
@@ -522,16 +711,19 @@
       current = idx - 1;
       renderProgress();
       renderStep(current, 'back');
+      if (modalMode && modalBody) { modalBody.scrollTop = 0; focusStepQuestion(); }
       keepShellInView();
     }
 
     /* Result page */
     function renderResult() {
+      phase = 'done';
+      if (modalMode) setCardPhase('result');
       /* A quiz may define customResult(ctx) to render its own, richer result
          page (used by the love signal-check). ctx carries everything the
          renderer needs, so quiz code never touches engine internals. */
+      var body = getBody();
       if (typeof Q.customResult === 'function') {
-        var body = root.querySelector('.quiz-body');
         Q.customResult({
           answers: answers,
           body: body,
@@ -539,14 +731,18 @@
           bindEmailForms: bindEmailForms,
           restart: startQuiz
         });
-        setTimeout(function () {
-          body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 60);
+        if (modalMode) {
+          if (modalBody) modalBody.scrollTop = 0;
+        } else {
+          setTimeout(function () {
+            body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 60);
+        }
+        updateLauncher();
         return;
       }
       var resultKey = Q.resolve(answers);
       var r         = Q.results[resultKey];
-      var body      = root.querySelector('.quiz-body');
 
       var primaryHTML   = r.primary   ? primaryCardHTML(r.primary)   : '';
       var secondaryHTML = r.secondary ? secondaryCardHTML(r.secondary) : '';
@@ -593,10 +789,15 @@
         + '</div>';
 
       bindEmailForms();
-      /* Smooth scroll to result top */
-      setTimeout(function () {
-        body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 60);
+      if (modalMode) {
+        if (modalBody) modalBody.scrollTop = 0;
+      } else {
+        /* Smooth scroll to result top */
+        setTimeout(function () {
+          body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 60);
+      }
+      updateLauncher();
     }
 
     function primaryCardHTML(s) {
@@ -626,14 +827,38 @@
     function startQuiz() {
       answers = {};
       current = 0;
-      root.innerHTML = '<div class="quiz-progress-row"><div class="quiz-progress"></div><span class="quiz-counter"></span></div>';
-      var bodyEl = document.createElement('div');
-      bodyEl.className = 'quiz-body';
-      root.appendChild(bodyEl);
-      renderProgress();
-      renderStep(0, 'forward');
+      phase = 'running';
+      if (modalMode) {
+        setCardPhase('questions');
+        modalBody.innerHTML = '';
+        renderProgress();
+        renderStep(0, 'forward');
+        modalBody.scrollTop = 0;
+      } else {
+        root.innerHTML = '<div class="quiz-progress-row"><div class="quiz-progress"></div><span class="quiz-counter"></span></div>';
+        var bodyEl = document.createElement('div');
+        bodyEl.className = 'quiz-body';
+        root.appendChild(bodyEl);
+        renderProgress();
+        renderStep(0, 'forward');
+      }
+      updateLauncher();
     }
-    startQuiz();
+
+    if (modalMode) {
+      /* The invitation card replaces the inline quiz; hero CTAs marked
+         data-quiz-open jump straight into the overlay. The href anchor
+         keeps working as a no-JS fallback. */
+      updateLauncher();
+      document.querySelectorAll('[data-quiz-open]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          openModal();
+        });
+      });
+    } else {
+      startQuiz();
+    }
   }
 
   /* ---------- Email capture ----------
