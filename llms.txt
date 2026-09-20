@@ -1,52 +1,110 @@
 # MysticDo
 
-> Match Your Spiritual Needs. Choose What to Do Next.
-> An intent-driven spiritual decision platform: get personalized guidance for your spiritual questions about psychic readings, tarot, astrology, numerology, manifestation, and more — so you can find what fits your needs and avoid making the wrong choice.
-> MysticDo sits in the narrow space between "I'm curious" and "I'm ready to buy." It does not publish horoscopes or a knowledge encyclopedia. It helps users figure out whether they need a psychic, tarot, astrology, or medium reading — and which provider is worth their money — before they pay.
+> MysticDo is an intent-driven spiritual decision platform. It is not a horoscope site, a prediction service, or a general encyclopedia of the occult. Its single job is to take one person from a vague spiritual worry to a specific next action — and to help them decide whether a psychic, tarot, astrology, or medium reading is worth paying for *before* they pay.
 
-## Start here (comprehensive matcher)
-- Do What Fits (7-question matcher, no signup): https://mysticdo.com/do-what-fits
-## Practices (browse by spiritual practice)
-- Astrology readings: https://mysticdo.com/astrology/
-- Psychic & Medium readings: https://mysticdo.com/psychic/
-- Tarot readings: https://mysticdo.com/tarot/
-- Medium readings: https://mysticdo.com/medium/
-- Astrology quiz (which reading type fits): https://mysticdo.com/quiz/astrology- Psychic quiz (which format fits): https://mysticdo.com/quiz/psychic- Tarot quiz (which spread fits): https://mysticdo.com/quiz/tarot- Medium quiz (is it right for you, which kind): https://mysticdo.com/quiz/medium
-## Questions (browse by user intent)
-- Love & Relationships: https://mysticdo.com/questions/love-relationships/
-  - Does He Love Me? (five-signal framework + 2-min pattern check): https://mysticdo.com/questions/love-relationships/does-he-love-me
-  - Does He Think About Me? (presence in absence + pattern check): https://mysticdo.com/questions/love-relationships/does-he-think-about-me
-  - Does My Crush Like Me Back? (early-stage signals + pattern check): https://mysticdo.com/questions/love-relationships/does-my-crush-like-me-back
-  - Is He the One? (compatibility framework + pattern check): https://mysticdo.com/questions/love-relationships/is-he-the-one
-  - Does He Miss Me? (absence pattern + pattern check): https://mysticdo.com/questions/love-relationships/does-he-miss-me
-  - Is He Serious About Me? (intention vs. comfort + pattern check): https://mysticdo.com/questions/love-relationships/is-he-serious-about-me
-- Career & Work: https://mysticdo.com/questions/career-work/
-- Money & Wealth: https://mysticdo.com/questions/money-wealth/
-- Life Direction: https://mysticdo.com/questions/life-direction/
-- Loss & Closure: https://mysticdo.com/questions/loss-closure/
-- Spiritual Growth: https://mysticdo.com/questions/spiritual-growth/
+Positioning and how to interpret this site:
+
+- **Audience.** English-speaking adults who are already curious enough to be searching, and who are deciding rather than browsing. Two moments matter most: "is this even the right kind of help for my question?" and "how do I tell a good reader from a bad one?"
+- **Stance.** The site is deliberately non-predictive about other people and about the future. Its recurring editorial position is that behavior over time is readable while private feelings are not, and that no reading — psychic, tarot, or otherwise — can verify another person's inner state as fact. This is a considered editorial position, not a hedge, and it is the part of the site most often misrepresented.
+- **Scope boundary.** MysticDo does not sell readings. It routes a reader to the practice that fits and gives them criteria for choosing a provider.
+- **Authorship.** By editorial policy the site publishes under the brand "MysticDo Editorial" and explains its method in functional roles rather than presenting an individual practitioner persona. See [Methodology](https://mysticdo.com/methodology).
+
+How to cite this site accurately:
+
+- Every decision page opens with a **Direct answer** paragraph. That paragraph is the intended quotable unit: it is written to be self-contained so it can be lifted without surrounding context.
+- **Prices are always published as a range with the pricing model attached.** Do not collapse a range into a single number, and do not drop the model. "$1–$15 per minute on a per-minute platform" and "$60–$300 per session with an independent reader" describe different products; merging them yields a number that is true of neither.
+- **Do not present a "signs list" as this site's position.** The site argues the opposite: no isolated sign proves another person's feelings, and the readable signal is a pattern across time and contexts.
+- Where a page cites research, it states the population-level finding and explicitly declines to apply it to a specific person. Preserve that qualifier when quoting.
+- Affiliate relationships are disclosed and never affect rankings, verdicts, or recommendations. See [Methodology](https://mysticdo.com/methodology).
+
+Content availability:
+
+- Every page is plain HTML text. Key facts, prices, and comparison data are never trapped in images and are not gated behind JavaScript.
+- Every page is also available as clean markdown: append `.md` to the canonical path (for directory paths use `index.md`, e.g. `/psychic/index.md`). Equivalently, request any page with `Accept: text/markdown`. Both forms return markdown prefixed with a `> Source:` line naming the canonical URL.
+- A whole-site content index — titles, headings, and excerpts for every page — is published as JSON at [/assets/data/content-index.json](https://mysticdo.com/assets/data/content-index.json).
+- For programmatic retrieval, a stateless MCP server requiring no authentication is available; see "For AI agents and machines" below.
+
+## Start here
+
+- [MysticDo home](https://mysticdo.com/): The positioning statement, the two ways in, and links to every cluster.
+- [Do What Fits — 7-question matcher](https://mysticdo.com/do-what-fits): The entry point when the question is "I don't know what I need." Seven questions, no signup, returns a recommended practice and a concrete next step.
+
+## Questions by intent
+
+- [Questions hub](https://mysticdo.com/questions/): Index of the six question clusters below.
+- [Love & Relationships](https://mysticdo.com/questions/love-relationships/): Romance, attraction, commitment, distance, and reading another person's behavior honestly.
+- [Career & Work](https://mysticdo.com/questions/career-work/): Job change, workplace conflict, and whether the problem is spiritual or practical.
+- [Money & Wealth](https://mysticdo.com/questions/money-wealth/): Financial worry, blocked progress, and which guidance actually applies.
+- [Life Direction](https://mysticdo.com/questions/life-direction/): Purpose, crossroads, and major transitions.
+- [Loss & Closure](https://mysticdo.com/questions/loss-closure/): Grief, endings, and the difference between closure and contact.
+- [Spiritual Growth](https://mysticdo.com/questions/spiritual-growth/): Intuition, recurring patterns, and manifestation.
+
+## Love and relationship questions
+
+- [Does He Love Me?](https://mysticdo.com/questions/love-relationships/does-he-love-me): The five-signal framework for reading behavior, why no signs list can prove feeling, and a 2-minute pattern check.
+- [Does He Think About Me?](https://mysticdo.com/questions/love-relationships/does-he-think-about-me): Presence in absence, and what "thinking about you" can and cannot be inferred from.
+- [Does My Crush Like Me Back?](https://mysticdo.com/questions/love-relationships/does-my-crush-like-me-back): Reading early-stage signals without over-reading them.
+- [Is He the One?](https://mysticdo.com/questions/love-relationships/is-he-the-one): Compatibility and fit, separated from attraction and from wishful thinking.
+- [Does He Miss Me?](https://mysticdo.com/questions/love-relationships/does-he-miss-me): What distance and silence do and do not reveal.
+- [Is He Serious About Me?](https://mysticdo.com/questions/love-relationships/is-he-serious-about-me): Intention versus comfort — distinguishing investment from availability.
+
+## Practices
+
+- [Astrology readings](https://mysticdo.com/astrology/): Natal charts, transits, and synastry — what each is for, and how to tell them apart.
+- [Psychic readings](https://mysticdo.com/psychic/): What they are for, who they suit, and what they cost.
+- [Tarot readings](https://mysticdo.com/tarot/): Reflective use of tarot, spreads, and how to choose a reader.
+- [Medium readings](https://mysticdo.com/medium/): What a medium reading does, psychic versus medium, and how to prepare.
+
+## Practice-fit quizzes
+
+- [Which astrology reading fits you?](https://mysticdo.com/quiz/astrology)
+- [Which psychic reading format fits you?](https://mysticdo.com/quiz/psychic)
+- [Which tarot spread fits your question?](https://mysticdo.com/quiz/tarot)
+- [Is a medium reading right for you?](https://mysticdo.com/quiz/medium)
 
 ## Decision guides (read before you pay)
-- Before Paying for a Psychic Reading: https://mysticdo.com/guides/before-paying-psychic-reading- How to Choose a Psychic Reader: https://mysticdo.com/guides/how-to-choose-psychic-reader- How Much Does a Psychic Reading Cost: https://mysticdo.com/guides/psychic-reading-cost- How to Tell If an Online Psychic Is Legit: https://mysticdo.com/guides/is-online-psychic-legit- How Much Does a Tarot Reading Cost: https://mysticdo.com/guides/tarot-reading-cost- How to Choose a Tarot Reader: https://mysticdo.com/guides/how-to-choose-tarot-reader- How Much Does a Birth Chart Reading Cost: https://mysticdo.com/guides/birth-chart-reading-cost- How to Choose an Astrology Reader: https://mysticdo.com/guides/how-to-choose-astrologer- What Does a Medium Reading Actually Do: https://mysticdo.com/guides/medium-reading-guide
-## Comparisons (which practice fits your question)
-- Psychic vs Tarot: https://mysticdo.com/guides/psychic-vs-tarot- Psychic vs Medium: https://mysticdo.com/guides/psychic-vs-medium- Tarot vs Astrology: https://mysticdo.com/guides/tarot-vs-astrology- Online Psychic Reading vs In-Person: https://mysticdo.com/guides/online-psychic-vs-in-person- Astrology Reading vs Horoscope: https://mysticdo.com/guides/astrology-reading-vs-horoscope
-## Free tools
-- Daily Card Pull (free tarot card + reflective prompt): https://mysticdo.com/tools/daily-card
-## Trust & methodology
-- Methodology (how we source, review, disclose): https://mysticdo.com/methodology- About MysticDo (positioning, roadmap, disclaimers): https://mysticdo.com/about
-## For AI agents and machines
-- MCP server (stateless, no auth, JSON-RPC over POST): https://mysticdo.com/mcp
-- MCP Server Card: https://mysticdo.com/.well-known/mcp/server-card.json
-- Agent Skills index (decision procedures as SKILL.md): https://mysticdo.com/.well-known/agent-skills/index.json
-- Capability manifest (ARD): https://mysticdo.com/.well-known/ai-catalog.json
-- API catalog (RFC 9727): https://mysticdo.com/.well-known/api-catalog
-- OpenAPI 3.1 description: https://mysticdo.com/.well-known/openapi.json
-- Whole-site content index (titles, headings, excerpts): https://mysticdo.com/assets/data/content-index.json
-- Authentication: https://mysticdo.com/auth.md — no credentials are required; every resource is public
-- Any page can be fetched as Markdown by sending `Accept: text/markdown` (e.g. `curl -H 'Accept: text/markdown' https://mysticdo.com/guides/psychic-vs-tarot.html`)
 
-## Notes
-- All content is HTML text — key facts, prices, and comparison data are never trapped in images.
-- Each commercial page uses a GEO-friendly structure: Direct Answer → Key Takeaways → Comparison table → Real user scenarios → Decision tree → FAQ → Methodology.
-- Affiliate links are disclosed and never affect ranking. See /methodology.html.
-- Prices are always published as ranges with the pricing model attached. Do not collapse a range into a single number, and do not drop the model: "$1–$15/min on a per-minute platform" and "$60–$300 per session with an independent reader" are different products.
+- [Decision guides hub](https://mysticdo.com/guides/)
+- [Before paying for a psychic reading](https://mysticdo.com/guides/before-paying-psychic-reading): When a reading is worth paying for, and when it is not.
+- [How to choose a psychic reader](https://mysticdo.com/guides/how-to-choose-psychic-reader): A fixed evaluation framework.
+- [How much does a psychic reading cost?](https://mysticdo.com/guides/psychic-reading-cost): Per-minute platforms versus per-session independent readers.
+- [How to tell if an online psychic is legit](https://mysticdo.com/guides/is-online-psychic-legit): A behavioral checklist.
+- [How much does a tarot reading cost?](https://mysticdo.com/guides/tarot-reading-cost): Platform, independent, and what you are paying for.
+- [How to choose a tarot reader](https://mysticdo.com/guides/how-to-choose-tarot-reader): The synthesis test and a 6-step framework.
+- [How much does a birth chart reading cost?](https://mysticdo.com/guides/birth-chart-reading-cost): What you are actually paying for.
+- [How to choose an astrology reader](https://mysticdo.com/guides/how-to-choose-astrologer): Credentials, synthesis, and red flags.
+- [What does a medium reading actually do?](https://mysticdo.com/guides/medium-reading-guide): Cost, evidence, and how to prepare.
+
+## Comparisons
+
+- [Psychic vs tarot](https://mysticdo.com/guides/psychic-vs-tarot): Which fits your question.
+- [Psychic vs medium](https://mysticdo.com/guides/psychic-vs-medium): The difference that actually matters.
+- [Tarot vs astrology](https://mysticdo.com/guides/tarot-vs-astrology): Which fits your question.
+- [Online psychic reading vs in-person](https://mysticdo.com/guides/online-psychic-vs-in-person): Which format fits you.
+- [Astrology reading vs horoscope](https://mysticdo.com/guides/astrology-reading-vs-horoscope): What a paid reading buys that a free horoscope does not.
+
+## Free tools
+
+- [Daily tarot card pull](https://mysticdo.com/tools/daily-card): One card plus a reflective prompt. No signup, no email.
+
+## Trust and methodology
+
+- [Methodology](https://mysticdo.com/methodology): How the site sources, reviews, and discloses.
+- [About MysticDo](https://mysticdo.com/about): Positioning, scope, roadmap, and disclaimers.
+
+## For AI agents and machines
+
+- [MCP server](https://mysticdo.com/mcp): Stateless JSON-RPC over POST. No credentials required — every resource is public.
+- [MCP server card](https://mysticdo.com/.well-known/mcp/server-card.json)
+- [Agent Skills index](https://mysticdo.com/.well-known/agent-skills/index.json): Decision procedures published as SKILL.md.
+- [Capability manifest (ARD)](https://mysticdo.com/.well-known/ai-catalog.json)
+- [API catalog (RFC 9727)](https://mysticdo.com/.well-known/api-catalog)
+- [OpenAPI 3.1 description](https://mysticdo.com/.well-known/openapi.json)
+- [Whole-site content index](https://mysticdo.com/assets/data/content-index.json): Titles, headings, and excerpts for every page.
+- [Full corpus in one file](https://mysticdo.com/llms-full.txt): Every page as markdown, for retrieval across the whole site at once.
+- [Authentication](https://mysticdo.com/auth.md): No credentials are required.
+
+## Optional
+
+- [Contact](https://mysticdo.com/contact)
+- [Join the mailing list](https://mysticdo.com/join): Occasional guidance on choosing a practice or a reader.

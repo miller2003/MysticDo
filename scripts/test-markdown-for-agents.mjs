@@ -187,8 +187,52 @@ if (big) {
   }
 }
 
-// ── 3. CPU 基准 ───────────────────────────────────────────────────────────
-console.log('\n══ 3. CPU 基准（Workers 免费版上限 10ms/请求）══');
+// ── 3. Markdown 孪生体（llms.txt v2 提案：/path.md） ──────────────────────
+console.log('\n══ 3. Markdown 孪生体（/path.md）══');
+{
+  // 目录式页面 → 提案规定的 index.md 形式
+  const a = await call('https://mysticdo.com/psychic/index.md');
+  const body = await a.res.text();
+  const link = a.res.headers.get('Link') || '';
+  ok('目录式 /psychic/index.md → markdown', (a.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+  ok('  含标题与 > Source 标注', body.startsWith('# ') && body.includes('> Source: https://'));
+  ok('  标记 noindex（不与正本重复收录）', /noindex/.test(a.res.headers.get('X-Robots-Tag') || ''));
+  ok('  通告 canonical + describedby', /rel="canonical"/.test(link) && /rel="describedby"/.test(link));
+}
+{
+  const a = await call('https://mysticdo.com/about.md');
+  ok('/about.md → markdown（自动回退 about.html）', (a.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+  const b = await call('https://mysticdo.com/questions/love-relationships/does-he-love-me.md');
+  ok('深层正文页 .md → markdown', (b.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+  const c = await call('https://mysticdo.com/index.md');
+  ok('根路径 /index.md → markdown', (c.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+  const d = await call('https://mysticdo.com/about.html.md');
+  ok('.html.md 变体亦有效（提案两种形式都支持）', (d.res.headers.get('Content-Type') || '').startsWith('text/markdown'));
+}
+{
+  // 不该有孪生体的路径：必须 404，绝不能 500，更不能劫持其它路由
+  const a = await call('https://mysticdo.com/go/kasamba.md');
+  ok('/go/*.md 不生成孪生体', a.res.status === 404);
+  const b = await call('https://mysticdo.com/sitemap.xml.md');
+  ok('静态资源 .md 不生成孪生体', b.res.status === 404);
+  const c = await call('https://mysticdo.com/no-such-page.md');
+  ok('不存在的页面 .md → 404（不抛 500）', c.res.status === 404);
+  const d = await call('https://mysticdo.com/.well-known/agent-skills/nope/SKILL.md');
+  const db = await d.res.text();
+  ok('SKILL.md 仍归发现层（未被孪生体劫持）', d.res.status === 404 && db.includes('No skill named'));
+  const e = await call('https://mysticdo.com/auth.md');
+  ok('/auth.md 仍由发现层提供（未被当成页面转换）', e.res.status === 200);
+}
+{
+  // HTML 页必须通告自己的 markdown 孪生体（提案规定的发现机制）
+  const { res } = await call('https://mysticdo.com/about.html', BROWSER);
+  const link = res.headers.get('Link') || '';
+  ok('HTML 页通告 rel="alternate" type="text/markdown"', /rel="alternate";\s*type="text\/markdown"/.test(link));
+  ok('  通告的是归一化后的短地址 /about.md', /<\/about\.md>/.test(link));
+}
+
+// ── 4. CPU 基准 ───────────────────────────────────────────────────────────
+console.log('\n══ 4. CPU 基准（Workers 免费版上限 10ms/请求）══');
 const bench = (file, iters) => {
   const html = readFileSync(file, 'utf8');
   const t0 = process.hrtime.bigint();

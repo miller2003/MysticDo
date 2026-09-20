@@ -18,55 +18,97 @@
 
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 
-# ── All crawlers ──
+# ─────────────────────────────────────────────────────────────────────────────
+# THE ACTUAL GUARANTEE
+#
+# The group below is what keeps every AI search tool unblocked. Any crawler not
+# named further down — including one released after this file was written — is
+# covered by `User-agent: *` and therefore allowed. Nothing on this site is
+# blocked except /_design-check/ (build artefacts, also excluded from the CDN)
+# and CCBot (see the last group).
+#
+# The named groups exist for two reasons only: they document intent, and they
+# stay correct if this `*` group is ever tightened. Note that a named group
+# REPLACES `*` entirely — it does not inherit from it — so every named group
+# below repeats the shared Disallow. Keep it that way.
+#
+# ⚠️ robots.txt is not the only control layer. A CDN, WAF, bot-management or
+# rate-limit rule can block these same crawlers regardless of what is written
+# here. On Cloudflare, verify that "Block AI bots" / AI Crawl Control and Bot
+# Fight Mode are off (or that the crawlers below are in the allow list) — this
+# file cannot override those settings.
+# ─────────────────────────────────────────────────────────────────────────────
+
 User-agent: *
 Allow: /
 Disallow: /_design-check/
 
-# ── Search engines ──
+# ── Classic search engines ──
 User-agent: Googlebot
-Allow: /
-
 User-agent: Bingbot
-Allow: /
-
 User-agent: DuckDuckBot
+User-agent: Applebot
+User-agent: PetalBot
 Allow: /
+Disallow: /_design-check/
 
-# ── AI answer engines and user-initiated fetchers (ai-input / search) ──
-# These are the channels that produce citations. They are explicitly welcomed.
+# ── AI answer engines — the indexing channel that produces citations ──
+# These fetch pages to ground an answer and attribute the source, and are not
+# used solely for training. Blocking any one of them removes a citation channel.
 User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
 User-agent: PerplexityBot
-Allow: /
-
 User-agent: Claude-SearchBot
+User-agent: DuckAssistBot
+User-agent: Amazonbot
+User-agent: Amzn-SearchBot
+User-agent: AzureAI-SearchBot
+User-agent: Kimi-SearchBot
+User-agent: ExaSearchBot
+User-agent: TavilyBot
+User-agent: LinkupBot
+User-agent: Querit-SearchBot
+User-agent: Bravebot
+User-agent: iAskBot
+User-agent: QwenBot
 Allow: /
+Disallow: /_design-check/
 
+# ── User-initiated fetchers — a person asked, the agent fetched this page ──
+# Allowed on purpose: these are the requests closest to a genuine visit, and
+# they are the ones that carry a citation back to the page.
+User-agent: ChatGPT-User
+User-agent: Perplexity-User
 User-agent: Claude-User
+User-agent: MistralAI-User
+User-agent: meta-externalfetcher
+User-agent: Kimi-User
+User-agent: Google-Agent
+User-agent: NotebookLM
+User-agent: Gemini-Deep-Research
+User-agent: kagi-fetcher
 Allow: /
+Disallow: /_design-check/
 
+# ── Vendor tokens that gate grounding as well as training ──
+# Allowed deliberately. Google-Extended and Applebot-Extended are the switches
+# for AI groundability, and OpenAI/Anthropic route search and grounding through
+# the same crawler family. Turning these off would close the ai-input channel.
 User-agent: Google-Extended
-Allow: /
-
+User-agent: Applebot-Extended
 User-agent: GPTBot
-Allow: /
-
 User-agent: ClaudeBot
 Allow: /
+Disallow: /_design-check/
 
-User-agent: Applebot-Extended
-Allow: /
-
-# ── Model-training corpora (ai-train=no) ──
-# CCBot builds Common Crawl, whose sole downstream product is training data.
-# It returns no search or answer channel to this site, so the tokens are
+# ── Training-only corpora (ai-train=no) ──
+# CCBot builds Common Crawl, whose downstream product is training data. It
+# returns no search or answer channel to this site, so the tokens are
 # unambiguous here and are declined at the crawl level as well as in the
 # Content-Signal declaration above.
+#
+# Note the deliberate asymmetry: a vendor whose crawler also serves answers is
+# left allowed even when it also trains, because blocking it would cost
+# citations — which is the opposite of what this site is optimising for.
 User-agent: CCBot
 Disallow: /
 

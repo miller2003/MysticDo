@@ -477,7 +477,10 @@ export function convertPage(html, opts = {}) {
   let title = (opts.title || '').trim();
   if (!title) {
     const h1 = main.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
-    if (h1) title = decodeEntities(h1[1].replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+    // 标签替换成**空格**而不是空串：`<h1>A.<br><span>B.</span></h1>` 若直接删标签
+    // 会得到 "A.B."（单词粘连），既读起来是错的，也会让下面"去掉重复 h1"的匹配失败，
+    // 于是同一个标题在正文里出现两次。换成空格后与正文渲染结果一致，去重才生效。
+    if (h1) title = decodeEntities(h1[1].replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
   }
   if (!title) {
     const t = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);

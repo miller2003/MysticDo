@@ -20,6 +20,7 @@ No third-party dependencies — stdlib only, so it runs anywhere Python does.
 
 import json
 import hashlib
+import os
 import re
 import ssl
 import sys
@@ -29,6 +30,15 @@ import urllib.request
 
 ORIGIN = (sys.argv[1] if len(sys.argv) > 1 else "https://mysticdo.com").rstrip("/")
 TIMEOUT = 20
+
+# urllib defaults to `Python-urllib/3.x`, which Cloudflare (and most WAFs) classify
+# as a scraper signature and answer with 403 + error 1010. That made every check in
+# this file fail for the wrong reason — the site was reachable, the verifier was not.
+# Identify honestly instead: a plain descriptive token passes, and if a network ever
+# blocks this one too, override it with MYSTICDO_VERIFY_UA rather than editing here.
+USER_AGENT = os.environ.get(
+    "MYSTICDO_VERIFY_UA", "MysticDo-Verifier/1.0 (+https://mysticdo.com/methodology)"
+)
 
 CTX = ssl.create_default_context()
 
@@ -51,6 +61,8 @@ def warn(name, ok, detail=""):
 def request(path, method="GET", headers=None, body=None):
     url = path if path.startswith("http") else ORIGIN + path
     req = urllib.request.Request(url, method=method, data=body)
+    req.add_header("User-Agent", USER_AGENT)
+    # Caller-supplied headers win, so a test can deliberately probe another identity.
     for k, v in (headers or {}).items():
         req.add_header(k, v)
     try:
@@ -231,6 +243,47 @@ if m:
         check("Content-Signal declares %s" % token, token in signal, signal)
 check("robots.txt declares Agentmap",
       bool(re.search(r"^Agentmap:\s*\S+", robots, re.M)))
+
+# ── 6b. llms.txt / llms-full.txt exactly as served ──────────────────────────
+# validate_seo.py inspects these files in the repo. This inspects the bytes the
+# CDN returns, which is a different question: a file can be perfect on disk and
+# still be swallowed by .assetsignore, or served with a mangled content type.
+status, hdrs, body = request("/llms.txt")
+llms = body.decode("utf-8", "replace")
+check("llms.txt → 200", status == 200, "status=%s" % status)
+check("llms.txt has exactly one H1", len(re.findall(r"^# \S", llms, re.M)) == 1)
+check("llms.txt has a blockquote summary", bool(re.search(r"^> \S", llms, re.M)))
+if status == 200:
+    first_h2 = llms.find("\n## ")
+    items = ([l for l in llms[first_h2:].splitlines() if l.startswith("- ") and "http" in l]
+             if first_h2 >= 0 else [])
+    # The 2026-09-20 welded-lines defect surfaces right here: after the .html strip
+    # the URLs ran into the next entry's title, so no item parsed as a link.
+    check("llms.txt file-list items are markdown links",
+          bool(items) and all(re.match(r"^- \[[^\]]+\]\(https?://[^)\s]+\)", l) for l in items),
+          "n=%d" % len(items))
+    check("llms.txt has no line with two URLs",
+          not any(len(re.findall(r"https?://[^\s)]+", l)) > 1 for l in llms.splitlines()))
+
+    # Every page the index advertises must actually answer. Worker routes and
+    # static assets are skipped — they already have their own checks above.
+    pages = [u for u in sorted(set(re.findall(r"\((https?://[^)\s]+)\)", llms)))
+             if not re.search(r"/(\.well-known|assets)/", u)
+             and u.rstrip("/") not in ("https://mysticdo.com/mcp", "https://mysticdo.com/auth.md")]
+    dead = []
+    for u in pages:
+        s, _, _ = request(u)
+        if s >= 400:
+            dead.append("%s→%s" % (u, s))
+    # `pages` must be non-empty: an index whose links cannot be extracted at all
+    # would otherwise pass this check vacuously.
+    check("every llms.txt page link resolves live", bool(pages) and not dead,
+          "%d checked; dead: %s" % (len(pages), "; ".join(dead[:4])))
+
+status, hdrs, body = request("/llms-full.txt")
+check("llms-full.txt → 200", status == 200, "status=%s" % status)
+check("llms-full.txt is substantial", status == 200 and len(body) > 100_000,
+      "%d bytes" % len(body))
 
 # ── 7. Content layer ────────────────────────────────────────────────────────
 status, hdrs, body = request("/assets/data/content-index.json")

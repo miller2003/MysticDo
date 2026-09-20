@@ -51,13 +51,19 @@ const MAX_CONVERT_BYTES = 150 * 1024;
 /**
  * RFC 8288 Link 头：把本站的机器可读资源通告给智能体。
  * 关系类型全部取自已注册集合（RFC 8631 定义 service-desc / service-doc /
- * service-meta / status；api-catalog 由 RFC 9727 §3 定义）。
+ * service-meta / status；api-catalog 由 RFC 9727 §3 定义；
+ * describedby 由 RFC 8288 §2.1.2 定义，是 llms.txt v2 提案指定的 llms.txt 关系）。
  * 只在 HTML 响应上发 —— 静态资源（图片、字体、CSS）不需要。
+ *
+ * ⚠️ `/llms.txt` 故意挂两条 rel：service-doc 是既有的机器发现口径
+ * （scripts/test-worker-agent-routes.mjs 与 scripts/verify-agent-surface.py
+ * 都按字面量断言它），describedby 是 llms.txt v2 提案要求的口径。删任一条都会掉测试。
  */
 const LINK_HEADER = [
   '</.well-known/api-catalog>; rel="api-catalog"',
   '</.well-known/openapi.json>; rel="service-desc"',
   '</llms.txt>; rel="service-doc"',
+  '</llms.txt>; rel="describedby"',
   '</.well-known/ai-catalog.json>; rel="service-meta"',
   '</api/health>; rel="status"',
 ].join(', ');
@@ -74,12 +80,25 @@ function mergeVary(h) {
   return h;
 }
 
-/** 复制响应头，补 Vary，并在 HTML 上补 Link（RFC 8288）。 */
-function decorate(res) {
+/**
+ * 复制响应头，补 Vary，并在 HTML 上补 Link（RFC 8288）。
+ *
+ * 传入 url 时，HTML 正文页会额外通告自己的 markdown 孪生体
+ * （llms.txt v2 提案的发现机制：rel="alternate"; type="text/markdown"）——
+ * 智能体不必猜测约定，读响应头即知 markdown 版本在哪。
+ */
+function decorate(res, url) {
   const h = mergeVary(new Headers(res.headers));
   const ctype = h.get('Content-Type') || '';
   if (!h.has('Link') && (ctype.includes('text/html') || ctype.includes('text/markdown'))) {
     h.set('Link', LINK_HEADER);
+  }
+  if (url && ctype.includes('text/html')) {
+    const twin = markdownTwinHref(url.pathname);
+    const current = h.get('Link') || '';
+    if (twin && !current.includes('<' + twin + '>')) {
+      h.set('Link', [current, '<' + twin + '>; rel="alternate"; type="text/markdown"'].filter(Boolean).join(', '));
+    }
   }
   return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h });
 }
@@ -228,6 +247,12 @@ async function routeAgentSurface(request, env, pathname) {
     return handleRevoke(request, env);
   }
 
+  /* ---- 2.5 Markdown 孪生体：/path.md → 该页的干净 markdown（llms.txt v2 提案） ---- */
+  // 放在最后：/.well-known/<name>/SKILL.md 与 /auth.md 已在上面各自处理完，
+  // 不会走到这里。命中就返回 markdown，未命中返回 null 交给静态资产层。
+  const twin = await markdownTwin(request, env);
+  if (twin) return twin;
+
   return null;
 }
 
@@ -252,6 +277,124 @@ function isNegotiable(pathname) {
     return ext === '.html' || ext === '.htm';
   }
   return true;   // 目录式 URL（/psychic/）与根路径
+}
+
+/* ═══════════════ 3b. Markdown 孪生体（llms.txt v2 提案） ═══════════════ */
+
+/**
+ * 由页面路径推出它的 markdown 孪生体路径。
+ * 目录式路径按提案用 index.md（/psychic/ → /psychic/index.md）；
+ * 无扩展名的正文页直接追加（/about → /about.md）。
+ * `.html` 形式先归一化掉，保证从 /about 与 /about.html 通告出来的是同一个孪生体。
+ * 返回 null 表示该路径没有孪生体（/go/、/api/、静态资源等）。
+ */
+function markdownTwinHref(pathname) {
+  if (!pathname || !pathname.startsWith('/')) return null;
+  const page = /\.html?$/i.test(pathname) ? pathname.replace(/\.html?$/i, '') : pathname;
+  if (!isNegotiable(page)) return null;
+  return (page.endsWith('/') ? page + 'index' : page) + '.md';
+}
+
+/**
+ * markdownTwinHref 的逆运算：孪生体路径 → 它对应的页面路径。
+ * 返回 null 表示这不是一个合法的孪生体请求。
+ */
+function markdownTwinTarget(pathname) {
+  if (!pathname || !pathname.endsWith('.md')) return null;
+  if (pathname.startsWith('/.well-known/')) return null;   // SKILL.md 等归发现层
+  if (pathname === '/auth.md') return null;                // 发现层文档，非页面孪生体
+  let target = pathname.slice(0, -3);
+  if (target.endsWith('/index')) target = target.slice(0, -'index'.length);
+  if (target === '') target = '/';
+  return isNegotiable(target) ? target : null;
+}
+
+/**
+ * 取目标页的 HTML 明文。
+ *
+ * 有意的取舍：**完全不转发调用方的请求头**。这样既天然避开了
+ * Accept-Encoding（否则 res.text() 会拿到 gzip 字节流），也不需要
+ * 判断正文页路径到底是 `/about` 还是 `/about.html` —— 两种都试一遍。
+ * 站点正文全部公开，转发头没有任何收益。
+ */
+async function fetchPageHtml(env, url, target) {
+  const candidates = target.endsWith('/') ? [target] : [target, target + '.html'];
+  for (const candidate of candidates) {
+    const pageUrl = new URL(url.toString());
+    pageUrl.pathname = candidate;
+    pageUrl.search = '';
+    let res;
+    try {
+      res = await env.ASSETS.fetch(
+        new Request(pageUrl.toString(), { method: 'GET', headers: { Accept: 'text/html' } }),
+      );
+    } catch {
+      continue;
+    }
+    if (!res || !res.ok) continue;
+    if (res.headers.get('Content-Encoding')) continue;
+    if (!(res.headers.get('Content-Type') || '').includes('text/html')) continue;
+    try {
+      const html = await res.text();
+      if (html) return html;
+    } catch {
+      continue;
+    }
+  }
+  return null;
+}
+
+/**
+ * 提供 `/path.md` —— 页面的干净 markdown 孪生体。
+ *
+ * llms.txt v2 提案建议每个页面在同路径提供 markdown 版本：智能体取一次即得正文，
+ * 省去 HTML 解析与 token 浪费。这里复用与内容协商**完全相同**的转换器，
+ * 因此两条入口产出的 markdown 必然一致。
+ *
+ * 硬约束：**绝不抛错**。任何异常一律返回 null，由调用方退回静态资产层按 404
+ * 处理 —— 一个可选的呈现形式，不允许影响站点其它部分。
+ */
+async function markdownTwin(request, env) {
+  try {
+    if (request.method !== 'GET' && request.method !== 'HEAD') return null;
+
+    const url = new URL(request.url);
+    const target = markdownTwinTarget(url.pathname);
+    if (!target) return null;
+
+    const html = await fetchPageHtml(env, url, target);
+    if (!html || html.length > MAX_CONVERT_BYTES) return null;
+
+    let out;
+    try {
+      out = convertPage(html, { url: new URL(target, ORIGIN).toString() });
+    } catch {
+      return null;
+    }
+    if (!out || !out.markdown || out.words < 20) return null;
+
+    const canonical = new URL(target, ORIGIN).toString();
+    return new Response(out.markdown, {
+      status: 200,
+      headers: {
+        'Content-Type': MD_TYPE,
+        'Cache-Control': 'public, max-age=3600',
+        // 孪生体是同一资源的另一种呈现，不是第二个资源：不让搜索引擎把它当独立
+        // 页面收录，正本仍由 canonical 收录与被引用。noindex 只影响"是否收录"，
+        // 不影响抓取，AI 读取这条 URL 不受任何影响。
+        'X-Robots-Tag': 'noindex, follow',
+        'X-Markdown-For-Agents': '1',
+        Vary: 'Accept',
+        Link: [
+          '<' + canonical + '>; rel="canonical"',
+          '<' + markdownTwinHref(target) + '>; rel="alternate"; type="text/markdown"',
+          LINK_HEADER,
+        ].join(', '),
+      },
+    });
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -280,7 +423,7 @@ async function serveAsset(request, env) {
     wantsMarkdown(request) &&
     isNegotiable(url.pathname);
 
-  if (!negotiate) return decorate(await env.ASSETS.fetch(request));
+  if (!negotiate) return decorate(await env.ASSETS.fetch(request), url);
 
   // 去掉 Accept-Encoding 再取一次，确保拿到**未压缩**明文；
   // 否则 response.text() 会得到 gzip 字节流。取不到就退回默认请求。
@@ -297,7 +440,7 @@ async function serveAsset(request, env) {
 
   const ctype = res.headers.get('Content-Type') || '';
   if (!res.ok || !ctype.includes('text/html') || res.headers.get('Content-Encoding')) {
-    return decorate(res);
+    return decorate(res, url);
   }
 
   let html;
@@ -306,7 +449,7 @@ async function serveAsset(request, env) {
   } catch {
     // 读不出明文（极少见）：改用原始请求再取一次，保证仍能返回 HTML
     try {
-      return decorate(await env.ASSETS.fetch(request));
+      return decorate(await env.ASSETS.fetch(request), url);
     } catch {
       return new Response('Upstream error', { status: 502, headers: { Vary: 'Accept' } });
     }

@@ -13,6 +13,8 @@
     "test:webmcp": "node scripts/test-webmcp.mjs",
     "test:markdown": "node scripts/test-markdown-for-agents.mjs --dist=.",
     "build:index": "python scripts/build-content-index.py",
+    "build:llms": "node scripts/build-llms-full.mjs",
+    "build:content": "python scripts/build-content-index.py && node scripts/build-llms-full.mjs",
     "indexnow": "node scripts/indexnow.mjs",
     "verify": "python scripts/verify-agent-surface.py"
   }
