@@ -631,7 +631,7 @@ window.MYSTICDO_QUIZZES = {
         archetype: 'You have a specific question and want a low-pressure, written read. Chat format is the lowest-friction way in.',
         primary: { name: 'Chat-based psychic reading', fit: 'platform chat, 10\u201315 min', href: '/psychic/' },
         budget: '$1\u2013$10 / min \u2014 ~$15\u2013$30 first session',
-        before: 'Sharpen the question first. Vague worries produce vague reads. See the Question Generator (coming soon).'
+        before: 'Sharpen the question first. Vague worries produce vague reads \u2014 write down the one specific answer you\u2019d need to walk away satisfied.'
       },
       phone_focused: {
         path: 'Phone psychic, focused 15\u201320 min',
@@ -797,7 +797,7 @@ window.MYSTICDO_QUIZZES = {
         archetype: 'A per-minute platform read is the most flexible entry \u2014 you control length and budget.',
         primary: { name: 'Platform tarot reading', fit: 'per-minute, 15\u201320 min', href: '/tarot/#providers' },
         budget: '$15\u2013$50',
-        before: 'Pick a reader who specializes in your question type. See How to Choose a Tarot Reader (planned).'
+        before: 'Pick a reader who specializes in your question type. Our How to Choose a Tarot Reader guide shows exactly what to check before you book.'
       },
       redirect_astrology: {
         path: 'Actually, astrology may fit better',
