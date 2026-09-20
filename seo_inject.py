@@ -8,6 +8,7 @@ For every HTML page, inject:
   - article:modified_time / article:author (for article pages)
   - page-specific JSON-LD: Organization + WebSite (home), Article + FAQPage +
     BreadcrumbList (guides), BreadcrumbList (all subpages), WebApplication (daily card),
+    WebApplication + Article.mentions (pattern-check question pages),
     ContactPage/AboutPage where relevant
 Also generates sitemap.xml. Idempotent: strips a previously-injected block first.
 """
@@ -226,6 +227,63 @@ def org_website_jsonld(desc):
     }
     return [org, site]
 
+# Question article pages that mount an interactive pattern check
+# (<div data-quiz ... data-quiz-modal>). Each gets an extra WebApplication
+# JSON-LD entity plus an Article "mentions" reference, so AI systems can see
+# the page ships an interactive, personalized tool — the "citation-to-click"
+# surface: an AI answer can summarize the article, but only the page can run
+# the check. Descriptions must stay honest: personalized from the user's own
+# answers, free, runs in the browser, nothing stored or sent.
+QUIZ_TOOL_PAGES = {
+    "questions/love-relationships/does-he-love-me.html": {
+        "name": "Does He Love Me Pattern Check",
+        "description": ("A free, interactive two-minute self-check. You answer eight questions about "
+            "your own relationship — what changed, how his behavior runs across weeks, and what you most "
+            "want to know — and it reads your answers into one of five behavior patterns (steady investment, "
+            "inconsistent engagement, words over actions, early-stage ambiguity, one-sided maintenance), ending "
+            "on a next step that fits. Personalized from your answers rather than a fixed signs list; runs in "
+            "your browser and never stores or sends anything."),
+    },
+    "questions/love-relationships/does-he-think-about-me.html": {
+        "name": "Does He Think About Me Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions map why this question is "
+            "on your mind, what the pattern of his contact and recall looks like, and what you want to happen "
+            "next — then return a personalized read of what that pattern may suggest, where it stops, and what "
+            "to watch. Works from your own answers rather than a fixed article; runs in your browser and never "
+            "stores or sends anything."),
+    },
+    "questions/love-relationships/does-my-crush-like-me-back.html": {
+        "name": "Does My Crush Like Me Back Pattern Check",
+        "description": ("A free, interactive two-minute self-check for early-stage connections. Eight questions "
+            "cover what has actually happened between you so far and what you want to happen next; your answers "
+            "produce a personalized read of the signals available — saying plainly when there isn't enough data "
+            "yet — plus a concrete next step. Runs in your browser; nothing is stored or sent."),
+    },
+    "questions/love-relationships/is-he-the-one.html": {
+        "name": "Is He the One Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions surface what your own "
+            "reactions already track — the relationship's directional behavior, what you are hoping for, and what "
+            "you would need to feel sure — and return a personalized read of what the pattern supports and what "
+            "it cannot settle, with a next step. It never issues a verdict; runs in your browser and never stores "
+            "or sends anything."),
+    },
+    "questions/love-relationships/does-he-miss-me.html": {
+        "name": "Does He Miss Me Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions look at how the distance sits "
+            "with you, what his behavior across it actually shows, and what reaching out would be for — then give "
+            "a personalized read of the pattern and a next step, which may be reaching out, waiting a defined "
+            "window, or letting go. It reads your answers, not his mind; runs in your browser and never stores or "
+            "sends anything."),
+    },
+    "questions/love-relationships/is-he-serious-about-me.html": {
+        "name": "Is He Serious About Me Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions cover how his investment looks "
+            "over time, where his words and actions diverge, and what would make you feel sure; your answers return "
+            "a personalized read of whether his behavior reads as intention or comfort, plus a next step that fits. "
+            "Runs in your browser and never stores or sends anything."),
+    },
+}
+
 def webapp_jsonld(title, desc, url):
     return {
         "@context": "https://schema.org",
@@ -235,6 +293,25 @@ def webapp_jsonld(title, desc, url):
         "description": desc,
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Web",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "publisher": {"@type": "Organization", "name": "MysticDo", "url": BASE_URL + "/"},
+    }
+
+def quiz_tool_jsonld(tool, url):
+    """WebApplication entity for a page's interactive pattern check.
+    @id anchors to the #quiz mount node on the same page."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "@id": url + "#quiz",
+        "name": tool["name"],
+        "url": url,
+        "description": tool["description"],
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": True,
+        "inLanguage": "en",
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
         "publisher": {"@type": "Organization", "name": "MysticDo", "url": BASE_URL + "/"},
     }
@@ -362,11 +439,17 @@ def build_head_block(rel, html, title, desc, is_noindex):
     if is_home:
         jsonld_blocks.extend(org_website_jsonld(desc))
     elif is_guide_article:
-        jsonld_blocks.append(article_jsonld(title, desc, url, date_mod, len(faqs) > 0))
+        art = article_jsonld(title, desc, url, date_mod, len(faqs) > 0)
+        tool = QUIZ_TOOL_PAGES.get(rel)
+        if tool:
+            art["mentions"] = [{"@type": "WebApplication", "@id": url + "#quiz", "name": tool["name"]}]
+        jsonld_blocks.append(art)
         crumbs = build_breadcrumbs(rel, title)
         jsonld_blocks.append(breadcrumb_jsonld(crumbs))
         if faqs:
             jsonld_blocks.append(faq_jsonld(faqs))
+        if tool:
+            jsonld_blocks.append(quiz_tool_jsonld(tool, url))
     elif is_daily_card:
         jsonld_blocks.append(webapp_jsonld(title, desc, url))
         jsonld_blocks.append(breadcrumb_jsonld(build_breadcrumbs(rel, title)))

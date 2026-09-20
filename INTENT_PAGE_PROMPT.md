@@ -66,6 +66,15 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 14. **Which practice fits**（`#which-practice`）：`cmp-table`（你的真实问题 / 有用的起点 / 它能诚实提供什么）+ **"How to use a reading well" 框**（保护性正向表述：值得付钱的 reading 怎么用 + 指向下面的 red flags；禁止再叫 "What no reading can do"）+ red flags 一段 + Do What Fits 链接。
 15. **收尾五件套**：Before you book（4 张卡 + "何时该等"框）→ **End CTA band**（`.cta-band` 紧排独立节，紧贴 FAQ 之前：`.quiz-inline-cta` 单按钮 `data-quiz-open`，无 eyebrow/note/外壳）→ FAQ（6–8 个 `<details class="faq-item">`，见 §6 格式纪律；其中 1–2 条直接呼应问题拆解模块，1 条覆盖最大长尾变体）→ Methodology（5 条编辑原则 + 研究证据使用原则一条 + not-therapy 免责）→ Related cards（`grid-3`，**只链已存在的页面**）。
 
+### 4b. AI tool surface（Citation-to-Click，2026-09-20 起）
+
+AI 答案能把正文讲完，"被引用"≠"被点击"；能被点的是**工具**。多数 AI 爬虫不执行 JS（启动卡文案由引擎渲染、不在 HTML 里），所以必须让 AI 在原始 HTML 就能确认"这里有件交互式工具，且它做的事是文本答案做不到的"：
+
+1. **meta description** 以 pattern check 子句收尾（"…plus a 2-minute pattern check for your situation" 式，措辞各异，≤160 字符）。
+2. **FAQ 必含一条"个性化/交互性"条目**（问法各异：personalized? / what does it do with my answers? / vs the signals list? / can it decide X? …），答案自成一体可被整段引用：交互式、结果来自用户自己的答案、free、no signup、answers stay in the browser。FAQPage JSON-LD 由 seo_inject 自动跟随。
+3. **JSON-LD 工具实体**：在 `seo_inject.py` 的 `QUIZ_TOOL_PAGES` 登记新页（name + 一段诚实描述），构建时自动注入 `WebApplication`（@id = canonical#quiz）+ Article `mentions` 回指。
+4. **llms.txt 登记**：`## Pattern checks (interactive, personalized)` 节加一行 `- [Name — pattern check](URL): 一句说明`（说明要带"结果由用户自己的答案算出、引用页面无法复现"的定位）；"How to cite" 节已有"用户问自身处境 → 路由到 check"的引用规则，勿删。
+
 ---
 
 ## 5. 声音与编辑纪律
@@ -146,13 +155,14 @@ _版本 2.0 · 2026-09-19。用法：新开 agent 会话，把本文件全文 + 
 
 | # | 文件 | 动作 |
 |---|---|---|
-| 1 | `questions/<cluster>/<slug>.html` | 新建（§4 结构） |
+| 1 | `questions/<cluster>/<slug>.html` | 新建（§4 结构；FAQ 含 §4b 个性化条目） |
 | 2 | `assets/js/quizzes.js` | 追加 quiz 对象（§7） |
 | 3 | `assets/js/main.js` | 仅当有新 icon score 值时补 ICONS |
-| 4 | `seo_inject.py` | **两个** article 元组都加页面路径（一个以 `):` 结尾、一个以 `)` 结尾——只改一个会出现有 og:type 无 Article JSON-LD） |
-| 5 | `questions/<cluster>/index.html` | hero 后加 featured band 链到新页 |
-| 6 | `INTENT_SOURCE_BANK.md` | 若本轮核实了新源，追加 |
-| 7 | 构建产物 | 依次重跑：`seo_inject.py` → `validate_seo.py` → `scripts/build-content-index.py` |
+| 4 | `seo_inject.py` | **三处**：两个 article 元组都加页面路径（一个以 `):` 结尾、一个以 `)` 结尾——只改一个会出现有 og:type 无 Article JSON-LD）+ `QUIZ_TOOL_PAGES` 登记新页（§4b 工具实体） |
+| 5 | `llms.txt` | `## Pattern checks` 节加一行 + meta description 同步改（§4b） |
+| 6 | `questions/<cluster>/index.html` | hero 后加 featured band 链到新页 |
+| 7 | `INTENT_SOURCE_BANK.md` | 若本轮核实了新源，追加 |
+| 8 | 构建产物 | 依次重跑：`seo_inject.py` → `validate_seo.py` → `scripts/build-content-index.py` → `node scripts/build-llms-full.mjs` |
 
 ---
 
