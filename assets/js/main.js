@@ -230,6 +230,7 @@
     + '          <span class="badge badge-ghost">Numerology</span>'
     + '          <span class="badge badge-ghost">Manifestation</span>'
     + '        </div>'
+    + '        <p class="footer-tag mt-4">Reach us: <a href="mailto:contact@mysticdo.com" style="color:var(--accent-link)">contact@mysticdo.com</a></p>'
     + '      </div>'
     + '      <div class="footer-col"><h4>Practices</h4><ul>'
     + '        <li><a href="/astrology/">Astrology</a></li>'
@@ -686,7 +687,7 @@
               + '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>'
               + '<strong style="font-size:1.15rem;letter-spacing:-0.01em">That didn\u2019t go through.</strong>'
               + '</div>'
-              + '<p class="form-note" style="margin-top:0.6rem">Your signup didn\u2019t reach us \u2014 nothing was sent. Please try again in a moment, or use our <a href="/contact" style="color:var(--gold-600)">contact form</a> and we\u2019ll add you manually.</p>';
+              + '<p class="form-note" style="margin-top:0.6rem">Your signup didn\u2019t reach us \u2014 nothing was sent. Please try again in a moment, or email <a href="mailto:contact@mysticdo.com" style="color:var(--gold-600)">contact@mysticdo.com</a> and we\u2019ll add you manually.</p>';
             return;
           }
           form.innerHTML =

@@ -103,7 +103,7 @@
         </ul>
         <div class="direct-answer mt-5">
           <h3>Response time</h3>
-          <p style="margin:0;color:var(--ink-700)">Messages from this form go directly to our inbox. We respond to corrections and provider suggestions within 5 business days.</p>
+          <p style="margin:0;color:var(--ink-700)">Messages from this form go directly to our inbox. We respond to corrections and provider suggestions within 5 business days. Prefer email? Write to us at <a href="mailto:contact@mysticdo.com" style="color:var(--gold-600)">contact@mysticdo.com</a>.</p>
         </div>
       </div>
     </div>
@@ -159,7 +159,7 @@
           box.style.background = 'rgba(138,101,26,0.06)';
           box.style.borderColor = 'rgba(138,101,26,0.25)';
           if (h) { h.textContent = 'That didn\u2019t go through.'; h.style.color = 'var(--gold-600)'; }
-          if (p) p.textContent = 'Your message didn\u2019t reach us \u2014 nothing was sent. Please try again in a moment; if it keeps failing, email us directly and we\u2019ll sort it out.';
+          if (p) { p.innerHTML = 'Your message didn\u2019t reach us \u2014 nothing was sent. Please try again in a moment; if it keeps failing, email us directly at <a href="mailto:contact@mysticdo.com" style="color:var(--gold-600)">contact@mysticdo.com</a> and we\u2019ll sort it out.'; }
           success.classList.remove('hidden');
           success.scrollIntoView({behavior:'smooth', block:'center'});
         }
