@@ -218,6 +218,7 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
   var under = QZ.underneath(a, patternKey);
   var practiceKey = QZ.matchPractice(a);
   var p = QZ.practice[practiceKey];
+  if (!p) { practiceKey = 'general'; p = QZ.practice[practiceKey]; }
   var v2 = !!opts.resultV2;
 
   /* v2 layer 3: deterministic aha match (QUIZ_RESULT_ENGINE.md §2).
@@ -565,6 +566,33 @@ window.lovePracticeSet = function (slug) {
       note: 'Free, two minutes, and it ends with a next step either way.'
     }
   };
+};
+
+/* ---- Topic-parameterised practice set (non-love intent quizzes) ----
+   Returns the 7 shared practice keys with fit text parameterised by
+   topic phrase + cluster. opts: { topic, cluster, vsGuide } */
+window.topicPracticeSet = function (opts) {
+  var topic = opts.topic || 'your situation';
+  var cluster = opts.cluster || 'spiritual-growth';
+  var vs = opts.vsGuide || '/guides/psychic-vs-tarot';
+  var guidesHref = '/questions/' + cluster + '/';
+  return {
+    psychic: { name: 'Psychic reading', fit: 'An outside, conversational perspective on ' + topic + ' \u2014 something to weigh against what you already observe. It cannot confirm an unfalsifiable claim; no honest reader will claim it can.', href: '/psychic/', cta: 'Explore psychic readings', secondary: { name: 'Tarot spread', fit: 'if what you actually want is the pattern\u2019s shape, not the situation', href: '/tarot/' }, choose: { name: 'How to Choose a Psychic Reader', href: '/guides/how-to-choose-psychic-reader' }, note: 'Frame it on ' + topic + ', not on a yes/no verdict. Start with Before Paying for a Psychic Reading.' },
+    tarot_relationship: { name: 'Tarot spread', fit: 'A structured reflection on the shape of ' + topic + ' \u2014 the pattern, the period, the work. The shape rather than the verdict.', href: '/tarot/', cta: 'Explore tarot readings', secondary: { name: 'Psychic reading', fit: 'if you want a direct read on the situation rather than its shape', href: '/psychic/' }, choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' }, note: 'Frame the pattern, not a diagnosis.' },
+    tarot_decision: { name: 'Tarot \u2014 two-path spread', fit: 'A structured look at both paths around ' + topic + ' \u2014 what waiting actually involves, what moving on actually involves \u2014 so the decision stands on more than fatigue or fear.', href: '/tarot/', cta: 'Explore tarot readings', secondary: { name: 'Do What Fits \u2014 the full matcher', fit: 'if you want the complete practice match first', href: '/do-what-fits' }, choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' }, note: 'The spread can give each path a shape; it can\u2019t and shouldn\u2019t choose for you.' },
+    tarot_deep: { name: 'Tarot \u2014 full spread', fit: 'For the whole picture: a full spread reflects ' + topic + ' in depth \u2014 the forces in it, the pattern underneath.', href: '/tarot/', cta: 'Explore tarot readings', secondary: { name: 'Astrology \u2014 transits reading', fit: 'if longer timing patterns are the real question', href: '/astrology/' }, choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' }, note: 'Depth costs more per session \u2014 set the budget first.' },
+    closure: { name: 'Closure-framed reading or reflection', fit: 'Support framed on what this was and what it means now \u2014 useful when ' + topic + ' is really about an ending or a loss.', href: '/tarot/', cta: 'Explore tarot readings', secondary: { name: cluster.charAt(0).toUpperCase() + cluster.slice(1).replace(/-/g, ' ') + ' \u2014 all question guides', fit: 'the full set of ' + cluster + ' decision guides', href: guidesHref }, choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' }, note: 'A reading about what this was can help you carry it.' },
+    free_first: { name: 'This framework + the free Daily Card', fit: 'You said an honest read of ' + topic + ' would help most \u2014 and that, this page can give you for free. The Daily Card adds a small reflective practice, still free.', href: '/tools/daily-card', cta: 'Try the free Daily Card', secondary: { name: 'Do What Fits \u2014 the full matcher', fit: 'if a real question surfaces and you want the complete match', href: '/do-what-fits' }, note: 'If, after a defined window of watching the signals, a real question surfaces \u2014 that\u2019s when something beyond free makes sense.' },
+    general: { name: 'Do What Fits \u2014 the matcher', fit: 'You\u2019re not sure what you\u2019re asking yet, which is a fine and common place to start. The seven-question matcher maps your situation to the practice that fits it \u2014 or to none of them.', href: '/do-what-fits', cta: 'Take Do What Fits', secondary: { name: 'Psychic vs Tarot', fit: 'the decision rule for situation questions', href: vs }, note: 'Free, two minutes, and it ends with a next step either way.' }
+  };
+};
+window.topicMatchAha = function (a, pattern) {
+  if (a.status === 'loss' || a.status === 'breakup' || pattern === 'finite-streak') return 'sudden_loss';
+  if (a.control === 'overwhelmed' || a.control === 'out-of-control' || a.manageable === 'overwhelmed') return 'scarcity_panic';
+  if (a.want === 'why' || a.want === 'beneath' || a.claim_source === 'online' || a.claim_source === 'intuition') return 'illusion_fixation';
+  if (a.status === 'stuck' || a.status === 'stagnant' || a.want === 'direction') return 'stagnation_void';
+  if (a.want === 'who' || a.help === 'insight') return 'boundary_invasion';
+  return 'scarcity_panic';
 };
 
 window.MYSTICDO_QUIZZES = {
@@ -2698,5 +2726,12749 @@ window.MYSTICDO_QUIZZES = {
         }
       });
     }
-  }
+  },
+
+
+  '1111-meaning': {
+    id: '1111-meaning',
+    title: 'Why Is 1111 on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. It reads whether visual attention-capture explains the frequency, whether meaning-making is the real gain, and whether the portal or manifestation-confirmation framing is doing work the pattern can\u2019t support.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 1111 sightings \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What were you going through when 1111 started showing up?',
+        hint: 'The situation shapes how the same sightings read.',
+        options: [
+          { text: 'A new beginning or transition', detail: 'a change was underway', score: 'transition' },
+          { text: 'I\u2019d started a manifestation practice', detail: 'you\u2019d begun manifesting something', score: 'manifesting' },
+          { text: 'A stressful or uncertain period', detail: 'life felt unsettled', score: 'stress' },
+          { text: 'I\u2019d been reading about 1111 online', detail: 'the idea came from content', score: 'online' },
+          { text: 'A felt sense something was significant', detail: 'a gut feeling it meant something', score: 'felt-sense' },
+          { text: 'A reader told me it was a portal', detail: 'the framing came from a reading', score: 'reader-told' },
+          { text: 'I\u2019m not sure when it started', detail: 'the timing is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the significance of 1111 in your head?',
+        hint: '',
+        options: [
+          { text: 'I noticed it repeating and got curious', detail: 'the pattern itself', score: 'noticing' },
+          { text: 'An article or post about angel numbers', detail: 'something I read', score: 'online' },
+          { text: 'A friend mentioned the meaning', detail: 'someone close suggested it', score: 'friend' },
+          { text: 'A reader or psychic pointed to it', detail: 'a paid source named it', score: 'reader' },
+          { text: 'A felt sense it meant something', detail: 'intuition, no single thing', score: 'felt-sense' },
+          { text: 'I can\u2019t pinpoint one thing', detail: 'it crept in over time', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'visual_freq',
+        q: 'How do you make sense of seeing 1111 so often?',
+        hint: 'The frequency has a specific, honest explanation.',
+        options: [
+          { text: 'Visual capture + cultural amplification', detail: 'four identical digits are eye-catching, the culture amplifies it', score: 'visual-cultural' },
+          { text: 'Attentional priming \u2014 I notice what\u2019s in focus', detail: 'once it entered attention, I see it more', score: 'priming-now' },
+          { text: 'A mix \u2014 sometimes stress, sometimes just happening', detail: 'no single cause I can name', score: 'stress-transition' },
+          { text: 'A sign the universe is signaling me', detail: 'it feels directed', score: 'supernatural-signaling' },
+          { text: 'An awakening signal aimed at me', detail: 'it feels personal and supernatural', score: 'awakening-signal' },
+          { text: 'I can\u2019t tell why it\u2019s so frequent', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'meaning_use',
+        q: 'What do you do when you see 1111?',
+        hint: '',
+        options: [
+          { text: 'Use it as a reflective prompt', detail: 'a question about what\u2019s starting', score: 'reflection-prompt' },
+          { text: 'Set an intention or make a wish', detail: 'a small practice in the moment', score: 'intention-wish' },
+          { text: 'Just notice it, no real response', detail: 'it passes without action', score: 'just-notice' },
+          { text: 'Feel a strong significance I can\u2019t name', detail: 'a charge I can\u2019t place', score: 'significant-feeling' },
+          { text: 'Look for portal-opening rituals to harness it', detail: 'seeking to \u201Cactivate\u201D the gateway', score: 'portal-ritual' },
+          { text: 'I can\u2019t say what I do with it', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'portal_attrib',
+        q: 'How much do you read the sightings as a portal or awakening?',
+        hint: '',
+        options: [
+          { text: 'Not really \u2014 it\u2019s a reflective tool, not a portal', detail: 'useful without the supernatural claim', score: 'not-portal' },
+          { text: 'Maybe a little \u2014 I\u2019m open to the idea', detail: 'curious but undecided', score: 'maybe-portal' },
+          { text: 'I\u2019m undecided on that', detail: 'no settled reading', score: 'unsure' },
+          { text: 'It feels like a portal or awakening signal', detail: 'a strong pull toward the framing', score: 'feels-portal' },
+          { text: 'I\u2019m sure it\u2019s a portal opening for me', detail: 'certainty about the gateway', score: 'definitely-portal' },
+          { text: 'I can\u2019t tell how I read it', detail: 'hard to say', score: 'notell' }
+        ]
+      },
+      {
+        id: 'manifest_confirm',
+        q: 'Do you read 1111 as confirming a manifestation?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 the sighting and the outcome are separate', detail: 'attention isn\u2019t evidence of result', score: 'not-confirm' },
+          { text: 'It\u2019s hopeful, but I know it doesn\u2019t confirm', detail: 'a wish, not a proof', score: 'hopeful-confirm' },
+          { text: 'I haven\u2019t decided', detail: 'no settled reading', score: 'undecided' },
+          { text: 'It seems to confirm my manifestation is working', detail: 'a leaning toward confirmation', score: 'seems-confirm' },
+          { text: 'I\u2019m sure it confirms my manifestation', detail: 'certainty about the outcome', score: 'definitely-confirm' },
+          { text: 'I can\u2019t tell what I read it as', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What the sighting means for me, honestly', detail: 'the meaning-making question', score: 'meaning' },
+          { text: 'Why I keep seeing it everywhere', detail: 'the frequency question', score: 'frequency' },
+          { text: 'Is it a portal or awakening signal?', detail: 'the portal question', score: 'portal' },
+          { text: 'Does it confirm my manifestation is working?', detail: 'the outcome-confirmation question', score: 'confirm' },
+          { text: 'What should I do at 11:11?', detail: 'the ritual-action question', score: 'ritual' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest read of what the pattern is doing', detail: 'sorting signal from story', score: 'interpret' },
+          { text: 'An outside perspective on the sightings', detail: 'a read on the pattern', score: 'insight' },
+          { text: 'A view of what this period is pointing at', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A structured reflection on the noticing', detail: 'the full picture', score: 'deeper' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        visual_freq:     { 'visual-cultural': 2, 'priming-now': 1, 'stress-transition': 0, 'supernatural-signaling': -1, 'awakening-signal': -2, 'notell': null },
+        meaning_use:     { 'reflection-prompt': 2, 'intention-wish': 1, 'just-notice': 0, 'significant-feeling': -1, 'portal-ritual': -2, 'notell': null },
+        portal_attrib:   { 'not-portal': 2, 'maybe-portal': 1, 'unsure': 0, 'feels-portal': -1, 'definitely-portal': -2, 'notell': null },
+        manifest_confirm:{ 'not-confirm': 2, 'hopeful-confirm': 1, 'undecided': 0, 'seems-confirm': -1, 'definitely-confirm': -2, 'notell': null }
+      };
+      var keys = ['visual_freq', 'meaning_use', 'portal_attrib', 'manifest_confirm'];
+      var sum = 0, uncertain = 0, vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.portal_attrib !== null && vals.portal_attrib <= -2) return 'portal-seeking';
+      if (vals.manifest_confirm !== null && vals.manifest_confirm <= -2) return 'manifestation-confirmation';
+      if (vals.meaning_use !== null && vals.meaning_use >= 2 && (vals.portal_attrib === null || vals.portal_attrib >= 0)) return 'meaning-making';
+      if (vals.visual_freq !== null && vals.visual_freq >= 2 && (vals.portal_attrib === null || vals.portal_attrib >= 0)) return 'attentional-capture';
+      if (sum >= 1) return 'meaning-making';
+      if (sum <= -1) return 'portal-seeking';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'attentional-capture': {
+        path: 'Visual attention-capture, not signaling',
+        summary: 'The frequency is largely visual and cultural, not supernatural.',
+        suggest: function (a) {
+          var s = 'Your answers point to the honest explanation for why 1111 shows up so often: four identical digits are unusually visually striking, and the spiritual culture around 1111 amplifies the salience, so you notice it more.';
+          if (a.visual_freq === 'visual-cultural') s += ' You\u2019re already accounting for the visual and cultural frequency \u2014 which is the specific, evidence-based cause, not supernatural signaling.';
+          if (a.status === 'transition' || a.status === 'stress') s += ' And the sightings clustered around a period of change, which is exactly when attention narrows onto salient stimuli.';
+          s += ' That doesn\u2019t make the experience meaningless \u2014 it makes the frequency explainable, which is more useful than the portal framing.';
+          return s;
+        },
+        dontTell: 'Recognizing visual attention-capture doesn\u2019t prove 1111 has no personal meaning \u2014 the meaning-making is real and usable as reflection. What it does is name the frequency\u2019s cause, which is attention and culture, not supernatural signaling.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice the frequency without recruiting it as evidence \u2014 once you frame 1111 as visual attention-capture and cultural amplification, the sightings tend to lose their charge and settle.',
+            'If the noticing persists with acute distress or intrusive pattern-thoughts, a licensed therapist is the more honest match than a reading.'
+          ];
+        }
+      },
+      'meaning-making': {
+        path: 'Meaning-making is the real gain',
+        summary: 'You\u2019re using the sighting as usable reflection, not a portal.',
+        suggest: function (a) {
+          var s = 'Your answers describe using 1111 as a reflective prompt \u2014 letting it surface a question about what\u2019s starting, what alignment would mean, what\u2019s shifting in your life.';
+          if (a.meaning_use === 'reflection-prompt') s += ' That is the honest, usable function: meaning-making works as self-understanding whether or not the sighting is supernaturally caused.';
+          if (a.status === 'transition') s += ' A new beginning is a natural thing to reflect on, and the number is doing that work.';
+          s += ' The gain here is the reflection itself \u2014 not a decoded message, but a prompt you answer from your own life.';
+          return s;
+        },
+        dontTell: 'Meaning-making doesn\u2019t prove the sighting is \u201Cthe\u201D message \u2014 it proves the reflection is the honest gain, which works whether or not 1111 is supernaturally caused.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep using 1111 as a reflective prompt \u2014 a question about what\u2019s starting or what alignment would mean, answered from your own life.',
+            'Watch whether a real question forms underneath the noticing \u2014 about your direction, your patterns, what\u2019s actually shifting.'
+          ];
+        }
+      },
+      'portal-seeking': {
+        path: 'Portal-seeking is doing the work',
+        summary: 'The portal framing is extending seeking without delivering.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading 1111 as a portal or awakening signal \u2014 and the portal framing is the part the evidence doesn\u2019t support.';
+          if (a.portal_attrib === 'definitely-portal') s += ' The certainty that it\u2019s a portal opening for you is a framing, not a fact \u2014 and it can quietly extend seeking without delivering.';
+          if (a.status === 'reader-told' || a.trigger === 'reader') s += ' It also arrived through a reading, which is the source that profits from the portal claim.';
+          s += ' The honest version keeps the meaning-making and drops the supernatural requirement \u2014 the reflection works either way.';
+          return s;
+        },
+        dontTell: 'Portal-seeking doesn\u2019t prove there is no portal \u2014 nothing can prove a negative on an unfalsifiable claim. What it does is name that the portal framing isn\u2019t supported by evidence and can extend seeking without delivering.',
+        watchIntro: 'Before you book anything or chase portal-opening:',
+        watch: function () {
+          return [
+            'Separate the meaning-making from the portal claim \u2014 let the sighting prompt reflection, and drop the requirement that it be a supernatural gateway.',
+            'If you still want a perspective, frame it on what the noticing surfaces, not on confirming a portal \u2014 and walk away from any reader who certifies a portal or sells portal-opening across sessions.'
+          ];
+        }
+      },
+      'manifestation-confirmation': {
+        path: 'Reading it as manifesting confirmation',
+        summary: 'The confirmation-bias pattern \u2014 the sighting doesn\u2019t confirm the outcome.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading 1111 as confirmation that a manifestation is working \u2014 which is the confirmation-bias pattern.';
+          if (a.manifest_confirm === 'definitely-confirm') s += ' The certainty that the sighting confirms the outcome is exactly how confirmation bias reads the evidence: you notice the sightings that fit and forget the absences.';
+          if (a.status === 'manifesting') s += ' Having started a manifestation practice, the wish to see it reflected back is human \u2014 but the sighting confirms attention, not outcome.';
+          s += ' The honest separation: the sighting and the outcome are different things, and the outcome may or may not be underway regardless of how often you see 1111.';
+          return s;
+        },
+        dontTell: 'Reading it as confirmation doesn\u2019t prove your manifestation isn\u2019t underway \u2014 the outcome may or may not be progressing on its own timeline. What it does is name that the sighting itself doesn\u2019t confirm the outcome; it confirms that 1111 has entered your attention.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Separate the sighting from the outcome \u2014 track the actual steps of your manifestation, not the count of 1111s you see.',
+            'If the outcome is genuinely underway, it will show in the work and the world \u2014 not in how often the number appears.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too new, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your 1111 sightings into one clear reading, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a portal or confirmation tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: frequency explanation, meaning use, portal reading, manifestation reading.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'portal' || a.portal_attrib === 'definitely-portal' || pattern === 'portal-seeking') {
+        return { key: 'portal-question', label: 'What may be underneath: the portal question',
+          text: 'The wish for 1111 to be a portal or awakening signal is deeply human \u2014 and it doesn\u2019t mean a portal exists. The evidence doesn\u2019t support the framing, and the honest version keeps the meaning-making without requiring the supernatural claim. A reader who certifies a portal is offering a projection dressed as decoding.' };
+      }
+      if (a.want === 'confirm' || a.manifest_confirm === 'definitely-confirm' || pattern === 'manifestation-confirmation') {
+        return { key: 'outcome-confirmation', label: 'What may be underneath: the outcome-confirmation pattern',
+          text: 'Reading 1111 as confirmation that a manifestation is working is the confirmation-bias pattern: you notice the sightings that fit the wanted reading and forget the absences. The sighting confirms attention, not outcome.' };
+      }
+      if (a.status === 'reader-told' || a.trigger === 'reader') {
+        return { key: 'source-incentive', label: 'What may be underneath: the source incentive',
+          text: 'The portal or meaning significance came from a reader, which is the source that profits from the claim being true \u2014 the least reliable source for that claim.' };
+      }
+      if (a.status === 'stress' || a.help === 'dynamic') {
+        return { key: 'stress-attention', label: 'What may be underneath: stress-heightened attention',
+          text: 'Stress and uncertainty narrow attention onto salient stimuli, which makes a visually striking pattern like 1111 more noticeable. The heightened noticing can read as significance when it is partly the condition of the mind doing the noticing.' };
+      }
+      if (a.want === 'beneath') {
+        return { key: 'unanswered-question', label: 'What may be underneath: an unanswered question',
+          text: 'The sense that something is underneath the sightings \u2014 something you can\u2019t quite name \u2014 is worth honoring as a question, not as a portal. The honest next step is a structured reflection on what the noticing points at.' };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your 1111 sightings', cluster: 'angel-numbers' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'frequency' || w === 'confirm' || h === 'interpret') return 'free_first';
+      if (w === 'meaning' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'portal' || h === 'insight') return 'psychic';
+      if (w === 'ritual' || h === 'guidance') return 'tarot_decision';
+      if (w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '1111-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether visual attention-capture and cultural amplification explain the frequency \u2014 the specific, honest cause, not supernatural signaling',
+          'Whether the meaning-making is the real gain, usable as reflection without requiring the portal claim',
+          'Whether the portal or manifestation-confirmation framing is doing work the pattern can\u2019t support'
+        ],
+        edgeBridge: 'A quiz can read what your 1111 sightings are doing for you \u2014 it can\u2019t confirm a portal, an awakening signal, or a manifestation. A reading framed on what the noticing surfaces can offer perspective; it can\u2019t honestly certify a gateway.',
+        ctaText: {
+          'meaning:tarot_relationship': 'Get a read on what it\u2019s pointing at',
+          'frequency:free_first': 'Start with the free framework',
+          'portal:psychic': 'Get an outside perspective',
+          'confirm:free_first': 'Start with the free framework',
+          'ritual:tarot_decision': 'Get guidance on your next step',
+          'beneath:tarot_deep': 'Get a deeper read on the situation',
+          '*:psychic': 'Get a reading on the pattern',
+          '*:tarot_relationship': 'Get a read on what the noticing points at',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:closure': 'Get a reading focused on closure',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'portal-seeking',
+          text: 'when the portal framing has become the day, a reading that certifies 1111 is a portal can quietly become a more expensive way of keeping the seeking running. If you book one, frame it on what the noticing surfaces \u2014 not on confirming a gateway or opening it across sessions.'
+        }
+      });
+    }
+  },
+
+
+  '222-meaning': {
+    id: '222-meaning',
+    title: 'What Are Your 222 Sightings Pointing At?',
+    launchSub: 'Eight questions, about two minutes. It reads whether attentional priming explains the frequency, whether meaning-making is the real gain, and whether message-seeking is doing anxiety work \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 222 sightings \u2014 what they suggest, what they don\u2019t, and what to watch next. No score, no verdict, no signup.',
+    questions: [
+      { id: 'status', q: 'What were you living through when 222 started showing up?', hint: 'The context shapes how the same sightings read.', options: [
+        { text: 'A transition or big change', detail: 'a shift in your life', score: 'transition' },
+        { text: 'A decision I\u2019m weighing', detail: 'something unresolved', score: 'decision' },
+        { text: 'A loss or an ending', detail: 'someone or something gone', score: 'loss' },
+        { text: 'A stretch of anxiety or unease', detail: 'a charged period', score: 'anxiety' },
+        { text: 'Just curiosity \u2014 no stress around it', detail: 'mild interest', score: 'curious' },
+        { text: 'A reader told me what 222 means', detail: 'the meaning came from a reading', score: 'reader-told' },
+        { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' } ] },
+      { id: 'trigger', q: 'What put the \u201C222 means something\u201D idea in your head?', hint: '', options: [
+        { text: 'I noticed it repeating and got curious', detail: 'my own observation', score: 'noticed' },
+        { text: 'Something I read online about angel numbers', detail: 'an article or post', score: 'online' },
+        { text: 'A friend mentioned the meaning', detail: 'someone close suggested it', score: 'friend' },
+        { text: 'A reader or psychic told me', detail: 'the meaning came externally', score: 'reader' },
+        { text: 'A gut feeling it meant something', detail: 'intuition, no external source', score: 'intuition' },
+        { text: 'No single thing \u2014 it built up', detail: 'the idea crept in', score: 'nothing' } ] },
+      { id: 'priming', q: 'How did the frequency of seeing 222 strike you?', hint: 'The shape of the frequency is the clearest signal there is.', options: [
+        { text: 'After I noticed it, I started seeing it constantly', detail: 'the attention effect', score: 'attention' },
+        { text: 'It began around a change or transition', detail: 'a shift in context', score: 'shift' },
+        { text: 'It shows up most around a decision I\u2019m facing', detail: 'a salient period', score: 'decision-salient' },
+        { text: 'I think I was seeing it before I ever looked for meaning', detail: 'always there, now visible', score: 'always' },
+        { text: 'I\u2019m convinced it\u2019s a message aimed at me', detail: 'the directed attribution', score: 'directed' },
+        { text: 'I can\u2019t tell why the frequency feels high', detail: 'too close to read', score: 'notell' } ] },
+      { id: 'meaning_use', q: 'What are you actually doing with the number?', hint: '', options: [
+        { text: 'Using it as a prompt to reflect on my own life', detail: 'the honest use', score: 'reflection' },
+        { text: 'Sitting with its associations \u2014 balance, partnership', detail: 'symbolic reflection', score: 'symbol' },
+        { text: 'Just noticing and wondering, no fixed use', detail: 'open curiosity', score: 'curious-use' },
+        { text: 'Looking for what the number is \u201Ctelling\u201D me', detail: 'seeking a decoded message', score: 'decode' },
+        { text: 'Believing my guides are communicating through it', detail: 'the channel claim', score: 'guide' },
+        { text: 'I can\u2019t tell what I\u2019m doing with it', detail: 'hard to assess from inside', score: 'notell' } ] },
+      { id: 'outcome_confirm', q: 'Are you reading the sightings as confirmation of something?', hint: '', options: [
+        { text: 'I keep the sighting and the outcome as separate things', detail: 'honest separation', score: 'separate' },
+        { text: 'I notice the temptation and check myself', detail: 'aware of the pull', score: 'aware' },
+        { text: 'Sometimes I wonder if it\u2019s confirming something', detail: 'mixed', score: 'mixed' },
+        { text: 'I read it as a sign my manifestation is working', detail: 'the outcome-confirmation pattern', score: 'confirming' },
+        { text: 'I\u2019m waiting for it to confirm a specific outcome', detail: 'holding for evidence', score: 'waiting' },
+        { text: 'I can\u2019t tell if I\u2019m reading it as confirmation', detail: 'too close to read', score: 'notell' } ] },
+      { id: 'value_framing', q: 'How are you framing what the sightings mean?', hint: '', options: [
+        { text: 'I try to hold it as neutral until I reflect', detail: 'the neutral frame', score: 'neutral' },
+        { text: 'Framing it as reflection tends to calm me', detail: 'the reflection frame', score: 'reflect' },
+        { text: 'I\u2019m just observing how I frame it', detail: 'watching the frame', score: 'curious-frame' },
+        { text: 'I read it as a sign of good luck coming', detail: 'the luck frame', score: 'luck' },
+        { text: 'I worry it\u2019s a warning or bad omen', detail: 'the warning frame', score: 'warning' },
+        { text: 'I can\u2019t tell how I\u2019m framing it', detail: 'hard to name', score: 'notell' } ] },
+      { id: 'want', q: 'What do you most want to know?', hint: 'Be honest \u2014 it decides what actually helps you next.', options: [
+        { text: 'What 222 means for me', detail: 'the meaning question', score: 'meaning' },
+        { text: 'Why I keep seeing it everywhere', detail: 'the frequency question', score: 'frequency' },
+        { text: 'Is it a message directed at me?', detail: 'the message question', score: 'message' },
+        { text: 'What I should do about it', detail: 'the action question', score: 'action' },
+        { text: 'Does it mean my manifestation is working?', detail: 'the outcome question', score: 'outcome' },
+        { text: 'What\u2019s really underneath all this noticing?', detail: 'something I can\u2019t name', score: 'beneath' } ] },
+      { id: 'help', q: 'What would help you most right now?', hint: '', options: [
+        { text: 'A way to use it as reflection honestly', detail: 'sorting reflection from message', score: 'reflect' },
+        { text: 'An outside perspective on the pattern', detail: 'a read on the noticing', score: 'insight' },
+        { text: 'Help understanding why I see it so often', detail: 'the frequency, explained', score: 'frequency-help' },
+        { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+        { text: 'A deeper read of the whole pattern', detail: 'the full picture', score: 'deeper' },
+        { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' } ] }
+    ],
+    resolve: function (answers) {
+      var S = {
+        priming:        { attention: 2, shift: 1, 'decision-salient': 1, always: 1, directed: -2, notell: null },
+        meaning_use:    { reflection: 2, symbol: 1, 'curious-use': 1, decode: -2, guide: -2, notell: null },
+        outcome_confirm:{ separate: 2, aware: 1, mixed: 0, confirming: -2, waiting: -2, notell: null },
+        value_framing:  { neutral: 2, reflect: 1, 'curious-frame': 1, luck: -1, warning: -2, notell: null }
+      };
+      var keys = ['priming', 'meaning_use', 'outcome_confirm', 'value_framing'];
+      var sum = 0, uncertain = 0, vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (answers.trigger === 'reader' || answers.status === 'reader-told') return 'message-seeking';
+      if (vals.value_framing !== null && vals.value_framing <= -2) return 'anxiety-amplification';
+      if (vals.priming !== null && vals.priming >= 2 && (vals.value_framing === null || vals.value_framing >= 0)) return 'attentional-priming';
+      if (vals.meaning_use !== null && vals.meaning_use >= 2 && (vals.outcome_confirm === null || vals.outcome_confirm >= 1)) return 'meaning-making';
+      if (vals.priming !== null && vals.priming >= 1 && (vals.meaning_use === null || vals.meaning_use >= 1)) return 'attentional-priming';
+      if (sum >= 2) return 'meaning-making';
+      if (vals.outcome_confirm !== null && vals.outcome_confirm <= -1) return 'message-seeking';
+      if (vals.meaning_use !== null && vals.meaning_use <= -1) return 'message-seeking';
+      if (sum <= -2) return 'message-seeking';
+      return 'not-enough-evidence';
+    },
+    results: {
+      'attentional-priming': {
+        path: 'Attentional priming, not signaling',
+        summary: 'The frequency is attention \u2014 a documented effect, not a message.',
+        suggest: function (a) {
+          var s = 'Your answers describe 222 showing up everywhere only after it entered your attention \u2014 which is the signature of attentional priming, a documented cognitive effect, not supernatural signaling.';
+          if (a.priming === 'attention') s += ' The sightings ramped up the moment you started looking, which is exactly how the effect works.';
+          if (a.priming === 'always') s += ' And you were likely seeing it before you attached meaning \u2014 what changed was the attention, not the number.';
+          if (a.value_framing === 'neutral' || a.value_framing === 'reflect') s += ' Holding it as neutral keeps the frequency from being misread as evidence of a message.';
+          s += ' The honest read is that the frequency is attention doing its ordinary work \u2014 real, not a flaw, and not a channel.';
+          return s;
+        },
+        dontTell: 'Attentional priming doesn\u2019t prove the sightings are meaningless \u2014 the felt-significance of a pattern is genuinely yours to use. What it can\u2019t prove is that 222 is a message directed at you: the frequency is explained by attention, which is a stronger, evidence-backed account than the supernatural one.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Notice whether the sightings quiet as the acute charge of the noticing settles \u2014 they usually do, which is the priming effect confirming itself.',
+            'Use 222 as a reflective prompt rather than a frequency to track \u2014 ' + (a.priming === 'attention' ? 'the attention that amplified it' : 'the noticing') + ' becomes a tool instead of a signal.'
+          ];
+        }
+      },
+      'meaning-making': {
+        path: 'Meaning-making is the real gain',
+        summary: 'You\u2019re using 222 as reflection \u2014 which works, with or without a channel.',
+        suggest: function (a) {
+          var s = 'Your answers describe 222 being used as a reflective prompt \u2014 the honest, usable form. The symbolic associations (balance, partnership, what\u2019s beginning) become self-understanding, which is a real psychological function.';
+          if (a.meaning_use === 'reflection') s += ' Letting the number prompt a question you answer from your own life is the most defensible use there is.';
+          if (a.meaning_use === 'symbol') s += ' Sitting with balance and partnership as themes keeps the meaning-making in your hands.';
+          if (a.outcome_confirm === 'separate' || a.outcome_confirm === 'aware') s += ' And you\u2019re keeping the sighting separate from any outcome, which is the part that prevents false evidence.';
+          s += ' None of this requires a supernatural message channel to be true \u2014 the reflection works either way.';
+          return s;
+        },
+        dontTell: 'Meaning-making doesn\u2019t prove the reflection is \u201Cthe\u201D meaning of 222 \u2014 there is no single fixed meaning the number carries. What it can\u2019t prove is that the insight originates externally; the value is that it surfaces something already true about you, which is enough.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep answering the prompt from your own life \u2014 \u201Cwhat does balance mean for me right now\u201D \u2014 rather than from what content claims the number means.',
+            'Watch whether the reflection keeps earning its place, or whether the message-framing starts creeping back in and doing anxiety work.'
+          ];
+        }
+      },
+      'message-seeking': {
+        path: 'Message-seeking, not decoding',
+        summary: 'The pull is toward a decoded message the evidence doesn\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers lean toward reading 222 as a message to be decoded \u2014 a fixed meaning, a directed sign, or confirmation of an outcome. The evidence doesn\u2019t support a supernatural message channel, which is worth naming plainly.';
+          if (a.meaning_use === 'decode' || a.meaning_use === 'guide') s += ' Seeking what the number is \u201Ctelling\u201D you treats it as an author it isn\u2019t established to be.';
+          if (a.outcome_confirm === 'confirming' || a.outcome_confirm === 'waiting') s += ' And reading the sightings as manifestation-confirmation is the confirmation-bias pattern: the absences get forgotten, the fits get kept.';
+          if (a.priming === 'directed') s += ' The directed attribution \u2014 that it\u2019s aimed at you personally \u2014 is a felt-experience, not a falsifiable claim.';
+          s += ' That structure is exactly where a reader who \u201Cdecodes\u201D 222 across paid sessions operates; the decoding is a projection dressed as reading.';
+          return s;
+        },
+        dontTell: 'Message-seeking doesn\u2019t prove the sightings are meaningless \u2014 the meaning-making is real and usable. What it can\u2019t prove is that any reader or framework can decode a supernatural message: no one possesses that certainty, and anyone guaranteeing it is selling a confidence nobody holds.',
+        watchIntro: 'Before you book a decoding or pay for a reading:',
+        watch: function () {
+          return [
+            'Separate the sighting from the claim: track whether you\u2019d see 222 this often regardless of meaning (you would \u2014 that\u2019s priming).',
+            'If you still want a perspective, frame it on what the noticing pattern surfaces in your life, not on a decoded message \u2014 and walk from any reader who sells multi-session decoding.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'The value-framing is doing anxiety work',
+        summary: 'Framing 222 as a warning is extending the unease.',
+        suggest: function (a) {
+          var s = 'Your answers describe 222 framed as a warning or bad omen \u2014 and the number\u2019s associations are neutral until you frame them. The warning-frame is the part doing anxiety work, not the sightings themselves.';
+          if (a.value_framing === 'warning') s += ' Reading it as a sign of something wrong recruits every neutral event as evidence of the dread.';
+          if (a.status === 'anxiety') s += ' And the sightings arrived during a charged period, which makes the warning-frame land harder than it deserves.';
+          if (a.value_framing === 'luck') s += ' Even the luck-frame attributes a fixed value the number doesn\u2019t carry \u2014 though it does less harm than the warning-frame.';
+          s += ' The honest move is to hold it neutral and let reflection, not fear, decide what (if anything) it means.';
+          return s;
+        },
+        dontTell: 'Anxiety-amplification doesn\u2019t prove the warning-frame is wrong about an external threat \u2014 only that the framing is the mechanism extending the distress. What it can\u2019t prove is that 222 is a negative omen: the associations are neutral until you frame them, and the frame is yours to change.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice when the warning-frame kicks in, and deliberately re-frame 222 as neutral \u2014 the charge usually lessens with the frame.',
+            'If the pattern-noticing is tied to anxiety, intrusive thoughts, or distress affecting daily life, a licensed therapist is the more honest match than a reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your 222 sightings into attentional priming, meaning-making, message-seeking, or anxiety-amplification, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a message tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four dimensions: frequency, use, outcome-confirmation, and value-framing.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'message' || a.want === 'outcome' || pattern === 'message-seeking') {
+        return { key: 'message-attribution', label: 'What may be underneath: the message-attribution',
+          text: 'The wish for 222 to be a decoded message \u2014 something to tell you what to do or what\u2019s coming \u2014 is deeply human, and it doesn\u2019t mean a message exists. The honest reframe: use the number as a reflective prompt and answer from your own life. The evidence doesn\u2019t support a supernatural channel, and any reader guaranteeing a decode is selling a certainty nobody possesses.' };
+      }
+      if (a.value_framing === 'warning' || pattern === 'anxiety-amplification') {
+        return { key: 'anxiety-framing', label: 'What may be underneath: the anxiety-framing',
+          text: 'Framing 222 as a warning is the value-frame doing anxiety work. The number\u2019s associations are neutral until you frame them \u2014 and the warning-frame extends unease while the reflection-frame resolves it. If the pattern-noticing is tied to distress affecting daily life, a licensed therapist is the more reliable match than any spiritual reading.' };
+      }
+      if (a.status === 'loss' && a.want === 'meaning') {
+        return { key: 'loss-meaning', label: 'What may be underneath: the loss question',
+          text: 'A loss can make repeated numbers feel loaded \u2014 the disproportionate weight, the sense that something is trying to reach you. Grief is the oldest alarm there is, and it doesn\u2019t need a supernatural explanation; it needs time, honesty, and sometimes a grief-aware therapist. A reflection-framed reading can help you carry the loss; a message-decode tends to keep the wound open.' };
+      }
+      if (a.want === 'meaning' || a.help === 'reflect') {
+        return { key: 'reflection-arrival', label: 'What may be underneath: the reflection arrival',
+          text: 'The honest use of 222 is as a reflective prompt \u2014 balance, partnership, what\u2019s beginning \u2014 answered from your own life rather than from a decoded message. That works as self-understanding without requiring a supernatural channel, which is why the reflection-frame is the most defensible arrival.' };
+      }
+      return null;
+    },
+    practice: window.topicPracticeSet({ topic: 'your 222 sightings', cluster: 'angel-numbers' }),
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (answers.status === 'loss') return 'closure';
+      if (h === 'unsure') return 'general';
+      if (w === 'frequency' || h === 'frequency-help') return 'free_first';
+      if (w === 'action' || h === 'guidance') return 'tarot_decision';
+      if (w === 'meaning' || h === 'reflect') return 'tarot_relationship';
+      if (w === 'message' || w === 'outcome' || h === 'insight') return 'psychic';
+      if (w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+    matchAha: window.topicMatchAha,
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '222-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether attentional priming \u2014 not supernatural signaling \u2014 best explains the frequency of your sightings',
+          'Whether you are using 222 as reflection, which works, or seeking a decoded message, which the evidence doesn\u2019t support',
+          'Whether the value-framing is doing anxiety work, which is the part you can actually change'
+        ],
+        edgeBridge: 'A quiz can read what your noticing pattern is doing \u2014 it can\u2019t decode a supernatural message, which no framework possesses. A reading framed on what the pattern surfaces can offer perspective; it can\u2019t honestly confirm that 222 is a message directed at you.',
+        ctaText: {
+          'meaning:tarot_relationship': 'Get a structured reflection',
+          'action:tarot_decision': 'Get a look at your next step',
+          'beneath:tarot_deep': 'Get a deeper read on the pattern',
+          'frequency:free_first': 'Start with the free framework',
+          'message:psychic': 'Get a perspective on the pattern',
+          'outcome:psychic': 'Get a read on what the pattern surfaces',
+          '*:psychic': 'Get a perspective on the pattern',
+          '*:tarot_relationship': 'Get a structured reflection',
+          '*:tarot_decision': 'Get guidance on a next step',
+          '*:tarot_deep': 'Get a deeper read on the pattern',
+          '*:closure': 'Get a reading focused on what this was',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'message-seeking',
+          text: 'when the pull is toward a decoded message, a reading that \u201Cconfirms what 222 means for you\u201D can quietly become a more expensive way of chasing a certainty. If you book one, frame it on what the noticing pattern surfaces in your life \u2014 not on a message the paying party decodes for you.'
+        }
+      });
+    }
+  },
+
+
+  'am-i-an-empath': {
+    id: 'am-i-an-empath',
+    title: 'Are You an Empath \u2014 or Is the Label Doing the Work?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re a high-empathy person, whether absorption is contagion or empathy, and whether the label is doing diagnostic or identity work \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of whether high empathy, sensitivity, or identity-anchoring best describes your pattern \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What brings you to this question?',
+        hint: 'This matters \u2014 the situation shapes how the same experience reads.',
+        options: [
+          { text: 'A run of emotional overload', detail: 'feeling drained by others', score: 'overload' },
+          { text: 'A reader or quiz said I\u2019m an empath', detail: 'the label came from outside', score: 'reader-told' },
+          { text: 'Trying to understand my sensitivity', detail: 'making sense of the pattern', score: 'understanding' },
+          { text: 'A relationship or work setting is depleting me', detail: 'a specific drain', score: 'depletion' },
+          { text: 'Curiosity about the label', detail: 'wondering if it fits', score: 'curiosity' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cempath\u201D idea in your head?',
+        hint: '',
+        options: [
+          { text: 'I noticed I feel others\u2019 emotions', detail: 'my own observation', score: 'observation' },
+          { text: 'A friend or reader suggested it', detail: 'someone close named it', score: 'suggested' },
+          { text: 'An online quiz or article', detail: 'something I read', score: 'online' },
+          { text: 'A strong reaction in a crowd or conflict', detail: 'a charged moment', score: 'reaction' },
+          { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'intuition' },
+          { text: 'No single thing \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'empathy_level',
+        q: 'When someone near you is upset, what happens in you?',
+        hint: 'The intensity of feeling others\u2019 states is the clearest signal there is.',
+        options: [
+          { text: 'They land as if they were my own', detail: 'others\u2019 emotions feel personally mine', score: 'high' },
+          { text: 'Strong, but I can usually place them', detail: 'I feel it, then locate the source', score: 'some' },
+          { text: 'I notice, but stay separate', detail: 'I read it without taking it in', score: 'low' },
+          { text: 'I rarely feel others\u2019 states', detail: 'more cognitive than affective', score: 'minimal' },
+          { text: 'I mostly read, not feel', detail: 'cognitive empathy, low affect', score: 'cognitive' },
+          { text: 'I can\u2019t tell how strongly I feel them', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'boundary_diff',
+        q: 'Can you tell whose feeling you\u2019re in?',
+        hint: '',
+        options: [
+          { text: 'I can clearly tell whose feeling it is', detail: 'mine vs theirs is distinct', score: 'clear' },
+          { text: 'Mostly \u2014 with effort', detail: 'usually separable', score: 'mostly' },
+          { text: 'It blurs sometimes', detail: 'uncertain in charged moments', score: 'blurred' },
+          { text: 'Often I lose the thread', detail: 'hard to tell whose it is', score: 'often-lost' },
+          { text: 'I can\u2019t tell whose feeling I\u2019m in', detail: 'poor boundary differentiation', score: 'lost' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'sensitivity_trait',
+        q: 'Which best describes what you experience?',
+        hint: 'Empathy and sensitivity overlap but are not identical \u2014 and the distinction changes what would help.',
+        options: [
+          { text: 'It\u2019s empathy \u2014 I feel others', detail: 'affective empathy is the core', score: 'empathy' },
+          { text: 'Both empathy and sensitivity', detail: 'they overlap for me', score: 'both' },
+          { text: 'I\u2019m not sure which it is', detail: 'the two are hard to separate', score: 'unsure-trait' },
+          { text: 'Leans toward sensitivity', detail: 'I process input deeply', score: 'lean-sensitivity' },
+          { text: 'It\u2019s sensitivity \u2014 crowds, noise, light', detail: 'HSP trait, not feelings-spreading', score: 'sensitivity' },
+          { text: 'I can\u2019t tell which trait it is', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'label_use',
+        q: 'What is the \u201Cempath\u201D label doing for you?',
+        hint: '',
+        options: [
+          { text: 'It helps me understand my pattern', detail: 'diagnostic use', score: 'diagnostic' },
+          { text: 'It\u2019s a frame for self-reflection', detail: 'reflective use', score: 'reflective' },
+          { text: 'A bit of both', detail: 'understanding and identity', score: 'mixed-use' },
+          { text: 'It explains a lot about me', detail: 'leans toward identity', score: 'lean-identity' },
+          { text: 'It\u2019s who I am \u2014 a special kind of person', detail: 'identity-anchoring', score: 'identity-anchoring' },
+          { text: 'I can\u2019t tell what the label is doing', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Am I a high-empathy person?', detail: 'the trait question', score: 'trait' },
+          { text: 'Why do I take on others\u2019 feelings?', detail: 'the mechanism question', score: 'mechanism' },
+          { text: 'Am I just too sensitive?', detail: 'the sensitivity question', score: 'sensitivity' },
+          { text: 'How do I stop being drained?', detail: 'the boundary question', score: 'boundary' },
+          { text: 'Is this a gift or a burden?', detail: 'the value-framing question', score: 'value' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting trait from identity', score: 'interpret' },
+          { text: 'An outside perspective on my pattern', detail: 'a read on the sensitivity', score: 'insight' },
+          { text: 'A view of what this is asking of me', detail: 'the shape, not the label', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole pattern', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        empathy_level:   { high: 2, some: 1, low: 0, minimal: -1, cognitive: -2, notell: null },
+        boundary_diff:   { clear: 2, mostly: 1, blurred: 0, 'often-lost': -1, lost: -2, notell: null },
+        sensitivity_trait: { empathy: 2, both: 1, 'unsure-trait': 0, 'lean-sensitivity': -1, sensitivity: -2, notell: null },
+        label_use:       { diagnostic: 2, reflective: 1, 'mixed-use': 0, 'lean-identity': -1, 'identity-anchoring': -2, notell: null }
+      };
+      var keys = ['empathy_level', 'boundary_diff', 'sensitivity_trait', 'label_use'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.label_use !== null && vals.label_use <= -2) return 'identity-seeking';
+      if (vals.sensitivity_trait !== null && vals.sensitivity_trait <= -2) return 'sensitive-not-empath';
+      if (vals.boundary_diff !== null && vals.boundary_diff <= -2 &&
+          (vals.empathy_level === null || vals.empathy_level >= 0)) return 'boundary-depleted';
+      if (vals.empathy_level !== null && vals.empathy_level >= 2 &&
+          (vals.boundary_diff === null || vals.boundary_diff >= 0)) return 'genuine-high-empathy';
+      if (sum <= -3) return 'sensitive-not-empath';
+      if (vals.boundary_diff !== null && vals.boundary_diff <= -1) return 'boundary-depleted';
+      if (sum >= 1) return 'genuine-high-empathy';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'genuine-high-empathy': {
+        path: 'A genuine high-empathy pattern',
+        summary: 'The answers describe real, high affective empathy \u2014 a measurable trait, not a special status.',
+        suggest: function (a) {
+          var s = 'Your answers describe feeling others\u2019 emotions as if they were your own \u2014 which is the core of genuine high affective empathy, a real and measurable trait on a spectrum, not a special-status category.';
+          if (a.empathy_level === 'high') s += ' The intensity you describe is the trait itself, not evidence of a unique identity.';
+          if (a.boundary_diff === 'clear' || a.boundary_diff === 'mostly') s += ' And you can generally tell whose feeling is whose, which means the empathy is a trait you can work with rather than a flood you can\u2019t sort.';
+          s += ' The honest next step isn\u2019t a label confirmation \u2014 it\u2019s understanding the trait and building the boundary skills that let it function without depleting you.';
+          return s;
+        },
+        dontTell: 'Genuine high empathy doesn\u2019t prove special status \u2014 the trait is a dimension of normal human variation, not a category apart. What it does confirm is that the feeling is real, which means the useful work is boundary and self-regulation, not a reading that certifies a gift.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice the moments your empathy spikes \u2014 charged settings, certain people \u2014 and practice locating the source before taking the feeling on.',
+            'Build one boundary habit: a closing practice after high-exposure periods, so the empathy informs you without depleting you.'
+          ];
+        }
+      },
+      'sensitive-not-empath': {
+        path: 'High sensitivity, not specifically empathy',
+        summary: 'The trait reads more like sensory-processing sensitivity than feeling others\u2019 emotions.',
+        suggest: function (a) {
+          var s = 'Your answers point more toward high sensory-processing sensitivity than toward feeling others\u2019 emotions \u2014 and the distinction is consequential, because the prescriptions differ.';
+          if (a.sensitivity_trait === 'sensitivity') s += ' Crowds, noise, and intense input drain you, which is the hallmark of the HSP trait, not affective empathy.';
+          if (a.empathy_level === 'low' || a.empathy_level === 'minimal' || a.empathy_level === 'cognitive') s += ' And your own read is that you read others more than you feel them \u2014 another sign the trait is sensitivity, not empathy.';
+          s += ' Calling it \u201Cempath\u201D here can send you toward the wrong response: sensitivity calls for environmental management, not empathy-specific boundary work.';
+          return s;
+        },
+        dontTell: 'Sensitivity isn\u2019t lesser than empathy \u2014 it\u2019s a different trait with a different prescription. What the answers don\u2019t prove is that you lack empathy; they suggest the driver of your experience is sensory load, which is addressable on its own terms.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Manage the environment rather than the label \u2014 light, noise, crowd exposure, and recovery time after intense input.',
+            'If the depletion persists without a clear sensitivity trigger, retake the check, or take Do What Fits to map the fuller picture.'
+          ];
+        }
+      },
+      'boundary-depleted': {
+        path: 'High empathy with depleted boundaries',
+        summary: 'Strong feeling of others\u2019 states plus poor boundary differentiation \u2014 the depleting combination.',
+        suggest: function (a) {
+          var s = 'Your answers describe feeling others\u2019 emotions strongly while struggling to tell whose feeling is whose \u2014 high empathy without the boundary differentiation that keeps it from flooding you.';
+          if (a.boundary_diff === 'lost' || a.boundary_diff === 'often-lost') s += ' The blurred sense of ownership over the feeling is the boundary issue, distinct from how much empathy you have.';
+          if (a.empathy_level === 'high' || a.empathy_level === 'some') s += ' And the empathy itself is real, which means the response is boundary and self-regulation work, not identity validation.';
+          s += ' The honest move is practical: exposure management, boundary skills, and recovery \u2014 not a reading that confirms a special status.';
+          return s;
+        },
+        dontTell: 'Boundary depletion doesn\u2019t mean you have more empathy than others \u2014 high empathy without boundary skills is its own pattern, and the boundary issue is the real, addressable thing. If the absorption is causing you distress, a licensed therapist offers more reliable support than any spiritual reading \u2014 boundary patterns respond to specific, evidence-based work.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Practice distinguishing your state from others\u2019 \u2014 name it out loud (\u201Cthis is mine, that is theirs\u201D) in charged moments.',
+            'If the absorption is causing distress, or depletion is interfering with daily life, a licensed therapist is the more honest match than a reading.'
+          ];
+        }
+      },
+      'identity-seeking': {
+        path: 'The label is doing identity work',
+        summary: 'The \u201Cempath\u201D label is functioning as identity-anchoring rather than a tool to understand your pattern.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the \u201Cempath\u201D label is doing identity work \u2014 anchoring who you are, rather than helping you understand your pattern.';
+          if (a.label_use === 'identity-anchoring') s += ' You described it as a kind of person you are, which is the armor shape: the label explains a great deal, and can insulate you from examining the pattern underneath.';
+          if (a.want === 'value') s += ' And the gift-or-burden framing is the part worth noticing \u2014 the wish for the trait to mean something is genuine, but \u201Cspecial status\u201D is a framing the evidence neither confirms nor denies.';
+          s += ' None of this makes the experience unreal \u2014 it means the label deserves honest examination, because identity work changes how the label helps or hinders.';
+          return s;
+        },
+        dontTell: 'Identity use of the label isn\u2019t wrong \u2014 it can be a way to make sense of real experience. What deserves noticing is when the label becomes explanation-for-everything, because that can keep you seeking confirmation instead of engaging the trait. Anyone who certifies you as a \u201Ctrue empath\u201D with a special mission is offering a projection dressed as validation.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Treat the label as a hypothesis, not a verdict \u2014 ask what it\u2019s explaining, and whether that explanation is helping you engage your pattern.',
+            'If a reader offers to develop or unblock your \u201Cgifts\u201D across sessions, that\u2019s the sales pattern wearing validation language \u2014 step back.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your experience into high empathy, sensitivity, or identity-anchoring, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that you\u2019re an empath tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: empathy intensity, boundary clarity, whether sensitivity is the trait, and what the label is doing.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'boundary') {
+        return {
+          key: 'boundary-management',
+          label: 'What may be underneath: the boundary-management question',
+          text: 'The wish to stop being drained is the most practical arrival, and it\u2019s where the honest work usually lives. Boundary and self-regulation work is the response regardless of where you fall on empathy dimensions \u2014 exposure management, practicing differentiation, and recovery after high-exposure periods. If the depletion is chronic and interfering with daily life, a licensed therapist offers a more reliable form of support than any spiritual reading.'
+        };
+      }
+      if (a.want === 'mechanism' || pattern === 'boundary-depleted') {
+        return {
+          key: 'mechanism-question',
+          label: 'What may be underneath: the mechanism question',
+          text: 'Why you take on others\u2019 feelings is partly automatic emotional contagion, partly high affective empathy, and partly boundary differentiation. The components call for different responses: contagion responds to exposure management, empathy to boundary skills, and poor differentiation to self-regulation work. Sorting which is operating is more useful than confirming a label.'
+        };
+      }
+      if (a.label_use === 'identity-anchoring' || a.want === 'value' || pattern === 'identity-seeking') {
+        return {
+          key: 'identity-work',
+          label: 'What may be underneath: the identity-work question',
+          text: 'The label may be doing identity work \u2014 anchoring who you are rather than helping you understand your pattern. That\u2019s human and not wrong, but it deserves noticing, because when \u201Cempath\u201D becomes explanation-for-everything it can keep you seeking confirmation instead of engaging the trait. The honest move is to ask what the label is explaining, and whether that explanation helps.'
+        };
+      }
+      if (a.want === 'sensitivity' || pattern === 'sensitive-not-empath') {
+        return {
+          key: 'sensitivity-question',
+          label: 'What may be underneath: the sensitivity question',
+          text: 'Whether you are \u201Cjust too sensitive\u201D is the HSP question \u2014 high sensory-processing sensitivity, documented by Aron and colleagues, is related to but not identical with empathy. Some people labeled empath are high in sensitivity rather than empathy specifically, and the prescription differs: sensitivity calls for environmental management, empathy calls for boundary work. The distinction changes what would actually help.'
+        };
+      }
+      if (a.want === 'trait') {
+        return {
+          key: 'trait-question',
+          label: 'What may be underneath: the trait question',
+          text: 'Whether you are a high-empathy person is the most tractable of the asks \u2014 empathy is a real, measurable, normally-distributed trait, not a categorical one. The honest framing is where you fall on continuous dimensions, not whether you qualify as an empath. A reading can offer a perspective on your pattern; it cannot certify special status.'
+        };
+      }
+      if (a.status === 'not-sure') {
+        return {
+          key: 'honest-doubt',
+          label: 'What may be underneath: the honest-doubt question',
+          text: 'Not being sure the label fits is a reasonable place to start. High empathy, high sensitivity, and boundary issues are distinct patterns the label collapses \u2014 treating it as a hypothesis rather than a verdict lets you engage each on its own terms, and retake the check once more pattern has formed.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your empath question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'trait' || a.help === 'insight') return 'psychic';
+      if (a.want === 'boundary' || a.help === 'guidance') return 'tarot_decision';
+      if (a.want === 'sensitivity' || a.help === 'dynamic') return 'tarot_relationship';
+      if (a.want === 'mechanism' || a.want === 'value' || a.want === 'beneath' || a.help === 'deeper') return 'tarot_deep';
+      if (a.help === 'interpret') return 'free_first';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'am-i-an-empath', {
+        resultV2: true,
+        canTell: [
+          'Whether you score high on affective empathy \u2014 the real, measurable trait the label reaches for, not a special-status category',
+          'Whether absorption is genuine empathy, automatic contagion, or a boundary question, which changes what would actually help',
+          'Whether the label is doing diagnostic work or identity-anchoring, which shapes how it helps or hinders'
+        ],
+        edgeBridge: 'A quiz can read which pattern your experience fits \u2014 it can\u2019t certify \u201Cempath\u201D as a special-status identity, because that claim isn\u2019t verifiable. A reading framed on your sensitivity pattern can offer perspective; it can\u2019t honestly confirm a unique gift or calling, and any reader who does is offering a projection dressed as validation.',
+        ctaText: {
+          '*:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reading on your sensitivity pattern',
+          '*:tarot_relationship': 'Get a read on how your sensitivity operates',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the pattern',
+          '*:closure': 'Get a closure-framed reflection',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'identity-seeking',
+          text: 'when the label becomes explanation-for-everything, a reading that certifies you as a \u201Ctrue empath\u201D with gifts to develop can quietly become a more expensive way of anchoring the identity. If you book one, frame it on how your sensitivity operates \u2014 not on confirming a special status.'
+        }
+      });
+    }
+  },
+
+
+  'am-i-in-love': {
+    id: 'am-i-in-love',
+    title: 'What Are You Actually Feeling?',
+    launchSub: 'Eight questions, about two minutes. It works outward from you \u2014 how long it\u2019s been, what the feeling looks like day to day, and what you actually want to know \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of which state your experience may point to \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'duration',
+        q: 'How long have you been feeling this way about them?',
+        hint: 'This matters more than it sounds \u2014 the same intensity means different things in week two and year two.',
+        options: [
+          { text: 'A few weeks or less', detail: 'the early flush, still fresh', score: 'weeks' },
+          { text: 'A few months', detail: 'still settling', score: 'months' },
+          { text: 'About a year', detail: 'past the first rush', score: 'year' },
+          { text: 'Several years', detail: 'long-established', score: 'years' },
+          { text: 'I can\u2019t pin it down', detail: 'it crept up on me', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'stage',
+        q: 'Where are you with them right now?',
+        hint: '',
+        options: [
+          { text: 'We\u2019re in a relationship', detail: 'together, official', score: 'together' },
+          { text: 'We\u2019re dating, not yet official', detail: 'seeing each other', score: 'dating' },
+          { text: 'We\u2019re talking or newly getting close', detail: 'early days', score: 'talking' },
+          { text: 'We\u2019re friends, but there might be more', detail: 'a line almost crossed', score: 'friends' },
+          { text: 'We\u2019re exes', detail: 'it ended at some point', score: 'exes' },
+          { text: 'It\u2019s complicated', detail: 'even this question is hard to name', score: 'complicated' }
+        ]
+      },
+      {
+        id: 'intensity',
+        q: 'How does the feeling show up day to day?',
+        hint: 'Intensity is infatuation\u2019s signature \u2014 not love\u2019s proof. The peak feeling is most powerful precisely because it isn\u2019t yet anchored.',
+        options: [
+          { text: 'Constant thinking, physical pull, can\u2019t switch it off', detail: 'the early rush', score: 'peak' },
+          { text: 'Very strong, but not all-consuming', detail: 'intense, contained', score: 'strong' },
+          { text: 'Comes in waves, up and down', detail: 'no steady baseline', score: 'waves' },
+          { text: 'Warm and present, steady', detail: 'reliable', score: 'warm' },
+          { text: 'Calm, settled, comfortable', detail: 'quiet, but there', score: 'calm' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'hard to name', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'flourishing',
+        q: 'When you picture them happy, what\u2019s your first reaction?',
+        hint: 'The clearest marker of love is wanting their flourishing \u2014 choosing them across inconvenience, not just feeling pulled toward them.',
+        options: [
+          { text: 'I genuinely want their flourishing, even apart from me', detail: 'their good is good', score: 'their-joy' },
+          { text: 'I\u2019m happy when we\u2019re good together', detail: 'shared joy', score: 'shared' },
+          { text: 'It\u2019s mixed \u2014 part relief, part worry', detail: 'hard to sort', score: 'mixed' },
+          { text: 'Their happiness makes me uneasy if I\u2019m not in it', detail: 'a possessive edge', score: 'uneasy' },
+          { text: 'I mostly want them \u2014 more than I think about their good', detail: 'the pull, not the care', score: 'mine' },
+          { text: 'I don\u2019t know', detail: 'can\u2019t tell', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'survive',
+        q: 'Has the early intensity eased, and what happened to the care?',
+        hint: 'This is the one test that separates love from infatuation \u2014 but it can only be run once the flush has had time to fade.',
+        options: [
+          { text: 'It eased, and the care stayed and deepened', detail: 'the love trajectory', score: 'stayed' },
+          { text: 'It\u2019s easing into something steadier', detail: 'maturing', score: 'maturing' },
+          { text: 'Still at its peak \u2014 hasn\u2019t eased yet', detail: 'too early to tell', score: 'still-peak' },
+          { text: 'It eased, and the feeling feels smaller', detail: 'care dimmed', score: 'eased-less' },
+          { text: 'The fading took the care with it', detail: 'what was it, really', score: 'gone' },
+          { text: 'I can\u2019t tell', detail: 'no read yet', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'pattern',
+        q: 'Does this feel different from past intense feelings?',
+        hint: 'Sometimes the novelty is in this person; sometimes it\u2019s the familiarity of your own infatuation pattern. The question is partly about you.',
+        options: [
+          { text: 'Clearly different from before', detail: 'this one\u2019s new', score: 'different' },
+          { text: 'Same shape as past infatuations', detail: 'a familiar arrival', score: 'familiar' },
+          { text: 'Somewhere in between', detail: 'hard to say', score: 'mixed' },
+          { text: 'I can\u2019t tell', detail: 'no read yet', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Is this love, or just infatuation?', detail: 'state identification', score: 'identify' },
+          { text: 'Is this going to last?', detail: 'permanence', score: 'last' },
+          { text: 'Is this feeling enough to build on?', detail: 'sufficiency', score: 'enough' },
+          { text: 'Am I attached, or do I love them?', detail: 'attachment vs love', score: 'attachment-love' },
+          { text: 'Is this different from before?', detail: 'novelty vs pattern', score: 'different' },
+          { text: 'Should I tell them how I feel?', detail: 'expression timing', score: 'tell' },
+          { text: 'I just want clarity', detail: 'whatever clarity looks like', score: 'just-clarity' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'Help me identify which state I\u2019m in', detail: 'naming the phase', score: 'state' },
+          { text: 'Help me understand the trajectory', detail: 'where it\u2019s tending', score: 'trajectory' },
+          { text: 'Help me tell attachment from love', detail: 'the real distinction', score: 'attachment' },
+          { text: 'Help me make sense of what it means', detail: 'a frame', score: 'meaning' },
+          { text: 'Guidance on whether to express it', detail: 'a next step', score: 'express' },
+          { text: 'I\u2019m not sure \u2014 I just want to understand', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    /* ---- Pattern scoring ----
+       Four signal questions are scored -2..+2 (an unsure answer scores
+       nothing and counts as "uncertain"). The model is transparent and
+       documented on the page: states, not points. */
+    resolve: function (a) {
+      var S = {
+        intensity:    { peak: -2, strong: -1, waves: 0, warm: 1, calm: 2, unsure: null },
+        flourishing:  { 'their-joy': 2, shared: 1, mixed: 0, uneasy: -1, mine: -2, unsure: null },
+        survive:      { stayed: 2, maturing: 2, 'still-peak': 0, 'eased-less': -1, gone: -2, unsure: null },
+        pattern:      { different: 1, familiar: -1, mixed: 0, unsure: null }
+      };
+      var keys = ['intensity', 'flourishing', 'survive', 'pattern'];
+      var sum = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][a[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; continue; }
+        sum += v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if ((a.survive === 'stayed' || a.survive === 'maturing') &&
+          (a.flourishing === 'their-joy' || a.flourishing === 'shared') && sum >= 3) return 'love-emerging';
+      if (a.intensity === 'peak' && a.survive !== 'stayed' && a.survive !== 'maturing') return 'early-infatuation';
+      if (a.flourishing === 'mine' || a.flourishing === 'uneasy') return 'attachment-without-love';
+      if (sum >= 2) return 'attachment-bond';
+      if (sum >= -1) return 'attachment-bond';
+      return 'early-infatuation';
+    },
+
+    /* ---- The five patterns ---- */
+    results: {
+      'early-infatuation': {
+        path: 'Early infatuation \u2014 the flush is at its peak',
+        summary: 'The intensity you describe is the early state \u2014 real, powerful, and exactly what infatuation looks like before it has declared its trajectory.',
+        suggest: function (a) {
+          var s = 'What you\u2019re describing reads as the early intensity: the constant thinking, the physical pull, the sense that this is singular.';
+          if (a.intensity === 'peak') s += ' You placed it at its peak \u2014 the phase most signs lists mistake for love.';
+          if (a.survive === 'still-peak') s += ' The flush hasn\u2019t eased yet, so the one test that separates love from infatuation \u2014 what survives the easing \u2014 can\u2019t be run yet.';
+          s += ' None of this means the feeling is fake. It means the question is premature; the trajectory needs time to declare itself.';
+          return s;
+        },
+        dontTell: 'Intensity is not a measure of love \u2014 it\u2019s infatuation\u2019s signature. The peak feeling is most powerful precisely because it isn\u2019t yet anchored, and using it as proof reverses the actual signal. A reading can\u2019t certify the state either; it can only offer a perspective on the dynamic.',
+        watchIntro: 'What to watch over the coming months:',
+        watch: function (a) {
+          return [
+            'Whether the feeling settles into steadier care or fades \u2014 the trajectory, not the peak, is the tell.',
+            'Whether you still want their flourishing once the flush eases \u2014 that survival is the closest marker of love there is.'
+          ];
+        }
+      },
+      'attachment-bond': {
+        path: 'Attachment bond \u2014 real, and not yet love',
+        summary: 'You describe a genuine bond formed through proximity and meaning \u2014 the comfort of their presence, the difficulty imagining life without them.',
+        suggest: function (a) {
+          var s = 'Your answers point to a real attachment: a bond that formed through closeness and shared meaning.';
+          if (a.intensity === 'calm' || a.intensity === 'warm') s += ' The feeling shows up as comfort more than rush.';
+          if (a.pattern === 'familiar') s += ' And you noted it feels like past arrivals \u2014 which is worth holding gently.';
+          s += ' Attachment is real and can persist for years. The open question is whether it\u2019s care-and-investment or a bond that persists without it \u2014 and that test is whether you want their flourishing and choose them across inconvenience.';
+          return s;
+        },
+        dontTell: 'Attachment and love aren\u2019t the same thing. A bond formed through proximity can feel identical to love and persist without the chosen investment that distinguishes it. Your answers can\u2019t certify which one this is \u2014 only honest attention to your own behavior over time can.',
+        watchIntro: 'Over the next weeks:',
+        watch: function (a) {
+          return [
+            'Notice whether you want their good for its own sake, or mainly their presence near you \u2014 the difference is the attachment-vs-love line.',
+            'Watch what the bond does under inconvenience: attachment holds when things are easy; love is what chooses across friction.'
+          ];
+        }
+      },
+      'love-emerging': {
+        path: 'Love emerging \u2014 care that survived the flush',
+        summary: 'The clearest marker available: the intensity eased and the care stayed, maturing into chosen investment.',
+        suggest: function (a) {
+          var s = 'Your answers describe the trajectory love is made of: the early intensity eased, and what remained was care.';
+          if (a.survive === 'stayed' || a.survive === 'maturing') s += ' You said the care stayed \u2014 or is maturing into something steadier.';
+          if (a.flourishing === 'their-joy') s += ' And you want their flourishing even apart from you, which is love\u2019s signature rather than infatuation\u2019s.';
+          s += ' This is the closest behavioral marker of love there is \u2014 not the peak feeling, but what survives it.';
+          return s;
+        },
+        dontTell: 'Surviving the flush is the strongest signal available \u2014 it still can\u2019t certify permanence. Love is established by surviving, not by declaring, and the future remains unwritten by this result. A reading can frame the dynamic; it can\u2019t promise the arc.',
+        watchIntro: 'What to keep watching:',
+        watch: function (a) {
+          return [
+            'Whether the chosen investment holds across real inconvenience, not just ease \u2014 that\u2019s where love either deepens or reveals its limits.',
+            'Whether the two of you talk about a future, not only the present \u2014 trajectory is present-tense; direction is the question it can\u2019t answer for you.'
+          ];
+        }
+      },
+      'attachment-without-love': {
+        path: 'Attachment without love \u2014 bonded, but self-focused',
+        summary: 'The bond is real, but the care-and-investment test doesn\u2019t clearly pass \u2014 what you describe leans possessive or mainly about your own wanting.',
+        suggest: function (a) {
+          var s = 'Your answers suggest a bond that may be more about proximity and your own wanting than about their flourishing.';
+          if (a.flourishing === 'mine') s += ' You said you mostly want them, more than you think about their good.';
+          if (a.flourishing === 'uneasy') s += ' And their happiness without you brings unease \u2014 a possessive edge rather than care.';
+          s += ' That doesn\u2019t make the feeling false. It names it: attachment can persist without the chosen investment that distinguishes love, and the honest question is what this bond is actually built on.';
+          return s;
+        },
+        dontTell: 'Wanting someone intensely isn\u2019t the same as loving them \u2014 and a reading that confirms \u201Creal love\u201D here would be selling a projection, not insight. The distinction between care-and-investment and dependency is yours to make through how the bond behaves, not through a verdict.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Watch whether your care shows up as their good or as your grip \u2014 the difference becomes visible under small refusals and independent plans.',
+            'If the bond feels like love but keeps costing your autonomy, that pattern deserves engagement with a therapist more than another reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Too early to tell',
+        summary: 'Several answers say \u201CI don\u2019t know\u201D or \u201Cit hasn\u2019t eased yet\u201D \u2014 which is information, not a verdict.',
+        suggest: function (a) {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and that\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable trajectory to read. The one test that separates love from infatuation \u2014 what survives the intensity easing \u2014 can\u2019t be run while the flush is still at its peak, and that\u2019s exactly where you seem to be.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in yet. Hunting for one more \u201Csign\u201D at this stage tends to produce noise \u2014 every small gesture gets recruited as evidence for whichever answer you\u2019re already leaning toward. No reading can certify a state that time hasn\u2019t declared.',
+        watchIntro: 'Give it a defined window:',
+        watch: function (a) {
+          return [
+            'A few months of ordinary relationship life across different conditions \u2014 then the patterns read more clearly once the intensity has either settled or faded.',
+            'Then come back and retake this check. With more trajectory to read, the result will be sharper.'
+          ];
+        }
+      }
+    },
+
+    /* ---- What may be underneath the question ----
+       Optional, one at most, offered as an observation \u2014 never a
+       diagnosis. Returns { key, label, text } or null. */
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'tell' || a.help === 'express') {
+        return {
+          key: 'expression',
+          label: 'What may be underneath: the expression-timing question',
+          text: '\u201CShould I tell them\u201D isn\u2019t really a feelings question \u2014 it\u2019s a timing question, and the trajectory answers it better than the intensity does. The honest test isn\u2019t whether the feeling is real but whether it has matured enough to express without testing something not yet ready. A reading can\u2019t tell you that; your own sense of the relationship\u2019s steadiness can.'
+        };
+      }
+      if (a.want === 'different' || a.help === 'attachment') {
+        return {
+          key: 'pattern',
+          label: 'What may be underneath: the pattern question',
+          text: 'You asked whether this is different from before \u2014 which quietly moves the question from them to you. If this feeling keeps arriving in the same shape with different people, the more useful frame may be your own infatuation pattern, not this person\u2019s particular qualities. That isn\u2019t a reason to dismiss what you feel; it\u2019s a reason to engage the pattern rather than explain it away each time.'
+        };
+      }
+      if ((a.survive === 'gone' || a.survive === 'eased-less') && pattern !== 'not-enough-evidence') {
+        return {
+          key: 'fade',
+          label: 'What may be underneath: the fade-fear question',
+          text: 'The intensity easing, and the fear that means it\u2019s over, is one of the most common arrivals \u2014 and one of the most misunderstood. The flush fading is the trajectory love is established by surviving, not the end of the feeling. What matters is what the care does next; if it stays and matures, that\u2019s the clearest marker of love there is. If the fading took the care with it, what you felt was real and is information \u2014 not failure.'
+        };
+      }
+      if (a.want === 'attachment-love') {
+        return {
+          key: 'attachment',
+          label: 'What may be underneath: the attachment-vs-love question',
+          text: 'You want to know whether the bond is care-and-investment or proximity-and-meaning \u2014 and that\u2019s exactly the distinction the page says matters. Comfort in their presence is real and can persist for years without being love. The test it can\u2019t automate is whether you want their flourishing and choose them across inconvenience. A reading can frame the dynamic; only honest attention to your own behavior answers this one.'
+        };
+      }
+      if (a.want === 'identify' && pattern === 'early-infatuation') {
+        return {
+          key: 'intensity',
+          label: 'What may be underneath: the intensity question',
+          text: 'You asked whether intense feeling is love \u2014 and the answer the framework gives is that intensity is infatuation\u2019s signature, not love\u2019s proof. The peak feeling is most powerful precisely because it isn\u2019t yet anchored. The honest move isn\u2019t to decode the intensity but to watch what it settles into. If the question is premature, the trajectory needs time to declare itself.'
+        };
+      }
+      return null;
+    },
+
+    /* ---- Practice matching (honest, not salesy) ---- */
+    practice: window.lovePracticeSet('am-i-in-love'),
+
+    matchPractice: window.loveMatchPractice,
+
+    /* ---- Aha matching (result engine v2) ---- */
+    matchAha: window.topicMatchAha,
+
+    /* ---- Custom result renderer (engine hook, v2 mode) ---- */
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'am-i-in-love', {
+        resultV2: true,
+        canTell: [
+          'Which state your experience actually points to \u2014 infatuation, attachment, or love',
+          'Whether what you feel has survived the early intensity fading',
+          'Which kind of guidance fits the question you\u2019re really asking'
+        ],
+        edgeBridge: 'A quiz can organize your question \u2014 it can\u2019t certify what you feel. That interior state is yours because only you live inside it; a reading can offer a perspective on the dynamic, never a verdict on the feeling.',
+        ctaText: {
+          'identify:psychic': 'Get a perspective on the connection\u2019s dynamic',
+          'attachment-love:tarot_relationship': 'Get a structured reflection on the dynamic',
+          'different:tarot_deep': 'Get a deeper read on the connection',
+          'tell:tarot_decision': 'Get guidance on your next step',
+          'last:tarot_relationship': 'Get a reading on where this is heading',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on meaning',
+          '*:free_first': 'Try the free Daily Card first'
+        },
+        negativePatternTip: {
+          pattern: 'attachment-without-love',
+          text: 'when a bond leans possessive or self-focused, a reading that confirms \u201Creal love\u201D can become a way of avoiding the harder question of what the bond is built on. If you book one, frame it on the dynamic \u2014 not on a verdict.'
+        }
+      });
+    }
+  },
+
+
+  'am-i-psychic': {
+    id: 'am-i-psychic',
+    title: 'What Are Your Experiences Pointing At?',
+    launchSub: 'Eight questions, about two minutes. It reads whether what you call psychic is intuition, pattern recognition, or high sensitivity \u2014 or susceptibility to Barnum effects \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your own experiences are actually pointing at \u2014 real documented capacities, a verification gap, or identity work \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'experiences',
+        q: 'What kinds of experiences are you having?',
+        hint: 'The shape of the experiences shapes what they point at.',
+        options: [
+          { text: 'I just know things before they happen', detail: 'a felt knowing that proves accurate', score: 'premonition' },
+          { text: 'I sense people\u2019s moods or states', detail: 'reading the room or a person', score: 'sensing' },
+          { text: 'My dreams sometimes come true', detail: 'dreams that match later events', score: 'dreams' },
+          { text: 'I see patterns and coincidences', detail: 'meaningful connections', score: 'patterns' },
+          { text: 'A mix of all of the above', detail: 'no single type', score: 'mix' },
+          { text: 'I\u2019m not sure how to describe them', detail: 'hard to name', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cpsychic\u201D idea in your head?',
+        hint: '',
+        options: [
+          { text: 'My own experiences', detail: 'they pointed me there', score: 'own' },
+          { text: 'A reading or reader told me', detail: 'the label came from a session', score: 'reader' },
+          { text: 'Something I read or watched', detail: 'content about signs', score: 'media' },
+          { text: 'A feeling it means something', detail: 'intuition about the label', score: 'feeling' },
+          { text: 'Friends say I\u2019m intuitive', detail: 'others named it', score: 'friends' },
+          { text: 'No single thing \u2014 it built', detail: 'crept in over time', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'intuition',
+        q: 'When you describe the experiences, how well do documented capacities explain them?',
+        hint: 'Intuition is unconscious pattern processing \u2014 the real mechanism behind most \u201CI just knew\u201D moments.',
+        options: [
+          { text: 'They clearly fit intuition or pattern sense', detail: 'a documented capacity explains them', score: 'strong' },
+          { text: 'Mostly \u2014 with some unexplained', detail: 'largely a real capacity', score: 'some' },
+          { text: 'Partly \u2014 some fits, some doesn\u2019t', detail: 'mixed explanation', score: 'mixed' },
+          { text: 'They feel like something beyond that', detail: 'beyond known senses', score: 'beyond' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'recognition',
+        q: 'Have you tracked how often the knowing is actually right?',
+        hint: 'Confirmation bias means hits are remembered and misses forgotten \u2014 the felt rate runs high.',
+        options: [
+          { text: 'Yes \u2014 I\u2019ve tracked hits and misses', detail: 'honest hit-rate', score: 'tracked' },
+          { text: 'Loosely \u2014 I notice when right', detail: 'some tracking', score: 'loosely' },
+          { text: 'Not really \u2014 I go by feel', detail: 'no tracking', score: 'vague' },
+          { text: 'I mostly remember the hits', detail: 'selective memory', score: 'only-hits' },
+          { text: 'I can\u2019t tell the rate', detail: 'too early or unclear', score: 'notell' }
+        ]
+      },
+      {
+        id: 'sensitivity',
+        q: 'How strongly do you register others\u2019 emotions?',
+        hint: 'High affective sensitivity is a real, measured trait \u2014 it explains \u201Csensing the mood\u201D without the supernatural.',
+        options: [
+          { text: 'Strongly \u2014 quickly and accurately', detail: 'high sensitivity', score: 'clear' },
+          { text: 'Somewhat \u2014 more than most', detail: 'above average', score: 'some' },
+          { text: 'About average', detail: 'in the normal range', score: 'mixed' },
+          { text: 'I\u2019m not sure', detail: 'hard to place', score: 'notsure' },
+          { text: 'I can\u2019t tell', detail: 'unclear', score: 'notell' }
+        ]
+      },
+      {
+        id: 'frame',
+        q: 'What is the \u201Cpsychic\u201D label doing for you?',
+        hint: 'Whether it\u2019s exploring a capacity or conferring special status changes what would actually help.',
+        options: [
+          { text: 'I want to understand a real capacity', detail: 'genuine exploration', score: 'curiosity' },
+          { text: 'I want it to mean something about me', detail: 'meaning-making', score: 'meaning' },
+          { text: 'It feels like part of who I am', detail: 'identity-anchoring', score: 'identity' },
+          { text: 'I want confirmation I have a gift', detail: 'seeking an ability-claim', score: 'claim' },
+          { text: 'I can\u2019t tell', detail: 'unexamined', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Are my experiences real capacities?', detail: 'experience-categorization', score: 'real' },
+          { text: 'Am I fooling myself?', detail: 'the verification question', score: 'fooling' },
+          { text: 'How do I develop this?', detail: 'the development path', score: 'develop' },
+          { text: 'Does this mean something about me?', detail: 'the meaning question', score: 'meaning' },
+          { text: 'Is it intuition or anxiety?', detail: 'the distinction', score: 'anxiety' },
+          { text: 'Can someone confirm I have a gift?', detail: 'the ability-claim', score: 'confirm' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting capacity from story', score: 'interpret' },
+          { text: 'An outside perspective on my pattern', detail: 'a read on the capacities', score: 'insight' },
+          { text: 'A deeper look at the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'A next step I can actually take', detail: 'something to do', score: 'guidance' },
+          { text: 'Help telling intuition from anxiety', detail: 'the distinction, applied', score: 'dynamic' },
+          { text: 'I\u2019m not sure \u2014 find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        intuition:   { strong: 2, some: 1, mixed: 0, beyond: -1, notell: null },
+        recognition: { tracked: 2, loosely: 1, vague: 0, 'only-hits': -1, notell: null },
+        sensitivity: { clear: 2, some: 1, mixed: 0, notsure: -1, notell: null },
+        frame:       { curiosity: 2, meaning: 1, identity: 0, claim: -1, notell: null }
+      };
+      var keys = ['intuition', 'recognition', 'sensitivity', 'frame'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.frame !== null && vals.frame <= -1) return 'barnum-susceptible';
+      if (vals.intuition !== null && vals.intuition >= 2 && (vals.frame === null || vals.frame >= 0)) return 'strong-intuition';
+      if (vals.recognition !== null && vals.recognition >= 2 && (vals.frame === null || vals.frame >= 0)) return 'pattern-recognizer';
+      if (vals.sensitivity !== null && vals.sensitivity >= 2 && (vals.frame === null || vals.frame >= 0)) return 'high-sensitivity';
+      if (sum <= -3) return 'barnum-susceptible';
+      if (sum >= 1) {
+        var best = 'intuition', bestV = (vals.intuition === null ? -99 : vals.intuition);
+        if (vals.recognition !== null && vals.recognition > bestV) { best = 'recognition'; bestV = vals.recognition; }
+        if (vals.sensitivity !== null && vals.sensitivity > bestV) { best = 'sensitivity'; bestV = vals.sensitivity; }
+        if (best === 'intuition') return 'strong-intuition';
+        if (best === 'recognition') return 'pattern-recognizer';
+        return 'high-sensitivity';
+      }
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'strong-intuition': {
+        path: 'A strong intuition pattern',
+        summary: 'Your experiences point at real intuition \u2014 unconscious pattern processing.',
+        suggest: function (a) {
+          var s = 'Your answers point at real intuition \u2014 the mind processing patterns outside awareness and outputting them as a felt knowing. That is a documented capacity, not a supernatural one.';
+          if (a.intuition === 'strong') s += ' The experiences fit intuition clearly, which is the honest read of most \u201CI just knew\u201D moments.';
+          if (a.frame === 'curiosity') s += ' And you\u2019re approaching it as a capacity to understand, which is the frame that helps most.';
+          s += ' What no quiz or reading can do is certify that the knowing comes from beyond known senses \u2014 it came from processing you weren\u2019t consciously tracking.';
+          return s;
+        },
+        dontTell: 'A strong intuition pattern doesn\u2019t prove supernatural ability \u2014 it proves a real, trainable capacity. The honest move is to build calibration through tracking, not to seek a gift confirmation that no one can honestly give.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep a light log of felt-knowings and what actually happens \u2014 tracking outcomes honestly is what turns intuition into calibration.',
+            'If ' + (a.frame === 'curiosity' ? 'the capacity framing' : 'the pattern') + ' holds, a reflective practice or a reading framed on how your intuition operates can deepen it \u2014 without requiring the supernatural claim.'
+          ];
+        }
+      },
+      'pattern-recognizer': {
+        path: 'A pattern-recognition pattern',
+        summary: 'You detect regularities and predict from subtle cues.',
+        suggest: function (a) {
+          var s = 'Your answers describe strong pattern recognition \u2014 detecting regularities and making predictions from cues most people miss. That is a real capacity that varies between people and improves with domain experience.';
+          if (a.recognition === 'tracked') s += ' And you\u2019ve tracked it, which is the honest filter that separates real signal from confirmation bias.';
+          if (a.frame === 'curiosity') s += ' Approaching it as a capacity to develop is the frame that helps.';
+          s += ' It explains \u201Csensing\u201D things that later prove accurate without requiring supernatural perception \u2014 the patterns were available to unconscious processing.';
+          return s;
+        },
+        dontTell: 'A pattern-recognition pattern doesn\u2019t prove the patterns were invisible \u2014 they were often available to unconscious processing. What it does is name the real mechanism, which is more useful than the supernatural framing and more honest to develop.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Attend to the domain your pattern operates in \u2014 the more you notice, the better the unconscious processing becomes. Tracking hits and misses keeps it honest.',
+            'If ' + (a.frame === 'curiosity' ? 'the capacity framing' : 'the pattern') + ' holds, a structured reflection or a reading framed on what your pattern points at can deepen it without the supernatural claim.'
+          ];
+        }
+      },
+      'high-sensitivity': {
+        path: 'A high-sensitivity pattern',
+        summary: 'You register others\u2019 states quickly and accurately.',
+        suggest: function (a) {
+          var s = 'Your answers describe high affective sensitivity \u2014 reading others\u2019 emotional states quickly and accurately. That is a real, measured trait, and it explains \u201Csensing the mood\u201D without invoking extrasensory perception.';
+          if (a.sensitivity === 'clear') s += ' The sensitivity is strong, which is the honest read of most \u201CI just know how they feel\u201D moments.';
+          if (a.frame === 'curiosity') s += ' Approaching it as a capacity to understand is the frame that helps.';
+          s += ' What it can\u2019t prove is that the sensing was supernatural \u2014 it was high empathy reading available cues.';
+          return s;
+        },
+        dontTell: 'A high-sensitivity pattern doesn\u2019t prove supernatural perception \u2014 it proves a real trait that, without boundary work, can also read as depletion. The honest move is to develop clean operation between your state and others\u2019, not to seek a gift label.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Practice distinguishing your state from others\u2019 \u2014 boundary work is what lets the sensitivity operate cleanly instead of as fatigue.',
+            'If ' + (a.frame === 'curiosity' ? 'the capacity framing' : 'the pattern') + ' holds, a reading framed on your sensitivity pattern can offer perspective without confirming a supernatural gift.'
+          ];
+        }
+      },
+      'barnum-susceptible': {
+        path: 'A susceptibility to confirmation and Barnum effects',
+        summary: 'The label is doing ability-claim or identity work more than capacity work.',
+        suggest: function (a) {
+          var s = 'Your answers lean toward the label doing ability-claim or identity work rather than capacity work \u2014 which is exactly where confirmation bias and Barnum effects do their quietest damage.';
+          if (a.frame === 'claim' || a.want === 'confirm') s += ' The wish for confirmation that you have a gift is genuine and human, and it is also what makes a vague \u201Ctrue gifts\u201D statement land as specifically true.';
+          if (a.frame === 'identity') s += ' The label feels like part of who you are, which raises the stake in hearing what you already lean toward.';
+          s += ' None of this says your experiences are fake \u2014 it says the verification step is the one most worth taking honestly before any outside voice names a gift for you.';
+          return s;
+        },
+        dontTell: 'A susceptibility to Barnum effects doesn\u2019t mean your experiences are false \u2014 it means personal-sounding statements read as uniquely true, which is a documented cognitive pattern. The risk is a reading that confirms a gift you arrived wanting to hear, at a price.',
+        watchIntro: 'Before you book anything or pay for a gift confirmation:',
+        watch: function () {
+          return [
+            'Track the actual hit-rate for a defined window \u2014 dreams versus fulfilled dreams, knowings versus outcomes. The honest number is almost always lower than the felt one.',
+            'If you still want a perspective, frame it on how your capacities operate \u2014 not on whether you have a gift \u2014 and walk away from any reader who names a unique calling or offers to unblock abilities for a fee.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the experiences into a real capacity or a verification gap, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read the shape without the scanning that would make everything louder.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that you\u2019re psychic tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: documented-capacity fit, tracked hit-rate, sensitivity, and what the label is doing.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'confirm' || a.frame === 'claim') {
+        return {
+          key: 'ability-claim',
+          label: 'What may be underneath: the ability-claim',
+          text: 'The wish for confirmation that you have a gift is deeply human, and it doesn\u2019t mean a gift is false \u2014 but it is the exact condition under which a Barnum-style statement lands as uniquely true. The honest reframe: ask whether documented capacities explain the experiences, and track the hit-rate, before any outside voice names a gift for you. Anyone who confirms special gifts or offers to unblock them for a fee is selling a certainty nobody possesses.'
+        };
+      }
+      if (a.frame === 'identity') {
+        return {
+          key: 'identity-anchoring',
+          label: 'What may be underneath: the identity-anchoring',
+          text: 'When the label feels like part of who you are, the stake in confirming it rises \u2014 and the question shifts from capacity to identity. The capacities are real, and the wish for the label to mean something is genuine. But \u201Cpsychic\u201D as special status is a framing the evidence neither confirms nor denies, and the framing affects how honestly you can engage what the experiences actually are.'
+        };
+      }
+      if (a.want === 'meaning' || a.frame === 'meaning') {
+        return {
+          key: 'meaning-making',
+          label: 'What may be underneath: the meaning-making ask',
+          text: 'The wish for the experiences to mean something about you is a meaning-making question, not an ability question \u2014 and the honest response differs. The capacities (intuition, pattern recognition, sensitivity) are real and worth developing on their own terms; the significance is yours to make, and no reading can certify it. Engaging the meaning directly is more useful than seeking a supernatural verdict that the evidence can\u2019t support.'
+        };
+      }
+      if (a.want === 'anxiety') {
+        return {
+          key: 'intuition-vs-anxiety',
+          label: 'What may be underneath: intuition versus anxiety',
+          text: 'Genuine intuition is calm, specific, and survives reflection; anxiety-driven certainty is urgent, diffuse, and resists examination. The two call for different responses \u2014 intuition responds to reflective practice and tracking, anxiety responds to addressing the fear. A useful test: does the felt-knowing survive a few hours of rest and honest examination? If it intensifies under attention, it is often anxiety; if it stays calm and specific, it is more likely pattern-processing.'
+        };
+      }
+      if (a.want === 'fooling') {
+        return {
+          key: 'verification-gap',
+          label: 'What may be underneath: the verification gap',
+          text: 'The question of whether you\u2019re fooling yourself is the most honest one in the set. Confirmation bias and selective memory are measurable, not weaknesses \u2014 the mind remembers hits and forgets misses, so the felt-accuracy runs higher than the tracked one. Tracking the actual hit-rate is the only honest filter, and engaging the bias is what distinguishes genuine intuition from unexamined belief.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your psychic question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'real' || a.frame === 'curiosity') return 'psychic';
+      if (a.want === 'develop' || a.help === 'deeper') return 'tarot_deep';
+      if (a.want === 'confirm' || a.frame === 'claim' || a.frame === 'identity') return 'free_first';
+      if (a.want === 'fooling' || a.help === 'interpret') return 'free_first';
+      if (a.want === 'meaning' || a.frame === 'meaning') return 'tarot_relationship';
+      if (a.want === 'anxiety' || a.help === 'dynamic') return 'tarot_decision';
+      if (a.help === 'insight') return 'psychic';
+      if (a.help === 'guidance') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'am-i-psychic', {
+        resultV2: true,
+        canTell: [
+          'Whether your experiences point at documented capacities \u2014 intuition, pattern recognition, or high sensitivity \u2014 which is the most honest read of what \u201Cpsychic\u201D usually reaches for',
+          'Whether you\u2019ve tracked the hit-rate, which is the filter that separates genuine intuition from confirmation bias',
+          'Whether the label is doing ability-work or identity-work, which changes what would actually help you'
+        ],
+        edgeBridge: 'A quiz can read what your experiences point at \u2014 it can\u2019t certify supernatural ability, which no framework honestly can. A reading framed on your intuition and sensitivity pattern can offer perspective; it can\u2019t confirm a gift or a calling.',
+        ctaText: {
+          'strong-intuition:psychic': 'Get a read on your intuition pattern',
+          'pattern-recognizer:tarot_deep': 'Get a structured read on your pattern',
+          'high-sensitivity:psychic': 'Get an outside perspective on your sensitivity',
+          'barnum-susceptible:free_first': 'Start with the free framework',
+          'not-enough-evidence:general': 'Take Do What Fits',
+          '*:psychic': 'Get a reading on your pattern',
+          '*:tarot_deep': 'Get a deeper read on your capacities',
+          '*:tarot_relationship': 'Get a read on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:closure': 'Get a reading focused on meaning',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'barnum-susceptible',
+          text: 'when the question is really an ability-claim, a reading that confirms \u201Ctrue psychic gifts\u201D can quietly become a more expensive way of getting the validation you arrived wanting. If you book one, frame it on how your capacities operate \u2014 not on whether you have a gift.'
+        }
+      });
+    }
+  },
+
+
+  'twin-flame-separation': {
+    id: 'twin-flame-separation',
+    title: 'Where Is Your Twin Flame Separation Actually Sitting?',
+    launchSub: 'Eight questions, about two minutes. It reads whether the twin flame framework is moving you through the pain or holding you in it \u2014 how the framework is affecting you, how much checking fills your day, whether the connection is mutual, and how the pain has been moving \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your twin flame separation \u2014 what your answers suggest, what they don\u2019t prove, and what to look at next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'Where is the connection sitting right now?',
+        hint: 'This matters \u2014 the situation shapes how the same signals read.',
+        options: [
+          { text: 'We\u2019re in separation \u2014 apart, but the bond feels active', detail: 'the framework is live', score: 'separated' },
+          { text: 'I\u2019m not sure this is \u201Cseparation\u201D or just over', detail: 'uncertain what to call it', score: 'uncertain' },
+          { text: 'It\u2019s ended \u2014 I\u2019m trying to make sense of it', detail: 'the connection is closed', score: 'nogo' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the twin flame question in your head?',
+        hint: '',
+        options: [
+          { text: 'The separation itself', detail: 'the distance raised it', score: 'separation' },
+          { text: 'He pulled away or started running', detail: 'the withdrawal', score: 'runner' },
+          { text: 'I read about twin flames and it fit', detail: 'the framework found me', score: 'framework' },
+          { text: 'The pain made me look for meaning', detail: 'the hurt drove it', score: 'pain' },
+          { text: 'It built gradually over time', detail: 'crept in slowly', score: 'gradual' }
+        ]
+      },
+      {
+        id: 'framework_effect',
+        q: 'What is the twin flame framework doing for you?',
+        hint: 'The single most important signal: is the story a tool or a cage?',
+        options: [
+          { text: 'It keeps me waiting for a reunion only it can promise', detail: 'a cage', score: 'trapped' },
+          { text: 'It keeps the question open \u2014 will we reunite', detail: 'holding the question', score: 'waiting' },
+          { text: 'Some of both \u2014 it helps and it holds', detail: 'mixed', score: 'mixed' },
+          { text: 'Mostly it helps me process the pain', detail: 'leaning useful', score: 'mostly' },
+          { text: 'Clearly it\u2019s helping me move through it', detail: 'a tool', score: 'helping' }
+        ]
+      },
+      {
+        id: 'checking',
+        q: 'How much of your day goes to verifying the bond?',
+        hint: 'His socials, the signs, the numbers, the dreams \u2014 this is the most measurable signal of processing versus cycling.',
+        options: [
+          { text: 'Most of my day', detail: 'constant checking', score: 'constant' },
+          { text: 'Frequently \u2014 several times a day', detail: 'frequent', score: 'frequent' },
+          { text: 'Daily, but not all day', detail: 'a daily pull', score: 'daily' },
+          { text: 'Some \u2014 I check occasionally', detail: 'occasional', score: 'some' }
+        ]
+      },
+      {
+        id: 'reciprocity',
+        q: 'Is the connection mutual, even across the distance?',
+        hint: 'A clean runner-chaser read is attachment avoidance meeting attachment anxiety \u2014 not a cosmic design.',
+        options: [
+          { text: 'Classic runner-chaser \u2014 he withdraws, I pursue', detail: 'the signature dynamic', score: 'runner-chaser' },
+          { text: 'Mostly one-sided \u2014 I\u2019m doing the work', detail: 'one-sided', score: 'one-sided' },
+          { text: 'Hard to tell if it\u2019s mutual', detail: 'unclear', score: 'unclear' },
+          { text: 'Mostly mutual, even across distance', detail: 'mostly mutual', score: 'mostly-mutual' },
+          { text: 'Clearly mutual', detail: 'mutual', score: 'mutual' }
+        ]
+      },
+      {
+        id: 'course',
+        q: 'Over the weeks since separation started, how has the pain moved?',
+        hint: 'Processing integrates; cycling resets to peak. The course tells you which is happening.',
+        options: [
+          { text: 'Cycling \u2014 resets to peak every few weeks', detail: 'looping', score: 'cycling' },
+          { text: 'Flat \u2014 stuck at the same intensity', detail: 'flat', score: 'flat' },
+          { text: 'Ebbing \u2014 slowly receding', detail: 'receding', score: 'ebbing' },
+          { text: 'Processing \u2014 less sharp, more carried', detail: 'integrating', score: 'processing' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 this decides what actually helps next.',
+        options: [
+          { text: 'Should I keep waiting, or move on?', detail: 'the decision question', score: 'moveon' },
+          { text: 'Will we reunite?', detail: 'the prediction question', score: 'return' },
+          { text: 'Is this person actually my twin flame?', detail: 'the label question', score: 'label' },
+          { text: 'Why does this pain keep finding me?', detail: 'the pattern question', score: 'pain' },
+          { text: 'Is the separation supposed to teach me something?', detail: 'the meaning question', score: 'meaning' },
+          { text: 'I want to get beneath all of it', detail: 'the deeper read', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A next step I can actually take', detail: 'something to do', score: 'guidance' },
+          { text: 'An outside perspective on my pattern', detail: 'a read on the dynamic', score: 'insight' },
+          { text: 'A way to read this honestly', detail: 'sorting story from signal', score: 'interpret' },
+          { text: 'Help seeing the dynamic clearly', detail: 'the dynamic, named', score: 'dynamic' },
+          { text: 'A deeper look at the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        framework_effect: { trapped: -2, waiting: -1, mixed: 0, mostly: 1, helping: 2 },
+        checking:          { constant: -2, frequent: -1, daily: 0, some: 1 },
+        reciprocity:      { 'runner-chaser': -2, 'one-sided': -1, unclear: 0, 'mostly-mutual': 1, mutual: 2 },
+        course:           { cycling: -2, flat: -1, ebbing: 0, processing: 2 }
+      };
+      var keys = ['framework_effect', 'checking', 'reciprocity', 'course'];
+      var sum = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (typeof v === 'undefined') v = 0;
+        sum += v;
+      }
+      if (answers.reciprocity === 'runner-chaser') return 'runner-chaser';
+      if (answers.framework_effect === 'helping' && answers.course === 'processing') return 'meaning-making';
+      if (sum <= -3) return 'waiting-loop';
+      if (sum >= 2) return 'genuine-processing';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'genuine-processing': {
+        path: 'Genuine processing',
+        summary: 'Your answers point at a separation that is actually moving \u2014 the framework is a tool you\u2019re using, not a cage holding you.',
+        suggest: function (a) {
+          var s = 'Your answers describe a separation that is doing its work: the framework is helping you process rather than wait, the checking is not running your day, and the pain is integrating rather than looping. That is the rare case where the twin flame story serves you \u2014 it names a real experience and gives it room to move.';
+          if (a.course === 'processing') s += ' The course over time \u2014 less sharp, more carried \u2014 is the clearest signal that this is processing, not stasis.';
+          if (a.reciprocity === 'mutual' || a.reciprocity === 'mostly-mutual') s += ' And the connection reads as mutual, which is the part no framework can manufacture.';
+          s += ' What no quiz or reading can do is confirm the twin flame label or predict reunion \u2014 the useful read is that you\u2019re moving, and the work is yours to keep doing.';
+          return s;
+        },
+        dontTell: 'Genuine processing doesn\u2019t prove the twin flame label is true \u2014 it proves you\u2019re integrating a real loss. The honest move is to keep the practices that are working, not to convert the progress into a sign that reunion is coming.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep the separation moving through you \u2014 notice what actually reduces the sharpness, and protect it from the checking that would re-open the question.',
+            'If ' + (a.framework_effect === 'helping' ? 'the framework' : 'the work') + ' is helping, a structured read on the dynamic or your attachment pattern can deepen it \u2014 without needing a reunion verdict.'
+          ];
+        }
+      },
+      'waiting-loop': {
+        path: 'A waiting loop',
+        summary: 'Your answers point at a separation that is holding you in place \u2014 the framework is keeping the question open rather than moving you through it.',
+        suggest: function (a) {
+          var s = 'Your answers describe a waiting loop: the framework keeps you oriented toward a reunion only it can promise, the checking fills your day, and the pain cycles rather than integrates. That is the trap the framework is built to produce \u2014 not a sign the reunion is close.';
+          if (a.checking === 'constant' || a.checking === 'frequent') s += ' The constant checking is the loudest signal: research on post-separation surveillance ties it to greater distress and slower recovery, because each check re-opens the question instead of settling it.';
+          if (a.framework_effect === 'trapped' || a.framework_effect === 'waiting') s += ' And the framework itself is doing the holding \u2014 it names the pain but offers no way to act on it except wait.';
+          s += ' None of this says your experience is false \u2014 it says the loop is the thing to interrupt, and a defined window of not-checking is the first honest step.';
+          return s;
+        },
+        dontTell: 'A waiting loop doesn\u2019t mean reunion is coming \u2014 it means the question is being held open, which is exactly what the framework is designed to do. A reading that names a \u201Creunion stage\u201D with a timeline is selling certainty the framework itself cannot supply.',
+        watchIntro: 'Before you book anything or pay for a timeline:',
+        watch: function () {
+          return [
+            'Take a defined window \u2014 three or four weeks \u2014 of living without the checking, then look honestly at whether the pull survived without the fuel.',
+            'If the loop persists, the more useful read is on the attachment pattern underneath it \u2014 often a therapist, not a reader, is the right next step.'
+          ];
+        }
+      },
+      'runner-chaser': {
+        path: 'A clear runner-and-chaser dynamic',
+        summary: 'Your answers describe the framework\u2019s signature dynamic \u2014 one withdrawing, one pursuing \u2014 which has a clean psychological read.',
+        suggest: function (a) {
+          var s = 'Your answers describe a clear runner-and-chaser pattern: one of you withdrawing under intensity, the other pursuing under threat. The framework names this cosmic; the psychology names it an attachment mismatch \u2014 avoidance meeting anxiety \u2014 which is real, painful, and addressable without the word \u201Ctwin.\u201D';
+          if (a.reciprocity === 'runner-chaser') s += ' The dynamic is the part worth reading honestly: it tends to repeat across connections if left unexamined, and the chaser\u2019s own attachment system is the piece you can actually work on.';
+          if (a.checking === 'constant' || a.checking === 'frequent') s += ' The checking keeps the pursuit alive \u2014 every look at his socials re-opens the question the withdrawal raised.';
+          s += ' What it can\u2019t prove is a cosmic design; what it can prove is a pattern worth naming.';
+          return s;
+        },
+        dontTell: 'A runner-and-chaser dynamic doesn\u2019t prove a destined bond \u2014 it proves an attachment mismatch. The framework tends to recommend waiting for the runner to \u201Cawaken,\u201D while the psychology points at your own attachment system, which is the part you can change.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Name the dynamic as an attachment pattern, not a destiny \u2014 the chaser\u2019s pursuit is the behavior most within reach to shift.',
+            'If ' + (a.framework_effect === 'helping' ? 'the framework' : 'the pattern') + ' is something you want to read, a structured tarot or psychic read on the dynamic can help \u2014 framed on what it\u2019s asking of you, never on when he returns.'
+          ];
+        }
+      },
+      'meaning-making': {
+        path: 'Real meaning-making',
+        summary: 'Your answers point at meaning-making that is actually moving you forward \u2014 inward and onward, not outward and waiting.',
+        suggest: function (a) {
+          var s = 'Your answers describe meaning-making that is doing its job: the framework is helping you process, the pain is integrating, and the meaning you\u2019re making points inward at your patterns rather than outward at signs of the bond. That is the useful version of the twin flame story \u2014 growth, not reassurance.';
+          if (a.course === 'processing') s += ' The course \u2014 less sharp, more carried \u2014 is what separates real meaning-making from the trap: the lessons are moving you, not keeping you waiting.';
+          if (a.framework_effect === 'helping') s += ' And the framework is functioning as a tool here, which is the test for whether any of this is serving you.';
+          s += ' What no reading can do is ordain the lessons \u2014 but honest meaning work, depth-focused, is the part worth continuing.';
+          return s;
+        },
+        dontTell: 'Real meaning-making doesn\u2019t prove the framework\u2019s claims \u2014 it proves you\u2019re doing genuine work on your attachment, history, and boundaries. The risk is meaning that quietly generates more signs and reasons to wait; if the lessons stop moving you, that\u2019s the trap.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep the meaning pointed inward and forward \u2014 patterns in your attachment and history, not more evidence of the bond.',
+            'If ' + (a.help === 'deeper' ? 'a deeper read' : 'the work') + ' fits, a depth-focused tarot or natal astrology can deepen it \u2014 as reflection, not as reunion prediction.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers land in the middle \u2014 and taking that seriously beats forcing a pattern onto it. Right now there isn\u2019t enough clear signal to sort your separation into processing or a loop, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read the shape without the checking that makes everything louder.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that you\u2019re in \u201Cseparation\u201D tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: the framework\u2019s effect, the checking, the reciprocity, and the course.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'moveon') {
+        return {
+          key: 'decision',
+          label: 'What may be underneath: the decision',
+          text: 'The question \u201Cshould I keep waiting, or move on\u201D is the one that deserves your attention \u2014 and the one no framework can decide. A guaranteed-reunion story is often a way of not deciding. What fits is a structured view of both paths and a hard boundary: no reading can or should make the wait-or-leave call for you. Any reader who offers to \u2014 or who names a \u201Creunion stage\u201D with a timeline \u2014 is selling certainty nobody has.'
+        };
+      }
+      if (a.want === 'return') {
+        return {
+          key: 'return-waiting',
+          label: 'What may be underneath: the reunion wait',
+          text: 'The prediction question \u2014 \u201Cwill we reunite\u201D \u2014 is the one the framework most aggressively promises to answer, and the one no honest source can. The framework\u2019s \u201Creunion stage\u201D is unfalsifiable, which is exactly why it holds. What fits is a defined window of honest observation \u2014 does the connection show up as mutual over months, or as one-sided pursuit? \u2014 then a decision. What doesn\u2019t fit: readings that name a reunion timeline; they sell certainty the framework itself cannot supply.'
+        };
+      }
+      if (a.want === 'label') {
+        return {
+          key: 'label-question',
+          label: 'What may be underneath: the label question',
+          text: 'The twin flame label is a framework, not a fact \u2014 it cannot be verified because it was designed to explain any experience, which means it explains none of them specifically. The useful move is to drop the question of the label and ask the better one: is this connection serving you, mutual, and moving you forward? A connection that fits those criteria doesn\u2019t need the label; one that doesn\u2019t fit them isn\u2019t saved by it.'
+        };
+      }
+      if (a.want === 'pain') {
+        return {
+          key: 'pattern-question',
+          label: 'What may be underneath: the pattern question',
+          text: 'If disproportionate separation pain has shown up across connections \u2014 not just this one \u2014 the useful question is about your attachment system, not this person. Anxious attachment is a real, addressable pattern with better tools than \u201Cwaiting for reunion.\u201D What fits is pattern-oriented work; often the most honest match is a therapist, not a reader, because the loop tends to repeat across connections if left unexamined.'
+        };
+      }
+      if (a.want === 'meaning') {
+        return {
+          key: 'meaning-trap',
+          label: 'What may be underneath: the meaning trap',
+          text: 'The meaning question can be real work \u2014 if the \u201Clessons\u201D point inward at your attachment patterns, your history, your boundaries, and forward at how you carry them. It can also be a trap \u2014 if the lessons keep generating signs of the bond and reasons to wait. What fits is honest meaning-making work that moves you; what doesn\u2019t is meaning-making that produces more signs and less movement. Naming which one yours is decides what actually helps.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.lovePracticeSet('twin-flame-separation'),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure' || w === 'beneath') return 'general';
+      if (w === 'moveon') {
+        if (h === 'insight') return 'psychic';
+        if (h === 'interpret') return 'tarot_relationship';
+        if (h === 'deeper') return 'tarot_deep';
+        return 'tarot_decision';
+      }
+      if (w === 'return' || w === 'label') return 'free_first';
+      if (w === 'pain') {
+        if (h === 'insight') return 'psychic';
+        if (h === 'interpret') return 'tarot_relationship';
+        if (h === 'deeper') return 'tarot_deep';
+        return 'tarot_decision';
+      }
+      if (h === 'deeper') return 'tarot_deep';
+      if (h === 'insight') return 'psychic';
+      if (h === 'interpret') return 'tarot_relationship';
+      return 'closure';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'twin-flame-separation', {
+        resultV2: true,
+        canTell: [
+          'Whether the twin flame framework is moving you through the pain or holding you in it \u2014 the only question worth answering',
+          'Whether the checking is processing or cycling, which is the most measurable signal of where the separation sits',
+          'Whether the connection is mutual or a one-sided pursuit, which no framework can manufacture'
+        ],
+        edgeBridge: 'A quiz can read whether your framework is serving you or trapping you \u2014 it can\u2019t confirm the twin flame label or predict reunion, both unfalsifiable by design. A reading framed on your separation can offer a perspective; it can\u2019t confirm a bond or a timeline.',
+        ctaText: {
+          'genuine-processing:tarot_deep': 'Get a deeper read on your processing',
+          'genuine-processing:closure': 'Get a reading focused on meaning',
+          'waiting-loop:free_first': 'Start with the free framework',
+          'runner-chaser:tarot_relationship': 'Get a read on the dynamic',
+          'meaning-making:tarot_deep': 'Get a deeper read on the meaning',
+          'not-enough-evidence:general': 'Take Do What Fits',
+          '*:psychic': 'Get an outside perspective on your situation',
+          '*:tarot_relationship': 'Get a read on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the separation',
+          '*:closure': 'Get a reading focused on meaning',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'waiting-loop',
+          text: 'when the question is really a waiting loop, a reading that names a \u201Creunion stage\u201D can quietly become a more expensive way of getting the validation you arrived wanting. If you book one, frame it on the separation and what it\u2019s asking of you \u2014 not on when he returns.'
+        }
+      });
+    }
+  },
+
+  'angel-numbers-meaning': {
+    id: 'angel-numbers-meaning',
+    title: 'What Are Your Angel-Number Sightings Pointing At?',
+    launchSub: 'Eight questions, about two minutes. It surfaces whether attentional priming explains the frequency, whether meaning-making is the real gain, and whether the message-seeking is doing anxiety work \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your angel-number sightings are actually doing \u2014 what they suggest, what they don\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What are you living through right now?',
+        hint: 'This matters \u2014 the situation shapes how the same sightings read.',
+        options: [
+          { text: 'I keep noticing a specific number', detail: 'a number repeating across my day', score: 'noticing' },
+          { text: 'A transition or decision is underway', detail: 'a change, a choice', score: 'transition' },
+          { text: 'I want the number to mean something', detail: 'a meaning I\u2019m reaching for', score: 'meaning-reaching' },
+          { text: 'The sightings make me anxious', detail: 'a worried feeling', score: 'anxious' },
+          { text: 'A reader said it\u2019s a message', detail: 'the meaning came from a reading', score: 'reader-told' },
+          { text: 'I\u2019m not sure how to read it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the angel-number idea in your head?',
+        hint: '',
+        options: [
+          { text: 'I started seeing it after a thought', detail: 'attention turned toward it', score: 'attention' },
+          { text: 'A friend or post mentioned it', detail: 'cultural reinforcement', score: 'culture' },
+          { text: 'A decision or stress heightened it', detail: 'stress-focused attention', score: 'stress' },
+          { text: 'A reader told me it\u2019s a message', detail: 'external diagnosis', score: 'reader' },
+          { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'intuition' },
+          { text: 'No single thing \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'priming',
+        q: 'How do you account for seeing it so often?',
+        hint: 'The cause of the frequency is the first honest signal.',
+        options: [
+          { text: 'Once it entered my attention, I see it everywhere', detail: 'attentional priming', score: 'priming' },
+          { text: 'It started after I began thinking about it', detail: 'attention turned on', score: 'notice' },
+          { text: 'I\u2019m not sure why it\u2019s so frequent', detail: 'the cause is unclear', score: 'uncertain' },
+          { text: 'The number is reaching out to me', detail: 'a directed signal', score: 'reaching' },
+          { text: 'It\u2019s a sign the universe is communicating', detail: 'supernatural channel', score: 'sign' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'meaning_use',
+        q: 'How do you use the sightings?',
+        hint: 'This is the one gain the evidence actually supports.',
+        options: [
+          { text: 'As a prompt to reflect on my own life', detail: 'meaning-making, honestly', score: 'reflect' },
+          { text: 'As a vocabulary for self-understanding', detail: 'a reflective frame', score: 'vocab' },
+          { text: 'Some reflection, some message', detail: 'mixed use', score: 'mixed' },
+          { text: 'I look for what it\u2019s telling me to do', detail: 'seeking direction', score: 'direct' },
+          { text: 'I wait for the decoded meaning', detail: 'message-decoding', score: 'decode' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'confirmation',
+        q: 'Do you read the sightings to confirm something?',
+        hint: 'Confirmation bias quietly recruits every fit sighting.',
+        options: [
+          { text: 'No \u2014 I keep the sighting separate from outcomes', detail: 'sighting held apart', score: 'separate' },
+          { text: 'I notice a fit but don\u2019t treat it as proof', detail: 'fit, not proof', score: 'notice' },
+          { text: 'I\u2019m not tracking that', detail: 'not observing it', score: 'neutral' },
+          { text: 'I take sightings as signs the outcome is coming', detail: 'outcome-reading', score: 'confirm' },
+          { text: 'The sightings confirm what I want is underway', detail: 'confirmation bias', score: 'confirm-strong' },
+          { text: 'I can\u2019t tell', detail: 'too close', score: 'notell' }
+        ]
+      },
+      {
+        id: 'framing',
+        q: 'How do you frame the number\u2019s meaning?',
+        hint: 'The associations are neutral until you frame them.',
+        options: [
+          { text: 'As a neutral prompt I choose how to use', detail: 'framing held loosely', score: 'neutral' },
+          { text: 'As reflection, which tends to settle it', detail: 'the settling frame', score: 'reflect' },
+          { text: 'I don\u2019t frame it deliberately', detail: 'unframed', score: 'unframed' },
+          { text: 'As a possible warning', detail: 'warning frame', score: 'warn' },
+          { text: 'As a warning I feel anxious about', detail: 'anxiety-amplifying', score: 'anxious' },
+          { text: 'I can\u2019t tell', detail: 'hard to say', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What does my number actually mean?', detail: 'the meaning question', score: 'meaning' },
+          { text: 'Why do I keep seeing it everywhere?', detail: 'the frequency question', score: 'frequency' },
+          { text: 'Is it a message for me?', detail: 'the channel question', score: 'message' },
+          { text: 'What should I do about the sightings?', detail: 'the action question', score: 'what-do' },
+          { text: 'Is my sense that it\u2019s significant right?', detail: 'the self-trust question', score: 'intuition' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting signal from story', score: 'interpret' },
+          { text: 'An outside perspective on the pattern', detail: 'a read on the noticing', score: 'insight' },
+          { text: 'A view of what it\u2019s pointing at', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do', score: 'guidance' },
+          { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        priming:      { priming: 2, notice: 1, uncertain: 0, reaching: -1, sign: -2, notell: null },
+        meaning_use:  { reflect: 2, vocab: 1, mixed: 0, direct: -1, decode: -2, notell: null },
+        confirmation: { separate: 2, notice: 1, neutral: 0, confirm: -1, 'confirm-strong': -2, notell: null },
+        framing:      { neutral: 2, reflect: 1, unframed: 0, warn: -1, anxious: -2, notell: null }
+      };
+      var keys = ['priming', 'meaning_use', 'confirmation', 'framing'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.meaning_use !== null && vals.meaning_use <= -2) return 'message-seeking';
+      if (vals.confirmation !== null && vals.confirmation <= -2) return 'message-seeking';
+      if (vals.framing !== null && vals.framing <= -2) return 'anxiety-amplification';
+      if (vals.meaning_use !== null && vals.meaning_use >= 2 &&
+          (vals.priming === null || vals.priming >= 0)) return 'meaning-making';
+      if (vals.priming !== null && vals.priming >= 2 &&
+          (vals.meaning_use === null || vals.meaning_use >= 0)) return 'attentional-priming';
+      if (sum <= -3) return 'message-seeking';
+      if (vals.framing !== null && vals.framing <= -1) return 'anxiety-amplification';
+      if (sum >= 1) return 'meaning-making';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'attentional-priming': {
+        path: 'Attentional priming explains the frequency',
+        summary: 'The sightings are mostly an attention effect, not a message.',
+        suggest: function (a) {
+          var s = 'Your answers describe the frequency showing up once the number entered your attention \u2014 which is the signature of attentional priming, not supernatural signaling.';
+          if (a.priming === 'priming') s += ' The recognition itself is the honest read: you were likely seeing it before you noticed it; what changed was attention.';
+          if (a.meaning_use === 'reflect' || a.meaning_use === 'vocab') s += ' And you\u2019re already using it as reflection, which is the gain that survives the explanation.';
+          s += ' The number index on the page is still usable as a prompt \u2014 the reflection works without requiring the channel.';
+          return s;
+        },
+        dontTell: 'Attentional priming doesn\u2019t make the sightings meaningless \u2014 it explains the frequency. The felt-significance is genuine and usable as reflection. What it can\u2019t do is certify that the numbers are directed at you, which is an attribution attention can\u2019t earn.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice whether the sightings settle once the number\u2019s salience fades \u2014 attentional priming tends to ease when you stop feeding it attention.',
+            'If the number still pulls at you after the acute charge settles, use it as a prompt and answer from your own life, not as a decoded message.'
+          ];
+        }
+      },
+      'meaning-making': {
+        path: 'Meaning-making is the real gain',
+        summary: 'The reflection works; the channel isn\u2019t required.',
+        suggest: function (a) {
+          var s = 'Your answers describe you using the sightings as a vocabulary for self-understanding \u2014 which is the one gain the evidence actually supports. The symbolic associations are real as reflection whether or not they\u2019re supernaturally authored.';
+          if (a.meaning_use === 'reflect') s += ' Using the number to prompt a question and answering from your life is the honest use.';
+          if (a.confirmation === 'separate' || a.confirmation === 'notice') s += ' And you\u2019re keeping the sighting separate from outcomes, which is exactly how to avoid the confirmation trap.';
+          s += ' A reading can frame the reflection; it can\u2019t decode a message.';
+          return s;
+        },
+        dontTell: 'Meaning-making doesn\u2019t require the supernatural channel to be true \u2014 research on meaning in life finds that constructing meaning from symbolic frameworks supports self-understanding regardless of whether the framework is \u201Cobjectively\u201D true. The honest gain is the reflection.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Use the number index as a prompt \u2014 let the association suggest a question and answer it from your own life.',
+            'If a real question about your situation forms underneath, that\u2019s when an outside perspective might fit \u2014 not before.'
+          ];
+        }
+      },
+      'message-seeking': {
+        path: 'Message-seeking is doing the work',
+        summary: 'The looking for a decoded message is the active pattern.',
+        suggest: function (a) {
+          var s = 'Your answers describe you reaching for a decoded meaning or reading the sightings as confirmation of a wanted outcome \u2014 which is message-seeking, not meaning-making. The message-channel isn\u2019t supported by evidence, and the confirmation pattern is confirmation bias doing the reading.';
+          if (a.meaning_use === 'decode') s += ' Waiting for the decoded meaning hands the reflection to a source the evidence doesn\u2019t support.';
+          if (a.confirmation === 'confirm' || a.confirmation === 'confirm-strong') s += ' And the sightings are being recruited as proof of an outcome that\u2019s otherwise unconfirmed.';
+          s += ' The honest version keeps the sighting as reflection and treats any \u201Cdecoded message\u201D as a projection.';
+          return s;
+        },
+        dontTell: 'Message-seeking doesn\u2019t mean you\u2019re wrong to want meaning \u2014 it means the channel you\u2019re reaching for isn\u2019t available. Anyone confirming a specific decoded message, or offering multi-session \u201Cdecoding,\u201D is selling a certainty nobody possesses, and that\u2019s the red flag to walk from.',
+        watchIntro: 'Before you book anything or pay for a decoding:',
+        watch: function () {
+          return [
+            'Separate the sighting from the outcome \u2014 confirmation bias means the sightings don\u2019t confirm what you want is underway.',
+            'If you still want a perspective, frame it on what the noticing surfaces, not on a decoded message \u2014 and walk away from any reader who guarantees one.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'The framing is amplifying anxiety',
+        summary: 'A warning frame is extending the distress.',
+        suggest: function (a) {
+          var s = 'Your answers describe a number framed as a warning you feel anxious about \u2014 which is value-framing doing anxiety work. The associations are neutral until you frame them; a warning frame extends the distress, a reflection frame tends to settle it.';
+          if (a.framing === 'anxious') s += ' The anxious frame is the active amplifier \u2014 the number itself isn\u2019t a negative omen.';
+          if (a.status === 'anxious') s += ' And the sightings arrived already carrying worry, which the warning frame deepens.';
+          s += ' Reframing the number as a neutral prompt you choose how to use tends to quiet it.';
+          return s;
+        },
+        dontTell: 'Anxiety-amplification doesn\u2019t mean the sightings are meaningless \u2014 it means the framing is what\u2019s hurting. If the pattern-noticing is connected to anxiety or distress affecting daily life, a licensed therapist is the more honest match than a reading, which can quietly become another source of the same vigilance.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Reframe the number as a neutral prompt you choose how to use, rather than a warning \u2014 notice whether the anxious charge eases.',
+            'If the pattern-noticing is intrusive or distress is affecting daily life, a licensed therapist is the more reliable support than any spiritual reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your sightings into attentional priming, meaning-making, message-seeking, or anxiety-amplification, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a message tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: frequency cause, use, confirmation, and framing.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'message') {
+        return {
+          key: 'channel-question',
+          label: 'What may be underneath: the channel question',
+          text: 'The wish for a decoded message \u2014 that the sightings are a directed communication \u2014 is the most monetized question in this space, and the structural problem is that the diagnosis and the remedy often come from the same paid source. No mechanism has been demonstrated by which repeated number sightings are a supernatural message-channel; the attribution typically rests on confirmation bias. The honest reframe: keep the sighting as reflection and treat any \u201Cdecoded message\u201D as a projection, not a certainty.'
+        };
+      }
+      if (a.status === 'anxious' || a.framing === 'anxious' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'anxiety-frame',
+          label: 'What may be underneath: the anxiety frame',
+          text: 'When a number is framed as a warning, the value-framing does anxiety work \u2014 the associations are neutral until you frame them, and a warning frame extends the distress a reflection frame would settle. If the pattern-noticing is connected to anxiety, intrusive thoughts, or distress affecting daily life, a licensed therapist is the more honest and reliable match than a reading, which can quietly become another source of the same vigilance.'
+        };
+      }
+      if (a.confirmation === 'confirm' || a.confirmation === 'confirm-strong' || pattern === 'message-seeking') {
+        return {
+          key: 'confirmation-pattern',
+          label: 'What may be underneath: the confirmation pattern',
+          text: 'Reading the sightings as proof of a wanted outcome is confirmation bias doing the reading \u2014 sightings that fit the wanted story are noticed, absences forgotten. It doesn\u2019t mean the outcome isn\u2019t underway; it means the sightings don\u2019t confirm it. The honest move is to keep the sighting separate from the outcome and let real evidence, not repeated numbers, carry the question.'
+        };
+      }
+      if (a.want === 'frequency' || a.trigger === 'attention') {
+        return {
+          key: 'priming-question',
+          label: 'What may be underneath: the frequency question',
+          text: 'The frequency of the sightings is largely attentional priming: once a number enters your attention, your brain preferentially detects it \u2014 a documented cognitive effect, amplified by the spiritual culture that makes certain numbers salient. It isn\u2019t evidence of supernatural signaling; it\u2019s evidence of attention. Recognizing the cause tends to ease the charge without requiring the channel to be false.'
+        };
+      }
+      if (a.want === 'beneath') {
+        return {
+          key: 'underneath-question',
+          label: 'What may be underneath: the unspoken question',
+          text: 'The sense that something larger is underneath the sightings is real, and it often points at a transition, a decision, or a meaning you\u2019re reaching for. The honest version lets the number prompt a question and answers it from your own life. A reading can frame what the noticing surfaces; it cannot decode a supernatural message \u2014 and anyone who guarantees one is selling a certainty nobody possesses.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your angel-number sightings', cluster: 'angel-numbers' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'message' || a.help === 'interpret') return 'free_first';
+      if (a.want === 'frequency' || a.help === 'insight') return 'psychic';
+      if (a.want === 'meaning' || a.help === 'dynamic') return 'tarot_relationship';
+      if (a.want === 'what-do' || a.help === 'guidance') return 'tarot_decision';
+      if (a.want === 'beneath' || a.help === 'deeper') return 'tarot_deep';
+      if (a.status === 'anxious') return 'closure';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'angel-numbers-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether attentional priming explains the frequency \u2014 once a number enters attention, you see it everywhere',
+          'Whether meaning-making is the real gain, and the channel is the part the evidence doesn\u2019t support',
+          'Whether the message-seeking or the warning frame is doing anxiety work \u2014 which is the part you can actually change'
+        ],
+        edgeBridge: 'A quiz can read what your sightings are doing \u2014 it can\u2019t decode a supernatural message, which no honest reader can either. A reading framed on what the noticing pattern surfaces can offer perspective; it can\u2019t certify that the numbers are directed at you, and anyone who guarantees a decoded meaning is selling a certainty nobody possesses.',
+        ctaText: {
+          'message-seeking:free_first': 'Start with the free framework',
+          'anxiety-amplification:closure': 'Get a reading focused on what this is',
+          'attentional-priming:psychic': 'Get a read on the noticing pattern',
+          '*:psychic': 'Get a reading on the pattern',
+          '*:tarot_relationship': 'Get a reflective tarot spread',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:closure': 'Get a reading focused on what this is',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'message-seeking',
+          text: 'when the looking for a decoded message has become the habit, a reading that guarantees a meaning can quietly become a more expensive way of keeping the seeking running. If you book one, frame it on what the noticing surfaces \u2014 not on a decoded message.'
+        }
+      });
+    }
+  },
+
+
+  'dark-night-of-the-soul': {
+    id: 'dark-night-of-the-soul',
+    title: 'What Is Your Dark-Night Experience Pointing At?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re in a genuine meaning-crisis, whether clinical depression is the thing to engage, and whether the spiritual frame is helping or bypassing \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of whether the dark-night frame genuinely fits, whether clinical depression is the thing to engage first, and whether the spiritual frame is helping you navigate or quietly bypassing \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What are you living through right now?',
+        hint: 'This matters \u2014 the situation shapes how the same experience reads.',
+        options: [
+          { text: 'A crisis of meaning', detail: 'prior structures stopped holding', score: 'meaning-crisis' },
+          { text: 'A period of emptiness or numbness', detail: 'felt-flat, practices not working', score: 'emptiness' },
+          { text: 'Persistent low mood and low energy', detail: 'depression-like symptoms', score: 'low-mood' },
+          { text: 'Loss of interest in things I cared about', detail: 'anhedonia', score: 'anhedonia' },
+          { text: 'A spiritual or existential unraveling', detail: 'faith or identity collapsing', score: 'unraveling' },
+          { text: 'I think I might be depressed', detail: 'concern about clinical depression', score: 'maybe-depressed' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cdark night\u201D idea in your head?',
+        hint: '',
+        options: [
+          { text: 'The experience itself', detail: 'I noticed the collapse', score: 'experience' },
+          { text: 'A book or teacher', detail: 'the tradition named it', score: 'tradition' },
+          { text: 'Something I read online', detail: 'a post, an article, a quiz', score: 'online' },
+          { text: 'A reader or a reading', detail: 'a psychic named it', score: 'reader' },
+          { text: 'A wish for it to mean something', detail: 'meaning-seeking', score: 'meaning-wish' },
+          { text: 'No single thing \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'frame_fit',
+        q: 'How well does the dark-night frame actually fit?',
+        hint: 'The frame names a specific experience \u2014 collapse of meaning, felt-abandonment, practices stopped working.',
+        options: [
+          { text: 'It names exactly what I feel', detail: 'collapse of meaning, felt-abandonment, practices stopped working', score: 'fits' },
+          { text: 'Partly \u2014 some of it', detail: 'pieces fit, not all', score: 'partial' },
+          { text: 'I\u2019m unsure the frame applies', detail: 'not certain prior structures collapsed', score: 'uncertain' },
+          { text: 'Not really \u2014 it feels more like flatness', detail: 'anhedonia more than meaning-collapse', score: 'doesnt-fit' },
+          { text: 'It looks more like depression to me', detail: 'symptoms, not a meaning-crisis', score: 'clinical-like' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'clinical',
+        q: 'How are your mood and functioning right now?',
+        hint: 'This is the question the framework cannot settle \u2014 and the one to engage first if it\u2019s live.',
+        options: [
+          { text: 'I\u2019m functioning \u2014 holding life together', detail: 'managing', score: 'functioning-ok' },
+          { text: 'Mostly holding, with real strain', detail: 'strain but coping', score: 'mild-strain' },
+          { text: 'I have some symptoms but I\u2019m coping', detail: 'some symptoms', score: 'some-symptoms' },
+          { text: 'Persistent low mood, low interest, or low energy', detail: 'symptoms lasting weeks', score: 'persistent-symptoms' },
+          { text: 'I\u2019ve had any thoughts of self-harm', detail: 'any thoughts of harming myself', score: 'self-harm-risk' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'shortcut',
+        q: 'What are you hoping a practice or reading will do?',
+        hint: '',
+        options: [
+          { text: 'Help me rebuild ordinary structure', detail: 'the actual work', score: 'rebuilding' },
+          { text: 'Offer perspective while I do the work', detail: 'alongside, not instead', score: 'patient' },
+          { text: 'I\u2019m not sure what I want from it', detail: 'undecided', score: 'unsure' },
+          { text: 'End this quickly', detail: 'a shortcut out', score: 'wants-shortcut' },
+          { text: 'Confirm it\u2019s spiritual, not clinical', detail: 'bypassing the clinical question', score: 'bypassing' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'rebuild',
+        q: 'Are you rebuilding ordinary structure, or only seeking the spiritual?',
+        hint: '',
+        options: [
+          { text: 'Yes \u2014 meaning, relationships, work', detail: 'ordinary structure', score: 'rebuilding-structure' },
+          { text: 'Starting small \u2014 some engagement', detail: 'small steps', score: 'starting-small' },
+          { text: 'Stalled \u2014 not much moving', detail: 'stuck', score: 'stalled' },
+          { text: 'Mostly seeking the spiritual side only', detail: 'skipping the ordinary', score: 'only-spiritual' },
+          { text: 'Avoiding present-tense action or clinical help', detail: 'avoiding the work', score: 'avoiding' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What is happening to me?', detail: 'the concept and naming', score: 'understand' },
+          { text: 'Is this spiritual or clinical?', detail: 'the frame/clinical question', score: 'spiritual-or-clinical' },
+          { text: 'How do I make it end?', detail: 'the shortcut question', score: 'end-it' },
+          { text: 'Can the suffering mean something?', detail: 'meaning-attribution', score: 'meaning' },
+          { text: 'How do I get through this?', detail: 'the navigation question', score: 'navigate' },
+          { text: 'I\u2019m not sure what I\u2019m asking', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting frame from story', score: 'interpret' },
+          { text: 'An outside perspective on the experience', detail: 'a read on the shape', score: 'insight' },
+          { text: 'A view of what this period is doing', detail: 'the dynamic', score: 'dynamic' },
+          { text: 'A next step I can take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        frame_fit: { fits: 2, partial: 1, uncertain: 0, 'doesnt-fit': -1, 'clinical-like': -2, notell: null },
+        clinical:  { 'functioning-ok': 2, 'mild-strain': 1, 'some-symptoms': 0, 'persistent-symptoms': -2, 'self-harm-risk': -2, notell: null },
+        shortcut:  { rebuilding: 2, patient: 1, unsure: 0, 'wants-shortcut': -1, bypassing: -2, notell: null },
+        rebuild:   { 'rebuilding-structure': 2, 'starting-small': 1, stalled: 0, 'only-spiritual': -1, avoiding: -2, notell: null }
+      };
+      var keys = ['frame_fit', 'clinical', 'shortcut', 'rebuild'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.clinical !== null && vals.clinical <= -2) return 'depression-misread';
+      if (vals.shortcut !== null && vals.shortcut <= -2 &&
+          (vals.rebuild === null || vals.rebuild <= 0)) return 'spiritual-bypassing';
+      if (vals.frame_fit !== null && vals.frame_fit >= 2 &&
+          (vals.clinical === null || vals.clinical >= 0)) return 'genuine-meaning-crisis';
+      if (vals.frame_fit !== null && vals.frame_fit >= 1 &&
+          vals.shortcut !== null && vals.shortcut >= 1) return 'meaning-making-frame';
+      if (sum <= -3) return 'spiritual-bypassing';
+      if (sum >= 1) return 'meaning-making-frame';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'genuine-meaning-crisis': {
+        path: 'A genuine meaning-crisis the frame fits',
+        summary: 'The dark-night frame genuinely names your experience.',
+        suggest: function (a) {
+          var s = 'Your answers describe the specific experience the dark-night frame names \u2014 the collapse of prior meaning-structures, a felt-sense of abandonment, and ordinary practices no longer working \u2014 without the clinical picture dominating.';
+          if (a.frame_fit === 'fits') s += ' That fit is the signal: the frame can name what\u2019s happening and orient the navigation, which is its honest use.';
+          if (a.rebuild === 'rebuilding-structure' || a.rebuild === 'starting-small') s += ' And you\u2019re already doing the part that resolves it \u2014 rebuilding ordinary structure, not only seeking the spiritual.';
+          if (a.clinical === 'functioning-ok' || a.clinical === 'mild-strain') s += ' Life is mostly holding, which means you have the bandwidth to do the rebuilding work rather than shortcut it.';
+          s += ' The honest next step is the rebuilding \u2014 engagement, action, re-oriented commitment \u2014 with the spiritual frame functioning alongside, not instead of, that work.';
+          return s;
+        },
+        dontTell: 'A genuine meaning-crisis doesn\u2019t prove the experience is purely spiritual \u2014 the dark-night frame and clinical depression can coexist, and a fit with the frame doesn\u2019t exempt the experience from clinical engagement. What it does is name a real human experience and orient the navigation.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Rebuild ordinary structure \u2014 meaning, relationships, work, practices that orient toward what matters. The tradition resolves the dark night through the rebuilding, not the shortcut.',
+            'Keep the clinical question live: if persistent low mood, loss of interest, or any thoughts of self-harm appear, a licensed therapist is the honest first step \u2014 the frame functions alongside, not instead of.'
+          ];
+        }
+      },
+      'depression-misread': {
+        path: 'A clinical concern worth engaging first',
+        summary: 'The experience reads more like depression than a pure meaning-crisis \u2014 engage a licensed therapist first.',
+        suggest: function (a) {
+          var s = 'Your answers describe the clinical picture more than the meaning-crisis one \u2014 persistent low mood, loss of interest, or low energy, the kind of presentation clinical depression actually takes.';
+          if (a.clinical === 'self-harm-risk') s += ' And you named thoughts of self-harm, which makes this urgent: please reach a licensed clinician or crisis service now, before any reading or framework. That is the honest first step, not a failure of the spiritual frame.';
+          if (a.status === 'maybe-depressed' || a.status === 'low-mood' || a.status === 'anhedonia') s += ' You already suspected this might be depression, and the pattern supports taking that seriously.';
+          s += ' The dark-night frame can still be live alongside it \u2014 the two are not mutually exclusive \u2014 but depression is common, treatable, and sometimes dangerous, and it doesn\u2019t become less treatable for being framed spiritually. A licensed therapist is the honest match here; the spiritual frame functions alongside, not instead of, clinical care.';
+          return s;
+        },
+        dontTell: 'A clinical reading doesn\u2019t mean the dark-night frame is wrong \u2014 meaning-crisis and depression can coexist, and the frame can name a real experience. What it means is that the clinical question comes first, because it\u2019s the one with effective, available treatment, and a framework or reading cannot settle or substitute for it.',
+        watchIntro: 'The honest next step:',
+        watch: function () {
+          return [
+            'Engage a licensed therapist or clinician first \u2014 before any reading, practice, or transit. If there are any thoughts of self-harm, reach out now rather than waiting.',
+            'Let the dark-night frame function alongside clinical care, not instead of it. A reading can later offer perspective on the experience\u2019s shape; it cannot cure depression or accelerate a process that doesn\u2019t shortcut.'
+          ];
+        }
+      },
+      'spiritual-bypassing': {
+        path: 'A bypassing pattern to notice',
+        summary: 'The seeking looks like it\u2019s avoiding the rebuilding work or the clinical question.',
+        suggest: function (a) {
+          var s = 'Your answers describe the pattern this framework is most careful about: using the dark-night frame to avoid the rebuilding work or the clinical question, rather than to navigate it.';
+          if (a.shortcut === 'bypassing') s += ' You named hoping a practice would confirm this is spiritual and not clinical \u2014 which is exactly the move that can delay the response that\u2019s actually needed.';
+          if (a.shortcut === 'wants-shortcut') s += ' And the wish is for it to end quickly, which is human \u2014 but meaning-crisis resolves through rebuilding, not through a shortcut, and shortcuts tend to extend the crisis by avoiding the work.';
+          if (a.rebuild === 'only-spiritual' || a.rebuild === 'avoiding') s += ' The rebuilding of ordinary structure \u2014 meaning, relationships, action \u2014 is the actual navigation, and skipping it keeps the crisis open.';
+          s += ' Noticing the pattern is the first honest move. The frame can help name the experience; it cannot exempt it from the rebuilding, or from clinical engagement if that\u2019s live.';
+          return s;
+        },
+        dontTell: 'A bypassing pattern doesn\u2019t mean the suffering is fake or the frame is useless \u2014 the wish for relief is genuine and the dark night is a real experience. What it means is that the seeking, right now, is more likely to extend the crisis than resolve it, and the honest step is the rebuilding (and clinical care, if indicated) rather than another shortcut.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Rebuild ordinary structure \u2014 one concrete engagement, relationship, or action at a time. The resolution is the rebuilding, not the spiritual accelerant.',
+            'If persistent low mood, loss of interest, or any thoughts of self-harm are present, a licensed therapist comes before any reading. The frame functions alongside, not instead of, clinical care.'
+          ];
+        }
+      },
+      'meaning-making-frame': {
+        path: 'A meaning-making frame, used honestly',
+        summary: 'The frame is helping you locate the experience \u2014 watch that it doesn\u2019t bypass.',
+        suggest: function (a) {
+          var s = 'Your answers describe the frame doing its honest work: naming a genuine experience and letting the suffering carry some meaning, without the clinical picture dominating or the shortcut-seeking taking over.';
+          if (a.want === 'meaning') s += ' The wish for the suffering to mean something is genuine, and the frame can honor it \u2014 as long as the meaning is orienting you toward rebuilding rather than tolerating distress that deserves engagement.';
+          if (a.frame_fit === 'partial') s += ' The fit is partial, which is worth holding: forcing the full frame onto an experience it only partly names can obscure what\u2019s actually happening.';
+          if (a.shortcut === 'patient') s += ' And you\u2019re letting a practice offer perspective alongside the work, not instead of it \u2014 the responsible use.';
+          s += ' The thing to watch is the line between meaning that orients and meaning that tolerates: if the meaning starts standing in for clinical engagement or present-tense action, it has tipped into bypassing.';
+          return s;
+        },
+        dontTell: 'A meaning-making frame doesn\u2019t prove the experience is exempt from clinical engagement \u2014 meaning and depression can coexist, and significance doesn\u2019t cancel treatment if it\u2019s indicated. What it does is give the experience a location in a tradition, which can be genuinely helpful when held alongside the rebuilding and the clinical question.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Let the meaning orient you toward rebuilding \u2014 engagement, action, re-oriented commitment \u2014 rather than substituting for it. The resolution is the structure rebuilt, not the insight alone.',
+            'Keep checking the line: if the meaning starts tolerating distress that deserves engagement, or standing in for clinical care, the frame has tipped into bypassing.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the experience into a genuine meaning-crisis, a clinical concern, or a bypassing pattern, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that this is a dark night (or depression) tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning \u2014 watching only the four signals: whether the frame fits, whether clinical concern is live, whether shortcut-seeking is the pattern, and whether ordinary structure is being rebuilt.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, or symptoms deepen, engage a licensed therapist rather than another framework.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.clinical === 'self-harm-risk' || a.clinical === 'persistent-symptoms' || a.status === 'maybe-depressed' || pattern === 'depression-misread') {
+        return {
+          key: 'clinical-first',
+          label: 'What may be underneath: the clinical question',
+          text: 'The experience includes the clinical picture \u2014 persistent low mood, loss of interest, or thoughts of self-harm \u2014 which is the one question this framework cannot settle and must not bypass. Depression is common, treatable, and sometimes dangerous, and the dark-night frame doesn\u2019t exempt it. The honest first step is a licensed therapist; the spiritual frame can function alongside, not instead of, clinical care.'
+        };
+      }
+      if (a.want === 'end-it' || a.shortcut === 'wants-shortcut' || a.shortcut === 'bypassing' || pattern === 'spiritual-bypassing') {
+        return {
+          key: 'shortcut-temptation',
+          label: 'What may be underneath: the shortcut temptation',
+          text: 'The wish to end this quickly, or to have a practice confirm it\u2019s spiritual rather than clinical, is the pattern this framework is most careful about. Meaning-crisis resolves through the rebuilding of ordinary structure \u2014 engagement, action, re-oriented commitment \u2014 not through spiritual accelerants. Shortcuts tend to extend the crisis by avoiding the rebuilding work, and anyone offering to \u201Cclear\u201D the dark night or guarantee a timeline is selling a certainty nobody possesses.'
+        };
+      }
+      if (a.want === 'spiritual-or-clinical' || a.frame_fit === 'clinical-like') {
+        return {
+          key: 'frame-clinical-distinction',
+          label: 'What may be underneath: the frame/clinical distinction',
+          text: 'The question of whether this is spiritual or clinical is the most important one in the set \u2014 because the answer changes the response, and the two are not mutually exclusive. The honest position holds both: the dark-night frame can name a real meaning-crisis, and clinical depression deserves to be engaged first because it doesn\u2019t become less treatable for being framed spiritually. A reading can offer perspective on the experience\u2019s shape; it cannot settle which one this is.'
+        };
+      }
+      if (a.want === 'meaning' || a.trigger === 'meaning-wish') {
+        return {
+          key: 'meaning-attribution',
+          label: 'What may be underneath: the meaning-attribution question',
+          text: 'The wish for the suffering to mean something is genuine, and the dark-night frame can honestly honor it. The thing to watch is whether the meaning is doing diagnostic work \u2014 orienting you toward rebuilding \u2014 or bypassing work, tolerating distress that deserves engagement. Meaning doesn\u2019t exempt an experience from clinical care if that\u2019s indicated.'
+        };
+      }
+      if (a.status === 'meaning-crisis' || a.frame_fit === 'fits' || a.frame_fit === 'partial') {
+        return {
+          key: 'naming-the-experience',
+          label: 'What may be underneath: the naming',
+          text: 'The dark-night frame fits enough to name a real experience \u2014 a collapse of prior meaning-structures, a felt-sense of abandonment, practices no longer working. Naming it can be genuinely helpful: it locates the experience in a tradition and orients the navigation. The resolution, in that tradition, is the rebuilding of ordinary structure \u2014 not the shortcut, and not the avoidance of clinical care if it\u2019s live.'
+        };
+      }
+      return null;
+    },
+
+    practice: {
+      psychic: {
+        name: 'Psychic reading',
+        fit: 'An outside, conversational perspective on the shape of your experience \u2014 never a cure, a diagnosis, or a timeline. Framed on what\u2019s collapsing and what the navigation involves, it can offer a view the framework can\u2019t. It cannot cure depression or accelerate a process that doesn\u2019t shortcut, and any reader who discourages clinical engagement is a red flag.',
+        href: '/psychic/',
+        cta: 'Explore psychic readings',
+        secondary: { name: 'Tarot \u2014 reflective spread', fit: 'if what you want is structured reflection on what\u2019s rebuilding', href: '/tarot/' },
+        choose: { name: 'How to Choose a Psychic Reader', href: '/guides/how-to-choose-psychic-reader' },
+        note: 'Frame it on the experience\u2019s shape \u2014 \u201Cwhat is this asking of me\u201D reads; \u201Cis this a dark night / cure it\u201D invites a certainty nobody possesses. If symptoms are persistent or there are thoughts of self-harm, a licensed therapist comes first.'
+      },
+      tarot_relationship: {
+        name: 'Tarot \u2014 reflective spread',
+        fit: 'A structured reflection on what\u2019s collapsing, what might be rebuilding, and what the navigation involves \u2014 the shape of the experience rather than a timeline. It cannot cure depression or shortcut the process, and it works alongside, not instead of, the rebuilding and any clinical care.',
+        href: '/tarot/',
+        cta: 'Explore tarot readings',
+        secondary: { name: 'Psychic reading', fit: 'if you want a direct read on the experience rather than its shape', href: '/psychic/' },
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        note: 'Frame the collapse and the navigation, not the end date \u2014 \u201Cwhat\u2019s rebuilding\u201D reads far better than \u201Cwhen will this end.\u201D'
+      },
+      tarot_decision: {
+        name: 'Tarot \u2014 next-step reading',
+        fit: 'A structured reflection on a concrete next step you can take \u2014 useful when the question is navigation, not confirmation. It offers perspective, not a cure or a guaranteed timeline, and it sits alongside the rebuilding and clinical care rather than replacing them.',
+        href: '/tarot/',
+        cta: 'Explore tarot readings',
+        secondary: { name: 'Psychic reading', fit: 'if you want an outside perspective on the experience\u2019s shape', href: '/psychic/' },
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        note: 'Bring \u201Cwhat is one next step\u201D rather than \u201Cmake it end.\u201D A reading that promises to accelerate the dark night is selling a shortcut the process doesn\u2019t allow.'
+      },
+      tarot_deep: {
+        name: 'Tarot \u2014 deeper read',
+        fit: 'A deeper structured read of the whole situation \u2014 the long-running patterns the crisis sits inside and what the meaning-attribution is doing. It cannot cure depression or name a timeline, and it functions alongside clinical care rather than instead of it.',
+        href: '/tarot/',
+        cta: 'Explore tarot readings',
+        secondary: { name: 'Psychic reading', fit: 'if you want a conversational read on the experience\u2019s shape', href: '/psychic/' },
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        note: 'A deeper read can help you locate the experience \u2014 but watch that meaning orients toward rebuilding rather than tolerating distress that deserves engagement.'
+      },
+      closure: {
+        name: 'A reading framed on what this is',
+        fit: 'A reading framed on what this period actually is \u2014 its shape and what it\u2019s asking of you \u2014 not on confirming a fated passage or naming a timeline. Useful when the real question is the frame/clinical distinction. It cannot settle whether this is depression; that\u2019s a clinician\u2019s call.',
+        href: '/tarot/',
+        cta: 'Explore tarot readings',
+        secondary: { name: 'Do What Fits \u2014 the matcher', fit: 'if a real question surfaces and you want the complete match', href: '/do-what-fits' },
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        note: 'Frame it on what the experience is, not on a guaranteed arc. If the clinical picture is live, a licensed therapist comes before any reading.'
+      },
+      free_first: {
+        name: 'This framework + the free Daily Card',
+        fit: 'You said an honest read of what the experience is tracking would help most \u2014 and that, this page can give you for free: the four signals above and your result are most of it. The Daily Card adds a small reflective practice, still free.',
+        href: '/tools/daily-card',
+        cta: 'Try the free Daily Card',
+        secondary: { name: 'Do What Fits \u2014 the full matcher', fit: 'if a real question surfaces and you want the complete match', href: '/do-what-fits' },
+        note: 'If, after a defined window of watching the signals, the question is still standing \u2014 and especially if symptoms deepen \u2014 that\u2019s when clinical engagement, not a paid reading, is the honest next step.'
+      },
+      general: {
+        name: 'Do What Fits \u2014 the matcher',
+        fit: 'You\u2019re not sure what you\u2019re asking yet, which is a fine and common place to start. The seven-question matcher maps your situation to the practice that fits it \u2014 or to none of them. If the clinical picture is live at any point, a licensed therapist is the honest first step.',
+        href: '/do-what-fits',
+        cta: 'Take Do What Fits',
+        secondary: { name: 'Psychic vs Tarot', fit: 'the decision rule for experience questions', href: '/guides/psychic-vs-tarot' },
+        note: 'Free, two minutes, and it ends with a next step either way. It does not diagnose depression \u2014 only a clinician can.'
+      }
+    },
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'end-it' || h === 'guidance') return 'tarot_decision';
+      if (w === 'understand' || h === 'insight') return 'psychic';
+      if (w === 'navigate' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'meaning' || h === 'deeper') return 'tarot_deep';
+      if (w === 'spiritual-or-clinical') return 'closure';
+      if (w === 'beneath' || h === 'interpret') return 'free_first';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dark-night-of-the-soul', {
+        resultV2: true,
+        canTell: [
+          'Whether the dark-night frame genuinely fits \u2014 the collapse of meaning-structures, felt-abandonment, and practices no longer working',
+          'Whether clinical depression is the thing to engage first, which is the question this framework cannot settle and must not bypass',
+          'Whether the seeking is extending the crisis or doing the rebuilding work'
+        ],
+        edgeBridge: 'A quiz can read what your experience is tracking \u2014 it can\u2019t diagnose depression or confirm a dark night, both of which deserve clinical engagement. A reading framed on the experience\u2019s shape can offer perspective; it cannot cure depression or accelerate a process that doesn\u2019t shortcut, and anyone offering to \u201Cclear\u201D the dark night is selling a certainty nobody possesses.',
+        ctaText: {
+          'understand:psychic': 'Get an outside read on the shape',
+          'end-it:tarot_decision': 'Get guidance on a next step',
+          'spiritual-or-clinical:closure': 'Get a reading framed on what this is',
+          'meaning:tarot_deep': 'Get a deeper read on the meaning',
+          'navigate:tarot_relationship': 'Get a reflective read on what\u2019s rebuilding',
+          'beneath:free_first': 'Start with the free framework',
+          '*:psychic': 'Get an outside perspective',
+          '*:tarot_relationship': 'Get a reflective reading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read',
+          '*:closure': 'Get a reading framed on what this is',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'spiritual-bypassing',
+          text: 'when the frame is being used to avoid the rebuilding work or the clinical question, a reading that promises to \u201Cclear\u201D or accelerate the dark night can quietly extend the crisis. If you book one, frame it on what\u2019s collapsing and what might rebuild \u2014 not on a shortcut or a timeline, and never instead of a licensed therapist if symptoms are persistent.'
+        }
+      });
+    }
+  },
+
+
+  'death-card-meaning': {
+    id: 'death-card-meaning',
+    title: 'What Is Your Death Card Experience Actually About?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using the Death card as transformation reflection or as an omen \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your experience of the Death card is actually doing \u2014 transformation reflection, literal fear, or omen attribution \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'When you drew or met the Death card, what was happening?',
+        hint: 'The situation shapes how the same card reads.',
+        options: [
+          { text: 'A real transition in my life', detail: 'a move, a job change, an ending', score: 'transition' },
+          { text: 'A relationship was shifting', detail: 'a rupture or a change', score: 'relationship' },
+          { text: 'I was calm, just exploring', detail: 'curious about the card', score: 'calm' },
+          { text: 'I was already anxious', detail: 'fear was present', score: 'anxious' },
+          { text: 'I was warned it\u2019s a bad card', detail: 'someone framed it as doom', score: 'warned' },
+          { text: 'I\u2019m not sure', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'aim',
+        q: 'What did you most hope the card would give you?',
+        hint: '',
+        options: [
+          { text: 'Clarity on what\u2019s changing', detail: 'what the transition is', score: 'clarity' },
+          { text: 'Reassurance it doesn\u2019t mean death', detail: 'relief from the fear', score: 'reassurance' },
+          { text: 'A sign about a specific person', detail: 'a message about someone', score: 'sign' },
+          { text: 'A prediction of what happens next', detail: 'the outcome', score: 'prediction' },
+          { text: 'Just to understand the card', detail: 'the meaning', score: 'understand' },
+          { text: 'I didn\u2019t have an aim', detail: 'no clear goal', score: 'aimless' }
+        ]
+      },
+      {
+        id: 'transform_reflection',
+        q: 'How are you using the Death card?',
+        hint: 'The shape of the use is the clearest signal there is.',
+        options: [
+          { text: 'As a prompt to examine what\u2019s ending', detail: 'transformation reflection', score: 'reflect' },
+          { text: 'Mostly reflection, with some fear', detail: 'mixed', score: 'mixed' },
+          { text: 'I haven\u2019t really engaged it', detail: 'neutral', score: 'neutral' },
+          { text: 'As a warning something bad will happen', detail: 'fear-leaning', score: 'fearish' },
+          { text: 'As proof a specific event will occur', detail: 'omen-leaning', score: 'omenish' },
+          { text: 'I can\u2019t tell how I\u2019m using it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'literal_fear',
+        q: 'How much does the card make you fear a literal death or doom?',
+        hint: '',
+        options: [
+          { text: 'Not at all \u2014 I read it as metaphor', detail: 'none', score: 'none' },
+          { text: 'A little unease, then it passes', detail: 'slight', score: 'slight' },
+          { text: 'A background worry I can set aside', detail: 'ambient', score: 'ambient' },
+          { text: 'I\u2019m scared it predicts death', detail: 'scared', score: 'scared' },
+          { text: 'I\u2019m terrified and can\u2019t stop thinking', detail: 'terrified', score: 'terrified' },
+          { text: 'I can\u2019t tell how afraid I am', detail: 'hard to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'omen_attribution',
+        q: 'Do you read the card as a supernatural sign?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 it\u2019s a reflective prompt', detail: 'prompt', score: 'prompt' },
+          { text: 'It\u2019s interesting, maybe symbolic', detail: 'curious', score: 'curious' },
+          { text: 'I\u2019m unsure if it means something', detail: 'unsure', score: 'unsure' },
+          { text: 'It feels like a sign about someone', detail: 'signish', score: 'signish' },
+          { text: 'It\u2019s definitely a message about an event', detail: 'certain', score: 'certain' },
+          { text: 'I can\u2019t tell whether it\u2019s a sign', detail: 'too close', score: 'notell' }
+        ]
+      },
+      {
+        id: 'draw_randomness',
+        q: 'How do you understand the draw itself?',
+        hint: '',
+        options: [
+          { text: 'It\u2019s random \u2014 shuffle and chance', detail: 'random', score: 'random' },
+          { text: 'Probably random, but meaningful to me', detail: 'probably', score: 'probably' },
+          { text: 'I\u2019m unclear how draws work', detail: 'unclear', score: 'unclear' },
+          { text: 'It feels arranged for me to see', detail: 'arranged', score: 'arranged' },
+          { text: 'It was fated \u2014 meant to reach me', detail: 'fated', score: 'fated' },
+          { text: 'I can\u2019t tell', detail: 'too close', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What the card actually means', detail: 'the tradition', score: 'meaning' },
+          { text: 'Whether it predicts death', detail: 'the literal-fear question', score: 'scared' },
+          { text: 'If it\u2019s a sign about someone', detail: 'the omen question', score: 'sign' },
+          { text: 'What in my life is ending', detail: 'the transformation question', score: 'ending' },
+          { text: 'What a reversed card means', detail: 'the reversed question', score: 'reversed' },
+          { text: 'What\u2019s underneath all this', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting reflection from omen', score: 'interpret' },
+          { text: 'An outside perspective on my situation', detail: 'a read on the transition', score: 'insight' },
+          { text: 'A view of what this period is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find it', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        transform_reflection: { reflect: 2, mixed: 1, neutral: 0, fearish: -1, omenish: -2, notell: null },
+        literal_fear:        { none: 2, slight: 1, ambient: 0, scared: -1, terrified: -2, notell: null },
+        omen_attribution:    { prompt: 2, curious: 1, unsure: 0, signish: -1, certain: -2, notell: null },
+        draw_randomness:     { random: 2, probably: 1, unclear: 0, arranged: -1, fated: -2, notell: null }
+      };
+      var keys = ['transform_reflection', 'literal_fear', 'omen_attribution', 'draw_randomness'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.omen_attribution !== null && vals.omen_attribution <= -2) return 'omen-attribution';
+      if (vals.literal_fear !== null && vals.literal_fear <= -2) return 'literal-fear';
+      if (vals.literal_fear !== null && vals.literal_fear <= -1 &&
+          vals.omen_attribution !== null && vals.omen_attribution <= -1) return 'anxiety-amplification';
+      if (vals.transform_reflection !== null && vals.transform_reflection >= 2 &&
+          (vals.literal_fear === null || vals.literal_fear >= 0) &&
+          (vals.omen_attribution === null || vals.omen_attribution >= 0)) return 'transformation-reflection';
+      if (sum >= 1) return 'transformation-reflection';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'transformation-reflection': {
+        path: 'A transformation-reflection use',
+        summary: 'You are using the card as a prompt to examine what is ending or changing.',
+        suggest: function (a) {
+          var s = 'Your answers describe the Death card as a reflective prompt \u2014 something to examine ending or transition with, not a foretold event. That is the honest use the tradition actually supports.';
+          if (a.transform_reflection === 'reflect') s += ' The reflection framing is doing the work: the card surfaces transformation; it doesn\u2019t decree it.';
+          if (a.draw_randomness === 'random' || a.draw_randomness === 'probably') s += ' And you\u2019ve accounted for the draw\u2019s randomness, which is what keeps the omen framing from taking hold.';
+          s += ' The card\u2019s value here is the question it prompts \u2014 what phase, pattern, or identity is closing, and what the ending might make room for.';
+          return s;
+        },
+        dontTell: 'A transformation-reflection use doesn\u2019t prove the card has no symbolic weight \u2014 it proves you\u2019re using the weight honestly, as a prompt rather than a premonition. The draw is still random, and the meaning is still interpretive; the reflection is yours.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Let the card prompt the ending question \u2014 what is closing, and what it might make room for \u2014 without asking it to predict an outcome.',
+            'If ' + (a.literal_fear === 'none' || a.literal_fear === 'slight' ? 'the calm holds' : 'fear surfaces') + ', return to the tradition: transformation, not death. The name frightens; the meaning does not.'
+          ];
+        }
+      },
+      'literal-fear': {
+        path: 'Literal-fear driven',
+        summary: 'The card is generating fear of a literal death or doom it does not carry.',
+        suggest: function (a) {
+          var s = 'Your answers describe the Death card as frightening in a literal way \u2014 as if it foretells death or doom. The tradition is clear that it doesn\u2019t: Death signifies transformation, endings, transition. The name is metaphor.';
+          if (a.literal_fear === 'scared' || a.literal_fear === 'terrified') s += ' The fear is real, but it comes from the omen framing, not the card\u2019s actual meaning.';
+          if (a.draw_randomness === 'random' || a.draw_randomness === 'probably') s += ' And the draw was random \u2014 chance, not arrangement \u2014 which undercuts any foretelling read.';
+          s += ' Reframing it as transformation tends to quiet the dread the omen framing extends.';
+          return s;
+        },
+        dontTell: 'Literal fear doesn\u2019t prove the card is meaningless \u2014 it proves the framing is doing anxiety work the meaning doesn\u2019t warrant. The honest next step is the transformation reflection, not a search for what the card \u201Cpredicts.\u201D',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Replace the omen question with the transformation question \u2014 what is ending or changing \u2014 every time the dread returns.',
+            'If the fear persists without a real transition behind it, a licensed therapist is the more honest match than a reading that might confirm the omen.'
+          ];
+        }
+      },
+      'omen-attribution': {
+        path: 'Omen-attribution',
+        summary: 'You are reading the card as a supernatural sign about a person or event.',
+        suggest: function (a) {
+          var s = 'Your answers describe the Death card as a sign \u2014 a message about a specific person or event. The draw is random, though, and the meaning is interpretive; the card isn\u2019t a supernatural signal about anyone.';
+          if (a.omen_attribution === 'certain') s += ' The certainty that it\u2019s a message is the part worth holding lightly \u2014 the tradition offers transformation, not telegraphy.';
+          if (a.draw_randomness === 'arranged' || a.draw_randomness === 'fated') s += ' And the sense that the draw was arranged feeds the omen read, when chance is the plain explanation.';
+          s += ' The honest use is reflection on what\u2019s transforming \u2014 not attribution to a person or event.';
+          return s;
+        },
+        dontTell: 'Omen attribution doesn\u2019t prove the card can\u2019t be meaningful \u2014 it proves the meaning is being read as a message rather than a prompt. A reading can frame the transformation; it cannot honestly confirm the card is signaling a specific someone.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Ask what the card prompts you to examine, not whom it\u2019s about \u2014 the reflection is yours, the attribution isn\u2019t supported.',
+            'If a reader offers to \u201Cdecode\u201D the sign about a person, treat it as a projection; walk away from anyone who sells ongoing clearing of a foretold event.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'Anxiety amplification',
+        summary: 'Fear and omen reads are stacking, extending distress the card itself doesn\u2019t carry.',
+        suggest: function (a) {
+          var s = 'Your answers describe both literal fear and omen attribution at once \u2014 the card read as a foretold, doom-laden message. That stacking is what amplifies distress: each framing feeds the other, and the tradition supports neither.';
+          if (a.literal_fear === 'terrified') s += ' The terror is the loudest signal, and it tracks the framing, not the card\u2019s meaning.';
+          if (a.omen_attribution === 'certain') s += ' And the certainty that it\u2019s a message closes the loop \u2014 chance becomes fate, prompt becomes prophecy.';
+          s += ' The honest release is the transformation reflection plus the draw\u2019s randomness: random card, interpretive meaning, transformation not doom.';
+          return s;
+        },
+        dontTell: 'Anxiety amplification doesn\u2019t prove the fear is unreal \u2014 it proves the framing is multiplying it. The card is a prompt, not a prophecy; a reading that confirms the omen would feed the loop, not close it.',
+        watchIntro: 'Before you book anything or pay for a clearing:',
+        watch: function () {
+          return [
+            'Hold the two facts: the draw was random, and Death means transformation. Say them when the dread returns, instead of seeking one more sign.',
+            'If the distress affects daily life, a licensed therapist is the more reliable match than any reading \u2014 especially one that guarantees a prediction.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your experience into transformation reflection, literal fear, or omen attribution, which usually means one of two things: the encounter is genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of doom tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: reflection use, literal fear, omen attribution, draw randomness.',
+            'Then come back and retake this check. With more distance to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'scared') {
+        return {
+          key: 'literal-fear-question',
+          label: 'What may be underneath: the literal-fear question',
+          text: 'The wish for the card not to predict death is the most human reaction to its name \u2014 and the tradition is clear it doesn\u2019t. The honest reframe: the fear is from the omen framing, not the card\u2019s meaning. The draw is random; the meaning is transformation.'
+        };
+      }
+      if (a.omen_attribution === 'certain' || a.omen_attribution === 'signish' || pattern === 'omen-attribution') {
+        return {
+          key: 'sign-attribution',
+          label: 'What may be underneath: the sign-attribution question',
+          text: 'The wish for the card to be a sign about someone is the omen framing at work. The draw is random and the meaning is interpretive; the card isn\u2019t a supernatural message about a person. The honest reframe is reflection on what\u2019s transforming in your own life.'
+        };
+      }
+      if (a.literal_fear === 'terrified' || a.literal_fear === 'scared' || pattern === 'literal-fear' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'framing-fear',
+          label: 'What may be underneath: the framing-driven fear',
+          text: 'When the card creates fear, the fear is from the omen framing, not the card itself. Research on illusory pattern perception shows low control increases the tendency to see patterns; the doom read, in this shape, is information about how the framing is landing, not evidence about what the card foretells.'
+        };
+      }
+      if (a.want === 'ending') {
+        return {
+          key: 'transformation-question',
+          label: 'What may be underneath: the transformation question',
+          text: 'The sense that something in your life is ending is the honest use of the card \u2014 letting it prompt examination of what phase, pattern, or identity is closing, and what the ending might make room for. The card surfaces the transformation; it doesn\u2019t decree it.'
+        };
+      }
+      if (a.want === 'reversed') {
+        return {
+          key: 'reversed-question',
+          label: 'What may be underneath: the reversed-card question',
+          text: 'A reversed Death card, in some traditions, signifies resistance to an ending underway \u2014 usable as reflection on what you\u2019re holding past its time. The honest caveat: reversed meanings are interpretive, and the card\u2019s value is the reflection it prompts, not a decoded fact.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your Death card experience', cluster: 'tarot' }),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (a.help === 'unsure') return 'general';
+      if (w === 'ending' || h === 'interpret') return 'tarot_decision';
+      if (w === 'scared') return 'free_first';
+      if (w === 'sign' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      if (h === 'insight') return 'psychic';
+      if (w === 'meaning') return 'closure';
+      if (h === 'guidance') return 'tarot_relationship';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'death-card-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether you are using the card as transformation reflection or as an omen \u2014 which is the clearest signal of the two',
+          'Whether literal fear or omen attribution is the part doing the anxiety work, which is the part you can actually engage',
+          'Whether you have accounted for the draw\u2019s randomness \u2014 the card you got was chance, not arrangement'
+        ],
+        edgeBridge: 'A quiz can read what your experience of the card is doing \u2014 it can\u2019t tell you what the Death card \u201Cmeans\u201D for you, which is interpretive. A reading can frame the transformation the card surfaces; it cannot confirm an omen, and anyone who says the card foretells a specific event is offering a projection.',
+        ctaText: {
+          'transformation-reflection:tarot_decision': 'Get a read on what\u2019s ending',
+          'literal-fear:free_first': 'Start with the free framework',
+          'omen-attribution:tarot_relationship': 'Get a read on the symbol',
+          'anxiety-amplification:closure': 'Get a reflection on the fear',
+          'not-enough-evidence:general': 'Take Do What Fits',
+          '*:psychic': 'Get a reading on your situation',
+          '*:tarot_relationship': 'Get a read on the card',
+          '*:tarot_decision': 'Get guidance on the transition',
+          '*:tarot_deep': 'Get a deeper read',
+          '*:closure': 'Get a reflection on the card',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'anxiety-amplification',
+          text: 'when fear and omen reads stack, a reading that confirms the card \u201Cpredicts\u201D something can quietly become a more expensive way of feeding the dread. If you book one, frame it on what is transforming \u2014 not on what the card foretells.'
+        }
+      });
+    }
+  },
+
+
+  'does-he-like-me': {
+    id: 'does-he-like-me',
+    title: 'What Are You Really Asking?',
+    launchSub: 'Eight questions, about two minutes. It works outward from you \u2014 your situation, what you noticed, what you actually want to know \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what the interest pattern may suggest \u2014 what it says, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What\u2019s your relationship with him right now?',
+        hint: 'This matters more than it sounds \u2014 the same behavior means different things in different situations.',
+        options: [
+          { text: 'We\u2019re in a relationship', detail: 'together, official', score: 'together' },
+          { text: 'We\u2019re dating, but it\u2019s not official', detail: 'seeing each other regularly', score: 'dating' },
+          { text: 'We\u2019re talking or getting to know each other', detail: 'early days', score: 'talking' },
+          { text: 'We\u2019re friends, but there might be more', detail: 'a line that keeps almost being crossed', score: 'friends' },
+          { text: 'We\u2019re separated or taking space', detail: 'a pause of some kind', score: 'separated' },
+          { text: 'We\u2019re exes', detail: 'it ended at some point', score: 'exes' },
+          { text: 'It\u2019s complicated', detail: 'even this question is hard to answer', score: 'complicated' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What made you start wondering whether he likes you?',
+        hint: '',
+        options: [
+          { text: 'He\u2019s become more distant', detail: 'less present than he was', score: 'distant' },
+          { text: 'His behavior feels inconsistent', detail: 'warm, then not', score: 'inconsistent' },
+          { text: 'He\u2019s warm, but I can\u2019t tell if it\u2019s friendly or romantic', detail: 'the line is unclear', score: 'friendly' },
+          { text: 'We had an argument or a hard period', detail: 'and something shifted', score: 'conflict' },
+          { text: 'He\u2019s not taking things forward', detail: 'comfortable, but not moving', score: 'stalled' },
+          { text: 'I don\u2019t know what he really feels', detail: 'I can\u2019t get a read', score: 'uncertain' },
+          { text: 'Something about us feels different', detail: 'I can\u2019t name it', score: 'changed' },
+          { text: 'No specific reason \u2014 I just want clarity', detail: 'the question itself', score: 'clarity' }
+        ]
+      },
+      {
+        id: 'initiation',
+        q: 'How would you describe his initiation \u2014 reaching out on his own?',
+        hint: 'Initiation is one of the cleaner signals: it shows the interest is self-generated, not just responsive.',
+        options: [
+          { text: 'He reaches out on his own, often', detail: 'self-generated, unprompted', score: 'frequent' },
+          { text: 'About equally', detail: 'we both start things', score: 'equal' },
+          { text: 'Mostly when I reach out first', detail: 'he responds, rarely initiates', score: 'reactive' },
+          { text: 'He initiates less than he used to', detail: 'a recent drop', score: 'quieter' },
+          { text: 'Mostly when he wants something', detail: 'contact follows his needs', score: 'convenient' },
+          { text: 'We barely initiate contact at all', detail: 'long silences between exchanges', score: 'barely' },
+          { text: 'I genuinely can\u2019t tell', detail: 'he\u2019s hard to read', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'selectivity',
+        q: 'Is his attention directed at you specifically, or broadly?',
+        hint: 'Selectivity distinguishes interest from general charm \u2014 and charm is easy to misread as interest.',
+        options: [
+          { text: 'Clearly on me, not just anyone', detail: 'his attention singles me out', score: 'selective' },
+          { text: 'More on me than others, but not always', detail: 'a tilt in my direction', score: 'mostly' },
+          { text: 'It depends who else is around', detail: 'it shifts with the room', score: 'variable' },
+          { text: 'He\u2019s attentive to pretty much everyone', detail: 'no real difference', score: 'general' },
+          { text: 'He\u2019s warm to everyone \u2014 I can\u2019t separate myself out', detail: 'charm, not selectivity', score: 'charming' },
+          { text: 'I can\u2019t really tell', detail: 'no comparison to read', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'inconvenience',
+        q: 'What happens to his engagement when it costs him something?',
+        hint: 'Interest that survives inconvenience is the clearest signal behavior can offer. Easy-moment warmth is cheap.',
+        options: [
+          { text: 'It holds even when he\u2019s busy or tired', detail: 'effort through difficulty', score: 'holds' },
+          { text: 'He stays connected through busy stretches', detail: 'present, patient', score: 'stays' },
+          { text: 'Nothing much changes either way', detail: 'steady, but untested', score: 'nothing' },
+          { text: 'It fades when it\u2019s inconvenient for him', detail: 'comfort depends on ease', score: 'drops' },
+          { text: 'He re-engages only when I reach out', detail: 'returns, but on my call', score: 'returns' },
+          { text: 'We haven\u2019t been tested across conditions yet', detail: 'too early, or narrow', score: 'untested' }
+        ]
+      },
+      {
+        id: 'builds',
+        q: 'Does the connection build, or hold at the same level?',
+        hint: 'Interest that develops toward something differs from interest that persists in place.',
+        options: [
+          { text: 'It keeps deepening over time', detail: 'more depth, more shared reference', score: 'builds' },
+          { text: 'It\u2019s slowly moving forward', detail: 'a little more each stretch', score: 'develops' },
+          { text: 'It stays at about the same level', detail: 'comfortable, steady', score: 'holds' },
+          { text: 'Comfortable, but going nowhere', detail: 'no real movement', score: 'flat' },
+          { text: 'Stuck or repeating', detail: 'the same loop', score: 'stuck' },
+          { text: 'I can\u2019t tell', detail: 'no pattern yet', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Is he attracted to me at all?', detail: 'the baseline question', score: 'attraction' },
+          { text: 'Does he actually like me as a person?', detail: 'warmth, regard', score: 'affection' },
+          { text: 'Will he actually pursue this?', detail: 'effort, initiative', score: 'investment' },
+          { text: 'Is he serious, or just having fun?', detail: 'the direction question', score: 'intent' },
+          { text: 'Am I just reading into this?', detail: 'is my hope doing the work', score: 'projection' },
+          { text: 'Does he like me enough?', detail: 'the right kind, not just some', score: 'threshold' },
+          { text: 'What\u2019s really going on beneath the surface?', detail: 'I sense something I can\u2019t name', score: 'beneath' },
+          { text: 'I just want clarity', detail: 'whatever clarity looks like', score: 'clarity' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A clearer read of his behavior', detail: 'reading the signs better', score: 'interpret' },
+          { text: 'Insight into what he may be feeling', detail: 'his side of it', score: 'insight' },
+          { text: 'Understanding where this is heading', detail: 'the trajectory', score: 'heading' },
+          { text: 'Guidance on what I should do next', detail: 'a next step', score: 'guidance' },
+          { text: 'A deeper read of the connection', detail: 'the whole picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 I just want to understand', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    /* ---- Pattern scoring ----
+       Four signal questions are scored -2..+2 (the "unsure"/"untested"
+       options score nothing and count as "uncertain"). The model is
+       deliberately transparent and documented on the page: patterns,
+       not points. Selectivity is the dividing line between romantic
+       interest and general charm. */
+    resolve: function (a) {
+      var S = {
+        initiation:    { frequent: 2, equal: 1, reactive: 0, quieter: -1, convenient: -2, barely: -2, unsure: null },
+        selectivity:   { selective: 2, mostly: 1, variable: 0, general: -1, charming: -2, unsure: null },
+        inconvenience: { holds: 2, stays: 1, nothing: -1, drops: -2, returns: -1, untested: null },
+        builds:        { builds: 2, develops: 1, holds: 0, flat: -1, stuck: -2, unsure: null }
+      };
+      var keys = ['initiation', 'selectivity', 'inconvenience', 'builds'];
+      var sum = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][a[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; continue; }
+        sum += v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (a.selectivity === 'general' || a.selectivity === 'charming') return 'friendly-not-romantic';
+      var building = (a.builds === 'builds' || a.builds === 'develops' || a.builds === 'holds');
+      if (sum >= 2 && building) return 'clear-interest';
+      if (sum >= 2) return 'warm-but-uncommitted';
+      if (building) return 'warm-but-uncommitted';
+      if (sum >= -2) return 'mixed-signals';
+      return 'mixed-signals';
+    },
+
+    /* ---- The five patterns ---- */
+    results: {
+      'clear-interest': {
+        path: 'Clear, selective interest',
+        summary: 'Interest that is self-generated, directed at you specifically, and holds when it costs him something.',
+        suggest: function (a) {
+          var s = 'Across what you\u2019ve described, his interest holds up on more than one front.';
+          if (a.initiation === 'frequent') s += ' He reaches out on his own, not just in response to you.';
+          if (a.selectivity === 'selective' || a.selectivity === 'mostly') s += ' And his attention is directed at you specifically, not broadly.';
+          if (a.inconvenience === 'holds' || a.inconvenience === 'stays') s += ' The engagement even survives inconvenience \u2014 effort when busy or tired.';
+          s += ' In the four-signal framework, that\u2019s the strongest pattern observable behavior can show, and it usually looks quieter than a grand gesture, and considerably more reliable.';
+          return s;
+        },
+        dontTell: 'Even clear interest can\u2019t reveal his interior \u2014 whether it becomes something real depends on what he wants over time, which only a direct exchange can show. Interest at one moment doesn\u2019t guarantee intent, and the pattern can\u2019t promise a future he hasn\u2019t chosen.',
+        watchIntro: 'Worth watching over the coming weeks:',
+        watch: function () {
+          return [
+            'Whether his effort holds up during his own hard stretches \u2014 interest that survives inconvenience is the strongest signal there is.',
+            'Whether the two of you talk about a future, not just the present. Clear interest is present-tense; direction is the question it can\u2019t answer for you.'
+          ];
+        }
+      },
+      'warm-but-uncommitted': {
+        path: 'Warm, but not building',
+        summary: 'Genuine warmth that holds at the same level rather than developing toward something.',
+        suggest: function (a) {
+          var s = 'Your answers describe real warmth \u2014 contact happens, attention is there \u2014 but the connection isn\u2019t clearly developing.';
+          if (a.builds === 'flat' || a.builds === 'holds' || a.builds === 'stuck') s += ' It sits at a comfortable level rather than deepening.';
+          if (a.initiation === 'equal' || a.initiation === 'reactive') s += ' Effort flows, but much of it comes from the same place.';
+          s += ' That gap \u2014 warmth without direction \u2014 is often the actual source of the question. It isn\u2019t that there are no signs; it\u2019s that the signs don\u2019t add up to where this is going.';
+          return s;
+        },
+        dontTell: 'Warmth without initiative doesn\u2019t prove disinterest, and it doesn\u2019t prove interest either \u2014 it proves the connection is comfortable. Whether it becomes more is the part no pattern can settle, and the page is explicit that attraction without investment is a different signal than interest that builds.',
+        watchIntro: 'Worth watching over the coming weeks:',
+        watch: function () {
+          return [
+            'Who moves things forward \u2014 who defines what this is, raises the next step, initiates.',
+            'If that keeps being you, it isn\u2019t proof he doesn\u2019t care; it is information about how the two of you handle definition.'
+          ];
+        }
+      },
+      'friendly-not-romantic': {
+        path: 'Friendly, not romantic',
+        summary: 'Warmth that reads as interest but is directed broadly, not specifically at you.',
+        suggest: function (a) {
+          var s = 'Your answers describe someone warm \u2014 but the attention isn\u2019t clearly singling you out.';
+          if (a.selectivity === 'general') s += ' He\u2019s attentive to pretty much everyone, with no real difference.';
+          if (a.selectivity === 'charming') s += ' He\u2019s warm to all, and you can\u2019t separate yourself from the room.';
+          s += ' That distinction matters: charm is the confound this question warns about. Without the comparison, warmth reads as interest it may not be. The pattern here points to friendliness, not yet to selective romantic interest.';
+          return s;
+        },
+        dontTell: 'Broad warmth can\u2019t prove he doesn\u2019t like you \u2014 some people are simply warm to everyone \u2014 but it also can\u2019t prove romantic interest. Selectivity is the signal, and it isn\u2019t present yet. Only more exposure across different conditions can say which one this is.',
+        watchIntro: 'Worth watching over the coming weeks:',
+        watch: function () {
+          return [
+            'Whether his attention shifts when others leave the room \u2014 the comparison is what separates charm from interest.',
+            'More exposure across different conditions \u2014 groups vs alone, planned vs spontaneous \u2014 clarifies a line that behavior in one setting can\u2019t.'
+          ];
+        }
+      },
+      'mixed-signals': {
+        path: 'Mixed signals',
+        summary: 'Enough warmth to continue, not enough steadiness to read.',
+        suggest: function (a) {
+          var s = 'Your answers show a real gap between warmth and consistency \u2014 enough to keep the connection going, not enough to feel safe in it.';
+          if (a.initiation === 'convenient' || a.initiation === 'reactive') s += ' Contact follows his needs more than his initiative.';
+          if (a.inconvenience === 'drops' || a.inconvenience === 'returns') s += ' And the engagement fades when it costs him something.';
+          s += ' This is the hardest pattern to read from inside, because each good stretch resets the question and each cold stretch reopens it.';
+          return s;
+        },
+        dontTell: 'Mixed behavior has many causes \u2014 ambivalence, stress, avoidance, another priority, or a social style that runs in waves. The pattern can\u2019t tell you which, and it can\u2019t tell you what he feels, only how the contact behaves across time.',
+        watchIntro: 'Try a simple observation window:',
+        watch: function () {
+          return [
+            'For the next few weeks, note privately who initiates and how long the gaps run \u2014 no tests, no experiments, just watching.',
+            'A pattern still mixed after ordinary contact isn\u2019t a phase. It\u2019s the relationship\u2019s current shape, and it deserves a direct conversation rather than another round of decoding.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough exposure yet',
+        summary: 'Too early, or too close, to read \u2014 which is information too.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and that\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable pattern to read, which usually means one of two things: the connection is genuinely too new, or you\u2019re standing too close to see its shape.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in yet. At this stage, hunting for one more \u201Csign\u201D tends to produce noise \u2014 every small gesture gets recruited as evidence for whichever answer you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary contact across different conditions \u2014 groups vs alone, easy vs inconvenient.',
+            'Then retake this check. With more pattern to read, the result will be sharper.'
+          ];
+        }
+      }
+    },
+
+    /* ---- What may be underneath the question ----
+       Optional, one at most, offered as an observation \u2014 never a
+       diagnosis. Returns { key, label, text } or null. */
+    underneath: function (a, pattern) {
+      if (a.want === 'affection' || (a.status === 'friends' && a.selectivity !== 'selective')) {
+        return {
+          key: 'line',
+          label: 'What may be underneath: the line question',
+          text: 'When the warmth is real but the romantic signal isn\u2019t clear, \u201Cdoes he like me\u201D can quietly become \u201Cis this friendship or something more.\u201D The honest move is more exposure across different conditions \u2014 groups vs alone, planned vs spontaneous \u2014 because that line often clarifies under variety, where single settings keep it ambiguous.'
+        };
+      }
+      if (a.want === 'investment' || (a.builds === 'flat' || a.builds === 'stuck')) {
+        return {
+          key: 'investment',
+          label: 'What may be underneath: the investment question',
+          text: 'You described warmth without much building \u2014 attraction without initiative. That can mean several things: he\u2019s interested but uncertain, comfortable without being serious, or simply warm by nature. The pattern can\u2019t separate those. Sometimes the honest test is to let the connection declare itself by withdrawing your own effort and watching whether he steps forward \u2014 if the interest is genuine and self-generated, it survives your withdrawal.'
+        };
+      }
+      if (a.want === 'projection') {
+        return {
+          key: 'projection',
+          label: 'What may be underneath: the projection question',
+          text: 'Worth taking seriously: when you want someone to like you, the reading of ambiguous behavior tilts toward confirmation \u2014 a well-documented bias, not a flaw in you. The check is to separate his behavior from your interpretation of it. Inconvenience-survival and selectivity carry the real signal; the small moments hope reads most readily carry the least.'
+        };
+      }
+      if (a.want === 'attraction' && (a.selectivity === 'general' || a.selectivity === 'charming')) {
+        return {
+          key: 'selectivity',
+          label: 'What may be underneath: the selectivity question',
+          text: 'You asked about attraction while describing someone who is warm to everyone. Charm is the confound here \u2014 without the comparison, warmth reads as interest. The signal is whether his attention is directed at you specifically; watching the difference when others leave the room is more informative than any single moment of warmth.'
+        };
+      }
+      if (a.want === 'threshold' || a.want === 'clarity') {
+        return {
+          key: 'certainty',
+          label: 'What may be underneath: the certainty question',
+          text: '\u201CDoes he like me enough\u201D is partly a wish for confidence before acting. Interest at one moment doesn\u2019t guarantee intent over time, and the surest answer is a direct exchange. No reading, quiz, or sign list can substitute for the conversation that would actually settle it \u2014 and the patterns here can help you decide whether to have it.'
+        };
+      }
+      return null;
+    },
+
+    /* ---- Practice matching (honest, not salesy) ---- */
+    practice: window.lovePracticeSet('does-he-like-me'),
+
+    /* ---- Shared love matcher ---- */
+    matchPractice: window.loveMatchPractice,
+
+    /* ---- Aha matching (shared topic matcher) ---- */
+    matchAha: window.topicMatchAha,
+
+    /* ---- Custom result renderer (engine hook) ----
+       Delegates to the shared pattern-result renderer
+       (window.mysticdoPatternResult, top of this file) in v2 mode. */
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'does-he-like-me', {
+        resultV2: true,
+        canTell: [
+          'Whether the interest you\u2019re seeing is genuine, selective, and inconvenience-surviving \u2014 or comfortable warmth',
+          'Which of the four questions you\u2019re actually asking \u2014 attraction, affection, investment, or intent',
+          'Which kind of next step fits what you want to know'
+        ],
+        edgeBridge: 'A quiz can organize your question \u2014 it can\u2019t determine what another person privately thinks, feels, or intends. That part takes either his words, or a deeper reading focused on your specific situation.',
+        ctaText: {
+          'attraction:psychic': 'Get a read on the dynamic between you',
+          'affection:psychic': 'Get insight into how he sees you',
+          'investment:tarot_relationship': 'Get a reading on where this is heading',
+          'intent:tarot_relationship': 'Get a reading on his direction',
+          'projection:tarot_deep': 'Get a deeper read on the connection',
+          'threshold:tarot_decision': 'Get guidance on your next step',
+          'beneath:tarot_deep': 'Get a deeper read on the connection',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on where this is heading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
+        negativePatternTip: {
+          pattern: 'friendly-not-romantic',
+          text: 'when the warmth is this broad, a reading about whether he likes you can quietly become a more expensive way of confirming what you hope. If you book one, frame it on the dynamic \u2014 not on a yes-or-no about his feelings.'
+        }
+      });
+    }
+  },
+
+
+  'dream-about-snakes': {
+    id: 'dream-about-snakes',
+    title: 'What Is Your Snake Dream Pointing At?',
+    launchSub: 'Eight questions, about two minutes. It surfaces whether the dream is emotional processing, whether personal meaning-making is the real gain, and whether the omen-seeking is doing anxiety work \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your snake dream as material for reflection \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'dream_tone',
+        q: 'What was the dream like?',
+        hint: 'The dream\u2019s emotional tone shapes how it reads.',
+        options: [
+          { text: 'Neutral or even positive', detail: 'calm, curious, or healing', score: 'neutral' },
+          { text: 'Vivid but not scary', detail: 'memorable, low charge', score: 'vivid' },
+          { text: 'Fearful or threatening', detail: 'a snake I feared', score: 'fearful' },
+          { text: 'Confusing or fragmented', detail: 'hard to follow', score: 'fragmented' },
+          { text: 'Recurring \u2014 same or similar', detail: 'it keeps returning', score: 'recurring' },
+          { text: 'I can\u2019t quite describe it', detail: 'too close to name', score: 'notell' }
+        ]
+      },
+      {
+        id: 'waking_life',
+        q: 'What was happening in your waking life around it?',
+        hint: '',
+        options: [
+          { text: 'A period of change', detail: 'transition, move, shift', score: 'change' },
+          { text: 'A conflict or rupture', detail: 'a fight, a loss, a break', score: 'conflict' },
+          { text: 'Stress or poor sleep', detail: 'a pressured stretch', score: 'stress' },
+          { text: 'Something specific I\u2019m processing', detail: 'a clear theme', score: 'specific' },
+          { text: 'Nothing in particular', detail: 'life is steady', score: 'steady' },
+          { text: 'I can\u2019t tell', detail: 'no clear link', score: 'notell' }
+        ]
+      },
+      {
+        id: 'waking_link',
+        q: 'Does the dream connect to anything in your waking life?',
+        hint: 'The continuity between dreaming and waking is the pattern worth reading.',
+        options: [
+          { text: 'Clearly \u2014 a waking concern', detail: 'it maps to something real', score: 'strong' },
+          { text: 'Loosely', detail: 'a faint thread', score: 'some' },
+          { text: 'Unclear', detail: 'no clean read', score: 'vague' },
+          { text: 'Not really', detail: 'feels random', score: 'none' },
+          { text: 'I\u2019m forcing a link', detail: 'reaching for one', score: 'forced' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'meaning_frame',
+        q: 'How are you making sense of what the snake means?',
+        hint: '',
+        options: [
+          { text: 'Through my own associations', detail: 'what it means to me', score: 'personal' },
+          { text: 'From the context it appeared in', detail: 'the dream\u2019s situation', score: 'contextual' },
+          { text: 'A bit of both', detail: 'mixed', score: 'blended' },
+          { text: 'From a dream dictionary', detail: 'a fixed meaning', score: 'fixed' },
+          { text: 'A reader is decoding it for me', detail: 'the meaning came from a reading', score: 'readerdecode' },
+          { text: 'I can\u2019t tell yet', detail: 'still forming', score: 'notell' }
+        ]
+      },
+      {
+        id: 'recurrence',
+        q: 'How often does this dream come?',
+        hint: 'Recurrence often signals an unresolved waking theme.',
+        options: [
+          { text: 'Once \u2014 it passed', detail: 'a single occurrence', score: 'none' },
+          { text: 'Rarely', detail: 'a few times, spread out', score: 'occasional' },
+          { text: 'Sometimes', detail: 'off and on', score: 'some' },
+          { text: 'Regularly', detail: 'a recurring dream', score: 'regular' },
+          { text: 'Constantly, and it distresses me', detail: 'recurring plus distress', score: 'constant' },
+          { text: 'I can\u2019t tell', detail: 'too soon to know', score: 'notell' }
+        ]
+      },
+      {
+        id: 'omen',
+        q: 'Are you reading the dream as a warning?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 it\u2019s settling with reflection', detail: 'easing', score: 'settling' },
+          { text: 'I\u2019m just observing it', detail: 'neutral watching', score: 'observing' },
+          { text: 'Curious about it', detail: 'interested, not worried', score: 'curious' },
+          { text: 'A little worried it means something bad', detail: 'mild omen lean', score: 'worried' },
+          { text: 'Convinced it\u2019s a premonition', detail: 'sure it foretells', score: 'convinced' },
+          { text: 'I can\u2019t tell', detail: 'uncertain', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'What the snake means to me', detail: 'the personal meaning', score: 'meaning' },
+          { text: 'Why I dreamed it', detail: 'the mechanism', score: 'mechanism' },
+          { text: 'Whether it\u2019s about something in my life', detail: 'the personal reference', score: 'reference' },
+          { text: 'If it\u2019s a warning', detail: 'the omen question', score: 'omen' },
+          { text: 'Why it keeps coming back', detail: 'the recurrence question', score: 'recurrence' },
+          { text: 'What\u2019s really underneath all of this', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting reflection from decoding', score: 'interpret' },
+          { text: 'An outside perspective on it', detail: 'a read on the dream', score: 'insight' },
+          { text: 'A view of what it\u2019s doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can take', detail: 'something to do with it', score: 'guidance' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        waking_link:   { strong: 2, some: 1, vague: 0, none: -1, forced: -2, notell: null },
+        meaning_frame: { personal: 2, contextual: 1, blended: 0, fixed: -1, readerdecode: -2, notell: null },
+        recurrence:    { none: 2, occasional: 1, some: 0, regular: -1, constant: -2, notell: null },
+        omen:          { settling: 2, observing: 1, curious: 0, worried: -1, convinced: -2, notell: null }
+      };
+      var keys = ['waking_link', 'meaning_frame', 'recurrence', 'omen'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.omen !== null && vals.omen <= -2) return 'omen-seeking';
+      if (vals.meaning_frame !== null && vals.meaning_frame >= 2 &&
+          (vals.recurrence === null || vals.recurrence >= 0)) return 'symbolic-meaning-making';
+      if (vals.omen !== null && vals.omen <= -1 &&
+          (vals.recurrence === null || vals.recurrence <= 0)) return 'anxiety-surfacing';
+      if (vals.waking_link !== null && vals.waking_link >= 1) return 'emotional-processing';
+      if (sum <= -3) return 'omen-seeking';
+      if (sum >= 1) return 'emotional-processing';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'emotional-processing': {
+        path: 'Emotional processing, not a decoded message',
+        summary: 'The dream reflects a waking concern \u2014 the continuity hypothesis at work.',
+        suggest: function (a) {
+          var s = 'Your answers describe a dream that connects to something in your waking life \u2014 which is the continuity hypothesis doing its ordinary work: dreams reflect waking concerns, not decoded symbols.';
+          if (a.waking_link === 'strong') s += ' The link is clear, which is the honest signal that the dream is processing a real theme.';
+          if (a.meaning_frame === 'personal' || a.meaning_frame === 'contextual') s += ' And you\u2019re making meaning from your own associations, not a dictionary \u2014 the frame that actually serves you.';
+          s += ' The dream is material for self-understanding; it isn\u2019t carrying a fixed message to be decoded.';
+          return s;
+        },
+        dontTell: 'Emotional processing doesn\u2019t prove the dream has no significance \u2014 it has plenty, to you. What it means is that the significance is in the waking theme the dream is touching, not in a symbol lookup. Anyone confirming the snake \u201Cmeans\u201D one specific thing is offering a projection.',
+        watchIntro: 'Over the coming days:',
+        watch: function (a) {
+          return [
+            'Notice what waking theme the dream keeps touching \u2014 change, conflict, fear, something unspoken. The continuity is the part you can work with.',
+            'Let the dream prompt one honest question about that theme and answer it yourself. If a real question forms, a reading framed on the theme \u2014 not the symbol \u2014 can add a perspective.'
+          ];
+        }
+      },
+      'symbolic-meaning-making': {
+        path: 'Personal meaning-making, done honestly',
+        summary: 'You\u2019re building the meaning from your own context \u2014 the useful frame.',
+        suggest: function (a) {
+          var s = 'Your answers describe meaning-making from your own associations and context, not from a fixed decode \u2014 which is the honest use of the dream.';
+          if (a.meaning_frame === 'personal') s += ' The snake means what it means to you, in this dream, in your current life.';
+          if (a.waking_link === 'strong' || a.waking_link === 'some') s += ' And it ties to a waking concern, so the meaning has a real anchor.';
+          s += ' This is the frame that turns the dream into material for self-understanding rather than a source of false foresight.';
+          return s;
+        },
+        dontTell: 'Personal meaning-making doesn\u2019t prove a fixed symbolic meaning exists \u2014 it proves you\u2019re doing the honest version of the work. The danger is only when the personal association hardens into a claimed decode; the dream stays yours to interpret, and a reader who guarantees a meaning is selling a certainty nobody holds.',
+        watchIntro: 'As you sit with it:',
+        watch: function (a) {
+          return [
+            'Write what the snake means to you, in your own words, from your culture and your experiences \u2014 not from anything you read.',
+            'Check whether that meaning points at a waking theme worth engaging. If it does, the dream has done its job; if it stays abstract, a reflective tarot spread can help you name it.'
+          ];
+        }
+      },
+      'omen-seeking': {
+        path: 'Reading the dream as an omen',
+        summary: 'The dream is being treated as a warning \u2014 which the evidence doesn\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading the dream as a premonition \u2014 which is the omen-attribution pattern, and the evidence doesn\u2019t support it: dreams reflect waking concerns, not futures.';
+          if (a.omen === 'convinced') s += ' The conviction that it foretells something specific is the strongest form of this pattern.';
+          if (a.recurrence === 'regular' || a.recurrence === 'constant') s += ' And the recurrence makes the omen feel confirmed, when it more often signals an unresolved waking theme.';
+          s += ' The omen framing extends anxiety the reflection framing doesn\u2019t \u2014 and it doesn\u2019t deliver the foresight it promises.';
+          return s;
+        },
+        dontTell: 'Omen-seeking doesn\u2019t prove the dream can\u2019t ever reflect something real \u2014 some dreams do surface waking worries that later matter. What it means is that the dream isn\u2019t a reliable forecaster, and treating it as one tends to amplify anxiety without adding information. A reader who confirms a premonition is the red-flag pattern.',
+        watchIntro: 'Before you act on it as a warning:',
+        watch: function (a) {
+          return [
+            'Name the waking worry the dream might actually be reflecting \u2014 fear, change, a situation you haven\u2019t resolved. That worry is real; the premonition claim is not supported.',
+            (a.recurrence === 'constant' || a.dream_tone === 'recurring') ? 'Because this dream recurs and distresses you, a licensed therapist is the more honest match than a reading \u2014 recurring dream anxiety is engageable directly, and the omen framing keeps it open.' : 'If a real question forms, frame any reading on the waking theme the dream surfaces \u2014 never on decoding the omen.'
+          ];
+        }
+      },
+      'anxiety-surfacing': {
+        path: 'Anxiety the dream is surfacing',
+        summary: 'The dream is amplifying anxiety, and the omen lean is doing the work.',
+        suggest: function (a) {
+          var s = 'Your answers describe a dream that is amplifying anxiety \u2014 worried it means something bad, with recurrence underneath \u2014 which is the shape where the dream stops being reflection and starts being a stress source.';
+          if (a.omen === 'worried' || a.omen === 'convinced') s += ' The omen lean is what turns a normal dream into a low-grade dread.';
+          if (a.recurrence === 'regular' || a.recurrence === 'constant') s += ' And the recurrence keeps the anxiety cycling, which is more often an unresolved waking theme than a supernatural signal.';
+          s += ' The honest next step is to lower the charge, not to decode it \u2014 the meaning isn\u2019t in the symbol.';
+          return s;
+        },
+        dontTell: 'Anxiety-surfacing doesn\u2019t mean the dream is meaningless \u2014 it means the dream is currently doing anxiety work, and that\u2019s worth taking seriously for your own sake. The risk is the omen framing, which extends the distress; the useful move is engaging the underlying waking theme, often with support.',
+        watchIntro: 'Over the next stretch:',
+        watch: function (a) {
+          return [
+            'Address the waking anxiety the dream is touching \u2014 sleep, stress, the situation \u2014 rather than scanning the dream for signs. The charge tends to drop as the situation steadies.',
+            (a.recurrence === 'constant' || a.dream_tone === 'recurring') ? 'Since the dream recurs and distresses you, a licensed therapist is the more honest and reliable match than any spiritual reading for the underlying theme.' : 'If the dream keeps amplifying anxiety without a real waking theme behind it, a licensed therapist can help more directly than a reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough to read yet',
+        summary: 'Too new, or too close, to sort honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the dream into emotional processing or omen-seeking, which usually means it\u2019s genuinely too new, or you\u2019re standing too close to read its shape.';
+        },
+        dontTell: 'An unreadable dream isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a hidden meaning tends to produce noise: every neutral image gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few days of ordinary life \u2014 living, not scanning the dream for meaning \u2014 watching only the four signals: waking link, meaning frame, recurrence, omen lean.',
+            'Then come back and retake this check. With more distance the pattern reads sharper \u2014 and if nothing has changed in a couple of weeks, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      if (a.want === 'omen') {
+        return {
+          key: 'omen-attribution',
+          label: 'What may be underneath: the omen question',
+          text: 'The wish for the dream to be a warning is genuine \u2014 foresight is a deep human want. But dreams reflect waking concerns, not futures, and the omen framing extends anxiety without delivering the foresight it promises. The honest reframe: ask what waking worry the dream might be reflecting, which is real and engageable.'
+        };
+      }
+      if (a.meaning_frame === 'readerdecode' || pattern === 'symbolic-meaning-making') {
+        return {
+          key: 'source-decode',
+          label: 'What may be underneath: the decode-from-a-source',
+          text: 'A reader offered to decode the snake\u2019s meaning \u2014 which is the one move this framework warns against. No honest reader can decode a fixed symbolic meaning, because the meaning is personal and contextual and dream-symbol dictionaries aren\u2019t supported. A source that sells the decode is the least reliable source for what the dream means.'
+        };
+      }
+      if (a.recurrence === 'constant' || a.dream_tone === 'recurring') {
+        return {
+          key: 'recurrence-distress',
+          label: 'What may be underneath: the recurring-distress pattern',
+          text: 'A recurring, distressing dream often reflects an unresolved waking theme the mind keeps processing \u2014 and when it disrupts sleep or daily life, a licensed therapist is the more honest and reliable match than any spiritual reading. The recurrence is real information; decoding it as supernatural tends to keep the distress open.'
+        };
+      }
+      if (a.want === 'meaning') {
+        return {
+          key: 'meaning-arrival',
+          label: 'What may be underneath: the meaning arrival',
+          text: 'The wish to know what the snake means is the most common snake-dream question \u2014 and the honest answer is personal, not lookupable. The snake carries contradictory associations across cultures (transformation, healing, temptation, fear, wisdom), which means no single meaning is \u201Cthe\u201D one. Ask what it means to you, in this dream, in your context.'
+        };
+      }
+      if (a.want === 'mechanism') {
+        return {
+          key: 'mechanism-question',
+          label: 'What may be underneath: the mechanism question',
+          text: 'The wish to know why you dreamed it points at the continuity hypothesis \u2014 dreams reflect waking concerns and process emotional content during sleep. The useful move is asking what waking theme the dream might be processing, not what symbol it decodes to. That frame is well-supported and actually tractable.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your snake dream', cluster: 'dreams' }),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'recurrence' && h === 'guidance') return 'closure';
+      if (w === 'meaning' || h === 'interpret') return 'free_first';
+      if (w === 'omen' || h === 'insight') return 'psychic';
+      if (w === 'mechanism' || w === 'reference' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'recurrence' || h === 'deeper') return 'tarot_deep';
+      if (h === 'guidance') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dream-about-snakes', {
+        resultV2: true,
+        canTell: [
+          'Whether the dream connects to a waking concern \u2014 the continuity hypothesis, one of the clearest signals there is',
+          'Whether you\u2019re making meaning from your own context or reaching for a fixed decode',
+          'Whether the omen lean is doing anxiety work \u2014 which is the part you can actually step back from'
+        ],
+        edgeBridge: 'A quiz can read what your dream is doing for you \u2014 it can\u2019t decode what the snake \u201Cmeans.\u201D A reading framed on the waking theme the dream surfaces can give you perspective; it can\u2019t honestly promise a fixed symbolic message, and any reader who guarantees one is selling a certainty nobody possesses.',
+        ctaText: {
+          'meaning:free_first': 'Start with the free framework',
+          'omen:psychic': 'Get an outside perspective',
+          'mechanism:tarot_relationship': 'Get a read on the waking theme',
+          'reference:tarot_relationship': 'Get a read on what it points at',
+          'recurrence:tarot_deep': 'Get a deeper read on the pattern',
+          '*:psychic': 'Get an outside perspective',
+          '*:tarot_relationship': 'Get a reflective read',
+          '*:tarot_decision': 'Get a next-step reading',
+          '*:tarot_deep': 'Get a deeper read',
+          '*:closure': 'Get a closure-framed reading',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'omen-seeking',
+          text: 'when the dream is being read as a premonition, a reading that confirms the omen can quietly become a more expensive way of keeping the dread running. If you book one, frame it on what waking theme the dream surfaces \u2014 not on what it foretells.'
+        }
+      });
+    }
+  },
+
+
+  'dream-about-teeth-falling-out': {
+    id: 'dream-about-teeth-falling-out',
+    title: 'What Is Your Teeth Dream Pointing At?',
+    launchSub: 'Eight questions, about two minutes. It reads whether your teeth dream is emotional processing or you\u2019re seeking a fixed meaning the symbol doesn\u2019t carry \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your teeth dream \u2014 what it suggests about your waking anxiety, what it doesn\u2019t settle, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'dream_kind',
+        q: 'What did the teeth dream feel like?',
+        hint: 'The image shapes how the same dream reads.',
+        options: [
+          { text: 'Teeth crumbling or coming loose', detail: 'a slow, slipping loss', score: 'crumbing' },
+          { text: 'Teeth falling out all at once', detail: 'a sudden loss', score: 'sudden' },
+          { text: 'A single tooth gone', detail: 'one tooth missing', score: 'single' },
+          { text: 'Teeth breaking or rotten', detail: 'decay, not loss', score: 'decay' },
+          { text: 'It keeps coming back', detail: 'a recurring dream', score: 'recurring' },
+          { text: 'I can\u2019t recall the exact image', detail: 'a vague unease', score: 'vague' }
+        ]
+      },
+      {
+        id: 'waking_situation',
+        q: 'What has your waking life been like?',
+        hint: '',
+        options: [
+          { text: 'A stretch of stress or pressure', detail: 'work, money, demands', score: 'stress' },
+          { text: 'A change or transition', detail: 'a move, a phase ending', score: 'transition' },
+          { text: 'Something about my appearance or confidence', detail: 'how I\u2019m seen', score: 'selfimage' },
+          { text: 'Something I said or didn\u2019t say', detail: 'communication', score: 'communication' },
+          { text: 'Mostly calm \u2014 nothing stands out', detail: 'no obvious trigger', score: 'calm' },
+          { text: 'I\u2019m not sure', detail: 'hard to name', score: 'notsure' }
+        ]
+      },
+      {
+        id: 'meaning_making',
+        q: 'What are you hoping the dream means?',
+        hint: 'Be honest \u2014 this decides what actually helps.',
+        options: [
+          { text: 'My brain processing waking stress', detail: 'emotional processing, no hidden code', score: 'grounded' },
+          { text: 'Something personal to reflect on', detail: 'a private theme, not a code', score: 'reflecting' },
+          { text: 'I\u2019m not sure what it means', detail: 'the meaning isn\u2019t clear', score: 'unclear' },
+          { text: 'A specific message I should act on', detail: 'a directive from the dream', score: 'seeking' },
+          { text: 'A fixed meaning \u2014 loss, aging, control', detail: 'a decoded symbol', score: 'fixed' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'omen_attribution',
+        q: 'Do you read this dream as a sign of something to come?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 it reflects my concerns, not a future', detail: 'dreams aren\u2019t forecasts', score: 'grounded' },
+          { text: 'I don\u2019t think of it as a sign', detail: 'no omen framing', score: 'neutral' },
+          { text: 'I wonder if it means something is coming', detail: 'a passing curiosity', score: 'curious' },
+          { text: 'I\u2019m watching for what it might foretell', detail: 'tracking for signs', score: 'watching' },
+          { text: 'Yes \u2014 I fear it foretells a loss', detail: 'a premonition', score: 'omen' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'anxiety_amplification',
+        q: 'What has the dream been doing to your anxiety?',
+        hint: '',
+        options: [
+          { text: 'It hasn\u2019t raised my anxiety', detail: 'no added distress', score: 'calm' },
+          { text: 'A little, but it passes', detail: 'brief, passing', score: 'mild' },
+          { text: 'It leaves me uneasy', detail: 'lingering unease', score: 'uneasy' },
+          { text: 'It\u2019s been making my anxiety worse', detail: 'amplifying, building', score: 'rising' },
+          { text: 'It\u2019s sent my anxiety spiraling', detail: 'a loop of checking', score: 'spiraling' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'symbol_decoding',
+        q: 'Where would the meaning come from?',
+        hint: '',
+        options: [
+          { text: 'From my own waking context', detail: 'what resonates with my life', score: 'own-context' },
+          { text: 'From which association resonates with me', detail: 'personal resonance', score: 'resonance' },
+          { text: 'I\u2019m not sure where meaning comes from', detail: 'undecided', score: 'some' },
+          { text: 'From a reader who can decode it', detail: 'a decoded interpretation', score: 'decode' },
+          { text: 'From a fixed symbol dictionary', detail: 'a universal meaning', score: 'dictionary' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What does the dream mean?', detail: 'the meaning question', score: 'meaning' },
+          { text: 'Why did I dream it?', detail: 'the mechanism question', score: 'why' },
+          { text: 'Is it a sign of something coming?', detail: 'the omen question', score: 'omen' },
+          { text: 'What waking anxiety might it be processing?', detail: 'the theme question', score: 'process' },
+          { text: 'What\u2019s really underneath it?', detail: 'something I can\u2019t name', score: 'beneath' },
+          { text: 'I\u2019m not sure what I\u2019m asking', detail: 'clarity first', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting dream from story', score: 'interpret' },
+          { text: 'An outside perspective on what it surfaces', detail: 'a read on the theme', score: 'insight' },
+          { text: 'A view of what the dream is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        meaning_making:       { grounded: 2, reflecting: 1, unclear: 0, seeking: -1, fixed: -2, notell: null },
+        omen_attribution:     { grounded: 2, neutral: 1, curious: 0, watching: -1, omen: -2, notell: null },
+        anxiety_amplification: { calm: 2, mild: 1, uneasy: 0, rising: -1, spiraling: -2, notell: null },
+        symbol_decoding:      { 'own-context': 2, resonance: 1, some: 0, decode: -1, dictionary: -2, notell: null }
+      };
+      var keys = ['meaning_making', 'omen_attribution', 'anxiety_amplification', 'symbol_decoding'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.omen_attribution !== null && vals.omen_attribution <= -2) return 'omen-seeking';
+      if (vals.symbol_decoding !== null && vals.symbol_decoding <= -2 &&
+          (vals.meaning_making === null || vals.meaning_making <= 0)) return 'symbolic-meaning-making';
+      if (vals.anxiety_amplification !== null && vals.anxiety_amplification <= -1 &&
+          (vals.meaning_making === null || vals.meaning_making <= 0)) return 'anxiety-amplification';
+      if (sum <= -3) return 'anxiety-amplification';
+      if (vals.meaning_making !== null && vals.meaning_making >= 2 &&
+          (vals.omen_attribution === null || vals.omen_attribution >= 0) &&
+          (vals.anxiety_amplification === null || vals.anxiety_amplification >= 0)) return 'emotional-processing';
+      if (sum >= 1) return 'emotional-processing';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'emotional-processing': {
+        path: 'Emotional processing, not a coded message',
+        summary: 'The dream is reflecting waking anxiety \u2014 ordinary material, not a symbol to decode.',
+        suggest: function (a) {
+          var s = 'Your answers describe a teeth dream you\u2019re treating as emotional material rather than a coded message \u2014 which matches the best-supported reading: dreams process waking concerns, and teeth are an emotionally charged symbol tied to control, appearance, and communication.';
+          if (a.meaning_making === 'grounded' || a.meaning_making === 'reflecting') s += ' The honest frame is reflection on what waking anxiety the dream is processing, not decoding a fixed meaning.';
+          if (a.waking_situation === 'stress' || a.waking_situation === 'transition') s += ' And the waking context \u2014 stress or transition \u2014 is exactly when teeth dreams cluster, which is more useful information than symbolism.';
+          s += ' Nothing here requires a decoded meaning; the dream is a signal the processing is happening, not a message to read.';
+          return s;
+        },
+        dontTell: 'Emotional processing doesn\u2019t mean the dream is meaningless \u2014 it means the meaning is personal and contextual, found in your waking life rather than a symbol dictionary. A reading can offer perspective on the theme; it cannot decode a fixed meaning the symbol doesn\u2019t carry.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice what waking anxiety the dream keeps returning to \u2014 stress, change, self-image \u2014 and whether addressing it quiets the dream.',
+            'If the dream recurs and starts affecting sleep or daily life, a licensed therapist is the more honest match than a decoding session.'
+          ];
+        }
+      },
+      'symbolic-meaning-making': {
+        path: 'Looking for a fixed meaning the symbol doesn\u2019t carry',
+        summary: 'You\u2019re seeking a decoded meaning \u2014 which the symbol can\u2019t actually provide.',
+        suggest: function (a) {
+          var s = 'Your answers describe a pull toward a fixed, decoded meaning for the dream \u2014 loss, aging, control \u2014 which the symbol doesn\u2019t actually carry. There is no empirically-supported dream-symbol dictionary; the same dream figure means different things to different people.';
+          if (a.symbol_decoding === 'dictionary' || a.symbol_decoding === 'decode') s += ' The search for a decoder \u2014 a book or a reader \u2014 tends to produce a projection dressed as meaning, not your own.';
+          if (a.want === 'meaning') s += ' And the question \u201Cwhat does it mean\u201D asked as a decode has no honest answer in that form; asked as \u201Cwhat is it processing,\u201D it opens.';
+          s += ' The honest swap: ask which common association resonates with your waking life, and let the dream prompt reflection rather than decoding.';
+          return s;
+        },
+        dontTell: 'Wanting a meaning isn\u2019t a mistake \u2014 the dream is real emotional material. What it isn\u2019t is a coded message with a single right answer. A reader who confirms a fixed meaning is offering a projection nobody can verify, and ongoing decoding sessions are a sales pattern, not support.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Replace \u201Cwhat does it mean\u201D with \u201Cwhich association resonates with my waking life\u201D \u2014 control, self-image, communication, change.',
+            (a.want === 'meaning' ? 'If the pull toward a single decoded meaning persists, a therapist can help with the anxiety underneath it more reliably than any reading.' : 'If the dream keeps recurring, check whether a waking anxiety is unresolved before seeking a decode.')
+          ];
+        }
+      },
+      'omen-seeking': {
+        path: 'Reading it as a premonition',
+        summary: 'You\u2019re treating the dream as a foretelling of loss \u2014 which isn\u2019t supported.',
+        suggest: function (a) {
+          var s = 'Your answers describe the dream as a sign of something to come \u2014 a premonition of loss \u2014 which the evidence doesn\u2019t support. Dreams reflect waking concerns and emotional processing, not futures; the omen framing extends anxiety rather than easing it.';
+          if (a.omen_attribution === 'omen') s += ' The fear that it foretells a loss is the anxiety doing its own work, not a forecast.';
+          if (a.want === 'omen') s += ' And the question \u201Cis it a sign\u201D keeps the worry live; the reflection framing asks what waking anxiety the dream processes, which doesn\u2019t create the distress.';
+          s += ' The honest version is perspective on what the dream surfaces, not confirmation of what it predicts.';
+          return s;
+        },
+        dontTell: 'The omen frame isn\u2019t irrational to feel \u2014 anxiety reaches for foresight. It isn\u2019t supported as fact: teeth dreams cluster around stress, which is engageable directly. A reader who confirms a premonition is selling a certainty nobody possesses, often as a recurring paid appointment.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice whether the omen framing is raising anxiety \u2014 and try the reflection question (\u201Cwhat waking anxiety is this processing\u201D) instead of scanning for signs.',
+            'If the premonition worry is recurring or affecting sleep, a licensed therapist can help with the underlying anxiety more reliably than a reading that confirms the fear.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'The dream is amplifying your anxiety',
+        summary: 'The dream and the meaning-search are raising anxiety, not resolving it.',
+        suggest: function (a) {
+          var s = 'Your answers describe the teeth dream sending your anxiety upward \u2014 a loop where the dream, the search for meaning, and the worry feed each other. That loop is the thing to interrupt, more than the symbol itself.';
+          if (a.anxiety_amplification === 'spiraling' || a.anxiety_amplification === 'rising') s += ' The spiral of checking and re-reading turns a single dream into ongoing distress.';
+          if (a.meaning_making === 'fixed' || a.symbol_decoding === 'dictionary') s += ' And the fixed-meaning search keeps the loop running by promising an answer the symbol can\u2019t give.';
+          s += ' The honest move is to step the anxiety down \u2014 name the waking stress, and let the dream be material, not a verdict.';
+          return s;
+        },
+        dontTell: 'Anxiety amplification isn\u2019t a sign the dream is more meaningful \u2014 distress tracks the loop, not the message. Teeth dreams cluster around stress; addressing the waking anxiety tends to quiet both. A reading framed on decoding can add fuel; a reading framed on the waking theme, used once, is the honest limit.',
+        watchIntro: 'Over the coming days:',
+        watch: function () {
+          return [
+            'Step the scanning down \u2014 a defined window of living, not checking for signs \u2014 and name the waking stress the dream is likely processing.',
+            'If the anxiety is affecting sleep, daily life, or recurring, a licensed therapist is the right match; the dream is a signal, not a sentence to decode.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the dream into emotional processing or meaning-seeking, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make the anxiety worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of meaning tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few days of ordinary life \u2014 living, not scanning for meaning \u2014 watching only what the dream does to your anxiety and what waking theme it returns to.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      if (a.want === 'meaning' || a.symbol_decoding === 'dictionary' || a.symbol_decoding === 'decode') {
+        return {
+          key: 'fixed-meaning-pull',
+          label: 'What may be underneath: the fixed-meaning pull',
+          text: 'The search for a single decoded meaning is the most monetized question about dreams \u2014 and the structural problem is that no symbol carries a fixed meaning to decode. The honest reframe: ask which common association resonates with your waking life. Anyone confirming a specific meaning is offering a projection, and ongoing decoding sessions are a sales pattern.'
+        };
+      }
+      if (a.omen_attribution === 'omen' || a.omen_attribution === 'watching' || a.want === 'omen' || pattern === 'omen-seeking') {
+        return {
+          key: 'omen-worry',
+          label: 'What may be underneath: the omen worry',
+          text: 'The wish for the dream to foretell something is genuine, and the foresight isn\u2019t available. Dreams reflect waking concerns, not futures; the omen framing extends anxiety. The honest version is perspective on what the dream surfaces about your waking life, not confirmation of what it predicts \u2014 and a reader who confirms a premonition is selling a certainty nobody possesses.'
+        };
+      }
+      if (a.anxiety_amplification === 'rising' || a.anxiety_amplification === 'spiraling' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'anxiety-loop',
+          label: 'What may be underneath: the anxiety loop',
+          text: 'When the dream keeps raising anxiety, the loop is the thing to engage, more than the symbol. Research on dream content finds teeth dreams cluster during stress \u2014 which is the addressable part. The honest move is to step the scanning down and name the waking stress, not to decode a message the anxiety invented to feel in control.'
+        };
+      }
+      if (a.want === 'process' || a.want === 'why' || pattern === 'emotional-processing') {
+        return {
+          key: 'processing-frame',
+          label: 'What may be underneath: the processing frame',
+          text: 'The continuity hypothesis holds that dreams reflect waking concerns \u2014 so the most useful question is what waking anxiety the dream is processing, not what the teeth \u201Cmean.\u201D The meaning is personal and contextual; the dream is material for self-understanding, not a code to break.'
+        };
+      }
+      if (a.want === 'beneath') {
+        return {
+          key: 'underneath-question',
+          label: 'What may be underneath: the underneath question',
+          text: 'Wanting to know what\u2019s really underneath the dream is a fair question \u2014 and the honest answer tends to live in waking life, not in the symbol. A deeper read (a tarot spread or a reflective practice) can surface the theme; it still can\u2019t decode a fixed meaning the teeth don\u2019t carry.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your teeth dream', cluster: 'dreams' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'process' || a.want === 'why') return 'psychic';
+      if (a.want === 'omen') return 'free_first';
+      if (a.want === 'beneath') return 'tarot_deep';
+      if (a.help === 'insight') return 'psychic';
+      if (a.help === 'dynamic') return 'tarot_relationship';
+      if (a.help === 'guidance') return 'tarot_decision';
+      if (a.help === 'interpret') return 'free_first';
+      if (a.help === 'deeper') return 'tarot_deep';
+      if (a.want === 'meaning') return 'tarot_relationship';
+      if (a.want === 'unsure') return 'general';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dream-about-teeth-falling-out', {
+        resultV2: true,
+        canTell: [
+          'Whether the dream is emotional processing or you\u2019re seeking a fixed meaning the symbol doesn\u2019t actually carry',
+          'Whether the omen framing is doing anxiety work \u2014 dreams reflect concerns, not futures',
+          'Which waking theme the dream is pointing at, which is the part you can actually engage'
+        ],
+        edgeBridge: 'A quiz can surface what your own dream already tracks \u2014 it can\u2019t decode a fixed symbolic meaning, because the meaning is personal and contextual. A reading framed on what the dream surfaces can offer perspective; it can\u2019t honestly confirm a decoded message or a premonition.',
+        ctaText: {
+          'meaning:tarot_relationship': 'Get a structured reflection on the theme',
+          'process:psychic': 'Get an outside perspective on what it surfaces',
+          'omen:free_first': 'Start with the free framework',
+          'beneath:tarot_deep': 'Get a deeper read on the dream',
+          '*:psychic': 'Get an outside perspective on the waking theme',
+          '*:tarot_relationship': 'Get a structured reflection on the dream',
+          '*:tarot_decision': 'Get guidance on a next step',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Find what fits with the matcher'
+        },
+        negativePatternTip: {
+          pattern: 'omen-seeking',
+          text: 'when the omen framing is doing anxiety work, a reader who confirms the dream is a premonition can quietly turn a private worry into a recurring paid appointment. If you book one, frame it on what the dream surfaces about your waking life \u2014 not on what it foretells.'
+        }
+      });
+    }
+  },
+
+
+  'evil-eye-meaning': {
+    id: 'evil-eye-meaning',
+    title: 'Is It the Evil Eye, or Something Else?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re seeking cultural understanding, whether affected-anxiety is the real issue, and whether misfortune is being attributed to the evil eye in ways that deserve honest examination \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your evil-eye question \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What are you living through right now?',
+        hint: 'The situation shapes how the same worry reads.',
+        options: [
+          { text: 'A run of bad luck', detail: 'a streak of misfortune', score: 'streak' },
+          { text: 'A loss or an ending', detail: 'someone passed, or something ended', score: 'loss' },
+          { text: 'Health or life feeling off', detail: 'illness or a strained period', score: 'health' },
+          { text: 'A milestone drew attention', detail: 'success or visibility others noticed', score: 'milestone' },
+          { text: 'A relationship feels strained', detail: 'trust or a dynamic feels wrong', score: 'relational' },
+          { text: 'A reader told me I\u2019ve been hit', detail: 'the diagnosis came from a reading', score: 'reader-told' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the evil-eye idea in your head?',
+        hint: '',
+        options: [
+          { text: 'A run of bad luck', detail: 'the streak itself', score: 'streak' },
+          { text: 'Someone admired or envied me', detail: 'attention on good fortune', score: 'admiration' },
+          { text: 'Health issues clustering', detail: 'illness or injury', score: 'health' },
+          { text: 'A reader or psychic told me', detail: 'the diagnosis came externally', score: 'reader' },
+          { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'intuition' },
+          { text: 'Something I read online', detail: 'an article, a post', score: 'online' },
+          { text: 'No single thing \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'understanding',
+        q: 'How are you approaching the evil-eye question?',
+        hint: 'The first is fully answerable; the second isn\u2019t supported.',
+        options: [
+          { text: 'Seeking to understand the concept', detail: 'the anthropology and meaning', score: 'cultural' },
+          { text: 'Both \u2014 the culture and the claim', detail: 'curious about each', score: 'mixed' },
+          { text: 'Seeking confirmation it\u2019s real', detail: 'the ontology question', score: 'confirmation' },
+          { text: 'Wanting to know if I\u2019ve been hit', detail: 'the affected-check question', score: 'diagnose' },
+          { text: 'I can\u2019t tell', detail: 'hard to name the angle', score: 'notell' }
+        ]
+      },
+      {
+        id: 'attribution',
+        q: 'How do you read a recent run of bad luck or difficulty?',
+        hint: 'The shape of the attribution is the clearest signal there is.',
+        options: [
+          { text: 'Ordinary causes \u2014 stress, chance, real problems', detail: 'the honest default', score: 'ordinary' },
+          { text: 'Some of each \u2014 hard to separate', detail: 'mixed', score: 'mixed' },
+          { text: 'Mostly the evil eye', detail: 'leaning supernatural', score: 'mostly' },
+          { text: 'Definitely the evil eye', detail: 'a fixed attribution', score: 'fully' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'visibility',
+        q: 'When the discomfort comes, what is it really about?',
+        hint: '',
+        options: [
+          { text: 'The real discomfort of being seen or envied', detail: 'a genuine social dynamic', score: 'visibility' },
+          { text: 'Some of each', detail: 'mixed', score: 'mixed' },
+          { text: 'A supernatural harm aimed at me', detail: 'the harm-force framing', score: 'supernatural' },
+          { text: 'I can\u2019t tell', detail: 'hard to name', score: 'notell' }
+        ]
+      },
+      {
+        id: 'protection',
+        q: 'Are you looking for protection or a clearing?',
+        hint: '',
+        options: [
+          { text: 'As cultural practice \u2014 a nazar, a ritual I value', detail: 'meaning and reassurance', score: 'cultural' },
+          { text: 'Partly cultural, partly for reassurance', detail: 'both', score: 'both' },
+          { text: 'Mostly from fear it\u2019s real', detail: 'anxiety-driven', score: 'fear' },
+          { text: 'Compulsively \u2014 more amulets, repeated clearings', detail: 'the worry feeding itself', score: 'compulsive' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What the evil eye means as a concept', detail: 'the cultural question', score: 'understand' },
+          { text: 'Have I been hit by the evil eye?', detail: 'the affected-check question', score: 'diagnose' },
+          { text: 'Why is everything going wrong?', detail: 'the misfortune question', score: 'why-bad-luck' },
+          { text: 'How do I protect myself?', detail: 'the protection question', score: 'protect' },
+          { text: 'Why do I feel uncomfortable being seen?', detail: 'the visibility question', score: 'visibility' },
+          { text: 'What\u2019s really underneath all this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting concept from claim', score: 'interpret' },
+          { text: 'An outside perspective on the situation', detail: 'a read on the worry', score: 'insight' },
+          { text: 'A view of the pattern I\u2019m in', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        understanding:  { cultural: 2, mixed: 0, confirmation: -1, diagnose: -2, notell: null },
+        attribution:    { ordinary: 2, mixed: 0, mostly: -1, fully: -2, notell: null },
+        visibility:     { visibility: 2, mixed: 0, supernatural: -2, notell: null },
+        protection:     { cultural: 2, both: 0, fear: -1, compulsive: -2, notell: null }
+      };
+      var keys = ['understanding', 'attribution', 'visibility', 'protection'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.attribution !== null && vals.attribution <= -2) return 'misfortune-attribution';
+      if (vals.protection !== null && vals.protection <= -2) return 'protection-ritual-seeking';
+      if (vals.understanding !== null && vals.understanding >= 2 &&
+          (vals.attribution === null || vals.attribution >= 0) &&
+          (vals.protection === null || vals.protection >= 0)) return 'cultural-concept-understanding';
+      if (vals.understanding !== null && vals.understanding <= -1 &&
+          (vals.attribution === null || vals.attribution <= 0)) return 'affected-anxiety-pattern';
+      if (sum <= -3) return 'affected-anxiety-pattern';
+      if (vals.visibility !== null && vals.visibility >= 2) return 'cultural-concept-understanding';
+      if (sum >= 1) return 'cultural-concept-understanding';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'cultural-concept-understanding': {
+        path: 'Cultural concept, honestly engaged',
+        summary: 'You\u2019re seeking to understand the evil eye as a cultural idea \u2014 which is fully answerable.',
+        suggest: function (a) {
+          var s = 'Your answers describe the evil eye as something to understand rather than a force acting on you \u2014 which is the one part of this question that is genuinely answerable. The concept is real: a cross-cultural belief complex documented across millennia, and it expresses something true about the discomfort of being seen with envy.';
+          if (a.understanding === 'cultural') s += ' Holding it as cultural inquiry keeps the meaning-making in your hands, where it belongs.';
+          if (a.attribution === 'ordinary') s += ' And you\u2019re reading misfortune through ordinary causes, which is the honest default.';
+          if (a.protection === 'cultural') s += ' The protective practices, as cultural objects, carry meaning and a felt sense of safety that is real regardless of the supernatural claim.';
+          s += ' The literal harm-force claim isn\u2019t supported, but you don\u2019t need it to be \u2014 the concept stands on its own.';
+          return s;
+        },
+        dontTell: 'Cultural understanding doesn\u2019t prove the supernatural claim is false \u2014 it can\u2019t be strictly disproven, only unsupported. What it can\u2019t prove is that engaging the concept requires accepting the literal harm-force: the anthropology and the psychology function without it.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep reading the evil eye as a cultural and psychological idea \u2014 the meaning-making is yours to use, no channel required.',
+            'Watch whether the question shifts from \u201Cwhat does it mean\u201D to \u201Chave I been hit\u201D \u2014 that shift is where anxiety, not curiosity, starts doing the asking.'
+          ];
+        }
+      },
+      'affected-anxiety-pattern': {
+        path: 'The affected-anxiety pattern',
+        summary: 'The worry that you\u2019ve been hit is doing anxiety work, not diagnostic work.',
+        suggest: function (a) {
+          var s = 'Your answers lean toward the worry that you\u2019ve been \u201Chit\u201D by the evil eye \u2014 and the honest read is that this framing usually extends anxiety rather than resolving it. A run of misfortune, illness, or difficulty is most often ordinary probability and ordinary causes; attributing it to the evil eye tends to keep the worry running.';
+          if (a.understanding === 'diagnose') s += ' The wish for confirmation of a hit is a question about your anxiety, not about a supernatural force.';
+          if (a.status === 'streak' || a.status === 'health') s += ' And the misfortune you\u2019re pointing at has ordinary explanations worth engaging directly.';
+          s += ' The evil-eye belief expresses a real psychological truth \u2014 the discomfort of being seen with envy \u2014 but naming a hit doesn\u2019t resolve that; it recruits every neutral event as evidence.';
+          return s;
+        },
+        dontTell: 'The affected-anxiety pattern doesn\u2019t prove you haven\u2019t been affected \u2014 it can\u2019t be established either way, and the framing deserves examination rather than acceptance. What it can\u2019t prove is that a reader or clearing can confirm a hit: anyone diagnosing an evil-eye affliction and selling removal is offering a certainty nobody possesses.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Engage the misfortune through its ordinary causes \u2014 a doctor, a hard look at the situation \u2014 rather than through the evil-eye frame.',
+            'If the worry persists without a real cluster behind it, or if it touches daily life, a licensed therapist is the more honest match than a reading.'
+          ];
+        }
+      },
+      'misfortune-attribution': {
+        path: 'Misfortune attributed to the evil eye',
+        summary: 'You\u2019re reading a run of difficulty as supernatural affliction.',
+        suggest: function (a) {
+          var s = 'Your answers describe a run of bad luck or difficulty being read as an evil-eye hit \u2014 which is the attribution pattern, and it deserves to be named. Misfortune after being admired is noticed; the absence of misfortune is forgotten, which is confirmation bias, not evidence.';
+          if (a.attribution === 'fully') s += ' Holding it as definitely the evil eye closes the door on the ordinary causes that are usually there.';
+          if (a.status === 'streak') s += ' The streak you\u2019re describing is most often explainable by base-rates of difficulty and real, addressable problems.';
+          s += ' The honest test is whether the misfortune has ordinary causes worth engaging \u2014 because that engagement is available regardless of whether the evil-eye frame is also true.';
+          return s;
+        },
+        dontTell: 'Misfortune attribution doesn\u2019t prove the evil eye is unreal \u2014 the concept is culturally real, and the discomfort of envy is genuine. What it can\u2019t prove is that the bad luck was supernaturally caused: the supernatural harm-force lacks supporting evidence, and the attribution typically rests on confirmation bias.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Trace the streak to its ordinary sources \u2014 the situation, the stress, the real problems \u2014 and engage those directly.',
+            'Watch whether the evil-eye frame is quieting the anxiety or extending it; if it\u2019s extending it, that itself is the signal to step back.'
+          ];
+        }
+      },
+      'protection-ritual-seeking': {
+        path: 'Protection-seeking from an unestablished harm',
+        summary: 'You\u2019re seeking protection from a harm that hasn\u2019t been established.',
+        suggest: function (a) {
+          var s = 'Your answers describe seeking protection or clearing against the evil eye \u2014 and the honest distinction is between cultural practice and fear-driven consumption. Protective objects and rituals function culturally and psychologically whether or not the supernatural claim holds.';
+          if (a.protection === 'compulsive') s += ' The compulsive pattern \u2014 more amulets, repeated clearings \u2014 is the anxiety extending itself, not a need being met.';
+          if (a.protection === 'fear') s += ' Seeking protection from a harm you can\u2019t establish tends to cost more than it protects.';
+          s += ' The practices are worth valuing as cultural and psychological objects; they don\u2019t need to defend against a supernatural harm that may not exist.';
+          return s;
+        },
+        dontTell: 'Protection-seeking doesn\u2019t prove the amulets are worthless \u2014 as cultural and psychological objects they carry real meaning and comfort. What it can\u2019t prove is that they defend against a supernatural harm-force: the harm-force itself hasn\u2019t been established, so the protection against it can\u2019t be either.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Value the practices as cultural and psychological objects without requiring them to ward off a supernatural force.',
+            'Watch whether the buying or clearing is calming the worry or feeding it \u2014 the second is the pattern to notice and step back from.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your evil-eye question into cultural understanding, affected-anxiety, misfortune attribution, or protection-seeking, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of an evil-eye hit tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four dimensions: cultural understanding, misfortune attribution, visibility discomfort, and protection-seeking.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'diagnose' || pattern === 'affected-anxiety-pattern') {
+        return { key: 'affected-check', label: 'What may be underneath: the affected-check',
+          text: 'The wish to know whether you\u2019ve been \u201Chit\u201D by the evil eye is deeply human, and it doesn\u2019t mean a hit occurred. The honest answer is that you probably can\u2019t establish it \u2014 and the framing that you have is usually an anxiety pattern rather than a genuine diagnosis. The misfortune may have ordinary causes worth engaging directly, which is available regardless of whether the evil-eye frame is also true.' };
+      }
+      if (a.attribution === 'fully' || a.attribution === 'mostly' || pattern === 'misfortune-attribution') {
+        return { key: 'misfortune-attribution', label: 'What may be underneath: the misfortune attribution',
+          text: 'Reading a run of difficulty as an evil-eye hit is the attribution pattern. Misfortune after being admired is noticed; its absence is forgotten \u2014 confirmation bias, not evidence. The honest test is whether the misfortune has ordinary causes worth engaging, because that engagement works whether or not the supernatural frame is also true.' };
+      }
+      if (a.want === 'protect' || a.protection === 'compulsive' || a.protection === 'fear' || pattern === 'protection-ritual-seeking') {
+        return { key: 'protection-seeking', label: 'What may be underneath: the protection-seeking',
+          text: 'Seeking protection from the evil eye is either cultural practice or anxiety-driven protection-seeking. The practices function psychologically whether or not the supernatural claim holds \u2014 but seeking protection from an unconfirmed harm can extend the anxiety. The distinction matters: valuing the objects culturally is healthy; fear-driven consumption feeds the worry it claims to calm.' };
+      }
+      if (a.status === 'loss' && a.want === 'understand') {
+        return { key: 'loss-meaning', label: 'What may be underneath: the loss question',
+          text: 'A loss can make the evil eye feel loaded \u2014 the disproportionate weight, the sense that something is trying to reach you. Grief is the oldest alarm there is, and it doesn\u2019t need a supernatural explanation; it needs time, honesty, and sometimes a grief-aware therapist. A reflection-framed reading can help you carry the loss; an evil-eye diagnosis tends to keep the wound open.' };
+      }
+      if (a.want === 'visibility') {
+        return { key: 'visibility-discomfort', label: 'What may be underneath: the visibility discomfort',
+          text: 'The discomfort of being seen with envy is one of the real psychological truths the evil-eye belief expresses. It\u2019s a genuine social dynamic \u2014 admiration can carry envy, visibility can carry risk \u2014 and it\u2019s engageable directly, without requiring it to be evidence of supernatural harm.' };
+      }
+      if (a.want === 'beneath') {
+        return { key: 'unanswered-question', label: 'What may be underneath: an unanswered question',
+          text: 'The sense that something is underneath the worry \u2014 something you can\u2019t quite name \u2014 is worth honoring as a question, not as an affliction. The honest next step is a structured reflection on what the worry points at.' };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your evil-eye question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (answers.status === 'loss') return 'closure';
+      if (h === 'unsure') return 'general';
+      if (w === 'understand' || h === 'interpret') return 'free_first';
+      if (w === 'diagnose') return 'free_first';
+      if (w === 'why-bad-luck' || h === 'guidance') return 'tarot_decision';
+      if (w === 'visibility' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'protect' || h === 'insight') return 'psychic';
+      if (w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'evil-eye-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether the evil eye is a cultural concept or a supernatural harm-force \u2014 the honest separation, not a settled claim',
+          'Whether misfortune is being attributed to the evil eye in ways that deserve examination',
+          'Whether the affected-anxiety framing is doing anxiety work, which is the part you can actually change'
+        ],
+        edgeBridge: 'A quiz can read what your evil-eye question is doing for you \u2014 it can\u2019t confirm that you\u2019ve been \u201Chit,\u201D which no framework possesses. A reading framed on what the worry surfaces can offer perspective; it can\u2019t honestly confirm an evil-eye affliction.',
+        ctaText: {
+          'understand:free_first': 'Start with the free framework',
+          'diagnose:free_first': 'Start with the free framework',
+          'why-bad-luck:tarot_decision': 'Get guidance on your next step',
+          'visibility:tarot_relationship': 'Get a read on what it\u2019s pointing at',
+          'protect:psychic': 'Get an outside perspective',
+          'beneath:tarot_deep': 'Get a deeper read on the situation',
+          '*:psychic': 'Get a reading on the pattern',
+          '*:tarot_relationship': 'Get a read on what the worry points at',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:closure': 'Get a reading focused on the loss',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'affected-anxiety-pattern',
+          text: 'when the affected-check has become the day, a reading that confirms an evil-eye hit can quietly become a more expensive way of keeping the worry running. If you book one, frame it on what the worry surfaces \u2014 not on confirming a hit or booking multi-session clearings.'
+        }
+      });
+    }
+  },
+
+
+  'full-moon-ritual': {
+    id: 'full-moon-ritual',
+    title: 'What Is Your Full-Moon Practice Actually Doing?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using the ritual as structured reflection or as energy attribution \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your full-moon practice is actually doing \u2014 reflection, energy attribution, manifestation confirmation, or anxious seeking \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'how_practice',
+        q: 'What does your full-moon practice look like right now?',
+        hint: 'This matters \u2014 the shape of the practice decides what it can honestly claim.',
+        options: [
+          { text: 'A structured reflection on release and intention', detail: 'journaling, what to let go, what to set', score: 'reflect' },
+          { text: 'Symbolic actions I know are meaningful, not literal', detail: 'candle, paper, moonlight as symbols', score: 'symbolic' },
+          { text: 'A charged, energetic process', detail: 'charging crystals, moon water, energy work', score: 'charged' },
+          { text: 'Whatever I feel called to in the moment', detail: 'no fixed structure', score: 'loose' },
+          { text: 'I\u2019m not sure yet \u2014 still finding it', detail: 'not established', score: 'notell' }
+        ]
+      },
+      {
+        id: 'brought',
+        q: 'What brought you to a full-moon practice?',
+        hint: '',
+        options: [
+          { text: 'A need to process or release something', detail: 'reflection, not energy', score: 'process' },
+          { text: 'I was drawn to the idea of lunar energy', detail: 'the energy appealed', score: 'energy-draw' },
+          { text: 'I want to manifest something faster', detail: 'a boost', score: 'manifest-draw' },
+          { text: 'Curiosity, or a friend suggested it', detail: 'low stakes', score: 'curious' },
+          { text: 'I can\u2019t quite say', detail: 'hard to name', score: 'notell' }
+        ]
+      },
+      {
+        id: 'frame',
+        q: 'How do you frame what the ritual actually does?',
+        hint: 'The honest divide \u2014 reflection versus energy activation.',
+        options: [
+          { text: 'It structures my reflection', detail: 'the practice prompts insight', score: 'reflective' },
+          { text: 'The actions are symbolic, and I know it', detail: 'meaning, not mechanism', score: 'symbolic' },
+          { text: 'I\u2019m not sure if it\u2019s symbolic or literal', detail: 'undecided', score: 'mixed' },
+          { text: 'The moon emits energy the ritual uses', detail: 'energy activation', score: 'energy' },
+          { text: 'It charges and activates things energetically', detail: 'crystals, objects, energy work', score: 'charged' },
+          { text: 'I can\u2019t tell what it does', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'feeling',
+        q: 'How do you read feeling different at the full moon?',
+        hint: '',
+        options: [
+          { text: 'I notice it, but it\u2019s attention and culture', detail: 'priming, not lunar force', score: 'notice' },
+          { text: 'I\u2019m curious, but don\u2019t claim a cause', detail: 'open, not certain', score: 'curious' },
+          { text: 'I\u2019m not sure what causes it', detail: 'undecided', score: 'mixed' },
+          { text: 'The moon is influencing me', detail: 'lunar effect', score: 'lunar' },
+          { text: 'I strongly feel the moon acting on me', detail: 'conviction it\u2019s lunar', score: 'strong' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'boost',
+        q: 'Do you read the ritual as boosting manifestation?',
+        hint: '',
+        options: [
+          { text: 'It helps my reflection, nothing more', detail: 'clarity, not a boost', score: 'reflection' },
+          { text: 'Maybe \u2014 open but skeptical', detail: 'unsure', score: 'maybe' },
+          { text: 'I\u2019m not sure either way', detail: 'undecided', score: 'mixed' },
+          { text: 'It gives manifestation a lift', detail: 'a boost via the moon', score: 'boost' },
+          { text: 'It accelerates manifestation', detail: 'confirmation it\u2019s underway', score: 'accelerate' },
+          { text: 'I can\u2019t tell', detail: 'too close', score: 'notell' }
+        ]
+      },
+      {
+        id: 'charging',
+        q: 'How do you treat placing objects in moonlight?',
+        hint: '',
+        options: [
+          { text: 'Symbolic cleansing I find meaningful', detail: 'reflection, not mechanism', score: 'symbolic' },
+          { text: 'An intention-setting act', detail: 'symbolic commitment', score: 'intention' },
+          { text: 'I\u2019m not sure if it\u2019s symbolic or literal', detail: 'undecided', score: 'mixed' },
+          { text: 'The moonlight energetically charges them', detail: 'energy mechanism', score: 'energetic' },
+          { text: 'It\u2019s a real power source for them', detail: 'charging as energy', score: 'power' },
+          { text: 'I can\u2019t tell', detail: 'too close', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What do I actually do at the full moon?', detail: 'the method question', score: 'method' },
+          { text: 'Does the moon really have energy?', detail: 'the energy question', score: 'energy' },
+          { text: 'Does the ritual actually work?', detail: 'the efficacy question', score: 'efficacy' },
+          { text: 'Will it boost my manifestation?', detail: 'the boost question', score: 'manifest' },
+          { text: 'Why do I feel different at the full moon?', detail: 'the experience question', score: 'experience' },
+          { text: 'What am I meant to release this cycle?', detail: 'the release question', score: 'release' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest read of my own practice', detail: 'sorting reflection from story', score: 'interpret' },
+          { text: 'An outside perspective on the reflection', detail: 'a read on what it surfaces', score: 'insight' },
+          { text: 'A view of what the practice is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole pattern', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        frame:    { reflective: 2, symbolic: 1, mixed: 0, energy: -1, charged: -2, notell: null },
+        feeling:  { notice: 2, curious: 1, mixed: 0, lunar: -1, strong: -2, notell: null },
+        boost:    { reflection: 2, maybe: 1, mixed: 0, boost: -1, accelerate: -2, notell: null },
+        charging: { symbolic: 2, intention: 1, mixed: 0, energetic: -1, power: -2, notell: null }
+      };
+      var keys = ['frame', 'feeling', 'boost', 'charging'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.frame !== null && vals.frame <= -1) return 'energy-attribution';
+      if (vals.boost !== null && vals.boost <= -1) return 'manifestation-confirmation';
+      if (vals.feeling !== null && vals.feeling <= -2) return 'anxiety-amplification';
+      if (vals.frame !== null && vals.frame >= 2 &&
+          (vals.boost === null || vals.boost >= 0)) return 'reflective-ritual-practice';
+      if (sum <= -3) return 'energy-attribution';
+      if (vals.boost !== null && vals.boost >= 1) return 'reflective-ritual-practice';
+      if (sum >= 1) return 'reflective-ritual-practice';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-ritual-practice': {
+        path: 'A reflective ritual practice',
+        summary: 'You\u2019re using the full moon as a structured reflective practice.',
+        suggest: function (a) {
+          var s = 'Your answers describe a practice built around reflection \u2014 release, intention, and meaning-making \u2014 rather than energy activation.';
+          if (a.frame === 'reflective') s += ' You frame what the ritual does as structuring your reflection, which is the honest, well-supported use.';
+          if (a.boost === 'reflection') s += ' And you read any benefit as clarity from reflection, not a manifestation boost \u2014 which is what the evidence actually supports.';
+          s += ' The value is the structure: a periodic marker for examining your life. It works whether or not the moon emits energy, because the reflection is real.';
+          return s;
+        },
+        dontTell: 'A reflective practice doesn\u2019t prove the moon has no energy \u2014 the astronomy is real, and the question of lunar influence is simply not well-supported. What the honest read gives you is the mechanism that actually accounts for the benefit: structure, symbolism, and commitment.',
+        watchIntro: 'Over the coming cycles:',
+        watch: function () {
+          return [
+            'Keep the reflective frame \u2014 what has culminated, what to release, what to intend \u2014 and notice whether the insight comes from the reflection rather than the moon.',
+            'Watch for the moment the practice slips from reflection into energy claims; that\u2019s usually where the seeking, and the market for charging, begins.'
+          ];
+        }
+      },
+      'energy-attribution': {
+        path: 'Energy attribution',
+        summary: 'You\u2019re reading the ritual as an energy activation.',
+        suggest: function (a) {
+          var s = 'Your answers lean toward reading the ritual as an energy activation \u2014 the moon emitting or channeling energy the practice uses.';
+          if (a.frame === 'charged' || a.frame === 'energy') s += ' You frame what the ritual does as charging or activating energetically, which is the claim the evidence doesn\u2019t support.';
+          if (a.charging === 'power' || a.charging === 'energetic') s += ' And you treat moonlight as a real power source for objects, which is symbolic, not energetic.';
+          s += ' The honest version keeps the practice \u2014 it works as structured reflection \u2014 while dropping the energy claim the evidence can\u2019t carry. The structure is the mechanism; the moon is the marker.';
+          return s;
+        },
+        dontTell: 'Energy attribution doesn\u2019t mean your practice is worthless \u2014 the ritual can be genuinely meaningful as reflection. What it means is that the energy claim is unsupported, and that the claim is also where sales patterns live: anyone guaranteeing an activation, or selling ongoing \u201Cenergy work,\u201D is offering a certainty nobody possesses.',
+        watchIntro: 'Over the coming cycles:',
+        watch: function () {
+          return [
+            'Try one cycle framed purely as reflection \u2014 release, intention, no energy claim \u2014 and notice whether the meaning survives without it.',
+            'If a reader offers to \u201Cclear\u201D or \u201Cactivate\u201D your practice for a fee, that\u2019s a sales pattern, not a reflection. Walk away from energy-activation guarantees.'
+          ];
+        }
+      },
+      'manifestation-confirmation': {
+        path: 'Manifestation confirmation',
+        summary: 'You\u2019re reading the ritual as a manifestation boost.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading the ritual as a boost to manifestation \u2014 the moon accelerating or confirming an outcome.';
+          if (a.boost === 'accelerate') s += ' You read it as accelerating manifestation, which is the confirmation pattern: the ritual becomes proof the outcome is underway.';
+          if (a.boost === 'boost') s += ' You read it as giving manifestation a lift, which extends the seeking without delivering.';
+          s += ' The honest read: the ritual supports the documented manifestation mechanisms \u2014 goal-clarity, mental contrast, action, self-efficacy \u2014 through reflection. It helps reflection; it doesn\u2019t boost energy. The confirmation pattern tends to extend seeking rather than close it.';
+          return s;
+        },
+        dontTell: 'Manifestation confirmation doesn\u2019t prove you\u2019re wrong to want the outcome \u2014 wanting is human. What it names is a pattern where the ritual stands in for the actual mechanisms, and where each cycle can quietly reset the seeking. The reflection helps; the energy boost isn\u2019t supported.',
+        watchIntro: 'Over the coming cycles:',
+        watch: function () {
+          return [
+            'Engage the documented mechanisms directly \u2014 clarity, contrast, action \u2014 rather than reading the ritual as the boost that confirms the outcome.',
+            'Notice whether the practice closes the wanting or reopens it each cycle; if it reopens, that\u2019s the confirmation pattern doing its quiet work.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'Anxiety amplification',
+        summary: 'The practice is amplifying anxious seeking rather than settling it.',
+        suggest: function (a) {
+          var s = 'Your answers describe a practice organized around feeling the moon acting on you \u2014 a strong conviction of lunar influence that can amplify rather than settle.';
+          if (a.feeling === 'strong') s += ' You strongly feel the moon acting on you, which is the attentional-priming pattern at full volume: once you watch for lunar effects, you find them.';
+          if (a.brought === 'energy-draw' || a.brought === 'manifest-draw') s += ' And you came to the practice seeking energy or a boost, which can deepen the scanning.';
+          s += ' The honest read: the feeling is real, but the cause is largely attention and culture, not lunar force. A practice built on watching for the moon\u2019s effects can become a more anxious way of monitoring your life.';
+          return s;
+        },
+        dontTell: 'Anxiety amplification doesn\u2019t mean the feeling is fake \u2014 you genuinely feel different. What it names is a loop where scanning for lunar influence keeps the attention, and the anxiety, running. A licensed therapist is the more honest match than a reading when the pattern touches daily life.',
+        watchIntro: 'Over the coming cycles:',
+        watch: function () {
+          return [
+            'Try a cycle without scanning for lunar effects \u2014 live the reflection, skip the watch-for-signs \u2014 and notice whether the feeling eases.',
+            'If the anxiety or the seeking is touching your daily life, a licensed therapist fits better than any reading or ritual. That\u2019s not a failure of the practice; it\u2019s the right tool.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your practice into reflective use, energy attribution, or anxious seeking, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of energy or manifestation tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four cycles of ordinary practice \u2014 reflecting, not scanning for signs \u2014 watching only the four signals: reflection versus energy, feeling, manifestation, and charging.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a few cycles, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      var x = a;
+      if (x.frame === 'charged' || x.frame === 'energy' || pattern === 'energy-attribution') {
+        return {
+          key: 'energy-claim',
+          label: 'What may be underneath: the energy claim',
+          text: 'The wish to read the ritual as an energy activation is understandable \u2014 it would make the practice more powerful. The problem is that the claim isn\u2019t supported, and it\u2019s also where sales patterns live. The honest version keeps the reflection and drops the claim the evidence can\u2019t carry.'
+        };
+      }
+      if (x.boost === 'accelerate' || x.boost === 'boost' || pattern === 'manifestation-confirmation') {
+        return {
+          key: 'confirmation-pattern',
+          label: 'What may be underneath: the confirmation pattern',
+          text: 'Reading the ritual as a manifestation boost is the confirmation pattern \u2014 the practice becomes proof the outcome is underway, which extends seeking without delivering. The reflection helps; the energy boost isn\u2019t supported. Engaging the documented mechanisms directly closes more than a lunar boost ever could.'
+        };
+      }
+      if (x.feeling === 'strong' || x.feeling === 'lunar' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'attentional-priming',
+          label: 'What may be underneath: attentional priming',
+          text: 'Feeling different at the full moon is largely attention and culture \u2014 once you know it\u2019s the full moon, you watch for differences and find them. The feeling is real; the cause is attentional, not lunar. A practice built on watching for the moon\u2019s effects can quietly amplify anxiety rather than settle it.'
+        };
+      }
+      if (x.brought === 'process' && x.want === 'method') {
+        return {
+          key: 'reflection-arrival',
+          label: 'What may be underneath: the reflection arrival',
+          text: 'You came to the practice to process and release, and your question is about method \u2014 the honest, well-supported use. The value is the structure: a periodic marker for examining your life. The moon is the marker; the reflection is the mechanism.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your full-moon practice', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'method' || w === 'energy' || w === 'efficacy' || w === 'experience') return 'free_first';
+      if (w === 'manifest') return 'free_first';
+      if (w === 'release') return 'closure';
+      if (h === 'interpret') return 'free_first';
+      if (h === 'insight') return 'psychic';
+      if (h === 'dynamic') return 'tarot_relationship';
+      if (h === 'deeper' || w === 'beneath') return 'tarot_deep';
+      if (h === 'guidance') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'full-moon-ritual', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the ritual as structured reflection or as an energy activation \u2014 the distinction that decides what the practice can honestly claim',
+          'Whether you\u2019re reading the ritual as a manifestation boost, which is the confirmation pattern rather than a mechanism',
+          'Whether the practice is settling you or amplifying anxious seeking \u2014 which is the part you can actually work with'
+        ],
+        edgeBridge: 'A quiz can read what your practice is doing \u2014 it can\u2019t confirm that the ritual charged something or activated lunar power, which is an unsupported claim. A reading can frame the reflection; it cannot honestly promise an energy activation.',
+        ctaText: {
+          'reflective-ritual-practice:free_first': 'Start with the free framework',
+          'energy-attribution:free_first': 'Start with the free framework',
+          'manifestation-confirmation:free_first': 'Start with the free framework',
+          'anxiety-amplification:free_first': 'Start with the free framework',
+          'not-enough-evidence:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reading on what your practice surfaces',
+          '*:tarot_relationship': 'Get a reflective tarot spread',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the pattern',
+          '*:closure': 'Get a reading framed on release',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'energy-attribution',
+          text: 'when energy attribution is operating, a reader who guarantees an activation or sells ongoing \u201Cenergy work\u201D can quietly turn the practice into a recurring purchase. If you book one, frame it on the reflection \u2014 not on lunar charging.'
+        }
+      });
+    }
+  },
+
+
+  'how-to-get-over-someone': {
+    id: 'how-to-get-over-someone',
+    title: 'Where Is Your Recovery Actually At?',
+    launchSub: 'Eight questions, about two minutes. It starts with your situation \u2014 how long it\u2019s been and how it ended \u2014 then reads which phase you\u2019re in and what would move it versus reset it, and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of the pattern your recovery is in \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'stage',
+        q: 'How long has it been since the relationship ended \u2014 or since things changed?',
+        hint: 'The same feeling means different things in week two and month six.',
+        options: [
+          { text: 'Days to a few weeks', detail: 'the early stretch', score: 'weeks' },
+          { text: 'A few months', detail: 'past the first stretch', score: 'months' },
+          { text: 'Six months to a year', detail: 'a longer separation', score: 'halfyear' },
+          { text: 'Over a year', detail: 'well past it', score: 'overyear' },
+          { text: 'It hasn\u2019t really ended', detail: 'still in contact or unresolved', score: 'ongoing' }
+        ]
+      },
+      {
+        id: 'ending',
+        q: 'How did it end \u2014 or what\u2019s the current state?',
+        hint: '',
+        options: [
+          { text: 'Mutual or gentle', detail: 'we both saw it coming', score: 'mutual' },
+          { text: 'They ended it or pulled away', detail: 'the choice wasn\u2019t mine', score: 'theirs' },
+          { text: 'I ended it', detail: 'I made the call', score: 'mine' },
+          { text: 'Sudden, unclear, or a betrayal', detail: 'no clean ending', score: 'sudden' },
+          { text: 'It\u2019s still dragging', detail: 'not clearly over', score: 'dragging' }
+        ]
+      },
+      {
+        id: 'intrusion',
+        q: 'How often do thoughts of them intrude on your day?',
+        hint: '',
+        options: [
+          { text: 'Most of the day', detail: 'hard to set aside', score: 'constant' },
+          { text: 'Most days', detail: 'still very present', score: 'daily' },
+          { text: 'In waves, with clearer gaps', detail: 'some days are easier', score: 'waves' },
+          { text: 'Occasionally', detail: 'surfaces, then passes', score: 'occasional' },
+          { text: 'Rarely now', detail: 'mostly quiet', score: 'rare' },
+          { text: 'Hard to say', detail: 'I can\u2019t track it', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'cue',
+        q: 'When you feel the pull, what do you actually do?',
+        hint: 'Each check or contact re-triggers the attachment and restarts withdrawal.',
+        options: [
+          { text: 'I check their social media or reach out', detail: 'more than I\u2019d like', score: 'often' },
+          { text: 'Sometimes, then regret it', detail: 'a slide, not a rule', score: 'sometimes' },
+          { text: 'I mostly keep my distance', detail: 'muted, blocked, or avoided', score: 'managed' },
+          { text: 'I have no access or don\u2019t look', detail: 'the cues are gone', score: 'none' },
+          { text: 'It varies too much to say', detail: 'no steady pattern', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'idealization',
+        q: 'When you think about them now, what stands out?',
+        hint: 'Idealization is the projection \u2014 it can outlast the real person.',
+        options: [
+          { text: 'Mostly the good, larger than life', detail: 'the best version of them', score: 'strong' },
+          { text: 'Good, but I\u2019m noticing the flaws too', detail: 'the image is softening', score: 'noticing' },
+          { text: 'A real mix', detail: 'good and hard together', score: 'mixed' },
+          { text: 'More the actual person, limits included', detail: 'coming down to earth', score: 'fading' },
+          { text: 'Mostly who they really were', detail: 'the projection is gone', score: 'gone' },
+          { text: 'I\u2019m not sure what I feel', detail: 'can\u2019t name it', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'unfinished',
+        q: 'Is there a specific thing you never got to say or resolve?',
+        hint: 'An unsaid thing can keep a loop running long after the person is gone.',
+        options: [
+          { text: 'Yes, it surfaces all the time', detail: 'the same unsaid thing', score: 'constant' },
+          { text: 'Often, especially at night', detail: 'it keeps returning', score: 'often' },
+          { text: 'Sometimes, when triggered', detail: 'it comes and goes', score: 'sometimes' },
+          { text: 'I\u2019ve said or set it down', detail: 'it\u2019s been put to rest', score: 'resolved' },
+          { text: 'Nothing specific', detail: 'no open loop', score: 'none' },
+          { text: 'I can\u2019t tell', detail: 'not sure it\u2019s that', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want right now?',
+        hint: 'Be honest \u2014 this decides what actually helps next.',
+        options: [
+          { text: 'For the pain to ease', detail: 'I just want relief', score: 'stoppain' },
+          { text: 'To understand the process', detail: 'why it\u2019s like this', score: 'understand' },
+          { text: 'To be over it', detail: 'I think I should be by now', score: 'overit' },
+          { text: 'A sense of closure', detail: 'to put it down', score: 'closure' },
+          { text: 'To understand what it meant', detail: 'the bigger picture', score: 'meaning' },
+          { text: 'I just want clarity', detail: 'whatever that is', score: 'just' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'Practical ways to stop the loop', detail: 'what I can actually do', score: 'behavior' },
+          { text: 'A perspective on what it meant', detail: 'an outside view', score: 'perspective' },
+          { text: 'Help understanding where I am', detail: 'the phase, not just the feeling', score: 'process' },
+          { text: 'Someone to talk it through with', detail: 'support, not a fix', score: 'support' },
+          { text: 'I\u2019m not sure', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var S = {
+        intrusion:    { constant: -2, daily: -1, waves: 0, occasional: 1, rare: 2, unsure: null },
+        cue:          { often: -2, sometimes: -1, managed: 1, none: 2, unsure: null },
+        idealization: { strong: -2, noticing: -1, mixed: 0, fading: 1, gone: 2, unsure: null },
+        unfinished:   { constant: -2, often: -1, sometimes: 0, resolved: 1, none: 2, unsure: null }
+      };
+      var keys = ['intrusion', 'cue', 'idealization', 'unfinished'];
+      var sum = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][a[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; continue; }
+        sum += v;
+      }
+      if ((a.stage === 'weeks' || a.stage === 'ongoing') &&
+          (a.intrusion === 'constant' || a.intrusion === 'daily')) return 'acute-withdrawal';
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (a.idealization === 'strong' || (a.idealization === 'noticing' && sum <= 0)) return 'idealization-intact';
+      if (sum >= 4) return 'integration-residue';
+      if (sum >= -1) return 'grief-in-process';
+      return 'idealization-intact';
+    },
+
+    results: {
+      'acute-withdrawal': {
+        path: 'Acute withdrawal \u2014 the early work',
+        summary: 'The attachment system is disengaging, and the disengagement is felt. Intrusive thoughts and waves of craving are the process doing its work, not a sign you\u2019re failing at it.',
+        suggest: function (a) {
+          var s = 'What you\u2019re describing fits the early withdrawal phase \u2014 the system that was oriented toward this person is coming apart, and the coming-apart is felt as craving and intrusion.';
+          if (a.stage === 'weeks') s += ' At days to a few weeks out, this intensity is the ordinary shape of the process, not a measure of how well you\u2019re doing.';
+          if (a.stage === 'ongoing') s += ' Because the connection isn\u2019t cleanly ended, the attachment keeps getting re-cued, which extends exactly this phase.';
+          if (a.intrusion === 'constant' || a.intrusion === 'daily') s += ' Thoughts arriving most of the day is how a forming attachment disengages \u2014 hard, and also normal.';
+          s += ' The one lever mostly in your hands is cue exposure: each check or contact restarts the clock.';
+          return s;
+        },
+        dontTell: 'This phase can\u2019t be hurried, and no reading, ritual, or quiz can repeal its pace. It also can\u2019t tell you how long yours will run \u2014 only that the intensity here is not evidence something is wrong. If the pain is prolonged, interfering with daily life, or joined by hopelessness, a licensed therapist is the more reliable form of support than any spiritual reading.',
+        watchIntro: 'What actually helps in this stretch:',
+        watch: function () {
+          return [
+            'Manage the cues you can \u2014 mute, block, or step back from the places that re-trigger the pull. This removes the resets so the underlying process can run; it doesn\u2019t erase the feelings.',
+            'Let the waves come without fighting them. Accepting the craving tends to shorten it; arguing with it tends to lengthen it. Protect sleep and basics \u2014 that\u2019s the real work of this phase.'
+          ];
+        }
+      },
+      'idealization-intact': {
+        path: 'The idealized image is still setting the standard',
+        summary: 'The projection of who they were still outweighs who they actually were. That\u2019s why comparisons favor them and why closure can feel permanently out of reach.',
+        suggest: function (a) {
+          var s = 'Your answers point to an image of this person that\u2019s still larger than the real one.';
+          if (a.idealization === 'strong') s += ' You described them mostly in the best light, bigger than life.';
+          if (a.idealization === 'noticing') s += ' You\u2019re starting to notice the flaws, but the glow still leads.';
+          if (a.unfinished === 'constant' || a.unfinished === 'often') s += ' And a specific unsaid thing keeps the loop turning, so the image never gets a chance to settle.';
+          s += ' This is de-idealization work \u2014 separating who they actually were from the version attachment built \u2014 and it has little to do with willpower.';
+          return s;
+        },
+        dontTell: 'Revising the image isn\u2019t erasing the good or proving they meant nothing \u2014 it means the picture is becoming honest. And it can\u2019t tell you whether they were \u201Cthe one\u201D; the standard you\u2019re measuring against is the projection, not the person. A reading about whether you\u2019ll reconnect tends to feed this exact image rather than revise it.',
+        watchIntro: 'What moves this:',
+        watch: function () {
+          return [
+            'Get specific about who they actually were \u2014 the mismatches, the ordinary limits, the reasons it ended \u2014 on paper, separate from the glow.',
+            'Notice when you compare someone new to them. The comparison isn\u2019t telling you the ex was better; it\u2019s telling you the image hasn\u2019t been revised yet.'
+          ];
+        }
+      },
+      'grief-in-process': {
+        path: 'Grief in process',
+        summary: 'Waves with gaps. The intensity is easing and the person surfaces in triggers and dreams \u2014 the mind is integrating the loss into the story of your life.',
+        suggest: function (a) {
+          var s = 'Your answers describe a process that\u2019s actually moving: the constant charge is giving way to waves with clearer gaps.';
+          if (a.intrusion === 'waves') s += ' Thoughts arriving in waves, then lifting, is the signature of grief moving through rather than stalling.';
+          if (a.cue === 'managed' || a.cue === 'none') s += ' You\u2019re keeping the cues down, which lets the underlying processing run instead of restarting.';
+          if (a.stage === 'months') s += ' A few months in, this arc \u2014 better in stretches, harder in others \u2014 is the shape healthy recovery takes.';
+          s += ' The person is becoming memory rather than preoccupation.';
+          return s;
+        },
+        dontTell: 'Moving-through doesn\u2019t mean the hard days are over \u2014 the arc trends better, it doesn\u2019t move in a straight line, and harder days still arrive. It also can\u2019t promise a date by which the person will stop mattering; integration is the goal, not amnesia. If months in the pain is constant with no real gaps and is interfering with daily life, that\u2019s a different pattern \u2014 one a licensed therapist is better placed to help with than any reading.',
+        watchIntro: 'What to keep watching:',
+        watch: function () {
+          return [
+            'Whether the gaps between waves are slowly widening. That trend \u2014 not any single good or bad day \u2014 is the signal the process is doing its work.',
+            'Whether an unsaid thing or an unrevised image is quietly keeping the loop alive. If so, the moving-through can stall; naming it is what frees it.'
+          ];
+        }
+      },
+      'integration-residue': {
+        path: 'Integration, with residue',
+        summary: 'The person exists in memory without hijacking your system. Occasional thoughts and triggers remain \u2014 integration, not amnesia.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the process has largely done its work.';
+          if (a.intrusion === 'rare' || a.intrusion === 'occasional') s += ' Thoughts of them are occasional now, not constant \u2014 they surface and pass.';
+          if (a.idealization === 'gone' || a.idealization === 'fading') s += ' The image has come down to who they actually were, projection included.';
+          if (a.cue === 'none' || a.cue === 'managed') s += ' The cues no longer run the show.';
+          s += ' The relationship has become a chapter rather than an open wound.';
+          return s;
+        },
+        dontTell: 'Integration isn\u2019t amnesia. You may still think of them, be moved by certain memories, or notice an anniversary \u2014 and that doesn\u2019t mean you\u2019ve relapsed or that the work was undone. It also can\u2019t promise you\u2019ll never be affected again; it promises the thought no longer hijacks the system. Echoes without relapse are the normal end state, not a setback.',
+        watchIntro: 'What to notice going forward:',
+        watch: function () {
+          return [
+            'When a memory carries a charge, let it pass without treating it as a step backward. Residue is ordinary; only a sustained return to the acute phase would be a signal.',
+            'If a specific person or chapter starts to dominate your thinking again, check whether a fresh cue or an old unsaid thing reopened the loop \u2014 and close it at the behavioral level.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough pattern yet',
+        summary: 'Too many unsure answers to read where you are \u2014 which is information too. The shape of recovery isn\u2019t in yet.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t say\u201D \u2014 and that\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable pattern to place you in a phase, which usually means one of two things: the process is genuinely too new to read, or you\u2019re standing too close to see its shape. Either way, hunting for one more sign tends to produce noise.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in yet, and at this stage every small gesture gets recruited as evidence for whichever answer you\u2019re already leaning toward. It also can\u2019t tell you a timeline \u2014 but if the pain is prolonged or interfering with daily life, that\u2019s a reason to reach a licensed therapist, not to keep decoding.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary time, watching only two things: how often the thoughts arrive, and whether you\u2019re feeding the cues or letting them fade.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and the question often simplifies as the acute charge fades.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      if ((a.ending === 'sudden' || a.stage === 'ongoing' || a.want === 'closure') &&
+          (a.unfinished === 'constant' || a.unfinished === 'often' || a.unfinished === 'sometimes')) {
+        return {
+          key: 'unfinished',
+          label: 'What may be underneath: the unfinished-loop question',
+          text: 'When something ends without a clean resolution \u2014 sudden, unclear, or still dragging \u2014 the mind tends to keep the question open, and a specific unsaid thing can run on a loop. That loop can look like still being attached to the person when it\u2019s really about a sentence that was never said. If that lands, the useful move is to put the unsaid thing down \u2014 on paper if not to them \u2014 rather than keep it as an open thread.'
+        };
+      }
+      if (a.want === 'overit') {
+        return {
+          key: 'timeline',
+          label: 'What may be underneath: the timeline question',
+          text: '\u201CI should be over it by now\u201D is often a comparison to an imagined timeline other people seem to meet. The visible recovery of others is rarely the whole story, and timelines vary with how central the relationship was, how it ended, and your own history. An unclear or slow process isn\u2019t proof something is wrong with you \u2014 it\u2019s the ordinary shape of a loss most people hide.'
+        };
+      }
+      if (a.idealization === 'strong' &&
+          (a.stage === 'months' || a.stage === 'halfyear' || a.stage === 'overyear')) {
+        return {
+          key: 'projection',
+          label: 'What may be underneath: the projection question',
+          text: 'You described the image of them as still larger than life, months or years on. That can quietly become its own attachment \u2014 not to the real person, but to the version attachment built. The comparison that keeps favoring them isn\u2019t telling you they were better; it\u2019s telling you the image hasn\u2019t been revised. That revision is cognitive work, and it has little to do with willpower.'
+        };
+      }
+      if (a.want === 'meaning' || (a.want === 'just' && a.help === 'perspective')) {
+        return {
+          key: 'meaning',
+          label: 'What may be underneath: the meaning question',
+          text: 'You said you want to understand what this connection meant \u2014 which suggests the answer you need isn\u2019t a timeline or a technique, it\u2019s a frame. That\u2019s closer to what reflective practices are actually built for: not verdicts, but a structured way to see a chapter you\u2019re standing too close to. The behavioral work of getting over someone stays yours; a reading can only offer a perspective to think with.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.lovePracticeSet('how-to-get-over-someone'),
+    matchPractice: window.loveMatchPractice,
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'how-to-get-over-someone', {
+        resultV2: true,
+        canTell: [
+          'Which phase your recovery is actually in \u2014 withdrawal, processing, or integration',
+          'Whether idealization is still setting the standard, or the image is being revised',
+          'What would genuinely move the process versus what would only reset it'
+        ],
+        edgeBridge: 'A quiz can organize your own experience \u2014 it can\u2019t speed grief past its natural rate, or tell you a date by which the person will stop mattering. That part is the process itself, and the one behavior it can name is cue exposure: each check or contact restarts withdrawal. If the pain is prolonged, interfering with daily life, or joined by hopelessness, a licensed therapist offers more reliable support than any reading.',
+        ctaText: {
+          'meaning:psychic': 'Get a reading on what the connection carried',
+          'perspective:psychic': 'Get an outside perspective on the relationship',
+          'process:tarot': 'Get a structured reflection on where you are',
+          'stoppain:psychic': 'Get a reading framed on meaning, not reunion',
+          'closure:tarot': 'Get a reading focused on closure',
+          '*:psychic': 'Get a reading framed on meaning, not reunion',
+          '*:tarot': 'Get a reflective reading on the relationship',
+          '*:general': 'Explore what fits your question'
+        },
+        negativePatternTip: {
+          pattern: 'idealization-intact',
+          text: 'when the idealized image is this intact, a reading about whether you\u2019ll reconnect can quietly become a more expensive way of keeping the projection alive. If you book one, frame it on what the connection meant \u2014 not on reunion.'
+        }
+      });
+    }
+  },
+
+
+  'how-to-know-your-past-life': {
+    id: 'how-to-know-your-past-life',
+    title: 'What Is Your Past-Life Question Really Asking?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re seeking a recovered fact or narrative meaning, whether you\u2019re reading vividness as historicity, and whether the past-life frame is extending a present pattern \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of how you\u2019re approaching the past-life question \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'experience',
+        q: 'What experience brought the past-life question up for you?',
+        hint: 'This matters \u2014 the kind of experience shapes how the same question reads.',
+        options: [
+          { text: 'A vivid regression, meditation, or vision', detail: 'imagery or a felt scene', score: 'regression' },
+          { text: 'A strong pull toward a place, era, or culture', detail: 'a felt-connection', score: 'affinity' },
+          { text: 'A relationship that feels like we knew each other before', detail: 'a sense of recognition', score: 'relationship' },
+          { text: 'A present pattern I keep attributing to a past life', detail: 'a karmic framing', score: 'karmic' },
+          { text: 'A reader or reading told me about a past life', detail: 'the idea came from a reading', score: 'reader-told' },
+          { text: 'A dream, or a sudden felt-sense I can\u2019t explain', detail: 'an unprompted experience', score: 'dream' },
+          { text: 'I can\u2019t quite name what started it', detail: 'the trigger is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cpast life\u201D idea in your head?',
+        hint: '',
+        options: [
+          { text: 'A regression or meditation experience', detail: 'the experience itself', score: 'regression' },
+          { text: 'A reader or psychic told me', detail: 'the idea came externally', score: 'reader' },
+          { text: 'A gut feeling I can\u2019t explain', detail: 'intuition, no single event', score: 'intuition' },
+          { text: 'Something I read online', detail: 'an article, a quiz, a post', score: 'online' },
+          { text: 'A sense of recognition with someone', detail: 'felt knowing', score: 'recognition' },
+          { text: 'No single thing \u2014 it built over time', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'recovery',
+        q: 'When you picture knowing your past life, what is the real goal?',
+        hint: 'The recovery question has no honest answer in the form asked; the meaning question does.',
+        options: [
+          { text: 'Recovering a specific historical identity', detail: 'who I was, as fact', score: 'recover' },
+          { text: 'Confirming reincarnation is literally true', detail: 'the ontological question', score: 'confirm' },
+          { text: 'Seeing whether a present pattern is past-life karma', detail: 'a cause question', score: 'karmic' },
+          { text: 'Understanding a felt-connection to someone or somewhere', detail: 'an attribution question', score: 'attribution' },
+          { text: 'Using the narrative as self-understanding', detail: 'meaning-making', score: 'meaning' },
+          { text: 'I can\u2019t tell what the goal is', detail: 'too close to name', score: 'notell' }
+        ]
+      },
+      {
+        id: 'literal',
+        q: 'How literally do you take the narrative as fact?',
+        hint: 'The metaphor works whether or not the literal claim holds.',
+        options: [
+          { text: 'It is a recovered historical memory, no doubt', detail: 'fully literal', score: 'literal' },
+          { text: 'Mostly literal \u2014 I trust the details', detail: 'leaning literal', score: 'mostly' },
+          { text: 'Both literal and metaphor, leaning literal', detail: 'mixed, literal-leaning', score: 'mixed' },
+          { text: 'Mostly metaphor \u2014 useful either way', detail: 'leaning metaphor', score: 'metaphor' },
+          { text: 'Purely metaphor \u2014 it is narrative material', detail: 'fully metaphor', score: 'pure' },
+          { text: 'I can\u2019t tell where I land', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'historicity',
+        q: 'When the imagery feels vivid, what does that tell you?',
+        hint: 'Vividness and specificity don\u2019t establish historicity \u2014 constructed memories can be equally vivid.',
+        options: [
+          { text: 'Vividness proves it really happened', detail: 'felt-veracity as proof', score: 'vivid-prove' },
+          { text: 'Vividness makes me trust it more', detail: 'felt-veracity as evidence', score: 'vivid-trust' },
+          { text: 'Vividness is interesting but not proof', detail: 'neutral on fact', score: 'vivid-neutral' },
+          { text: 'I separate vividness from whether it is historical', detail: 'source-monitoring', score: 'separate' },
+          { text: 'I don\u2019t read vividness as evidence of fact', detail: 'not evidence', score: 'not-evidence' },
+          { text: 'I can\u2019t tell how to weigh vividness', detail: 'unsettled', score: 'notell' }
+        ]
+      },
+      {
+        id: 'avoidance',
+        q: 'Has the past-life frame changed how you handle a present pattern?',
+        hint: 'Attributing a present pattern to a past life can extend avoidance of present-tense work.',
+        options: [
+          { text: 'Yes \u2014 I have paused present action; it is a past-life lesson', detail: 'deferring to the frame', score: 'defer' },
+          { text: 'Somewhat \u2014 I lean on the frame instead of acting', detail: 'leaning on it', score: 'lean' },
+          { text: 'A bit \u2014 but I am still engaging the present', detail: 'mostly present', score: 'bit' },
+          { text: 'No \u2014 I work the present pattern directly', detail: 'present-tense engagement', score: 'present' },
+          { text: 'The frame isn\u2019t about a present problem', detail: 'not avoidance', score: 'unrelated' },
+          { text: 'I can\u2019t tell if it is extending anything', detail: 'unsettled', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Who was I in a past life?', detail: 'the recovery question', score: 'identity' },
+          { text: 'Are past lives real?', detail: 'the ontological question', score: 'ontology' },
+          { text: 'Why do I feel drawn to a place or person?', detail: 'the attribution question', score: 'attribution' },
+          { text: 'Is a past life affecting me now?', detail: 'the karmic question', score: 'karmic' },
+          { text: 'What does this narrative mean for me?', detail: 'the meaning question', score: 'meaning' },
+          { text: 'What is really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting narrative from claim', score: 'interpret' },
+          { text: 'An outside perspective on the narrative', detail: 'a read on the themes', score: 'insight' },
+          { text: 'A view of what the narrative is pointing at', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        recovery:    { recover: -2, confirm: -1, karmic: 0, attribution: 1, meaning: 2, notell: null },
+        literal:     { literal: -2, mostly: -1, mixed: 0, metaphor: 1, pure: 2, notell: null },
+        historicity: { 'vivid-prove': -2, 'vivid-trust': -1, 'vivid-neutral': 0, separate: 1, 'not-evidence': 2, notell: null },
+        avoidance:   { defer: -2, lean: -1, bit: 0, present: 1, unrelated: 2, notell: null }
+      };
+      var keys = ['recovery', 'literal', 'historicity', 'avoidance'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.recovery !== null && vals.recovery <= -2) return 'literal-belief';
+      if (vals.literal !== null && vals.literal <= -2 && (vals.recovery === null || vals.recovery <= 0)) return 'literal-belief';
+      if (sum <= -3) return 'literal-belief';
+      if ((answers.experience === 'relationship' || answers.trigger === 'recognition') && !(vals.literal !== null && vals.literal <= -1)) return 'relationship-fate';
+      if (vals.recovery !== null && vals.recovery >= 2 && (vals.literal === null || vals.literal >= 0)) return 'meaning-making';
+      if (vals.literal !== null && vals.literal >= 2 && (vals.recovery === null || vals.recovery >= 0)) return 'meaning-making';
+      if (sum >= 1) return 'narrative-self-exploration';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'literal-belief': {
+        path: 'A literal-belief pattern',
+        summary: 'The narrative is being treated as a recovered historical fact.',
+        suggest: function (a) {
+          var s = 'Your answers treat the past-life narrative as a recovered historical fact rather than a constructed story \u2014 which is the one claim the methods cannot honestly support.';
+          if (a.recovery === 'recover' || a.recovery === 'confirm') s += ' The goal you named is a specific or literal identity, which the methods can surface imagery for but cannot verify as history.';
+          if (a.literal === 'literal' || a.literal === 'mostly') s += ' And you take the narrative largely at face value, which is where the fragility lives: the metaphor works without the literal claim, and requiring it makes the whole practice depend on something unverifiable.';
+          if (a.experience === 'reader-told' || a.trigger === 'reader') s += ' The idea arrived through a reading, which is the context where a confirmed past identity is most often sold \u2014 and the least reliable context for it.';
+          s += ' The honest version uses the narrative as material for self-understanding without requiring it to be literal, because the meaning doesn\u2019t depend on the fact.';
+          return s;
+        },
+        dontTell: 'A literal-belief pattern doesn\u2019t prove the past life isn\u2019t real \u2014 reincarnation isn\u2019t strictly disproven, and the felt-veracity of a vivid narrative is real to you. What it does is name that the methods cannot verify the narrative as fact, and that anyone who confirms a specific past identity with certainty is offering a projection, not recovered history.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice whether vividness is doing the work of evidence \u2014 a constructed memory can be as vivid as a real one, so the feeling of \u201Cthis happened\u201D isn\u2019t the test.',
+            'If you book a reading, frame it on the narrative\u2019s themes, not on confirming an identity \u2014 and walk away from any reader who guarantees a past life or names karmic blockages needing clearing.'
+          ];
+        }
+      },
+      'relationship-fate': {
+        path: 'A relationship-fate seeking pattern',
+        summary: 'The past-life frame is being used to seek significance for a present connection.',
+        suggest: function (a) {
+          var s = 'Your answers point at a present connection you experience as fated \u2014 a sense of having known this person before \u2014 which is one of the most common shapes this question takes.';
+          if (a.experience === 'relationship' || a.trigger === 'recognition') s += ' The recognition arrived through the relationship itself, not through a method recovering a fact.';
+          if (a.recovery === 'attribution' || a.want === 'attribution') s += ' And what you actually want is to understand the pull, which is the tractable part \u2014 it can be genuine resonance, or the significance-seeking pattern, or the ordinary intensity of early attachment.';
+          s += ' The honest read is to engage the present connection in its own terms rather than through the past-life frame, which can extend a relationship pattern instead of clarifying it.';
+          return s;
+        },
+        dontTell: 'A relationship-fate pattern doesn\u2019t prove the connection isn\u2019t meaningful, or that a past-life bond is impossible \u2014 the present connection deserves your attention either way. What it does is name that the past-life frame is a way of seeking significance, and that the present relationship is worth engaging directly rather than through a frame the evidence can\u2019t support.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Engage the present connection on its own terms \u2014 what it asks of you, what it surfaces in you \u2014 rather than through the question of whether you knew each other before.',
+            'If the past-life frame keeps returning as the main way you make sense of the bond, that return is information about the seeking, not about a previous life.'
+          ];
+        }
+      },
+      'narrative-self-exploration': {
+        path: 'Narrative self-exploration',
+        summary: 'The narrative is being engaged as real material, without requiring it to be literal.',
+        suggest: function (a) {
+          var s = 'Your answers describe someone engaging the past-life narrative as material \u2014 vivid, interesting, worth exploring \u2014 without pinning your peace on it being a literal fact.';
+          if (a.experience === 'regression' || a.experience === 'dream') s += ' The experience that started it was a vivid one, and you\u2019re treating the imagery as something to work with rather than as a recovered record.';
+          if (a.literal === 'metaphor' || a.literal === 'mixed') s += ' And you hold the literal claim lightly, which is where the practice is most robust \u2014 the metaphor functions whether or not the fact holds.';
+          if (a.avoidance === 'present' || a.avoidance === 'unrelated') s += ' The frame isn\u2019t deferring present-tense work, which keeps it from hardening into avoidance.';
+          s += ' This is the shape the methods actually serve: narrative material you can use for self-understanding.';
+          return s;
+        },
+        dontTell: 'Narrative self-exploration doesn\u2019t prove the narrative is a recovered fact \u2014 it isn\u2019t claiming that, and it doesn\u2019t need to. What it does is name that the material is psychologically real and usable as meaning, and that the vividness you experienced is genuine whether or not its source is historical.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Work the narrative\u2019s themes as self-understanding \u2014 what it surfaces about your present patterns, fears, and longings \u2014 rather than hunting for the historical \u201Cwho.\u201D',
+            'Whether the frame stays useful or starts standing in for present-tense action; the line between exploration and avoidance is whether you\u2019re still living your life.'
+          ];
+        }
+      },
+      'meaning-making': {
+        path: 'Meaning-making',
+        summary: 'The narrative is being used as self-understanding, and that is the tractable ask.',
+        suggest: function (a) {
+          var s = 'Your answers describe the most tractable shape this question takes: using the past-life narrative as self-understanding rather than as a fact to recover.';
+          if (a.recovery === 'meaning') s += ' You named meaning as the goal, which is the one the methods can honestly deliver \u2014 the narrative works as meaning whether or not it\u2019s literal.';
+          if (a.literal === 'pure' || a.literal === 'metaphor') s += ' And you hold it as metaphor, which is the more robust frame because it doesn\u2019t depend on a claim the evidence doesn\u2019t support.';
+          if (a.avoidance === 'present') s += ' The frame isn\u2019t standing in for present-tense work, which keeps the meaning from becoming avoidance.';
+          s += ' This is the arrival the honest version points at: the material is real, and the meaning is yours to make.';
+          return s;
+        },
+        dontTell: 'Meaning-making doesn\u2019t prove the literal claim is false \u2014 it simply doesn\u2019t require it, which is the more honest and more durable position. The narrative can function as genuine self-understanding whether or not it is a recovered memory, and the metaphor works either way.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Engage the narrative\u2019s themes as present-tense self-understanding \u2014 the patterns, questions, and resonances it surfaces in your actual life.',
+            'Whether the meaning keeps opening something, or starts repeating without movement \u2014 when it repeats, that\u2019s a sign to set the frame down and live.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your approach into literal belief, meaning-making, or relationship-fate seeking, which usually means one of two things: the question is genuinely new, or you\u2019re standing too close to read its shape without the scanning that would make everything louder.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a past life tends to produce noise: every vivid image gets recruited as evidence for whichever reading you\u2019re already leaning toward, and the literal claim stays unverifiable either way.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary reflection \u2014 living, not scanning for signs \u2014 watching only the four dimensions: recovery vs meaning, metaphor vs literal, vividness vs historicity, and whether the frame extends a present pattern.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has clarified in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'identity' || a.recovery === 'recover') {
+        return {
+          key: 'recovery-question',
+          label: 'What may be underneath: the recovery question',
+          text: 'The wish to recover a specific past identity is the most directly monetized ask in this domain \u2014 and the structural problem is that no method can verify the narrative it produces as a historical fact rather than a constructed story. Vividness and specificity don\u2019t establish historicity; regression in particular is documented to produce confabulation. The honest reframe is to use the narrative as material for self-understanding, which works whether or not the literal fact holds.'
+        };
+      }
+      if (a.experience === 'karmic' || a.want === 'karmic' || a.avoidance === 'defer') {
+        return {
+          key: 'present-pattern-avoidance',
+          label: 'What may be underneath: a present pattern being deferred',
+          text: 'Attributing a present pattern to a past life can be a way of deferring present-tense work \u2014 if the pattern is \u201Ca past-life lesson,\u201D the present-tense response (therapy, action, change) can feel less urgent, which can extend the pattern rather than resolving it. If this question is connected to distress, dissociation, or patterns affecting your daily life, a licensed therapist offers a more appropriate and reliable form of support than any spiritual reading, and regression specifically can produce material that benefits from clinical grounding.'
+        };
+      }
+      if (a.experience === 'relationship' || a.trigger === 'recognition' || pattern === 'relationship-fate') {
+        return {
+          key: 'significance-seeking',
+          label: 'What may be underneath: the significance-seeking pattern',
+          text: 'The sense of having known someone before is often a way of seeking significance for a present connection, and the past-life frame can extend a relationship pattern rather than engaging it. The honest version engages the present connection in its own terms \u2014 what it asks of you and surfaces in you \u2014 rather than through a frame the evidence can\u2019t support.'
+        };
+      }
+      if (a.literal === 'literal' || a.literal === 'mostly' || pattern === 'literal-belief') {
+        return {
+          key: 'literal-claim-fragility',
+          label: 'What may be underneath: the literal-claim fragility',
+          text: 'Treating the narrative as a recovered fact makes the whole practice depend on a claim the evidence doesn\u2019t support \u2014 reincarnation as literal fact lacks replicable evidence, and the methods can\u2019t verify the story as history. The metaphor is more robust precisely because it doesn\u2019t require the literal claim; the meaning works whether or not the fact holds.'
+        };
+      }
+      if (a.want === 'meaning' || a.recovery === 'meaning' || pattern === 'meaning-making') {
+        return {
+          key: 'narrative-meaning',
+          label: 'What may be underneath: narrative as meaning',
+          text: 'Using the narrative as self-understanding is the tractable arrival \u2014 McAdams\u2019s research on narrative identity finds people make genuine meaning by constructing life stories whether or not they\u2019re factually literal. The past-life narrative can function the same way: real material, real meaning, no requirement of historicity.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your past-life question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (h === 'interpret') return 'free_first';
+      if (w === 'identity' || w === 'ontology') return 'psychic';
+      if (w === 'karmic') return 'tarot_decision';
+      if (w === 'attribution') return 'tarot_relationship';
+      if (w === 'meaning') return 'tarot_deep';
+      if (w === 'beneath') return 'tarot_deep';
+      if (h === 'insight') return 'psychic';
+      if (h === 'dynamic') return 'tarot_relationship';
+      if (h === 'guidance') return 'tarot_decision';
+      if (h === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'how-to-know-your-past-life', {
+        resultV2: true,
+        canTell: [
+          'That the methods \u2014 regression, meditation, readings \u2014 reliably produce vivid narrative material, which is psychologically real whether or not it is a recovered fact',
+          'Whether you are seeking a recovered fact or narrative meaning, and whether you are reading vividness as historicity',
+          'Whether the past-life frame is extending a present pattern you could engage now, rather than resolving it'
+        ],
+        edgeBridge: 'A quiz can read what your approach to the question already tracks \u2014 it can\u2019t recover a past life. A reading framed on the narrative\u2019s themes can offer perspective; it can\u2019t verify the story as a historical fact, and anyone who confirms a specific past identity with certainty is offering a projection, not recovered history.',
+        ctaText: {
+          'identity:psychic': 'Get a read on your narrative\u2019s themes',
+          'ontology:psychic': 'Get a reading on what the question is asking',
+          'karmic:tarot_decision': 'Get a read on the present pattern',
+          'attribution:tarot_relationship': 'Get a reflective read on the connection',
+          'meaning:tarot_deep': 'Get a deeper read on the narrative\u2019s meaning',
+          'beneath:tarot_deep': 'Get a deeper read on what\u2019s underneath',
+          'interpret:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reading on the narrative\u2019s themes',
+          '*:tarot_relationship': 'Get a reflective tarot read',
+          '*:tarot_decision': 'Get a read on the present pattern',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:closure': 'Get a closure-framed reflection',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'literal-belief',
+          text: 'when a reading confirms a specific past identity with certainty, or names karmic blockages requiring clearing, that is the sales pattern in this domain \u2014 the wish for a specific past identity is large and the verification isn\u2019t available. A reader who guarantees a past life, or frames present distress as karmic debt needing ongoing sessions, is selling a certainty nobody possesses.'
+        }
+      });
+    }
+  },
+
+
+  'how-to-manifest-money': {
+    id: 'how-to-manifest-money',
+    title: 'Is Your Approach Building Money, or Wishing for It?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using the documented financial mechanisms or leaning on supernatural attraction \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of whether your money approach is real financial action, magical thinking, scarcity self-blame, or avoidance \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What is your financial situation right now?',
+        hint: 'This shapes how the same approach reads.',
+        options: [
+          { text: 'Stable enough', detail: 'covering needs, some room', score: 'stable' },
+          { text: 'Struggling but managing', detail: 'tight, getting by', score: 'struggling' },
+          { text: 'Under real financial pressure', detail: 'urgency, hard to keep up', score: 'pressure' },
+          { text: 'Carrying heavy debt', detail: 'debt is the weight', score: 'debt' },
+          { text: 'Just exploring the idea', detail: 'curious, not in crisis', score: 'curious' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'approach',
+        q: 'How have you been approaching \u201Cmanifesting money\u201D?',
+        hint: '',
+        options: [
+          { text: 'Goal-setting, planning, and action', detail: 'the documented mechanisms', score: 'action' },
+          { text: 'Scripting and visualizing', detail: 'writing and imagining outcomes', score: 'scripting' },
+          { text: 'Readings and clearings', detail: 'a reader or clearing for money', score: 'readings' },
+          { text: 'A mix of action and ritual', detail: 'both, unevenly', score: 'mixed' },
+          { text: 'I haven\u2019t started yet', detail: 'still figuring it out', score: 'none' },
+          { text: 'I\u2019m not sure', detail: 'hard to name the approach', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'mechanism',
+        q: 'Are you using the documented financial mechanisms?',
+        hint: 'Goal-clarity, planning, and action \u2014 the part that actually builds money.',
+        options: [
+          { text: 'Yes \u2014 consistently', detail: 'goal, plan, and action in motion', score: 'consistent' },
+          { text: 'Somewhat', detail: 'parts of it, unevenly', score: 'somewhat' },
+          { text: 'Not really', detail: 'no clear plan or action', score: 'not-really' },
+          { text: 'No \u2014 I\u2019m relying on attraction', detail: 'thoughts, not action', score: 'supernatural-only' },
+          { text: 'I can\u2019t tell', detail: 'too early to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'attraction',
+        q: 'How much do you credit or blame vibration for your money?',
+        hint: '',
+        options: [
+          { text: 'Never', detail: 'outcomes come from action', score: 'never' },
+          { text: 'Rarely', detail: 'only when I\u2019m stressed', score: 'rarely' },
+          { text: 'Sometimes', detail: 'I wonder if vibration plays a role', score: 'sometimes' },
+          { text: 'Often', detail: 'I credit or blame vibration', score: 'often' },
+          { text: 'Always', detail: 'beliefs are the cause of money', score: 'always' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'selfblame',
+        q: 'Do you blame your beliefs for not having money?',
+        hint: '',
+        options: [
+          { text: 'Never', detail: 'my situation isn\u2019t about my worth', score: 'never' },
+          { text: 'Rarely', detail: 'only in a bad moment', score: 'rarely' },
+          { text: 'Sometimes', detail: 'I wonder if I\u2019m blocking it', score: 'sometimes' },
+          { text: 'Often', detail: 'I blame my beliefs for scarcity', score: 'often' },
+          { text: 'Always', detail: 'low vibration is why I\u2019m broke', score: 'always' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'avoidance',
+        q: 'Does manifestation stand in for financial action?',
+        hint: '',
+        options: [
+          { text: 'Never', detail: 'I act on the financial plan', score: 'never' },
+          { text: 'Rarely', detail: 'only when stuck', score: 'rarely' },
+          { text: 'Sometimes', detail: 'manifestation stands in for action', score: 'sometimes' },
+          { text: 'Often', detail: 'I wait for manifestation to deliver', score: 'often' },
+          { text: 'Always', detail: 'manifestation replaces action', score: 'always' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What concrete steps build money?', detail: 'the method question', score: 'method' },
+          { text: 'Are my beliefs blocking my money?', detail: 'the self-blame question', score: 'beliefs' },
+          { text: 'Will manifestation bring money \u2014 and when?', detail: 'the outcome question', score: 'outcome' },
+          { text: 'What should I do about my finances?', detail: 'the action question', score: 'what-do' },
+          { text: 'Is my approach sound, or magical?', detail: 'the honesty question', score: 'honesty' },
+          { text: 'I\u2019m not sure what I\u2019m really asking', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting mechanism from story', score: 'interpret' },
+          { text: 'An outside perspective on my approach', detail: 'a read on my financial situation', score: 'insight' },
+          { text: 'A view of what my approach is doing', detail: 'the shape, not the outcome', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole picture', detail: 'the full frame', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        mechanism:  { consistent: 2, somewhat: 1, 'not-really': 0, 'supernatural-only': -1, notell: null },
+        attraction: { never: 2, rarely: 1, sometimes: 0, often: -1, always: -2, notell: null },
+        selfblame:  { never: 2, rarely: 1, sometimes: 0, often: -1, always: -2, notell: null },
+        avoidance:  { never: 2, rarely: 1, sometimes: 0, often: -1, always: -2, notell: null }
+      };
+      var keys = ['mechanism', 'attraction', 'selfblame', 'avoidance'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.attraction !== null && vals.attraction <= -2) return 'magical-thinking';
+      if (vals.mechanism !== null && vals.mechanism >= 2 &&
+          (vals.attraction === null || vals.attraction >= 0) &&
+          (vals.selfblame === null || vals.selfblame >= 0) &&
+          (vals.avoidance === null || vals.avoidance >= 0)) return 'financial-action-framework';
+      if (vals.selfblame !== null && vals.selfblame <= -2) return 'scarcity-self-blame';
+      if (vals.avoidance !== null && vals.avoidance <= -2) return 'avoidance-driven';
+      if (sum <= -3) return 'avoidance-driven';
+      if (vals.selfblame !== null && vals.selfblame <= -1 &&
+          (vals.attraction === null || vals.attraction <= 0)) return 'scarcity-self-blame';
+      if (vals.avoidance !== null && vals.avoidance <= -1 &&
+          (vals.attraction === null || vals.attraction <= 0)) return 'avoidance-driven';
+      if (sum >= 1) return 'financial-action-framework';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'financial-action-framework': {
+        path: 'A real financial-action approach',
+        summary: 'Your approach is using the documented mechanisms \u2014 goal, plan, action.',
+        suggest: function (a) {
+          var s = 'Your answers describe an approach built on the documented financial mechanisms \u2014 goal-clarity, planning, and action \u2014 which is the part that actually builds money.';
+          if (a.mechanism === 'consistent') s += ' The consistency is the signal: action, not attraction, is what realizes the outcome.';
+          if (a.approach === 'action') s += ' And you\u2019re treating the situation as something to act on, which is the honest frame.';
+          if (a.want === 'method') s += ' The method question is the answerable one \u2014 and you\u2019re already doing most of it.';
+          s += ' The supernatural-attraction framing isn\u2019t needed for any of this to work; the financial mechanisms explain the correlation on their own.';
+          return s;
+        },
+        dontTell: 'A real financial-action approach doesn\u2019t guarantee an outcome \u2014 economy, opportunity, and circumstances shape results too, and no framework can promise them. What it does is put the part you can control in motion, which is the honest next step regardless of attribution.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep the plan specific and the action consistent \u2014 save $X, earn $Y, reduce debt by $Z. Specific goals focus attention on real opportunities.',
+            'Whether the approach holds when circumstances shift \u2014 the financial mechanisms are available regardless of any manifestation claim, so they don\u2019t depend on belief.'
+          ];
+        }
+      },
+      'magical-thinking': {
+        path: 'Magical thinking about money',
+        summary: 'You\u2019re leaning on supernatural attraction as the mechanism.',
+        suggest: function (a) {
+          var s = 'Your answers describe money outcomes attributed to vibration or belief \u2014 which is the supernatural-attraction framing, the part the evidence can\u2019t support.';
+          if (a.attraction === 'always') s += ' Treating beliefs as the cause of money is the strongest version of this: it credits or blames a cosmic law nobody has demonstrated.';
+          if (a.want === 'outcome') s += ' And the question \u201Cwhen will money come\u201D is the one no honest method can answer \u2014 timing depends on your action and on circumstances not yet known.';
+          if (a.approach === 'readings') s += ' Readings and clearings for money extend the same frame, and they create a market for \u201Cclearing\u201D the financial-action approach doesn\u2019t.';
+          s += ' The real mechanism is action; the attraction is the misattribution.';
+          return s;
+        },
+        dontTell: 'Magical thinking about money doesn\u2019t mean the wish is wrong \u2014 wanting more money is human and fine. What it does is name where the approach leans on a claim the evidence can\u2019t support, which is worth knowing about the question itself.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Try letting the goal prompt action \u2014 career development, side income, budgeting, investing \u2014 and notice what actually moves the number. Action, not attraction, is the realized path.',
+            'If a reader guarantees a money outcome or names a specific timing, that\u2019s a red flag: nobody possesses that certainty, and around money it\u2019s the most common and costly one.'
+          ];
+        }
+      },
+      'scarcity-self-blame': {
+        path: 'Scarcity self-blame',
+        summary: 'You\u2019re attributing not having money to your beliefs.',
+        suggest: function (a) {
+          var s = 'Your answers describe not having money as caused by your beliefs \u2014 \u201Clow vibration,\u201D \u201Cnot believing enough\u201D \u2014 which is the costly self-blame pattern.';
+          if (a.selfblame === 'always') s += ' The always-version treats your circumstances as a verdict on your worth, which is the heaviest form.';
+          if (a.want === 'beliefs') s += ' The question \u201Care my beliefs blocking money\u201D is the one most likely to keep you scanning inward instead of acting outward.';
+          s += ' Financial outcomes are shaped by structural and circumstantial factors \u2014 economy, opportunity, life circumstances \u2014 not only by beliefs. The honest response is the documented mechanisms plus recognizing those factors, without making your situation a measure of your worth.';
+          return s;
+        },
+        dontTell: 'Scarcity self-blame doesn\u2019t prove your beliefs are irrelevant \u2014 self-efficacy (the belief you can affect your finances) drives persistence, and that\u2019s real. What it does is separate useful self-efficacy from the costly claim that your worth or vibration caused the scarcity, which obscures the real factors.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Use the documented mechanisms \u2014 specific goal, plan, action \u2014 and notice that structural factors are real and not your fault to carry alone.',
+            'If the self-blame is affecting daily life, a financial counselor or therapist is the honest match \u2014 practical and reliable in a way a reading isn\u2019t. The mechanisms are available now.'
+          ];
+        }
+      },
+      'avoidance-driven': {
+        path: 'Avoidance-driven approach',
+        summary: 'Manifestation is standing in for financial action.',
+        suggest: function (a) {
+          var s = 'Your answers describe manifestation standing in for financial action \u2012014 waiting for money to arrive rather than building it \u2014 which is the avoidance pattern, and it extends scarcity.';
+          if (a.avoidance === 'always') s += ' When manifestation fully replaces action, the outcome that depends on action simply doesn\u2019t get built.';
+          if (a.want === 'outcome') s += ' And the wish for a timeline keeps the focus on arrival rather than on the steps that realize it.';
+          s += ' The honest move is to let the goal prompt action: the mechanism is action, not attraction, and avoiding it is what keeps the streak going.';
+          return s;
+        },
+        dontTell: 'Avoidance-driven doesn\u2019t mean the practice is worthless \u2014 visualization can clarify a goal. What it does is name when the practice has become a substitute for the action that actually builds money, which is the part to watch.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Pick one concrete financial action this week \u2014 budgeting, earning, debt-reduction \u2014 and let the manifestation sit beside it, not in front of it.',
+            'If financial distress is affecting daily life, a financial counselor or therapist fits better than a reading. A reading can frame your approach; it cannot attract money or delay the action that\u2019s already available.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your approach into real financial action or magical thinking, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that your approach is \u201Cworking\u201D tends to produce noise: every neutral event gets recruited as evidence for whichever framing you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary financial life \u2014 acting, not scanning for signs \u2014 watching only the four signals: mechanism use, attraction attribution, self-blame, and avoidance.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'outcome') {
+        return {
+          key: 'outcome-attribution',
+          label: 'What may be underneath: the outcome question',
+          text: 'The wish to know when money will come is deeply human, and it doesn\u2019t mean a timing exists to find. No honest method can forecast the timing of your financial outcomes, because they depend on your action and on circumstances not yet known. The honest reframe: drop the when question and ask what financial action the goal prompts. If it is, the action is the answer, not a date.'
+        };
+      }
+      if (a.attraction === 'always' || a.approach === 'readings' || pattern === 'magical-thinking') {
+        return {
+          key: 'attraction-framing',
+          label: 'What may be underneath: the attraction framing',
+          text: 'The supernatural-attraction framing \u2014 that thoughts attract money through a cosmic law \u2014 isn\u2019t supported by evidence. It persists because the felt-efficacy of a manifestation is confirmation bias: when money arrives, the practice gets the credit for the action it prompted. The framing also extends self-blame and a market for clearing the financial-action approach doesn\u2019t.'
+        };
+      }
+      if (a.selfblame === 'often' || a.selfblame === 'always' || pattern === 'scarcity-self-blame') {
+        return {
+          key: 'self-blame-pattern',
+          label: 'What may be underneath: the self-blame pattern',
+          text: 'Blaming your beliefs for not having money treats structural and circumstantial factors as personal failure \u2014 a costly pattern. Financial outcomes are shaped by economy, opportunity, systemic factors, and life circumstances, not only by what you believe. Recognizing this isn\u2019t excusing inaction; it\u2019s refusing to make your situation a verdict on your worth while you use the mechanisms that actually work.'
+        };
+      }
+      if (a.avoidance === 'often' || a.avoidance === 'always' || pattern === 'avoidance-driven') {
+        return {
+          key: 'avoidance-pattern',
+          label: 'What may be underneath: the avoidance pattern',
+          text: 'When manifestation stands in for action, the outcome that depends on action doesn\u2019t get built, and scarcity persists. The avoidance isn\u2019t laziness \u2014 it\u2019s often the comfort of a practice that feels productive without the exposure of real financial risk. The honest read: the mechanism is action, and the practice works best beside it, not in front of it.'
+        };
+      }
+      if (a.want === 'beliefs') {
+        return {
+          key: 'worth-blame',
+          label: 'What may be underneath: the worth question',
+          text: 'The question \u201Care my beliefs blocking my money\u201D quietly asks whether your worth is the obstacle. It isn\u2019t \u2014 financial circumstances are not a measure of your value, and self-efficacy (the useful belief that you can affect your finances) is different from the claim that your vibration caused the scarcity. Keep the useful one; set the costly one down.'
+        };
+      }
+      return null;
+    },
+
+    practice: {
+      psychic: {
+        name: 'Psychic reading',
+        fit: 'An outside perspective on your financial approach \u2014 what it surfaces. It can frame your situation; it cannot attract money supernaturally, and no honest reader will claim it can.',
+        href: '/psychic/',
+        cta: 'Explore psychic readings',
+        secondary: { name: 'Tarot spread', fit: 'if you want a structured reflection on your approach', href: '/tarot/' },
+        choose: { name: 'How to Choose a Psychic Reader', href: '/guides/how-to-choose-psychic-reader' },
+        note: 'Frame it on your approach, not on \u201Cwill I manifest money.\u201D The first reads honestly; the second invites an attraction claim nobody can support. Start with Before Paying for a Psychic Reading.'
+      },
+      tarot_relationship: {
+        name: 'Tarot spread',
+        fit: 'A structured reflection on your financial approach \u2014 the pattern, the plan, the action it points at. The shape of your approach, not a money forecast.',
+        href: '/tarot/',
+        cta: 'Explore tarot readings',
+        secondary: { name: 'Psychic reading', fit: 'if you want a direct outside read rather than a reflective spread', href: '/psychic/' },
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        note: 'Bring \u201Cwhat does my approach surface\u201D rather than \u201Cwhen is money coming.\u201D A spread can reflect; it cannot attract money or name a timing.'
+      },
+      free_first: {
+        name: 'This framework + the free Daily Card',
+        fit: 'You said an honest read of your approach would help most \u2014 and this page gives you that for free: the four signals above and your result are most of it. The Daily Card adds a small reflective practice, still free.',
+        href: '/tools/daily-card',
+        cta: 'Try the free Daily Card',
+        secondary: { name: 'Do What Fits \u2014 the full matcher', fit: 'if a real question forms and you want the complete match', href: '/do-what-fits' },
+        note: 'If financial distress is affecting your daily life, a financial counselor or therapist is the honest match \u2014 before any reading. The financial mechanisms are available now.'
+      },
+      general: {
+        name: 'Do What Fits \u2014 the matcher',
+        fit: 'You\u2019re not sure what you\u2019re asking yet, which is a fine place to start. The seven-question matcher maps your situation to the practice that fits it \u2014 or to none of them.',
+        href: '/do-what-fits',
+        cta: 'Take Do What Fits',
+        secondary: { name: 'Psychic vs Tarot', fit: 'the decision rule for money questions', href: '/guides/psychic-vs-tarot' },
+        note: 'Free, two minutes, and it ends with a next step either way. If distress is the real signal, a financial counselor or therapist fits better than a reading.'
+      }
+    },
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (h === 'insight') return 'psychic';
+      if (h === 'dynamic' || h === 'deeper') return 'tarot_relationship';
+      if (w === 'beliefs') return 'psychic';
+      if (w === 'method' || w === 'what-do' || w === 'honesty' || w === 'outcome' || h === 'interpret' || h === 'guidance') return 'free_first';
+      return 'general';
+    },
+
+    matchAha: function (a, pattern) {
+      if (pattern === 'magical-thinking') return 'illusion_fixation';
+      if (pattern === 'scarcity-self-blame') return 'scarcity_panic';
+      if (pattern === 'avoidance-driven') return 'avoidance_loop';
+      if (a.want === 'outcome') return 'illusion_fixation';
+      if (a.want === 'beliefs') return 'scarcity_panic';
+      return 'mechanism_honesty';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'how-to-manifest-money', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the documented financial mechanisms \u2014 goal-clarity, planning, and action \u2014 which is the part that actually builds money',
+          'Whether supernatural attraction framing is doing work the evidence can\u2019t support, which is the costly part',
+          'Whether scarcity self-blame is the pattern \u2014 treating structural and circumstantial factors as personal failure'
+        ],
+        edgeBridge: 'A quiz can read what your approach is doing \u2014 it can\u2019t attract money or forecast your financial outcome, which depends on your action and on circumstances not yet known. A reading can frame your approach; it cannot honestly promise money.',
+        ctaText: {
+          'magical-thinking:tarot_relationship': 'Get a reflective read on your approach',
+          'scarcity-self-blame:psychic': 'Get an outside perspective on your approach',
+          'avoidance-driven:free_first': 'Start with the free framework',
+          'financial-action-framework:free_first': 'Keep building with the free framework',
+          '*:psychic': 'Get an outside perspective on your approach',
+          '*:tarot_relationship': 'Get a reflective read on your approach',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Find your real question'
+        },
+        negativePatternTip: {
+          pattern: 'avoidance-driven',
+          text: 'when manifestation has replaced financial action, a reading that promises money outcomes can quietly become a more expensive way of avoiding the action that actually builds it. If you book one, frame it on your approach \u2014 not on when money will arrive.'
+        }
+      });
+    }
+  },
+
+
+  'how-to-manifest': {
+    id: 'how-to-manifest',
+    title: 'What Is Your Practice Actually Doing?',
+    launchSub: 'Eight questions, about two minutes. It reads whether your manifestation practice is using the documented mechanisms or the supernatural framing \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your manifestation practice \u2014 which mechanism it credits, whether it tracks honestly, and what it doesn\u2019t settle. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'goal',
+        q: 'What are you working on manifesting?',
+        hint: 'This shapes how the same practice reads.',
+        options: [
+          { text: 'A specific outcome', detail: 'a job, a relationship, money', score: 'outcome' },
+          { text: 'A feeling or state', detail: 'peace, confidence, ease', score: 'state' },
+          { text: 'A shift in my life', detail: 'direction, a chapter ending', score: 'shift' },
+          { text: 'Something I keep failing at', detail: 'it hasn\u2019t arrived yet', score: 'stuck' },
+          { text: 'I\u2019m not sure yet', detail: 'the want is unclear', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'approach',
+        q: 'How are you approaching it?',
+        hint: '',
+        options: [
+          { text: 'Clarity, then action', detail: 'a specific goal, then steps', score: 'action' },
+          { text: 'Visualization and feeling', detail: 'imagining the outcome', score: 'visualize' },
+          { text: 'Scripts, 369, vision boards', detail: 'structured techniques', score: 'techniques' },
+          { text: 'Raising vibration, attraction', detail: 'the supernatural framing', score: 'vibration' },
+          { text: 'A bit of everything', detail: 'no single method', score: 'mixed' },
+          { text: 'I\u2019m still figuring it out', detail: 'not settled yet', score: 'notell' }
+        ]
+      },
+      {
+        id: 'mechanism',
+        q: 'When it works, what do you credit it to?',
+        hint: 'The mechanism you credit is the clearest signal there is.',
+        options: [
+          { text: 'Getting clear and acting', detail: 'goal-clarity and steps', score: 'doc' },
+          { text: 'Imagining outcome plus obstacles', detail: 'mental contrast', score: 'doc' },
+          { text: 'A mix of both', detail: 'some clarity, some feeling', score: 'mix' },
+          { text: 'Vibration and attraction', detail: 'like attracts like', score: 'magic' },
+          { text: 'I can\u2019t tell the mechanism', detail: 'too close to name', score: 'notell' }
+        ]
+      },
+      {
+        id: 'form',
+        q: 'In your visualization, what do you picture?',
+        hint: '',
+        options: [
+          { text: 'The outcome and the obstacles', detail: 'mental contrast', score: 'contrast' },
+          { text: 'Some of both', detail: 'outcome, sometimes the blocks', score: 'both' },
+          { text: 'Only the desired outcome', detail: 'pure positive fantasy', score: 'outcome-only' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'tracking',
+        q: 'How do you know if it\u2019s working?',
+        hint: '',
+        options: [
+          { text: 'I track the actual rate', detail: 'hits and misses, written down', score: 'tracked' },
+          { text: 'Roughly, in my head', detail: 'a loose sense', score: 'rough' },
+          { text: 'It feels like it\u2019s working', detail: 'felt-rate only', score: 'felt' },
+          { text: 'I can\u2019t tell the rate', detail: 'no real read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'attribution',
+        q: 'When it doesn\u2019t arrive, what do you conclude?',
+        hint: '',
+        options: [
+          { text: 'The method has limits', detail: 'honest attribution', score: 'honest' },
+          { text: 'A mix of factors', detail: 'me and the situation', score: 'mixed' },
+          { text: 'I didn\u2019t believe enough', detail: 'self-blame', score: 'blame' },
+          { text: 'I can\u2019t tell why', detail: 'no clear read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps.',
+        options: [
+          { text: 'How do I actually do this?', detail: 'the method question', score: 'method' },
+          { text: 'Does this really work?', detail: 'the efficacy question', score: 'efficacy' },
+          { text: 'Why didn\u2019t mine work?', detail: 'the failure question', score: 'failure' },
+          { text: 'Should I believe in it?', detail: 'belief vs evidence', score: 'belief' },
+          { text: 'I want to feel I can affect my life', detail: 'the agency question', score: 'agency' },
+          { text: 'Am I reading signs or projecting?', detail: 'the projection question', score: 'signs' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest read of my approach', detail: 'sorting mechanism from framing', score: 'reflect' },
+          { text: 'An outside perspective on what I seek', detail: 'a read on the wanting', score: 'perspective' },
+          { text: 'A structured reflection on the wanting', detail: 'wanting and obstacles', score: 'structure' },
+          { text: 'A concrete next step', detail: 'something to do', score: 'nextstep' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'Letting it go', detail: 'releasing the outcome', score: 'letgo' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        mechanism:  { doc: 2, mix: 1, magic: -2, notell: null },
+        form:       { contrast: 2, both: 1, 'outcome-only': -1, notell: null },
+        tracking:   { tracked: 2, rough: 1, felt: -1, notell: null },
+        attribution:{ honest: 2, mixed: 1, blame: -2, notell: null }
+      };
+      var keys = ['mechanism', 'form', 'tracking', 'attribution'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.mechanism !== null && vals.mechanism <= -2) return 'magical-thinking-pattern';
+      if (vals.attribution !== null && vals.attribution <= -2 &&
+          (vals.mechanism === null || vals.mechanism <= 0)) return 'magical-thinking-pattern';
+      if (answers.want === 'agency') return 'self-efficacy-building';
+      if (vals.tracking !== null && vals.tracking <= -1 &&
+          (vals.mechanism === null || vals.mechanism >= 0) &&
+          (vals.attribution === null || vals.attribution >= 0)) return 'confirmation-bias-loop';
+      if (sum >= 1) return 'goal-clarity-practice';
+      if (vals.tracking !== null && vals.tracking <= -1) return 'confirmation-bias-loop';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'goal-clarity-practice': {
+        path: 'A goal-clarity practice doing real work',
+        summary: 'Your practice credits the documented mechanisms \u2014 clarity, contrast, and action.',
+        suggest: function (a) {
+          var s = 'Your answers credit the practice to getting clear and acting \u2014 which is the documented mechanism, not the supernatural one.';
+          if (a.mechanism === 'doc') s += ' That is the part of manifestation with real evidence behind it: specific goals focus attention and prime recognition of relevant opportunities.';
+          if (a.form === 'contrast' || a.form === 'both') s += ' And you are picturing the obstacles too, which is the form of visualization that produces action rather than complacency.';
+          if (a.attribution === 'honest') s += ' When it doesn\u2019t arrive, you read it as the method having limits \u2014 which keeps the self-blame pattern from taking hold.';
+          s += ' This is manifestation used as a set of useful psychological tools, which is the honest version.';
+          return s;
+        },
+        dontTell: 'A goal-clarity practice doesn\u2019t prove the outcome will arrive \u2014 some things require more than clarity and persistence, and the honest read accepts that without making non-arrival a verdict on you. What it does is use the mechanisms that have evidence, which is more than the supernatural framing can claim.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep the obstacles in view, not just the outcome \u2014 mental contrast is the version that moves you toward the thing.',
+            'Track the actual rate honestly, hits and misses \u2014 it is the filter that separates real mechanism from the felt-rate confirmation bias inflates.'
+          ];
+        }
+      },
+      'magical-thinking-pattern': {
+        path: 'The magical-thinking pattern',
+        summary: 'Your practice leans on the supernatural framing \u2014 vibration and attraction.',
+        suggest: function (a) {
+          var s = 'Your answers credit the practice to vibration and attraction \u2014 the supernatural mechanism, which has no empirical support as a cosmic law.';
+          if (a.mechanism === 'magic') s += ' That framing is the half-right part that misleads: it works when clarity and action are quietly doing the work, then credits attraction for it.';
+          if (a.attribution === 'blame') s += ' And when it doesn\u2019t arrive, you read it as your own failure \u2014 the self-blame pattern this content installs, which the psychological framing does not.';
+          if (a.approach === 'vibration') s += ' The practices may still help, but through self-efficacy and attention, not through thoughts affecting reality directly.';
+          s += ' Naming the framing is the first step \u2014 you can keep what works and drop the metaphysics that doesn\u2019t.';
+          return s;
+        },
+        dontTell: 'A magical-thinking pattern doesn\u2019t mean you are doing it wrong \u2014 the practices can genuinely help through the real mechanisms, and many people arrive at outcomes they credit to attraction. It means the supernatural explanation lacks evidence, and the self-blame it installs when things don\u2019t arrive is a cost worth noticing, not a verdict on your adequacy.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Separate the mechanism from the framing: notice when clarity, contrast, or action did the work, rather than attributing it to vibration.',
+            'If a reader diagnoses a \u201Cblockage\u201D or sells vibration-raising, treat it as a sales pattern \u2014 no honest reader can confirm that thoughts attract reality supernaturally.'
+          ];
+        }
+      },
+      'self-efficacy-building': {
+        path: 'Self-efficacy is the real gain',
+        summary: 'What the practice is actually building is the belief you can affect your life.',
+        suggest: function (a) {
+          var s = 'Your answers point to the agency question \u2014 you want to feel you can affect your life, and that is the real, documented gain here.';
+          if (a.mechanism === 'doc' || a.mechanism === 'mix') s += ' Self-efficacy (Bandura\u2019s term) is a genuine driver of persistence and outcome, and it works through effort, not through thoughts affecting reality directly.';
+          if (a.attribution === 'honest') s += ' You already read non-arrival honestly, which keeps the costly self-blame pattern from undoing the gain.';
+          s += ' The honest version is more useful, not less: the belief that you can act is doing real work, and you can keep building it without committing to the metaphysics.';
+          return s;
+        },
+        dontTell: 'Self-efficacy building doesn\u2019t prove the supernatural mechanism \u2014 the belief works through persistence and action, not through attraction. But it is a real driver, and naming it as the gain lets you use the practice for what it actually delivers rather than for a promise nothing can honestly make.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice the moments the belief moved you to act \u2014 that is the mechanism, and tracking it honestly keeps the felt-rate honest too.',
+            'If self-criticism or distress around the wanting is the real thing to engage, a licensed therapist is the more reliable match than a reading.'
+          ];
+        }
+      },
+      'confirmation-bias-loop': {
+        path: 'The confirmation-bias loop',
+        summary: 'You read the felt-rate, not the actual one \u2014 so the practice feels more effective than it is.',
+        suggest: function (a) {
+          var s = 'Your answers lean on the felt-rate \u2014 it feels like it\u2019s working, without tracking hits and misses \u2014 which is the signature of confirmation bias.';
+          if (a.tracking === 'felt') s += ' The mind notices the hits and forgets the misses, so the felt-efficacy almost always exceeds the real one.';
+          if (a.form === 'outcome-only') s += ' And outcome-only fantasy can reduce action, which widens the gap between feeling and result.';
+          s += ' The loop isn\u2019t dishonesty \u2014 it is automatic \u2014 but it is the filter that makes magical thinking feel confirmed. Tracking the actual rate is what breaks it.';
+          return s;
+        },
+        dontTell: 'A confirmation-bias loop doesn\u2019t mean the practice is fake \u2014 some of the hits are real mechanism, some are ordinary probability. It means the felt-rate is an unreliable measure, and without honest tracking you can\u2019t tell which is which. The honest read requires writing the rate down.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Track the actual rate \u2014 write down what you aimed for, what arrived, what didn\u2019t \u2014 so the felt-rate has something to be checked against.',
+            'Keep the obstacles in the picture; outcome-only fantasy tends to feed the loop by making arrival feel done before the work is.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your practice into the documented mechanisms or the supernatural framing, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that the attraction is working tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of practicing and living, not scanning for signs \u2014 watching only the four signals: which mechanism you credit, outcome-plus-obstacles vs outcome-only, tracked vs felt rate, and self-blame vs honest attribution.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'agency' || pattern === 'self-efficacy-building') {
+        return {
+          key: 'agency-question',
+          label: 'What may be underneath: the agency question',
+          text: 'The wish to feel you can affect your life is often the real ask beneath \u201Chow to manifest\u201D \u2014 and it is a real, documented need. Self-efficacy (Bandura) is a genuine driver of persistence and outcome. The honest frame uses it without claiming thoughts attract reality: the belief works through action, not through a supernatural law, which makes it more reliable, not less.'
+        };
+      }
+      if (a.mechanism === 'magic' || a.approach === 'vibration' || pattern === 'magical-thinking-pattern') {
+        return {
+          key: 'framing-misattribution',
+          label: 'What may be underneath: the framing misattribution',
+          text: 'When manifestation \u201Cworks,\u201D the supernatural framing credits vibration or attraction \u2014 but the actual cause is goal-clarity, attentional priming, and action. Misattributing the cause matters, because it misleads the next attempt and installs self-blame when the outcome doesn\u2019t arrive. The honest move is to use the mechanisms that work without committing to the metaphysics that doesn\u2019t.'
+        };
+      }
+      if (a.attribution === 'blame' || a.want === 'failure') {
+        return {
+          key: 'self-blame-pattern',
+          label: 'What may be underneath: the self-blame pattern',
+          text: 'The framing that non-arrival means you \u201Cdidn\u2019t believe enough\u201D or had a \u201Cblockage\u201D treats the method\u2019s failure as your failure. It is the costly pattern this content installs, and it creates a market for \u201Cclearing\u201D that extends the cost. The honest read is that the supernatural mechanism may simply not do what the content claims \u2014 which is not your failure.'
+        };
+      }
+      if (a.want === 'signs' || a.tracking === 'felt') {
+        return {
+          key: 'projection-check',
+          label: 'What may be underneath: the projection check',
+          text: 'The \u201Csigns\u201D that confirm your desired outcome often come from hope, not reality \u2014 confirmation bias notices hits and forgets misses. Tracking the actual rate honestly is the verification step most content skips, and it is what separates genuine pattern-recognition from projection.'
+        };
+      }
+      if (a.want === 'belief') {
+        return {
+          key: 'belief-vs-evidence',
+          label: 'What may be underneath: belief vs evidence',
+          text: 'The question of whether to believe in it is answerable honestly: the documented mechanisms work, the supernatural mechanism lacks empirical support. You can use the first without committing to the second \u2014 the absence of supporting evidence for attraction is not proof of absence, but it means the supernatural framing currently lacks support.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your manifestation practice', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (h === 'perspective') return 'psychic';
+      if (h === 'structure') return 'tarot_relationship';
+      if (h === 'deeper') return 'tarot_deep';
+      if (h === 'letgo') return 'closure';
+      if (h === 'reflect' || h === 'nextstep' || w === 'method' || w === 'efficacy' ||
+          w === 'failure' || w === 'belief' || w === 'agency' || w === 'signs') return 'free_first';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'how-to-manifest', {
+        resultV2: true,
+        canTell: [
+          'Which mechanism your practice credits \u2014 goal-clarity and action, or vibration and attraction \u2014 which is the clearest signal there is',
+          'Whether you picture outcome plus obstacles or outcome-only fantasy, which research finds can backfire',
+          'Whether self-blame is the failure pattern, which the content installs and a reading cannot honestly undo'
+        ],
+        edgeBridge: 'A quiz can read what your practice is actually doing \u2014 it can\u2019t confirm that your thoughts attract reality through a supernatural law, which no honest reader or framework can claim. A reading framed on what you\u2019re seeking can offer perspective; it can\u2019t promise the outcome.',
+        ctaText: {
+          'method:free_first': 'Use the documented mechanisms',
+          'agency:free_first': 'Build the self-efficacy that works',
+          'failure:free_first': 'Drop the self-blame pattern',
+          'signs:free_first': 'Track the actual rate',
+          'perspective:psychic': 'Get a read on what you seek',
+          'structure:tarot_relationship': 'Get a structured reflection',
+          'deeper:tarot_deep': 'Get a deeper read',
+          'letgo:closure': 'Get a reading on letting go',
+          '*:free_first': 'Start with the free framework',
+          '*:psychic': 'Get an outside perspective',
+          '*:tarot_relationship': 'Get a reflective spread',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read',
+          '*:closure': 'Get a reading on releasing',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'magical-thinking-pattern',
+          text: 'when the supernatural framing is doing the work, a reading that promises your manifestation or diagnoses a \u201Cblockage\u201D can quietly become a more expensive way of keeping the wanting running. If you book one, frame it on what you\u2019re actually seeking \u2014 not on whether the attraction is working.'
+        }
+      });
+    }
+  },
+
+
+  'how-to-open-your-third-eye': {
+    id: 'how-to-open-your-third-eye',
+    title: 'What Is Your Third Eye Practice Really For?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using the practice as introspective reflection, whether supernatural-capability attribution is doing work the practice can\u2019t support, and whether blockage-attribution is operating \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your own practice already tracks \u2014 reflection, capability attribution, blockage framing, and bypass risk \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'engagement',
+        q: 'How are you approaching third eye practice right now?',
+        hint: 'This matters \u2014 the way you engage shapes how the same practice reads.',
+        options: [
+          { text: 'Meditation on the brow point', detail: 'a focused-attention practice', score: 'meditation' },
+          { text: 'Reading and reflection', detail: 'thinking about the idea', score: 'reading' },
+          { text: 'Following a course or teacher', detail: 'a guided structure', score: 'course' },
+          { text: 'Looking for a way to open it', detail: 'seeking the unlock', score: 'seeking' },
+          { text: 'A reader said mine is blocked', detail: 'the frame came from a reading', score: 'reader-told' },
+          { text: 'Not sure yet', detail: 'still exploring the idea', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'entry',
+        q: 'What brought the third-eye question to you?',
+        hint: '',
+        options: [
+          { text: 'A meditation felt clarifying', detail: 'introspective access', score: 'clarity' },
+          { text: 'I want stronger intuition', detail: 'the honest goal', score: 'intuition' },
+          { text: 'I want to see auras or spirits', detail: 'supernatural perception', score: 'perception' },
+          { text: 'Something feels blocked', detail: 'an issue I attribute', score: 'blocked' },
+          { text: 'A reader diagnosed it', detail: 'the idea arrived externally', score: 'reader' },
+          { text: 'A slow-building feeling', detail: 'it crept in over time', score: 'built' }
+        ]
+      },
+      {
+        id: 'use_frame',
+        q: 'How do you think of the practice itself?',
+        hint: 'The frame is the clearest signal there is.',
+        options: [
+          { text: 'As introspective reflection', detail: 'inner attention and self-awareness', score: 'introspection' },
+          { text: 'Mostly reflection, with curiosity about ability', detail: 'both at once', score: 'both' },
+          { text: 'I\u2019m not sure how to frame it', detail: 'the frame is unclear', score: 'unsure-frame' },
+          { text: 'As building a capability', detail: 'an unlock to develop', score: 'capability' },
+          { text: 'As opening a literal supernatural organ', detail: 'a physical perception organ', score: 'capability-unlock' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'perception_frame',
+        q: 'What do you hope the practice gives you?',
+        hint: '',
+        options: [
+          { text: 'Cultivated intuition', detail: 'real felt-knowing from pattern-processing', score: 'intuition' },
+          { text: 'Intuition, with curiosity about more', detail: 'both, leaning honest', score: 'both-perception' },
+          { text: 'I\u2019m not sure what I\u2019m hoping for', detail: 'the goal is unclear', score: 'unsure-perception' },
+          { text: 'Psychic ability', detail: 'perceiving what others can\u2019t', score: 'psychic' },
+          { text: 'Supernatural perception \u2014 auras, spirits', detail: 'clarity beyond the senses', score: 'supernatural-perception' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'blockage_frame',
+        q: 'When an issue comes up, do you frame it as a blocked third eye?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 I engage the issue directly', detail: 'ordinary causes first', score: 'no-blockage' },
+          { text: 'Mostly no, with exceptions', detail: 'rarely attributes', score: 'mostly-no' },
+          { text: 'Sometimes, when I can\u2019t explain it', detail: 'a fallback explanation', score: 'maybe-blockage' },
+          { text: 'It feels blocked, more often than not', detail: 'a standing state', score: 'blocked-feeling' },
+          { text: 'Yes \u2014 a reader said it\u2019s blocked', detail: 'the diagnosis came paid', score: 'blocked-diagnosis' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'bypass_frame',
+        q: 'How does the practice sit with the rest of your life?',
+        hint: '',
+        options: [
+          { text: 'Alongside ordinary care', detail: 'not a replacement', score: 'engaging' },
+          { text: 'Mostly alongside, with watchfulness', detail: 'I notice limits', score: 'mostly-engaging' },
+          { text: 'I watch for when it isn\u2019t enough', detail: 'honest about edges', score: 'watchful' },
+          { text: 'I lean on it instead of other help', detail: 'delaying engagement', score: 'delaying' },
+          { text: 'It replaces clinical support I might need', detail: 'the bypass risk', score: 'bypassing' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'How to practice it as reflection', detail: 'the method question', score: 'method' },
+          { text: 'Whether the third eye is literally real', detail: 'the ontology question', score: 'ontology' },
+          { text: 'What I\u2019d be able to perceive', detail: 'the capability question', score: 'capability' },
+          { text: 'Why something feels blocked', detail: 'the blockage question', score: 'blockage' },
+          { text: 'Whether the practice is safe for me', detail: 'the safety question', score: 'safety' },
+          { text: 'What\u2019s really underneath my seeking', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest read of my practice', detail: 'sorting reflection from claim', score: 'interpret' },
+          { text: 'An outside perspective on what it surfaces', detail: 'a read on the themes', score: 'insight' },
+          { text: 'A view of the pattern my seeking takes', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole question', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        use_frame:        { introspection: 2, 'both': 1, 'unsure-frame': 0, capability: -1, 'capability-unlock': -2, notell: null },
+        perception_frame: { intuition: 2, 'both-perception': 1, 'unsure-perception': 0, psychic: -1, 'supernatural-perception': -2, notell: null },
+        blockage_frame:   { 'no-blockage': 2, 'mostly-no': 1, 'maybe-blockage': 0, 'blocked-feeling': -1, 'blocked-diagnosis': -2, notell: null },
+        bypass_frame:     { engaging: 2, 'mostly-engaging': 1, watchful: 0, delaying: -1, bypassing: -2, notell: null }
+      };
+      var keys = ['use_frame', 'perception_frame', 'blockage_frame', 'bypass_frame'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.perception_frame !== null && vals.perception_frame <= -2) return 'supernatural-capability-attribution';
+      if (vals.blockage_frame !== null && vals.blockage_frame <= -2 &&
+          (vals.bypass_frame === null || vals.bypass_frame <= 0)) return 'blockage-attribution';
+      if (vals.bypass_frame !== null && vals.bypass_frame <= -1 &&
+          (vals.blockage_frame === null || vals.blockage_frame <= 0)) return 'spiritual-bypassing';
+      if (sum <= -3) return 'spiritual-bypassing';
+      if (vals.use_frame !== null && vals.use_frame >= 2) return 'reflective-meditation-practice';
+      if (sum >= 1) return 'reflective-meditation-practice';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-meditation-practice': {
+        path: 'Reflective meditative practice',
+        summary: 'The practice is doing what it honestly does \u2014 introspective access, not capability unlock.',
+        suggest: function (a) {
+          var s = 'Your answers describe third eye practice used as introspective reflection \u2014 focused attention on the brow point, cultivating inner attention and intuition, without requiring it to be a supernatural organ. That is the shape of the practice that works.';
+          if (a.use_frame === 'introspection') s += ' The frame itself is the signal: treating it as reflection is what lets the introspection land.';
+          if (a.perception_frame === 'intuition') s += ' And the goal is cultivated intuition, which is a real, documented capacity \u2014 not the unsupported psychic one.';
+          s += ' The honest version keeps the practice as meditation; the introspection works whether or not the supernatural claim holds.';
+          return s;
+        },
+        dontTell: 'A reflective practice doesn\u2019t prove the third eye is or isn\u2019t a literal organ \u2014 the ontology question is separate from the practice question. What it does is name the use that produces real benefit, which has a far better track record than chasing a capability unlock.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep the practice as introspective meditation \u2014 brow-point focus, attention, relaxation \u2014 and notice what inner material it surfaces.',
+            'If a specific question forms about what the practice is pointing at, that is the moment an outside perspective (or the free Daily Card) earns its place.'
+          ];
+        }
+      },
+      'supernatural-capability-attribution': {
+        path: 'Supernatural-capability attribution',
+        summary: 'The practice is being read as a literal perception organ it isn\u2019t supported to be.',
+        suggest: function (a) {
+          var s = 'Your answers describe third eye practice framed as opening a literal supernatural organ \u2014 which is the one claim the evidence doesn\u2019t support. No anatomical or physiological finding establishes the third eye as a physical structure, and \u201Copening\u201D it doesn\u2019t grant supernatural perception.';
+          if (a.use_frame === 'capability-unlock') s += ' The frame itself is the signal: a literal-organ reading recruits the meditation\u2019s validity for a capability it can\u2019t deliver.';
+          if (a.perception_frame === 'supernatural-perception') s += ' And the hope is aura- or spirit-perception, which isn\u2019t backed \u2014 the promises extend seeking without delivering.';
+          s += ' That framing tends to keep you in a loop the introspective use doesn\u2019t, because the capability can never arrive.';
+          return s;
+        },
+        dontTell: 'Capability attribution doesn\u2019t make your experience fake \u2014 the meditation can feel clarifying, and intuition is real. What it does is name the unsupported leap from introspection to supernatural organ, which is worth knowing about the question itself.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Separate the practice from the promise: keep the meditation as introspection, and set aside the claim that it opens a supernatural organ.',
+            'If the wanting-to-perceive keeps generating anxiety about whether yours is \u201Copen\u201D or \u201Cblocked,\u201D a licensed therapist is the more honest match than a reading that sells the unlock.'
+          ];
+        }
+      },
+      'blockage-attribution': {
+        path: 'Blockage attribution',
+        summary: 'An issue is being framed as a blocked third eye rather than engaged directly.',
+        suggest: function (a) {
+          var s = 'Your answers describe an issue read as a blocked third eye \u2014 which is the bypass-risk shape. The framework is reflective, not diagnostic: a blocked third eye can\u2019t be confirmed, and the attribution can delay the ordinary engagement an issue deserves.';
+          if (a.blockage_frame === 'blocked-diagnosis') s += ' The diagnosis came from a reader, which is the source that profits from the claim \u2014 the least reliable source for it.';
+          if (a.entry === 'blocked' || a.want === 'blockage') s += ' And the original question was about the blockage itself, which tends to keep the seeking running.';
+          s += ' The honest move is to meet the issue on its own terms, with the practice as reflection alongside it rather than as the cause.';
+          return s;
+        },
+        dontTell: 'Blockage attribution doesn\u2019t prove the issue isn\u2019t real \u2014 issues are real, and they deserve direct attention. What it does is flag the framing that can delay clinical or practical response, which is the part that actually serves you.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Engage the underlying issue directly \u2014 its ordinary causes, and where it touches your life \u2014 rather than through a third-eye lens.',
+            'If the issue is distress, anxiety, or something affecting daily life, a licensed therapist is the honest response; the practice can sit alongside care, not replace it.'
+          ];
+        }
+      },
+      'spiritual-bypassing': {
+        path: 'Spiritual bypassing',
+        summary: 'The practice is leaning in where ordinary or clinical help would fit better.',
+        suggest: function (a) {
+          var s = 'Your answers describe the practice standing in for other kinds of support \u2014 which is the bypass pattern. The introspection is genuine, but it can\u2019t do what therapy, medical care, or direct practical engagement do, and using it as a replacement tends to keep the underlying thing unaddressed.';
+          if (a.bypass_frame === 'bypassing') s += ' The practice is replacing clinical support you might need, which is the clearest form of the risk.';
+          if (a.bypass_frame === 'delaying') s += ' And it is delaying engagement with something that deserves it on its own terms.';
+          s += ' Naming this isn\u2019t a verdict on the practice \u2014 it is a read on where the practice sits relative to the rest of your life.';
+          return s;
+        },
+        dontTell: 'Bypass patterning doesn\u2019t mean the practice is wrong for you \u2014 meditation has a real place. It means the practice is carrying load that ordinary or clinical support is better built to hold, and that distinction is the honest one to keep.',
+        watchIntro: 'Before the practice absorbs more than it should:',
+        watch: function () {
+          return [
+            'Notice where the practice is standing in for help \u2014 and give that part to its proper form (a conversation, a clinician, a practical step).',
+            'If what surfaced is anxiety, distress, or something touching daily life, a licensed therapist is the more reliable match than any reading, including this one.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the practice into reflective use, capability attribution, blockage framing, or bypass \u2014 which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a blocked or open third eye tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of the actual practice \u2014 meditating, not scanning for signs \u2014 watching only the four signals: how you frame it, what you hope it gives, whether you attribute blockage, and where it sits beside the rest of your life.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'capability') {
+        return {
+          key: 'capability-question',
+          label: 'What may be underneath: the capability question',
+          text: 'The question of what you\u2019d be able to perceive is the one most directly monetized \u2014 and the structural problem is that the promise and the paid offering come from the same source. No evidence supports supernatural perception from third eye practice; what the practice cultivates is intuition, which is unconscious pattern-processing, not clairvoyance. The honest reframe drops the capability and keeps the introspection.'
+        };
+      }
+      if (a.perception_frame === 'supernatural-perception' || a.use_frame === 'capability-unlock' || pattern === 'supernatural-capability-attribution') {
+        return {
+          key: 'organ-claim',
+          label: 'What may be underneath: the literal-organ claim',
+          text: 'The wish for a literal supernatural organ is deeply human, and it doesn\u2019t mean the organ exists. The honest reframe: use the practice as introspective meditation, which works whether or not the supernatural claim holds. Anyone who guarantees to open it for you is offering a projection nobody can deliver \u2014 and anyone who names it blocked and sells the opening is the red-flag pattern.'
+        };
+      }
+      if (a.blockage_frame === 'blocked-diagnosis' || a.entry === 'reader' || pattern === 'blockage-attribution') {
+        return {
+          key: 'source-incentive',
+          label: 'What may be underneath: the source incentive',
+          text: 'The blocked-third-eye frame came from a reader, which is the source that deserves the most skepticism \u2014 not because the reader is dishonest, but because the incentive structure makes the diagnosis unreliable. A source that profits from a claim being true is the least reliable source for that claim.'
+        };
+      }
+      if (a.bypass_frame === 'bypassing' || a.bypass_frame === 'delaying' || pattern === 'spiritual-bypassing') {
+        return {
+          key: 'bypass-pattern',
+          label: 'What may be underneath: the bypass pattern',
+          text: 'When the practice stands in for other help, it is usually carrying load that ordinary or clinical support is better built to hold. Research on spiritual bypassing names exactly this: a practice used to avoid material that deserves direct engagement. The introspection is genuine; the substitution is the part to watch, and a licensed therapist is the honest response where distress or daily life is involved.'
+        };
+      }
+      if (a.want === 'safety') {
+        return {
+          key: 'safety-question',
+          label: 'What may be underneath: the safety question',
+          text: 'The practice itself \u2014 focused-attention meditation on the brow point \u2014 is generally safe. The honest caveats: meditation can surface emotional material that needs clinical support, and the supernatural-capability framing can generate anxiety about whether yours is open or blocked. If what arose is distress or something affecting daily life, a licensed therapist is the more appropriate and reliable form of support than any spiritual reading.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your third-eye question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'method' || h === 'interpret') return 'free_first';
+      if (w === 'ontology' || w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      if (w === 'capability' || h === 'insight') return 'psychic';
+      if (w === 'blockage' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'safety' || h === 'guidance') return 'closure';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'how-to-open-your-third-eye', {
+        resultV2: true,
+        canTell: [
+          'Whether you frame the practice as introspective reflection or as a literal supernatural organ \u2014 which is the clearest signal there is',
+          'Whether you hope for cultivated intuition (real) or supernatural perception (unsupported), and whether blockage-attribution is operating',
+          'Where the practice sits beside the rest of your life \u2014 reflection, or a stand-in for help it can\u2019t replace'
+        ],
+        edgeBridge: 'A quiz can read what your practice is actually for \u2014 it can\u2019t open a supernatural organ, which isn\u2019t established, and any reader who guarantees the unlock is offering a projection. A reading framed on the introspection can give you perspective; it can\u2019t honestly promise a capability no evidence supports.',
+        ctaText: {
+          'method:free_first': 'Start with the free framework',
+          'capability:psychic': 'Get a read on your situation',
+          'blockage:tarot_relationship': 'Get a read on the dynamic',
+          'safety:closure': 'Get a closure-framed reflection',
+          'beneath:tarot_deep': 'Get a deeper read on the question',
+          '*:psychic': 'Get a reading on what it surfaces',
+          '*:tarot_relationship': 'Get a read on the pattern',
+          '*:tarot_deep': 'Get a deeper read on the question',
+          '*:closure': 'Get a closure-framed reflection',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'spiritual-bypassing',
+          text: 'when the practice is standing in for help it can\u2019t replace, a reading about opening your third eye can quietly become a more expensive way of keeping the avoidance running. If you book one, frame it on what the practice surfaces \u2014 not on the unlock.'
+        }
+      });
+    }
+  },
+
+
+  'how-to-read-tarot': {
+    id: 'how-to-read-tarot',
+    title: 'What Is Your Tarot Practice Actually About?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using tarot as structured reflection, whether prediction-seeking is doing work the practice can\u2019t support, and whether the cards are amplifying anxiety \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your tarot practice \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'how',
+        q: 'How do you currently use tarot?',
+        hint: 'The shape of your practice is the first signal.',
+        options: [
+          { text: 'As structured reflection on a question', detail: 'the cards prompt insight', score: 'reflection-ctx' },
+          { text: 'Mostly for guidance on what will happen', detail: 'outcome-focused', score: 'prediction-ctx' },
+          { text: 'A bit of both, depending on the day', detail: 'it shifts', score: 'mixed-ctx' },
+          { text: 'I\u2019m learning \u2014 not sure yet', detail: 'new to it', score: 'learning-ctx' },
+          { text: 'A reader does it for me', detail: 'I receive readings', score: 'reader-ctx' }
+        ]
+      },
+      {
+        id: 'brought',
+        q: 'What brought you to tarot this time?',
+        hint: '',
+        options: [
+          { text: 'A genuine question I want to reflect on', detail: 'something to sit with', score: 'question' },
+          { text: 'Something I want the cards to predict', detail: 'an outcome I\u2019m watching for', score: 'predict-driver' },
+          { text: 'A reading that felt eerily accurate', detail: 'the felt-accuracy', score: 'felt' },
+          { text: 'Anxiety a reading stirred up', detail: 'a dire card looping', score: 'anx-driver' },
+          { text: 'Curiosity about the method', detail: 'how it works', score: 'curiosity' },
+          { text: 'I\u2019m not sure what brought me', detail: 'hard to name', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'framing',
+        q: 'When you sit with the cards, what are you mostly asking?',
+        hint: 'Reflection on a question works; prediction isn\u2019t supported.',
+        options: [
+          { text: 'A question \u2014 what is this asking of me?', detail: 'reflection framing', score: 'reflection' },
+          { text: 'A bit of both', detail: 'shifts between the two', score: 'mixed' },
+          { text: 'What will happen next', detail: 'outcome prediction', score: 'prediction' },
+          { text: 'I can\u2019t tell which I\u2019m doing', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'barnum',
+        q: 'A reading felt accurate. How do you weigh that feeling?',
+        hint: 'Felt-accuracy is high for most readings \u2014 the imagery is evocative, not specific.',
+        options: [
+          { text: 'I check whether it would fit many questions', detail: 'Barnum-aware', score: 'aware' },
+          { text: 'It feels specific, but I stay unsure', detail: 'open, not certain', score: 'unsure' },
+          { text: 'The accuracy means the cards know something', detail: 'attributed to divination', score: 'unaware' },
+          { text: 'I can\u2019t tell how much to trust it', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'anxiety',
+        q: 'How do the cards affect your state of mind?',
+        hint: '',
+        options: [
+          { text: 'Calmer \u2014 the reflection settles me', detail: 'grounding', score: 'calm' },
+          { text: 'About the same', detail: 'neutral', score: 'mild' },
+          { text: 'More anxious \u2014 a dire card loops in my head', detail: 'amplified distress', score: 'amplified' },
+          { text: 'I can\u2019t tell what they do to me', detail: 'hard to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'decision',
+        q: 'When a question is heavy, what role do the cards play?',
+        hint: '',
+        options: [
+          { text: 'They inform my own decision', detail: 'I decide', score: 'own' },
+          { text: 'A shared input, not the final word', detail: 'one voice among others', score: 'shared' },
+          { text: 'I want them to decide for me', detail: 'outsourced choice', score: 'outsourced' },
+          { text: 'I can\u2019t tell where the line is', detail: 'unclear', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'How do I actually do a reading?', detail: 'the method', score: 'method' },
+          { text: 'Is tarot accurate \u2014 does it work?', detail: 'the efficacy question', score: 'efficacy' },
+          { text: 'What do these cards mean?', detail: 'interpretation', score: 'interpret' },
+          { text: 'Will the cards predict my future?', detail: 'the prediction question', score: 'predict' },
+          { text: 'Why did a reading feel so accurate?', detail: 'the felt-accuracy question', score: 'why-accurate' },
+          { text: 'What\u2019s really underneath my pull toward this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to learn the honest method', detail: 'the practice itself', score: 'learn' },
+          { text: 'An outside perspective framed as reflection', detail: 'a read on the question', score: 'reflection' },
+          { text: 'A Barnum-effect reality check', detail: 'why it felt accurate', score: 'barnum' },
+          { text: 'Help with anxiety a reading triggered', detail: 'the distress', score: 'anxiety' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'decision' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        framing:  { reflection: 2, mixed: 1, prediction: -2, notell: null },
+        barnum:   { aware: 2, unsure: 0, unaware: -1, notell: null },
+        anxiety:  { calm: 2, mild: 0, amplified: -2, notell: null },
+        decision: { own: 2, shared: 0, outsourced: -2, notell: null }
+      };
+      var keys = ['framing', 'barnum', 'anxiety', 'decision'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.framing !== null && vals.framing <= -2) return 'prediction-seeking';
+      if (vals.anxiety !== null && vals.anxiety <= -2) return 'anxiety-amplification';
+      if (vals.framing !== null && vals.framing >= 2 &&
+          (vals.barnum === null || vals.barnum >= 0) &&
+          (vals.anxiety === null || vals.anxiety >= 0)) return 'reflective-practice';
+      if (sum <= -3) return 'meaning-attribution';
+      if (vals.barnum !== null && vals.barnum <= -1) return 'meaning-attribution';
+      if (vals.decision !== null && vals.decision <= -2) return 'meaning-attribution';
+      if (sum >= 1) return 'reflective-practice';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-practice': {
+        path: 'A reflective practice, honestly held',
+        summary: 'You are framing questions and letting the cards prompt insight rather than predict.',
+        suggest: function (a) {
+          var s = 'Your answers describe tarot used as structured reflection \u2014 a genuine question, the cards prompting insight rather than delivering a forecast.';
+          if (a.framing === 'reflection') s += ' The framing itself is the signal: a question invites reflection, and reflection is what the practice supports.';
+          if (a.barnum === 'aware') s += ' And you weigh the felt-accuracy instead of taking it as proof \u2014 which is the honest read on why a reading feels true.';
+          if (a.anxiety === 'calm') s += ' The cards are settling you, not stirring you, which is the shape a healthy practice takes.';
+          s += ' The work the practice can\u2019t do \u2014 foretelling outcomes \u2014 isn\u2019t the work you\u2019re asking of it, so the honest value lands where it belongs: in the reflection.';
+          return s;
+        },
+        dontTell: 'A reflective practice doesn\u2019t prove the cards carry meaning beyond you \u2014 the projection and narrative mechanisms are yours, and that\u2019s what makes the insight real. What it does is keep the practice where the evidence supports it, which is the sturdier ground to build on.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep framing a question rather than requesting a forecast \u2014 the first invites reflection, the second invites a prediction the cards can\u2019t honestly deliver.',
+            'Run the felt-accuracy through the Barnum check: would this reading feel true for many questions? If it would, the accuracy is the imagery doing its job, not a signal about the future.'
+          ];
+        }
+      },
+      'prediction-seeking': {
+        path: 'Prediction-seeking inside a reflective frame',
+        summary: 'The framing leans toward outcome prediction, which the evidence doesn\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers lean toward asking the cards to predict \u2014 what will happen, what the future holds \u2014 which is the one thing controlled tests of divination haven\u2019t supported.';
+          if (a.framing === 'prediction') s += ' The framing is the tell: a forecast request invites a prediction the practice can\u2019t honestly give.';
+          if (a.brought === 'predict-driver') s += ' And the pull came from wanting an outcome settled, which is exactly where false certainty tends to form.';
+          s += ' The felt-accuracy that follows is confirmation bias and the Barnum effect, not supernatural access \u2014 later events that fit get noticed, the rest get forgotten.';
+          return s;
+        },
+        dontTell: 'Prediction-seeking doesn\u2019t make the practice worthless \u2014 the reflection still works. What it does is extend a frame the evidence can\u2019t carry, and it can leave you watching the world for signs of a forecast instead of living your question. The honest move is to reframe: ask what the question surfaces, not what will happen.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Catch the reframe: trade \u201Cwill it happen\u201D for \u201Cwhat is this asking of me.\u201D The second is answerable; the first isn\u2019t, and chasing it repeats the loop.',
+            'Watch for repeated readings on the same question \u2014 more draws rarely produce more truth, and the repetition usually signals anxiety, not a missing answer.'
+          ];
+        }
+      },
+      'meaning-attribution': {
+        path: 'Felt-accuracy attributed to the cards',
+        summary: 'The accuracy you feel is being read as the cards knowing something.',
+        suggest: function (a) {
+          var s = 'Your answers describe the felt-accuracy of a reading being taken as evidence the cards know something \u2014 the classic Barnum shape, where evocative imagery feels specific because it is built to resonate.';
+          if (a.barnum === 'unaware') s += ' The unawareness is the mechanism: the reading feels true, so it gets credited as insight rather than as skilled ambiguity.';
+          if (a.decision === 'outsourced') s += ' And the cards are sitting where your own decision belongs, which quietly offloads a choice the practice can\u2019t make for you.';
+          s += ' None of this means the reflection is fake \u2014 it means the accuracy is doing more interpretive work than the cards alone can account for.';
+          return s;
+        },
+        dontTell: 'Meaning-attribution doesn\u2019t prove the reading was useless \u2014 reflection prompts are real. What it does is name where the felt-accuracy comes from, which is the part worth knowing about the question itself. The honest weight: let the cards inform your read; don\u2019t grant them a certainty they can\u2019t hold.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Run the Barnum check on the next reading that feels true: would this land for many questions? If yes, the accuracy is the format, not a message.',
+            'Reclaim the decision \u2014 the cards can surface angles, but the choice stays yours. Outsourcing it to a draw trades a real say for a false one.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'The cards are amplifying distress',
+        summary: 'A dire reading is looping and raising anxiety the reflection framing would quiet.',
+        suggest: function (a) {
+          var s = 'Your answers describe the cards raising anxiety \u2014 a \u201Cdire\u201D card looping in your head, distress the reflection framing would otherwise quiet.';
+          if (a.anxiety === 'amplified') s += ' The amplification is the signal: the prediction framing turns evocative imagery into a forecast you now feel obliged to fear.';
+          if (a.brought === 'anx-driver') s += ' And it started from anxiety a reading stirred, which means the loop is feeding itself rather than resolving.';
+          s += ' The imagery is evocative, not prophetic \u2014 a Tower or Death card carries associations of disruption or transformation, usable as reflection, not as a forecast of disaster.';
+          return s;
+        },
+        dontTell: 'Anxiety-amplification doesn\u2019t prove the reading was meaningless \u2014 the reflection may still hold something. What it does is name the mechanism: the prediction frame is doing distress work the reflective frame doesn\u2019t. If the anxiety persists, the anxiety is the thing to engage, and a licensed therapist is the more honest match than another reading.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Reframe the dire card as a prompt, not a prophecy \u2014 ask what it surfaces about your question, not what it foretells. The reflection quiets the loop; the forecast strengthens it.',
+            'If the distress keeps returning without a real question underneath it, step toward support built for anxiety rather than more readings to resolve the fear.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your practice into reflective use or prediction-seeking, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything noisier.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of what the cards \u201Cmean\u201D tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary practice \u2014 doing, not scanning for meaning \u2014 watching only the four signals: framing, Barnum-awareness, anxiety, and decision-ownership.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has shifted in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'predict') {
+        return {
+          key: 'prediction-question',
+          label: 'What may be underneath: the prediction question',
+          text: 'The wish for the cards to predict is the most common pull, and the least supported by evidence. Controlled tests of divination, including tarot, have not produced replicable results for future prediction. The honest reframe: drop the forecast and ask what the question surfaces. The reflection is real; the prediction isn\u2019t available, and wanting it doesn\u2019t make it so.'
+        };
+      }
+      if (a.want === 'why-accurate' || a.barnum === 'unaware' || pattern === 'meaning-attribution') {
+        return {
+          key: 'meaning-attribution',
+          label: 'What may be underneath: the felt-accuracy question',
+          text: 'The felt-accuracy of a reading is high for most questions \u2014 not because the cards are specific, but because the imagery is evocative and the Barnum effect makes vague statements feel personal. Research on the fallacy of personal validation found exactly this: general statements get rated as highly accurate. The accuracy is the format working, not a message getting through.'
+        };
+      }
+      if (a.anxiety === 'amplified' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'anxiety-pattern',
+          label: 'What may be underneath: the anxiety pattern',
+          text: 'When a dire reading loops, the distress is usually the prediction framing doing work the reflection framing wouldn\u2019t. The imagery is evocative, not prophetic \u2014 and the more you scan for confirmation of the forecast, the tighter the loop gets. The honest response is to engage the anxiety directly; more readings to resolve the fear tend to extend it.'
+        };
+      }
+      if (a.want === 'beneath') {
+        return {
+          key: 'underneath-question',
+          label: 'What may be underneath: the pull itself',
+          text: 'The pull toward the cards, when you can\u2019t name it, is often a question wearing the shape of a practice. The honest first step is to frame what you\u2019re actually asking \u2014 a question, not a forecast \u2014 and let the reflection surface the angle. The cards prompt insight; they don\u2019t name the question for you.'
+        };
+      }
+      if (a.want === 'method') {
+        return {
+          key: 'method-question',
+          label: 'What may be underneath: the method question',
+          text: 'Wanting to learn the honest method is the cleanest entry \u2014 frame a genuine question, shuffle while holding it, lay a simple spread, interpret personally, and end on reflection. The cards prompt insight; they don\u2019t deliver it. The practice works whether or not the cards \u201Cmean\u201D anything supernaturally, because the reflection is real.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your tarot-practice question', cluster: 'tarot' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'method' || a.help === 'learn') return 'tarot_deep';
+      if (a.want === 'predict' || a.help === 'reflection') return 'free_first';
+      if (a.want === 'efficacy' || a.want === 'why-accurate' || a.help === 'barnum') return 'tarot_decision';
+      if (a.want === 'interpret' || a.want === 'beneath' || a.help === 'decision') return 'tarot_relationship';
+      if (a.help === 'anxiety') return 'psychic';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'how-to-read-tarot', {
+        resultV2: true,
+        canTell: [
+          'Whether you are framing a question or requesting a forecast \u2014 the single clearest signal of how the practice is being used',
+          'Whether the felt-accuracy is being read as the cards knowing something, or weighed as ordinary evocative imagery',
+          'Whether the cards are settling you or amplifying distress \u2014 which is the part you can actually work with'
+        ],
+        edgeBridge: 'A quiz can read what your practice is doing \u2014 it can\u2019t grant the cards a predictive power the evidence doesn\u2019t support. A reading framed on the question can give you perspective; it can\u2019t honestly promise a forecast.',
+        ctaText: {
+          'reflective-practice:tarot_deep': 'Get a deeper read on the practice',
+          'prediction-seeking:free_first': 'Start with the free framework',
+          'meaning-attribution:tarot_decision': 'Get guidance on your next step',
+          'anxiety-amplification:psychic': 'Get a reading for this situation',
+          '*:free_first': 'Start with the free framework',
+          '*:tarot_deep': 'Get a deeper read on the practice',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_relationship': 'Get a read on the question',
+          '*:psychic': 'Get a reading for this situation',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'anxiety-amplification',
+          text: 'when a dire card is looping, a reading about what will happen can quietly become a more expensive way of keeping the fear running. If you book one, frame it on what the question surfaces \u2014 not on what the cards predict.'
+        }
+      });
+    }
+  },
+
+
+  'mercury-retrograde-meaning': {
+    id: 'mercury-retrograde-meaning',
+    title: 'Is It the Astronomy \u2014 or the Attribution?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you understand the astronomy, whether chaos is being attributed through confirmation bias, and whether avoidance is doing work the framework can\u2019t support \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your Mercury retrograde experience \u2014 what the astronomy supports, what the evidence doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What brings you to Mercury retrograde right now?',
+        hint: 'This matters \u2014 the situation shapes how the same period reads.',
+        options: [
+          { text: 'A glitchy stretch I\u2019m noticing', detail: 'tech, comms, or travel hiccups', score: 'glitches' },
+          { text: 'A specific difficulty', detail: 'something concrete went wrong', score: 'specific' },
+          { text: 'A sense of unease about the period', detail: 'anxious, on edge', score: 'unease' },
+          { text: 'I avoid things during retrograde', detail: 'I hold off on decisions', score: 'avoid' },
+          { text: 'I want to understand what it is', detail: 'the astronomy question', score: 'understand' },
+          { text: 'A reader said it explains me', detail: 'the diagnosis came from a reading', score: 'reader-told' },
+          { text: 'I\u2019m not sure how to name it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What first put the retrograde idea in your head?',
+        hint: '',
+        options: [
+          { text: 'A run of glitches', detail: 'the hiccups themselves', score: 'glitches' },
+          { text: 'A real difficulty', detail: 'something concrete', score: 'difficulty' },
+          { text: 'Something I read online', detail: 'an article, a post, a quiz', score: 'online' },
+          { text: 'A reader told me', detail: 'the idea came from a reading', score: 'reader' },
+          { text: 'A friend mentioned it', detail: 'someone close suggested it', score: 'friend' },
+          { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'intuition' },
+          { text: 'No single thing \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'astronomy',
+        q: 'How do you understand what retrograde actually is?',
+        hint: 'The astronomy is real; the influence claim is the part evidence doesn\u2019t support.',
+        options: [
+          { text: 'An optical effect of perspective \u2014 real and observable', detail: 'apparent motion, not a real reversal', score: 'understands' },
+          { text: 'A real astronomy event that also influences us', detail: 'real, and it affects life', score: 'aware-some' },
+          { text: 'A bit of both, honestly', detail: 'not sure where astronomy ends', score: 'mixed' },
+          { text: 'An influence period \u2014 it disrupts things', detail: 'communication, tech, travel', score: 'believes' },
+          { text: 'A genuine cosmic force to respect', detail: 'supernatural influence is real', score: 'fully-believes' },
+          { text: 'I can\u2019t tell what I think', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'bias',
+        q: 'When something glitches during retrograde, what do you do?',
+        hint: 'Once you watch for it, every hiccup gets credited to it.',
+        options: [
+          { text: 'Note it might just be ordinary probability', detail: 'I check the baseline', score: 'aware' },
+          { text: 'Notice it, but stay skeptical', detail: 'watching without over-crediting', score: 'notices-some' },
+          { text: 'It\u2019s a mix \u2014 sometimes one, sometimes other', detail: 'no fixed habit', score: 'mixed' },
+          { text: 'I watch for glitches more during retrograde', detail: 'looking for confirmation', score: 'watches' },
+          { text: 'I credit most hiccups to retrograde', detail: 'attribution is my default', score: 'attributes' },
+          { text: 'I can\u2019t tell my own pattern', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'avoidance',
+        q: 'Do you change your behavior during retrograde?',
+        hint: 'Delaying important action can create the very problems predicted.',
+        options: [
+          { text: 'No \u2014 I act as usual', detail: 'important action isn\u2019t delayed', score: 'none' },
+          { text: 'Maybe minor caution', detail: 'a little extra care', score: 'minor' },
+          { text: 'It depends on the situation', detail: 'no fixed rule', score: 'mixed' },
+          { text: 'I hold off on some things', detail: 'delay decisions or signings', score: 'some' },
+          { text: 'I avoid most important action', detail: 'I wait until it ends', score: 'heavy' },
+          { text: 'I can\u2019t tell what I do', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'anxiety',
+        q: 'How does the retrograde framing sit with you?',
+        hint: '',
+        options: [
+          { text: 'Calm \u2014 it\u2019s just astronomy', detail: 'no added weight', score: 'calm' },
+          { text: 'Mild awareness', detail: 'a little on my mind', score: 'mild' },
+          { text: 'Mixed feelings', detail: 'no clear read', score: 'mixed' },
+          { text: 'Elevated \u2014 I feel on edge', detail: 'watching makes me tense', score: 'elevated' },
+          { text: 'High \u2014 it amplifies my worry', detail: 'ordinary events feel heavier', score: 'high' },
+          { text: 'I can\u2019t tell how it affects me', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What is retrograde, astronomically?', detail: 'the astronomy question', score: 'what-is' },
+          { text: 'Did retrograde cause my problems?', detail: 'the attribution question', score: 'did-cause' },
+          { text: 'Should I avoid signing or starting things?', detail: 'the avoidance question', score: 'avoid-q' },
+          { text: 'When will it end?', detail: 'the timing question', score: 'when' },
+          { text: 'What\u2019s really underneath this?', detail: 'something I can\u2019t name', score: 'beneath' },
+          { text: 'I want an outside read on the period', detail: 'a reflection', score: 'read' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting astronomy from attribution', score: 'interpret' },
+          { text: 'An outside perspective on the period', detail: 'a reflective read', score: 'insight' },
+          { text: 'A view of what this period is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do', score: 'guidance' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        astronomy:  { 'understands': 2, 'aware-some': 1, 'mixed': 0, 'believes': -1, 'fully-believes': -2, 'notell': null },
+        bias:       { 'aware': 2, 'notices-some': 1, 'mixed': 0, 'watches': -1, 'attributes': -2, 'notell': null },
+        avoidance:  { 'none': 2, 'minor': 1, 'mixed': 0, 'some': -1, 'heavy': -2, 'notell': null },
+        anxiety:    { 'calm': 2, 'mild': 1, 'mixed': 0, 'elevated': -1, 'high': -2, 'notell': null }
+      };
+      var keys = ['astronomy', 'bias', 'avoidance', 'anxiety'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.astronomy !== null && vals.astronomy >= 2 &&
+          (vals.bias === null || vals.bias >= 0) &&
+          (vals.avoidance === null || vals.avoidance >= 0) &&
+          (vals.anxiety === null || vals.anxiety >= 0)) return 'astronomical-understanding';
+      if (vals.bias !== null && vals.bias <= -1 && (vals.astronomy === null || vals.astronomy >= 0)) return 'confirmation-bias-loop';
+      if (vals.avoidance !== null && vals.avoidance <= -1 && (vals.astronomy === null || vals.astronomy >= 0)) return 'avoidance-driven';
+      if (vals.anxiety !== null && vals.anxiety <= -1 && (vals.astronomy === null || vals.astronomy >= 0)) return 'anxiety-amplification';
+      if (vals.astronomy !== null && vals.astronomy <= -2) return 'confirmation-bias-loop';
+      if (sum <= -3) return 'anxiety-amplification';
+      if (vals.astronomy !== null && vals.astronomy >= 1) return 'astronomical-understanding';
+      if (sum >= 1) return 'astronomical-understanding';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'astronomical-understanding': {
+        path: 'An honest read of the astronomy',
+        summary: 'You understand retrograde as a real event, held apart from the influence claims.',
+        suggest: function (a) {
+          var s = 'Your answers describe retrograde as a real astronomical event \u2014 an apparent motion, observable and predictable \u2014 rather than a supernatural influence on your life.';
+          if (a.astronomy === 'understands') s += ' Holding that distinction is the honest core: the event is real; the influence claim is what the evidence doesn\u2019t support.';
+          if (a.bias === 'aware' || a.bias === 'notices-some') s += ' And you check glitches against an ordinary baseline instead of crediting them to the sky.';
+          if (a.avoidance === 'none' || a.avoidance === 'minor') s += ' You also don\u2019t delay important action over it \u2014 which keeps the framework from becoming a source of avoidance.';
+          s += ' The useful move from here is the practice the astronomy already suggests: double-check communications and backups as a periodic habit, regardless of Mercury\u2019s apparent motion.';
+          return s;
+        },
+        dontTell: 'An honest read of the astronomy doesn\u2019t prove retrograde influences nothing \u2014 nothing can prove a negative on an unfalsifiable claim. What it does is hold the two things apart: engage the actual causes of any difficulty, which exist regardless of Mercury, and skip the attribution that adds anxiety without adding information.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Treat retrograde as a periodic reminder to double-check comms and backups \u2014 useful practices regardless of Mercury\u2019s apparent motion.',
+            'Notice whether any difficulty you meet gets credited to the sky by default. If you keep it pinned to ordinary causes, the read holds.'
+          ];
+        }
+      },
+      'confirmation-bias-loop': {
+        path: 'A confirmation-bias loop',
+        summary: 'Glitches get credited to retrograde while the baseline is forgotten.',
+        suggest: function (a) {
+          var s = 'Your answers describe a loop: once retrograde is on your radar, glitches get noticed, attributed, and remembered \u2014 while the same rate of hiccups during non-retrograde periods gets forgotten.';
+          if (a.bias === 'watches' || a.bias === 'attributes') s += ' Watching for glitches more during retrograde is exactly the condition under which they feel more frequent.';
+          if (a.astronomy === 'believes' || a.astronomy === 'fully-believes') s += ' And the influence belief gives the loop an air of authority the astronomy itself doesn\u2019t provide.';
+          s += ' The research on confirmation bias fits this precisely: the mind preferentially notices what confirms a watched-for pattern. The glitches are real; the cause attribution is the part the evidence doesn\u2019t support.';
+          return s;
+        },
+        dontTell: 'A confirmation-bias loop doesn\u2019t mean your glitches aren\u2019t real \u2014 they are. It names the mechanism behind the attribution, which is worth knowing about the question itself. The honest check is whether glitches happen at the same rate when you aren\u2019t watching for them; almost always, they do.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Track glitches without naming the cause for a stretch \u2014 you\u2019ll likely find the rate barely moves between retrograde and non-retrograde periods.',
+            'When something breaks, engage the actual cause (a backup, a conversation, a repair) rather than the astral one. The real fix lives in the ordinary domain.'
+          ];
+        }
+      },
+      'avoidance-driven': {
+        path: 'Avoidance doing the work',
+        summary: 'Delaying action during retrograde is creating the very problems predicted.',
+        suggest: function (a) {
+          var s = 'Your answers describe avoidance: holding off on decisions, signings, or hard conversations because retrograde is \u201Cactive.\u201D';
+          if (a.avoidance === 'heavy') s += ' Waiting until it ends means important action is parked for weeks at a time, repeatedly through the year.';
+          if (a.want === 'avoid-q') s += ' The avoidance question is the one most directly monetized and most unsupported \u2014 astral timing isn\u2019t a real constraint on readiness.';
+          s += ' The catch is self-fulfilling: postponing a contract, a conversation, or a project can create the very difficulties the framework predicts. The honest position is to review carefully always, but not delay over an unsupported influence claim.';
+          return s;
+        },
+        dontTell: 'Avoidance-driven doesn\u2019t prove the influence is fake in your specific case \u2014 it proves the avoidance itself is a cause of difficulty, independent of Mercury. Engaging the actual readiness of a decision serves you more than waiting out an astronomy event that, evidence-wise, isn\u2019t acting on it.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Make decisions on their actual readiness \u2014 review contracts carefully, have the conversation when it\u2019s due \u2014 rather than on the calendar of an apparent motion.',
+            'If a reader offers \u201Cretrograde protection\u201D or tells you to avoid all important action monthly, that\u2019s a sales pattern, not an astronomical one.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'Anxiety amplification',
+        summary: 'The watching for retrograde is heightening the felt difficulty.',
+        suggest: function (a) {
+          var s = 'Your answers describe the retrograde framing amplifying anxiety \u2014 ordinary events feel heavier because the period is loaded with anticipated meaning.';
+          if (a.anxiety === 'high') s += ' The worry itself becomes a lens that darkens neutral events.';
+          if (a.bias === 'watches' || a.bias === 'attributes') s += ' And the watching feeds the worry: more attention to glitches means more evidence, in your mind, that something is wrong.';
+          s += ' The honest read: the actual glitch rate doesn\u2019t change during retrograde; what changes is your attention and attribution. If the distress touches daily life, a licensed therapist is the more reliable match than a reading.';
+          return s;
+        },
+        dontTell: 'Anxiety-amplification doesn\u2019t mean the feeling is unfounded \u2014 feelings are real regardless of their trigger. It names the loop between watching and worrying, which is the part worth engaging directly. A reading can frame the reflection; it cannot lower the anxiety, and anyone guaranteeing it will is selling a certainty nobody possesses.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice whether the period is adding weight to ordinary events that would be neutral otherwise \u2014 naming it loosens the loop.',
+            'If the attribution distress affects sleep, focus, or daily life, a licensed therapist is the honest match, not a retrograde-themed reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your experience into astronomy-understanding or attribution-loop, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the watching that would make everything noisier.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that retrograde is \u201Cdoing\u201D something tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: astronomy understanding, bias awareness, avoidance, and anxiety.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'did-cause') {
+        return {
+          key: 'attribution-question',
+          label: 'What may be underneath: the attribution question',
+          text: 'The wish for retrograde to explain a run of difficulty is deeply human, and it doesn\u2019t mean it\u2019s causing anything. The honest reframe drops the who-question and asks whether the difficulty has ordinary causes worth engaging directly. Attributing it to retrograde can quietly avoid that real work \u2014 the actual fix lives in the domain, not the sky.'
+        };
+      }
+      if (a.avoidance === 'heavy' || a.want === 'avoid-q' || pattern === 'avoidance-driven') {
+        return {
+          key: 'avoidance-pattern',
+          label: 'What may be underneath: the avoidance pattern',
+          text: 'Delaying important action during retrograde can be self-fulfilling: postponing a contract, conversation, or project creates the very difficulties the framework predicts. The astral timing isn\u2019t supported, so the avoidance, not Mercury, becomes the cause. The honest move is to act on actual readiness \u2014 review carefully always, but don\u2019t park decisions on an unsupported influence claim.'
+        };
+      }
+      if (a.anxiety === 'high' || a.anxiety === 'elevated' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'anxiety-pattern',
+          label: 'What may be underneath: the anxiety pattern',
+          text: 'When the retrograde framing sits heavily, the watching amplifies felt difficulty \u2014 ordinary events feel worse because the period is loaded with anticipated meaning. The actual glitch rate doesn\u2019t change; the attention and attribution do. If the distress touches daily life, a licensed therapist is the more reliable and appropriate match than any retrograde-themed reading.'
+        };
+      }
+      if (a.status === 'reader-told' || a.trigger === 'reader' || pattern === 'confirmation-bias-loop') {
+        return {
+          key: 'source-incentive',
+          label: 'What may be underneath: the source incentive',
+          text: 'The retrograde \u201Cdiagnosis\u201D came from a reader, which is the source that deserves the most skepticism \u2014 not because the reader is dishonest, but because the incentive structure makes the diagnosis unreliable. A source that profits from a claim being true is the least reliable source for that claim, especially when it also sells the \u201Cprotection\u201D or \u201Cclearing\u201D for it.'
+        };
+      }
+      if (a.want === 'what-is') {
+        return {
+          key: 'astronomy-question',
+          label: 'What may be underneath: the astronomy question',
+          text: 'The wish to simply understand what retrograde is \u2014 an apparent reversal of orbital direction from Earth\u2019s vantage, an optical effect of perspective, real and predictable \u2014 is the most honest arrival. The astronomy is observable and honest; everything built interpretively on it, the influence claims, is the separate question the evidence doesn\u2019t support.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your Mercury retrograde experience', cluster: 'astrology' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'what-is') return 'free_first';
+      if (a.want === 'did-cause' || a.help === 'interpret') return 'free_first';
+      if (a.want === 'avoid-q' || a.help === 'guidance') return 'tarot_decision';
+      if (a.want === 'when' || a.want === 'read' || a.help === 'insight') return 'psychic';
+      if (a.want === 'beneath' || a.help === 'deeper') return 'tarot_deep';
+      if (a.help === 'dynamic') return 'tarot_relationship';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'mercury-retrograde-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether you understand retrograde as a real optical event held apart from the influence claim \u2014 the distinction the evidence actually supports',
+          'Whether glitches are being credited to retrograde while the same baseline rate during non-retrograde periods is forgotten',
+          'Whether avoidance or anxiety is doing work the astronomy can\u2019t \u2014 the part you can actually change'
+        ],
+        edgeBridge: 'A quiz can read what your own experience is tracking \u2014 the astronomy, the attribution, the avoidance \u2014 but it cannot confirm that retrograde influences your life, which controlled tests haven\u2019t supported. A reading framed on the attribution pattern can offer perspective; it cannot honestly promise an influence.',
+        ctaText: {
+          '*:free_first': 'Start with the free framework',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:psychic': 'Get a reading on the period',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:tarot_relationship': 'Get a read on the actual causes',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'avoidance-driven',
+          text: 'when avoidance has become the habit, a reader offering \u201Cretrograde protection\u201D or telling you to delay all important action monthly can quietly become a more expensive way of keeping the avoidance running. If you book one, frame it on the actual causes of your difficulty \u2014 not on waiting out the sky.'
+        }
+      });
+    }
+  },
+
+
+  'new-moon-ritual': {
+    id: 'new-moon-ritual',
+    title: 'Is Your New Moon Ritual Reflection or Energy Work?',
+    launchSub: 'Eight questions, about two minutes. It reads whether your new moon practice is structured reflection or energy attribution \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of whether your new moon practice is intention-setting or energy planting \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What brings you to the new moon ritual right now?',
+        hint: 'This matters \u2014 the situation shapes how the same practice reads.',
+        options: [
+          { text: 'A wish to set intentions', detail: 'beginnings, planting, committing', score: 'intentions' },
+          { text: 'A wish for a fresh start', detail: 'resetting, clearing, beginning', score: 'fresh' },
+          { text: 'Curiosity about lunar energy', detail: 'the new moon\u2019s potency', score: 'curiosity' },
+          { text: 'A hope it boosts my manifestations', detail: 'the ritual as energy boost', score: 'boost' },
+          { text: 'A feeling something is off', detail: 'seeking, not sure why', score: 'off' },
+          { text: 'I practice it regularly already', detail: 'an established rhythm', score: 'regular' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What made you wonder whether the ritual is \u201Cworking\u201D?',
+        hint: '',
+        options: [
+          { text: 'My intentions haven\u2019t materialized', detail: 'the outcome question', score: 'not-materialized' },
+          { text: 'I keep seeking the right method', detail: 'the method anxiety', score: 'method' },
+          { text: 'I read that the moon is potent', detail: 'an external claim', score: 'read' },
+          { text: 'A reader or post said so', detail: 'a diagnosis from outside', score: 'reader' },
+          { text: 'A gut feeling about energy', detail: 'intuition, no single thing', score: 'intuition' },
+          { text: 'Nothing specific \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'use',
+        q: 'How do you use the new moon ritual?',
+        hint: 'This is the core signal \u2014 reflection versus energy planting.',
+        options: [
+          { text: 'Structured reflection on intentions', detail: 'what to begin, plant, commit to', score: 'reflection' },
+          { text: 'Meaning-making through symbolism', detail: 'the new moon as a marker', score: 'symbol' },
+          { text: 'Mostly as a periodic marker', detail: 'a rhythm, not sure of the mechanism', score: 'marker' },
+          { text: 'Planting intentions in lunar energy', detail: 'a cosmic field', score: 'energy-plant' },
+          { text: 'Harnessing the moon\u2019s potent energy', detail: 'energy to manifest', score: 'energy-boost' },
+          { text: 'I can\u2019t tell how I use it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'confirm',
+        q: 'Do you read the ritual as a manifestation boost?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 it supports reflection, not outcomes', detail: 'the honest read', score: 'no-boost' },
+          { text: 'I\u2019m unsure it changes outcomes', detail: 'open question', score: 'neutral' },
+          { text: 'I hope it helps a little', detail: 'a mild hope', score: 'hope' },
+          { text: 'Yes, as an energy boost to manifest', detail: 'the boost reading', score: 'boost' },
+          { text: 'The new moon timing boosts outcomes', detail: 'lunar timing as the mechanism', score: 'timing' },
+          { text: 'I can\u2019t tell', detail: 'too early or unclear', score: 'notell' }
+        ]
+      },
+      {
+        id: 'anxiety',
+        q: 'Where does the intention come from?',
+        hint: '',
+        options: [
+          { text: 'From me, through reflection', detail: 'the intention is mine', score: 'clear' },
+          { text: 'I find it by reflecting on the cycle', detail: 'the ritual surfaces it', score: 'reflect' },
+          { text: 'I\u2019m not sure what to intend', detail: 'unsettled', score: 'unsure' },
+          { text: 'I seek the \u201Cright\u201D intention to plant', detail: 'method anxiety', score: 'seek-right' },
+          { text: 'The moon dictates the right intention', detail: 'external source', score: 'moon-dictate' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'action',
+        q: 'What happens after the ritual?',
+        hint: '',
+        options: [
+          { text: 'I follow with concrete action', detail: 'goal-clarity into steps', score: 'action' },
+          { text: 'Some follow-through, unevenly', detail: 'partial', score: 'some' },
+          { text: 'I follow through inconsistently', detail: 'lapses', score: 'inconsistent' },
+          { text: 'The ritual itself is the practice', detail: 'symbol only, no action', score: 'symbol-only' },
+          { text: 'I blame myself when nothing happens', detail: 'energy framing, self-blame', score: 'blame' },
+          { text: 'I can\u2019t tell', detail: 'too early to know', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'How to do the ritual well', detail: 'the method question', score: 'method' },
+          { text: 'Is the new moon energetically potent?', detail: 'the energy question', score: 'energy' },
+          { text: 'Will it boost my manifestation?', detail: 'the confirmation question', score: 'manifest' },
+          { text: 'I don\u2019t know what to intend', detail: 'the intention question', score: 'intention' },
+          { text: 'Why aren\u2019t my intentions working?', detail: 'the blame question', score: 'why-not' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting reflection from energy', score: 'interpret' },
+          { text: 'An outside perspective on my reflection', detail: 'a read on what surfaces', score: 'insight' },
+          { text: 'A view of what this practice is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole practice', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        use:      { reflection: 2, symbol: 1, marker: 0, 'energy-plant': -1, 'energy-boost': -2, notell: null },
+        confirm:  { 'no-boost': 2, neutral: 1, hope: 0, boost: -1, timing: -2, notell: null },
+        anxiety:  { clear: 2, reflect: 1, unsure: 0, 'seek-right': -1, 'moon-dictate': -2, notell: null },
+        action:   { action: 2, some: 1, inconsistent: 0, 'symbol-only': -1, blame: -2, notell: null }
+      };
+      var keys = ['use', 'confirm', 'anxiety', 'action'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.use !== null && vals.use <= -2) return 'energy-attribution';
+      if (vals.confirm !== null && vals.confirm <= -2) return 'manifestation-confirmation';
+      if (vals.anxiety !== null && vals.anxiety <= -2) return 'intention-anxiety';
+      if (sum <= -3) return 'energy-attribution';
+      if (vals.action !== null && vals.action >= 1) return 'reflective-intention-practice';
+      if (sum >= 1) return 'reflective-intention-practice';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-intention-practice': {
+        path: 'A reflective intention-setting practice',
+        summary: 'The ritual is doing structured reflection \u2014 the part that works.',
+        suggest: function (a) {
+          var s = 'Your answers describe a new moon practice built on structured reflection \u2014 setting intentions through clarity and commitment, which is the part of the ritual that actually supports change.';
+          if (a.use === 'reflection') s += ' The reflection itself is the mechanism: the new moon marks the beginning, you do the meaning-making.';
+          if (a.action === 'action' || a.action === 'some') s += ' And you follow with action, which is where the intention is realized \u2014 goal-clarity and steps, not lunar energy.';
+          s += ' The honest framing isn\u2019t that the moon plants the intention; it\u2019s that the rhythm gives you a reliable prompt to reflect and commit.';
+          return s;
+        },
+        dontTell: 'A reflective practice doesn\u2019t prove the new moon is energetically potent \u2014 the moon is a real astronomical marker, but the energy-planting claim isn\u2019t supported. What it does is give you a structured monthly prompt for intention-setting, which works through reflection and commitment, not through a cosmic field.',
+        watchIntro: 'Over the coming cycle:',
+        watch: function () {
+          return [
+            'Keep the practice reflective: set an intention, engage the symbolism of beginnings, and follow with one concrete action. The structure is the mechanism.',
+            'If the reflection keeps clarifying what you want to begin, the ritual is doing its honest job. If you start reading it as an energy boost, return to the structure.'
+          ];
+        }
+      },
+      'energy-attribution': {
+        path: 'Energy attribution the practice can\u2019t support',
+        summary: 'The ritual is being read as energy planting, not reflection.',
+        suggest: function (a) {
+          var s = 'Your answers describe a new moon practice read as energy planting \u2014 intentions placed in a lunar field or boosted by moon energy, which the evidence doesn\u2019t support.';
+          if (a.use === 'energy-boost' || a.use === 'energy-plant') s += ' The framing treats the moon as an energy source rather than a marker, which grants the ritual a validity the research doesn\u2019t confirm.';
+          if (a.confirm === 'timing' || a.confirm === 'boost') s += ' And the manifestation boost reading extends seeking without delivering \u2014 the ritual supports reflection, not outcomes through timing.';
+          s += ' The honest move is to keep the reflection and drop the energy claim: the new moon marks the beginning; you do the work.';
+          return s;
+        },
+        dontTell: 'Energy attribution doesn\u2019t prove the practice is worthless \u2014 the ritual still structures reflection, which is genuinely useful. What it does is name the part that isn\u2019t available: no honest reader or study can confirm that intentions were \u201Cplanted\u201D in a cosmic field. Anyone who guarantees an energy activation or sells \u201Cplanting\u201D sessions is offering a certainty nobody possesses.',
+        watchIntro: 'Over the coming cycle:',
+        watch: function () {
+          return [
+            'Separate the reflection from the energy claim: write the intention, use the symbolism, follow with action \u2014 and notice whether anything changes when you stop attributing it to lunar energy.',
+            'Be alert to the red flag: any reader who claims your intentions are \u201Cblocked\u201D and offers ongoing energy work is selling a pattern, not a practice.'
+          ];
+        }
+      },
+      'manifestation-confirmation': {
+        path: 'Manifestation-confirmation at work',
+        summary: 'The ritual is being read as a manifestation boost.',
+        suggest: function (a) {
+          var s = 'Your answers describe the new moon ritual read as a manifestation boost \u2014 the lunar timing treated as the mechanism that delivers outcomes, which isn\u2019t supported.';
+          if (a.confirm === 'timing' || a.confirm === 'boost') s += ' The boost reading extends seeking: it turns a reflective practice into an energy claim that can\u2019t pay off.';
+          if (a.action === 'blame') s += ' And when intentions don\u2019t materialize, the energy framing turns the method\u2019s limits into your failure \u2014 a costly pattern.';
+          s += ' The honest version: the ritual supports the documented mechanisms \u2014 goal-clarity, mental contrast, action \u2014 not an energy acceleration of manifestation.';
+          return s;
+        },
+        dontTell: 'Manifestation-confirmation doesn\u2019t mean your intentions won\u2019t happen \u2014 it means the ritual\u2019s role is reflection and commitment, and the realization comes through action, not lunar timing. Reading the new moon as a boost keeps you in a frame that extends seeking without delivering.',
+        watchIntro: 'Over the coming cycle:',
+        watch: function () {
+          return [
+            'Track the manifestation-confirmation pattern: notice when you reach for \u201Cthe new moon will make it happen\u201D and redirect to what you can actually do.',
+            'If an intention hasn\u2019t materialized, ask the honest questions \u2014 was it clear, was it followed by action, what obstacles are real \u2014 rather than whether the energy was \u201Cright.\u201D'
+          ];
+        }
+      },
+      'intention-anxiety': {
+        path: 'Intention-anxiety about the \u201Cright\u201D intention',
+        summary: 'The worry is about finding the correct intention to plant.',
+        suggest: function (a) {
+          var s = 'Your answers describe intention-anxiety \u2014 a worry about whether you\u2019ve chosen the right intention to plant, as if the moon dictates it. The intention comes from you, not the lunar field.';
+          if (a.anxiety === 'seek-right') s += ' The search for the correct intention is method anxiety: the ritual can\u2019t name it for you.';
+          if (a.anxiety === 'moon-dictate') s += ' And handing the choice to the moon outsources a decision that is yours to make through reflection.';
+          s += ' The honest use is to let the new moon prompt reflection on beginnings \u2014 the intention is found in your own reflection, not received from the sky.';
+          return s;
+        },
+        dontTell: 'Intention-anxiety doesn\u2019t mean you\u2019re doing the ritual wrong \u2014 it means the energy framing has turned intention-setting into a high-stakes choice. The intention was always yours; the ritual is a prompt for finding it, not a source that supplies the correct one.',
+        watchIntro: 'Over the coming cycle:',
+        watch: function () {
+          return [
+            'Let the reflection surface the intention instead of hunting for the \u201Cright\u201D one \u2014 write whatever the cycle prompts, and commit to it.',
+            'If the anxiety persists without a real question underneath it, a licensed therapist is the more honest match than a reading that promises to name your intention.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your practice into reflective intention-setting or energy attribution, which usually means one of two things: the practice is genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that the ritual \u201Cworked\u201D tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four new moon cycles of ordinary practice \u2014 reflecting, not scanning for signs \u2014 watching only the four signals: reflection versus energy, manifestation reading, intention source, action follow-through.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a few cycles, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'energy') {
+        return {
+          key: 'energy-question',
+          label: 'What may be underneath: the energy question',
+          text: 'The question of whether the new moon is energetically potent is the one most directly at odds with the evidence \u2014 the moon is a real astronomical marker, but the energy-planting claim isn\u2019t supported. What the ritual actually offers is structured reflection; the energy framing extends seeking without delivering.'
+        };
+      }
+      if (a.want === 'manifest' || a.confirm === 'timing' || a.confirm === 'boost' || pattern === 'manifestation-confirmation') {
+        return {
+          key: 'confirmation-pattern',
+          label: 'What may be underneath: the manifestation-confirmation pattern',
+          text: 'Reading the ritual as a manifestation boost is the manifestation-confirmation pattern \u2014 the lunar timing treated as a mechanism that delivers outcomes. The honest reframe: the ritual supports reflection and commitment; the realization comes through goal-clarity and action, not through lunar energy.'
+        };
+      }
+      if (a.anxiety === 'seek-right' || a.anxiety === 'moon-dictate' || pattern === 'intention-anxiety') {
+        return {
+          key: 'intention-anxiety',
+          label: 'What may be underneath: intention-anxiety',
+          text: 'The worry about the \u201Cright\u201D intention to plant is method anxiety. The intention comes from you, not the moon \u2014 and the ritual is a prompt for finding it through reflection, not a source that supplies the correct one.'
+        };
+      }
+      if (a.want === 'why-not' || a.action === 'blame') {
+        return {
+          key: 'self-blame',
+          label: 'What may be underneath: the self-blame pattern',
+          text: 'When intentions don\u2019t materialize, the energy framing turns the method\u2019s limits into your failure \u2014 \u201Cyou planted wrong\u201D or \u201Cthe energy was blocked.\u201D The honest frame: intentions aren\u2019t guaranteed; they\u2019re clarified and pursued through action, which is in your hands.'
+        };
+      }
+      if (a.status === 'regular' && a.want === 'method') {
+        return {
+          key: 'method-refinement',
+          label: 'What may be underneath: the method question',
+          text: 'A wish to do the ritual well is the method arrival \u2014 the honest practice is structured reflection on intentions and beginnings, followed by action. The structure is the mechanism; the moon is the marker.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your new-moon practice', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'method' || a.want === 'energy' || a.help === 'interpret' || a.help === 'guidance') return 'free_first';
+      if (a.want === 'intention' || a.help === 'insight') return 'psychic';
+      if (a.want === 'manifest' || a.help === 'dynamic') return 'tarot_relationship';
+      if (a.want === 'beneath' || a.help === 'deeper') return 'tarot_deep';
+      if (a.want === 'why-not') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'new-moon-ritual', {
+        resultV2: true,
+        canTell: [
+          'Whether your practice is structured reflection or energy attribution \u2014 the core distinction',
+          'Whether the ritual is being read as a manifestation boost the evidence doesn\u2019t support',
+          'Where the intention actually comes from \u2014 you, or the lunar field'
+        ],
+        edgeBridge: 'A quiz can read what your practice is doing \u2014 it can\u2019t confirm an energy activation. A reading can frame the reflection; it cannot honestly claim the ritual planted your intentions in a cosmic field, which is a projection nobody can verify.',
+        ctaText: {
+          'reflective-intention-practice:free_first': 'Start with the free framework',
+          'energy-attribution:free_first': 'Start with the free framework',
+          'manifestation-confirmation:tarot_relationship': 'Get a read on the reflection',
+          'intention-anxiety:psychic': 'Get a perspective on your reflection',
+          'not-enough-evidence:general': 'Take Do What Fits',
+          '*:psychic': 'Get a perspective on your reflection',
+          '*:tarot_relationship': 'Get a read on the reflection',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the practice',
+          '*:closure': 'Get a reflection-focused reading',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'energy-attribution',
+          text: 'when energy attribution takes hold, a reading that guarantees an activation or sells ongoing \u201Cplanting\u201D sessions can quietly become a more expensive way of keeping the seeking running. If you book one, frame it on what your practice surfaces \u2014 not on whether the moon\u2019s energy was activated.'
+        }
+      });
+    }
+  },
+
+
+  'owl-meaning': {
+    id: 'owl-meaning',
+    title: 'What Your Owl Encounter Is Pointing At',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re making meaning from the encounter or asking it to be a message \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of whether your owl encounter is meaning-making, message-seeking, or omen-anxiety \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'encounter',
+        q: 'What kind of owl encounter are you describing?',
+        hint: '',
+        options: [
+          { text: 'A single sighting', detail: 'one encounter', score: 'single' },
+          { text: 'Repeated sightings', detail: 'a few, close together', score: 'repeated' },
+          { text: 'One vivid, striking sighting', detail: 'unforgettable', score: 'vivid' },
+          { text: 'I saw it in a dream', detail: 'not waking life', score: 'dream' },
+          { text: 'I keep thinking about an owl', detail: 'the idea lingers', score: 'thinking' },
+          { text: 'I can\u2019t place it', detail: 'unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'situation',
+        q: 'What\u2019s going on in your life around this?',
+        hint: '',
+        options: [
+          { text: 'A life transition', detail: 'change, loss, or new start', score: 'transition' },
+          { text: 'A loss or grief', detail: 'someone or something ended', score: 'grief' },
+          { text: 'Nothing major \u2014 calm', detail: 'steady', score: 'calm' },
+          { text: 'A stressful or anxious period', detail: 'under strain', score: 'anxious' },
+          { text: 'Just curiosity', detail: 'intellectual interest', score: 'curious' },
+          { text: 'I can\u2019t place it', detail: 'unconnected', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'symbolism',
+        q: 'What does the owl mean to you, personally?',
+        hint: 'The personal symbolism is the real, usable meaning.',
+        options: [
+          { text: 'A prompt to reflect', detail: 'I use it as reflection', score: 'reflective' },
+          { text: 'A personal symbol', detail: 'my own association', score: 'personal' },
+          { text: 'Just a bird', detail: 'no meaning attached', score: 'neutral' },
+          { text: 'I can\u2019t tell what it means', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'message',
+        q: 'Do you read the encounter as a message?',
+        hint: 'The message framing needs a channel the evidence doesn\u2019t support.',
+        options: [
+          { text: 'No \u2014 it\u2019s not a message', detail: 'a natural event', score: 'no-message' },
+          { text: 'Maybe \u2014 a possible sign', detail: 'open, not certain', score: 'maybe' },
+          { text: 'Yes \u2014 it\u2019s directed at me', detail: 'a message for me', score: 'message-for-me' },
+          { text: 'Yes \u2014 a specific decoded message', detail: 'it means a concrete thing', score: 'specific-message' },
+          { text: 'I can\u2019t tell', detail: 'hard to say', score: 'notell' }
+        ]
+      },
+      {
+        id: 'omen',
+        q: 'Does the owl feel like an omen to you?',
+        hint: 'The omen framing extends anxiety the reflection framing doesn\u2019t.',
+        options: [
+          { text: 'No \u2014 not an omen', detail: 'not predictive', score: 'no-omen' },
+          { text: 'Curious, but not fearful', detail: 'interest, not dread', score: 'curious' },
+          { text: 'A bit uneasy', detail: 'low-grade worry', score: 'uneasy' },
+          { text: 'Yes \u2014 a death omen', detail: 'fearing it foretells death', score: 'death-omen' },
+          { text: 'I can\u2019t tell', detail: 'undecided', score: 'notell' }
+        ]
+      },
+      {
+        id: 'priming',
+        q: 'How do you account for the sighting?',
+        hint: 'Once owls enter attention, you notice them more.',
+        options: [
+          { text: 'Habitat, season, probability', detail: 'natural explanation', score: 'natural' },
+          { text: 'I notice them more now', detail: 'attentional priming', score: 'noticed-more' },
+          { text: 'Genuine, recurring pattern', detail: 'worth reflecting on', score: 'pattern' },
+          { text: 'Supernaturally arranged', detail: 'meant to happen', score: 'arranged' },
+          { text: 'I can\u2019t tell', detail: 'unclear', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What the owl means to me', detail: 'the personal symbolism', score: 'meaning' },
+          { text: 'Is it a message for me?', detail: 'the message question', score: 'message' },
+          { text: 'Is it good or bad omen?', detail: 'the value question', score: 'omen' },
+          { text: 'Why did I see it now?', detail: 'the timing question', score: 'why-now' },
+          { text: 'What\u2019s really underneath this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest read of what this is', detail: 'sorting symbol from message', score: 'interpret' },
+          { text: 'An outside perspective', detail: 'a read on the encounter', score: 'insight' },
+          { text: 'A view of what it\u2019s doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can take', detail: 'something to do', score: 'guidance' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        symbolism: { reflective: 2, personal: 1, neutral: 0, notell: null },
+        message:   { 'no-message': 2, maybe: 0, 'message-for-me': -1, 'specific-message': -2, notell: null },
+        omen:      { 'no-omen': 2, curious: 0, uneasy: -1, 'death-omen': -2, notell: null },
+        priming:   { natural: 2, 'noticed-more': 1, pattern: 0, arranged: -1, notell: null }
+      };
+      var keys = ['symbolism', 'message', 'omen', 'priming'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.message !== null && vals.message <= -2) return 'message-seeking';
+      if (vals.omen !== null && vals.omen <= -2) return 'omen-attribution';
+      if (vals.omen !== null && vals.omen <= -1 &&
+          (vals.message === null || vals.message <= 0) &&
+          (vals.symbolism === null || vals.symbolism <= 1)) return 'anxiety-amplification';
+      if (sum >= 1) return 'natural-encounter-reflection';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'natural-encounter-reflection': {
+        path: 'A natural encounter, used as reflection',
+        summary: 'You are holding the symbolism as personal meaning, without message or omen attribution.',
+        suggest: function (a) {
+          var s = 'Your answers describe an encounter you are holding as personal symbolism \u2014 meaning you are making, not a message you are decoding.';
+          if (a.symbolism === 'reflective') s += ' Using the owl as a reflection prompt is the most honest use of the symbolism there is.';
+          if (a.message === 'no-message') s += ' And you aren\u2019t reading it as a message, which keeps the anxiety the omen framing tends to add out of the picture.';
+          if (a.omen === 'no-omen') s += ' You aren\u2019t carrying it as an omen, which is the framing most likely to extend distress.';
+          if (a.priming === 'natural' || a.priming === 'noticed-more') s += ' You\u2019ve also accounted for the natural explanations \u2014 habitat, season, and the fact that once owls enter attention you notice them more.';
+          s += ' That is the shape of a real encounter doing real reflective work.';
+          return s;
+        },
+        dontTell: 'A natural-encounter reading doesn\u2019t prove the owl wasn\u2019t \u201Cmeant\u201D for you \u2014 nothing can settle the question of intent either way, and the honest version doesn\u2019t need to. What it does is name the pattern that actually serves you: personal meaning-making, without the message or omen attribution that extends anxiety.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Let the owl prompt a question and answer it from your own life \u2014 the personal symbolism is the meaning, and it deepens with distance.',
+            'If the encounter keeps resurfacing as dread rather than reflection, that\u2019s a different signal \u2014 retake this check, or consider the anxiety-amplification pattern.'
+          ];
+        }
+      },
+      'message-seeking': {
+        path: 'Message-seeking',
+        summary: 'You are reading the encounter as a decoded message the evidence doesn\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading the encounter as a message \u2014 a decoded communication directed at you \u2014 which the evidence doesn\u2019t support.';
+          if (a.message === 'specific-message') s += ' The step to a specific decoded meaning is the one no honest reader or framework can actually take.';
+          if (a.symbolism === 'reflective' || a.symbolism === 'personal') s += ' You do have a personal symbolism to work with, which is the part that is genuinely yours.';
+          if (a.omen === 'no-omen') s += ' And you aren\u2019t carrying it as an omen, which is the healthier half of the pattern.';
+          s += ' The message framing asks the encounter to do work it can\u2019t \u2014 deliver a communication the channel doesn\u2019t support.';
+          return s;
+        },
+        dontTell: 'Message-seeking doesn\u2019t prove the encounter was meaningless \u2014 the symbolism is real and usable as reflection. What it does is name where the meaning is actually located: in you, not in a decoded transmission. A reader who confirms a specific message is offering a projection, not a decode.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Shift the question from \u201Cwhat is it telling me\u201D to \u201Cwhat does the owl symbolize to me, in my context.\u201D The second is answerable; the first isn\u2019t.',
+            'If you still want a perspective, frame it on what the encounter surfaces about your life \u2014 never on a decoded message. Any reader who guarantees a supernatural meaning is selling a certainty nobody possesses.'
+          ];
+        }
+      },
+      'omen-attribution': {
+        path: 'Omen attribution',
+        summary: 'You are reading the owl as an omen, which extends anxiety.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading the owl as an omen \u2014 forecasting something, most often feared \u2014 which isn\u2019t supported and tends to extend anxiety.';
+          if (a.omen === 'death-omen') s += ' The death-omen reading is one of many cultural associations, not a prediction; the owl doesn\u2019t foretell a death.';
+          if (a.symbolism === 'reflective' || a.symbolism === 'personal') s += ' You have a personal symbolism underneath the omen, which is the part worth keeping.';
+          if (a.message === 'no-message') s += ' And you aren\u2019t reading it as a message, so the dread is the omen framing alone \u2014 not a decoded communication.';
+          s += ' The omen framing adds distress the reflection framing doesn\u2019t.';
+          return s;
+        },
+        dontTell: 'Omen-attribution doesn\u2019t prove the owl is meaningless \u2014 the symbolic resonance is real and can be used as reflection. What it does is name the framing that is extending the anxiety: a fixed predictive meaning the encounter doesn\u2019t carry. Different cultures read the owl as wisdom, protection, transition \u2014 the variation is the point, and none is predictive.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Replace the omen question (\u201Cwhat does it foretell\u201D) with the reflection question (\u201Cwhat does it surface in me\u201D). The second is honest; the first feeds dread.',
+            'If the owl keeps returning as a death omen in your thoughts, that is the omen framing doing anxiety work \u2014 a licensed therapist is the more honest match than a reading that confirms or clears it.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'Anxiety amplification',
+        summary: 'The omen framing is amplifying distress.',
+        suggest: function (a) {
+          var s = 'Your answers describe the owl amplifying anxiety \u2014 the encounter has become a source of dread rather than reflection.';
+          if (a.omen === 'death-omen' || a.omen === 'uneasy') s += ' The omen framing is doing the load-bearing work here, and dread is what it produces.';
+          if (a.message === 'message-for-me' || a.message === 'specific-message') s += ' The message reading adds a second layer \u2014 a sense that something is being communicated, which keeps the worry spinning.';
+          if (a.symbolism === 'neutral') s += ' Stripped of personal meaning, what\u2019s left is pure omen-anxiety \u2014 the worst of the framing with none of the reflection.';
+          s += ' The honest read: the anxiety is the thing to engage, not the owl\u2019s decoded meaning, which isn\u2019t available anyway.';
+          return s;
+        },
+        dontTell: 'Anxiety-amplification doesn\u2019t mean the encounter wasn\u2019t real or meaningful \u2014 it means the framing is extending distress past what the encounter supports. A reading confirming or clearing the omen tends to feed the loop rather than close it. If the anxiety is affecting your daily life, a licensed therapist offers a more appropriate and reliable form of support than any spiritual reading.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Step the owl back from omen to symbol: ask what it surfaces in you, not what it foretells. The reflection framing is the one that doesn\u2019t extend the dread.',
+            'If the owl has become a daily source of fear, a licensed therapist is the honest next step \u2014 not a reader who clears or confirms the warning across sessions.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the encounter into meaning-making or message-attribution, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable encounter isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a message or omen tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few days to a couple of weeks \u2014 living, not scanning for signs \u2014 watching only the four signals: personal symbolism, message attribution, omen framing, attentional priming.',
+            'Then retake this check. With more distance, the pattern will be sharper \u2014 and if nothing has changed, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'message') {
+        return {
+          key: 'message-decode',
+          label: 'What may be underneath: the decode question',
+          text: 'The wish for the owl to be a message \u2014 a communication directed at you \u2014 is deeply human, and it doesn\u2019t mean a channel exists. The honest reframe: drop the decode question and ask what the owl symbolizes to you, personally. The meaning is located in your context, not in a transmission the evidence doesn\u2019t support.'
+        };
+      }
+      if (a.omen === 'death-omen' || pattern === 'omen-attribution') {
+        return {
+          key: 'omen-control',
+          label: 'What may be underneath: the omen and control',
+          text: 'Reading the owl as a death omen is one of many cultural associations \u2014 not a prediction. The dread it produces is the framing itself: naming a cause (a foretold death) can feel more controllable than random anxiety, even when the cause is feared. The omen framing is information about the anxiety, not about the owl\u2019s intent.'
+        };
+      }
+      if (pattern === 'anxiety-amplification' || a.want === 'omen') {
+        return {
+          key: 'anxiety-framing',
+          label: 'What may be underneath: the anxiety framing',
+          text: 'When the owl becomes a source of dread, the encounter is doing anxiety work it can\u2019t support on its own. The value-framing \u2014 good luck or bad omen \u2014 is a choice you make, not a fact the owl carries. If that dread is affecting your daily life, a licensed therapist is the more honest match than a reading.'
+        };
+      }
+      if (a.symbolism === 'reflective' || a.symbolism === 'personal') {
+        return {
+          key: 'meaning-making',
+          label: 'What may be underneath: the meaning-making',
+          text: 'The personal symbolism is the real, usable meaning \u2014 and research on meaning in life finds that constructing meaning from encounters supports self-understanding whether or not the encounter was \u201Csent.\u201D The honest version uses the owl as a reflective prompt, not a decoded message.'
+        };
+      }
+      if (a.want === 'beneath') {
+        return {
+          key: 'unspoken-question',
+          label: 'What may be underneath: the unspoken question',
+          text: 'The sense that something is underneath the encounter, something you can\u2019t name, is often the actual question \u2014 about a transition, a loss, or a direction \u2014 surfacing through the owl. A reader\u2019s perspective can help you name it, but no reading can decode the owl\u2019s intent, which isn\u2019t available.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your owl encounter', cluster: 'signs' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'meaning' || a.help === 'interpret') return 'free_first';
+      if (a.want === 'message' || a.help === 'insight') return 'psychic';
+      if (a.want === 'omen' || a.want === 'beneath' || a.help === 'deeper') return 'tarot_deep';
+      if (a.want === 'why-now' || a.help === 'dynamic') return 'tarot_relationship';
+      if (a.help === 'guidance') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'owl-meaning', {
+        resultV2: true,
+        canTell: [
+          'Whether you are making personal meaning from the encounter, or asking it to deliver a message the evidence doesn\u2019t support',
+          'Whether the owl is sitting as a symbol you can reflect on, or as an omen extending anxiety',
+          'Whether repeated sightings are genuine pattern or attentional priming \u2014 once owls enter attention, you notice them more'
+        ],
+        edgeBridge: 'A quiz can read what you are doing with the encounter \u2014 it can\u2019t decode what the owl \u201Cmeans\u201D as a supernatural message, which isn\u2019t available. A reading framed on what the encounter surfaces can give you perspective; it can\u2019t honestly promise a decoded meaning.',
+        ctaText: {
+          'natural-encounter-reflection:free_first': 'Start with the free framework',
+          'message-seeking:psychic': 'Get a reader\u2019s perspective on what it surfaces',
+          'omen-attribution:tarot_deep': 'Get a deeper read on the symbolism',
+          'anxiety-amplification:closure': 'Get a reading framed on what it surfaces',
+          'not-enough-evidence:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reader\u2019s perspective on the encounter',
+          '*:tarot_relationship': 'Get a read on what the encounter surfaces',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the symbolism',
+          '*:closure': 'Get a reading framed on what it surfaces',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'anxiety-amplification',
+          text: 'when the owl has become a daily source of dread, a reading confirming or clearing the omen is the wrong tool \u2014 it tends to feed the loop. If the anxiety is affecting your daily life, a licensed therapist is the more honest match than any spiritual reading.'
+        }
+      });
+    }
+  },
+
+
+  'should-i-break-up': {
+    id: 'should-i-break-up',
+    title: 'What\u2019s Actually Driving This?',
+    launchSub: 'Eight questions, about two minutes. It works outward from your situation \u2014 where the relationship is, what you\u2019ve already tried, what your doubt is really doing \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A read of what your own experience already tracks \u2014 whether the core is intact, whether repair has been tried, what kind of mismatch is at play, and what your doubt is actually doing. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'Where does the relationship stand right now?',
+        hint: 'This matters more than it sounds \u2014 the same doubt means different things in month six and year six.',
+        options: [
+          { text: 'We\u2019re in a relationship', detail: 'together, official', score: 'together' },
+          { text: 'We\u2019re dating, but it\u2019s not official', detail: 'seeing each other regularly', score: 'dating' },
+          { text: 'We\u2019re talking or getting to know each other', detail: 'early days', score: 'talking' },
+          { text: 'We\u2019re separated or taking space', detail: 'a pause of some kind', score: 'separated' },
+          { text: 'We\u2019re exes', detail: 'it ended at some point', score: 'exes' },
+          { text: 'It\u2019s complicated', detail: 'even this question is hard to answer', score: 'complicated' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What made you start wondering whether to end it?',
+        hint: '',
+        options: [
+          { text: 'A specific conflict keeps returning', detail: 'the same thing, again', score: 'conflict' },
+          { text: 'He\u2019s become more distant', detail: 'less present than before', score: 'distant' },
+          { text: 'The relationship feels stalled', detail: 'comfortable, but not moving', score: 'stalled' },
+          { text: 'I keep imagining life without him', detail: 'and it brings relief', score: 'relief' },
+          { text: 'I feel lonely inside it', detail: 'disconnected, even together', score: 'lonely' },
+          { text: 'I\u2019m already checked out', detail: 'the decision feels made', score: 'checked-out' },
+          { text: 'No single reason \u2014 it\u2019s a quiet pull', detail: 'the question itself', score: 'clarity' }
+        ]
+      },
+      {
+        id: 'repair',
+        q: 'The thing you keep coming back to \u2014 have you and he talked about it directly, more than once?',
+        hint: 'This is the repair test. Most breakup content skips it.',
+        options: [
+          { text: 'Yes, clearly and repeatedly, and it shifted something', detail: 'genuinely engaged', score: 'tried-changed' },
+          { text: 'We\u2019ve tried, but the change is partial', detail: 'some movement', score: 'tried-some' },
+          { text: 'I\u2019ve raised it, but it hasn\u2019t really been met', detail: 'named, not engaged', score: 'named-not' },
+          { text: 'No \u2014 I haven\u2019t brought it up directly', detail: 'never clearly said', score: 'not-tried' },
+          { text: 'I\u2019m not sure we ever have', detail: 'I genuinely can\u2019t say', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'conflict',
+        q: 'When the same issue comes up, what does it tend to be about?',
+        hint: 'Solvable conflicts are about behavior; perpetual ones are about how two people are built.',
+        options: [
+          { text: 'How we behave \u2014 arguing, chores, attention', detail: 'addressable with skill', score: 'solvable' },
+          { text: 'A mix of behavior and deeper differences', detail: 'some of both', score: 'mixed' },
+          { text: 'Something foundational \u2014 values, direction, whether to have kids', detail: 'rooted in who we are', score: 'perpetual' },
+          { text: 'I can\u2019t tell which it is', detail: 'too close to name', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'avoidance',
+        q: 'Be honest \u2014 is the urge to leave partly a way to avoid a hard conversation?',
+        hint: 'Avoidance isn\u2019t a verdict; it\u2019s a question worth sitting with.',
+        options: [
+          { text: 'No, I\u2019ve engaged; this isn\u2019t avoidance', detail: 'the talk has happened', score: 'not-avoid' },
+          { text: 'I don\u2019t think so, but I\u2019m not certain', detail: 'leaning no', score: 'unsure-leave' },
+          { text: 'Possibly \u2014 it might be easier than the talk', detail: 'could be', score: 'maybe-avoid' },
+          { text: 'Yes, if I\u2019m honest, that\u2019s part of it', detail: 'avoiding the conversation', score: 'avoiding' },
+          { text: 'I\u2019m not sure', detail: 'I can\u2019t tell', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'cost',
+        q: 'Taken overall, what is being in this relationship costing you?',
+        hint: 'Not comfort \u2014 the things you need to remain yourself.',
+        options: [
+          { text: 'It gives me more than it takes', detail: 'net positive', score: 'net-positive' },
+          { text: 'Roughly even, with hard stretches', detail: 'about balanced', score: 'even' },
+          { text: 'It consistently costs more than it returns', detail: 'a running deficit', score: 'net-negative' },
+          { text: 'I can\u2019t tell yet', detail: 'too early to say', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Can this be fixed, or is it broken?', detail: 'the repairability question', score: 'repair' },
+          { text: 'Are we just wrong for each other?', detail: 'the mismatch question', score: 'mismatch' },
+          { text: 'Am I avoiding a hard conversation?', detail: 'the avoidance question', score: 'avoidance' },
+          { text: 'Is staying costing me more than leaving would?', detail: 'the cost-benefit question', score: 'cost' },
+          { text: 'Have I already decided, and I\u2019m looking for permission?', detail: 'the internal-exit question', score: 'decided' },
+          { text: 'I just want clarity', detail: 'whatever clarity looks like', score: 'clarity' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A clearer read of the relationship\u2019s dynamic', detail: 'seeing the pattern', score: 'interpret' },
+          { text: 'Insight into what he may be feeling', detail: 'his side of it', score: 'insight' },
+          { text: 'Guidance on what I should do next', detail: 'a next step', score: 'guidance' },
+          { text: 'A deeper reflection on the whole picture', detail: 'the forces in it', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 I just want to understand', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    /* ---- Pattern scoring ----
+       Four signal questions are scored -2..+2 (uncertain answers score
+       nothing and count as "uncertain"). The model is transparent and
+       documented on the page: four dimensions, not points. */
+    resolve: function (a) {
+      var S = {
+        repair:    { 'tried-changed': 2, 'tried-some': 1, 'named-not': -1, 'not-tried': -2, 'unsure': null },
+        conflict:  { 'solvable': 2, 'mixed': 0, 'perpetual': -2, 'unsure': null },
+        avoidance: { 'not-avoid': 2, 'unsure-leave': 0, 'maybe-avoid': -1, 'avoiding': -2, 'unsure': null },
+        cost:      { 'net-positive': 2, 'even': 0, 'net-negative': -2, 'unsure': null }
+      };
+      var keys = ['repair', 'conflict', 'avoidance', 'cost'];
+      var sum = 0, uncertain = 0, d = {};
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var v = S[k][a[k]];
+        if (v === null || typeof v === 'undefined') { uncertain++; d[k] = null; continue; }
+        sum += v; d[k] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (d.avoidance !== null && d.avoidance <= -1 && sum <= 0) return 'avoidance-driven';
+      if (d.conflict !== null && d.conflict <= -2) return 'structural-mismatch';
+      if (d.cost !== null && d.cost <= -2) return 'erosion';
+      if (sum >= 0) return 'repairable';
+      return 'erosion';
+    },
+
+    /* ---- The five patterns ---- */
+    results: {
+      'not-enough-evidence': {
+        path: 'Not enough to read yet',
+        summary: 'Too many open answers to form a pattern.',
+        suggest: function () {
+          return 'Several of your answers are \u201CI\u2019m not sure\u201D \u2014 and that\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable pattern to read, which usually means one of two things: the situation is genuinely too new or too close, or the doubt hasn\u2019t been allowed to take a shape yet.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in. Hunting for one more \u201Csign\u201D tends to produce noise \u2014 small gestures recruited as evidence for whichever answer you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary relationship, watching only two things: whether the core issue gets directly raised, and whether the cost of staying stays steady or keeps climbing.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper.'
+          ];
+        }
+      },
+      'repairable': {
+        path: 'The core looks intact',
+        summary: 'Repair is still on the table \u2014 the question reads as healthy doubt, not a verdict.',
+        suggest: function (a) {
+          var s = 'Your answers point at a relationship whose core is still intact: the issue has been named, and the conflict sits in the repairable range.';
+          if (a.repair === 'tried-changed' || a.repair === 'tried-some') s += ' You\u2019ve already engaged the thing you keep returning to, which is the step most breakup content skips.';
+          if (a.conflict === 'solvable') s += ' The recurring friction is about behavior, not who either of you fundamentally is.';
+          s += ' That makes this less \u201Cshould I leave\u201D and more \u201Cwhat would a real repair attempt look like.\u201D';
+          return s;
+        },
+        dontTell: 'An intact core doesn\u2019t mean you must stay \u2014 only that staying is a different kind of question. The pattern can\u2019t tell you where you\u2019ll land; it can tell you the relationship isn\u2019t yet at the leave-or-stay line.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function () {
+          return [
+            'Notice whether the same issue, raised directly, shifts anything \u2014 or keeps looping. A loop after genuine engagement is different information than a loop before it.',
+            'Watch whether the cost of staying stays steady. A relationship with an intact core and a tried repair is in a very different place than one quietly in deficit.'
+          ];
+        }
+      },
+      'structural-mismatch': {
+        path: 'The conflict looks structural',
+        summary: 'Some of what recurs is rooted in how two people are built \u2014 not in effort.',
+        suggest: function (a) {
+          var s = 'Your answers describe conflicts that keep returning despite genuine attempts \u2014 and the subject looks foundational rather than behavioral.';
+          if (a.conflict === 'perpetual') s += ' The friction centers on values, direction, or how life should be lived, which effort can\u2019t rewrite.';
+          s += ' In the framework, that\u2019s a structural mismatch: the question stops being \u201Ccan we fix this\u201D and becomes \u201Cis this livable for me.\u201D';
+          return s;
+        },
+        dontTell: 'Structural doesn\u2019t mean hopeless, and it doesn\u2019t mean you must leave. Some perpetual conflicts are livable; others aren\u2019t. The pattern can name the type \u2014 only you can weigh whether it\u2019s acceptable, because that weighs a value no reading can access.',
+        watchIntro: 'What helps next:',
+        watch: function () {
+          return [
+            'Name the specific value or direction the conflict touches, and ask whether it is negotiable or not \u2014 that distinction is the real question, not \u201Chow hard did we try.\u201D',
+            'If the same issue recurs after a real repair attempt, treat it as information about fit, not failure. A reader who promises to \u201Cfix\u201D a value conflict is selling certainty nobody has.'
+          ];
+        }
+      },
+      'avoidance-driven': {
+        path: 'The urge may be avoidance',
+        summary: 'Leaving could be a way around a hard conversation that hasn\u2019t happened.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the impulse to leave sits close to a conversation you haven\u2019t fully had.';
+          if (a.avoidance === 'avoiding') s += ' You said, honestly, that part of this is avoiding the talk.';
+          if (a.repair === 'not-tried') s += ' And the thing you\u2019d be leaving over has never been directly named.';
+          s += ' If that\u2019s right, leaving now may mean leaving a relationship that could have been repaired \u2014 and carrying the pattern into the next one.';
+          return s;
+        },
+        dontTell: 'Avoidance isn\u2019t a verdict either way \u2014 sometimes the conversation has been tried and still fails, and leaving is right. But if relationship distress or chronic doubt is affecting your daily life, a licensed therapist or couples counselor is the more reliable support than any reading; it offers structure for the very talk this pattern keeps avoiding.',
+        watchIntro: 'One honest step:',
+        watch: function () {
+          return [
+            'Before deciding, try the direct, specific conversation once \u2014 clearly, more than once \u2014 and watch what meets it. Deflection versus engagement is itself information.',
+            'If anxiety or distress is what\u2019s driving the urgency, that\u2019s worth its own support. A reading framed on \u201Cshould I leave\u201D can\u2019t do what a counselor can.'
+          ];
+        }
+      },
+      'erosion': {
+        path: 'The cost looks like a pattern',
+        summary: 'Staying is consistently costing you the things you need to remain yourself.',
+        suggest: function (a) {
+          var s = 'Your answers describe a relationship that, taken overall, asks more of you than it returns.';
+          if (a.cost === 'net-negative') s += ' You said it consistently costs more than it gives.';
+          if (a.trigger === 'lonely' || a.trigger === 'checked-out') s += ' The disconnect shows up as loneliness or a quiet checking-out, not one dramatic event.';
+          s += ' A chronic deficit is real information even when no single moment looks like a crisis \u2014 patterns, not weeks, are what matter.';
+          return s;
+        },
+        dontTell: 'A net deficit doesn\u2019t prove the relationship is permanently broken; a hard season can produce this. But a pattern, not a phase, is the signal here \u2014 and only you can decide what the things you\u2019re losing are worth.',
+        watchIntro: 'What to watch:',
+        watch: function () {
+          return [
+            'Track, privately, whether the cost holds steady across different weeks or only during stress. A season can lift; a texture usually doesn\u2019t.',
+            'Notice what you\u2019re protecting by staying \u2014 your sense of worth, your outside connections, your capacity to rest. A relationship that erodes those is in deficit regardless of how it looks from outside.'
+          ];
+        }
+      }
+    },
+
+    /* ---- What may be underneath the question ----
+       Optional, one at most, offered as an observation \u2014 never a
+       diagnosis. Returns { key, label, text } or null. */
+    underneath: function (a, pattern) {
+      if ((a.status === 'exes' || a.status === 'separated') &&
+          (a.want === 'decided' || a.trigger === 'checked-out')) {
+        return {
+          key: 'internal-exit',
+          label: 'What may be underneath: an internal exit',
+          text: 'When the decision has, in practice, already been made, the search for a sign or a reading is often a search for permission rather than information. No reading, friend, or checklist can make the decision easier than it is \u2014 but naming that you\u2019re looking for authorization, not clarity, can change what you do next.'
+        };
+      }
+      if (a.avoidance === 'avoiding' && pattern !== 'avoidance-driven') {
+        return {
+          key: 'avoidance',
+          label: 'What may be underneath: avoidance',
+          text: 'You flagged that part of the urge to leave is avoiding a hard talk. That same pattern can sit under other readings of the relationship \u2014 worth holding before any outside perspective, because a reading can\u2019t have the conversation for you.'
+        };
+      }
+      if (a.want === 'decided') {
+        return {
+          key: 'permission',
+          label: 'What may be underneath: the permission question',
+          text: 'Wanting to know \u201Cshould I\u201D after you\u2019ve already decided is usually a permission question. The honest move is to accept the decision is yours; the search for someone to authorize it tends to keep the question open and keep you paying for answers.'
+        };
+      }
+      if (a.cost === 'net-negative' && a.trigger === 'relief') {
+        return {
+          key: 'relief',
+          label: 'What may be underneath: the relief fantasy',
+          text: 'Imagining life without him bringing relief is one of the stronger signals the cost-benefit has shifted. But relief and grief can coexist, and burnout can mimic it \u2014 so the fantasy points at something worth engaging, not at a guaranteed answer.'
+        };
+      }
+      return null;
+    },
+
+    /* ---- Practice matching (honest, not salesy) ---- */
+    practice: window.lovePracticeSet('should-i-break-up'),
+    matchPractice: window.loveMatchPractice,
+
+    /* ---- Aha matching (result engine v2) ---- */
+    matchAha: window.topicMatchAha,
+
+    /* ---- Custom result renderer (engine hook) ---- */
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'should-i-break-up', {
+        resultV2: true,
+        canTell: [
+          'Which of the four questions you\u2019re actually asking \u2014 repairability, mismatch, avoidance, or cost-benefit',
+          'Whether the core is intact enough that repair is still on the table',
+          'What kind of guidance fits the question you\u2019re really asking'
+        ],
+        edgeBridge: 'A quiz can organize your question \u2014 it cannot make a life decision with consequences only you will live with. That part stays yours; a reading can frame it, never settle it.',
+        ctaText: {
+          'decided:*': 'Get a reading focused on closure',
+          'mismatch:*': 'Get a reading on the dynamic',
+          'avoidance:*': 'Get support framing the conversation',
+          'cost:*': 'Get a structured read on each path',
+          '*:psychic': 'Get a reading on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_relationship': 'Get a reading on the relationship',
+          '*:closure': 'Get a reading focused on closure'
+        },
+        negativePatternTip: {
+          pattern: 'erosion',
+          text: 'when the cost is this one-sided, a reading about whether to stay can quietly become a way to avoid the harder question of what you need. If you book one, frame it on the dynamic \u2014 not on a verdict.'
+        }
+      });
+    }
+  },
+
+
+  'should-i-quit-my-job': {
+    id: 'should-i-quit-my-job',
+    title: 'What Is Your Doubt Actually Doing?',
+    launchSub: 'Eight questions, about two minutes. It reads whether the doubt is healthy or running you, whether the mismatch is structural, and whether leaving is a real feasibility bind \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your job-change doubt is doing \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'Where are you with this role right now?',
+        hint: 'This matters \u2014 the situation shapes how the same doubt reads.',
+        options: [
+          { text: 'Settled, but something\u2019s off', detail: 'a quiet unease', score: 'settled' },
+          { text: 'Actively job-searching', detail: 'a search in motion', score: 'searching' },
+          { text: 'Burned out and wanting out', detail: 'exhaustion, not a plan', score: 'burnout' },
+          { text: 'Misaligned with the role', detail: 'a values or fit conflict', score: 'misaligned' },
+          { text: 'Stuck but can\u2019t leave yet', detail: 'a feasibility bind', score: 'stuck' },
+          { text: 'I left, or I\u2019m leaving', detail: 'the decision is made', score: 'exited' },
+          { text: 'I\u2019m not sure where I am', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cshould I quit\u201D question in your head?',
+        hint: '',
+        options: [
+          { text: 'A slow build of dread', detail: 'Sunday dread, chronic', score: 'dread' },
+          { text: 'A specific event at work', detail: 'a moment that landed', score: 'event' },
+          { text: 'A value collision', detail: 'something foundational clashed', score: 'value' },
+          { text: 'A hard conversation I\u2019m avoiding', detail: 'the issue is unraised', score: 'avoiding' },
+          { text: 'Reading about leaving online', detail: 'the idea came from outside', score: 'online' },
+          { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'gut' },
+          { text: 'No single thing \u2014 it built', detail: 'the question crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'repairability',
+        q: 'Setting aside whether you\u2019ll leave: have you raised the specific issue?',
+        hint: 'The direct-fix test \u2014 what it honestly requires.',
+        options: [
+          { text: 'Yes, and it\u2019s being addressed', detail: 'genuine engagement', score: 'raised-engaged' },
+          { text: 'Yes, and it\u2019s fixable', detail: 'a path exists in-role', score: 'raised-fixable' },
+          { text: 'No, I haven\u2019t raised it', detail: 'the direct fix is untried', score: 'not-raised' },
+          { text: 'Yes, but I got deflected', detail: 'raised, then dismissed', score: 'deflected' },
+          { text: 'No \u2014 it can\u2019t be fixed here', detail: 'structural, not adjustable', score: 'structural-unfixable' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'mismatch_type',
+        q: 'If the role is wrong for you, which kind of wrong is it?',
+        hint: 'Structural mismatch isn\u2019t fixed by trying harder.',
+        options: [
+          { text: 'Fit I could adjust', detail: 'skills, style, communication', score: 'behavioral' },
+          { text: 'Some structural, some adjustable', detail: 'mixed', score: 'mixed' },
+          { text: 'I can\u2019t tell which', detail: 'unclear', score: 'unclear' },
+          { text: 'Leans structural', detail: 'more about the role than me', score: 'structural-leaning' },
+          { text: 'Structural \u2014 how the role is built', detail: 'values, direction, pace', score: 'structural' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'avoidance',
+        q: 'Is the wish to leave facing something, or running from it?',
+        hint: '',
+        options: [
+          { text: 'Facing it directly', detail: 'engaged with the role', score: 'engaged' },
+          { text: 'Mostly facing it', detail: 'engaged, with strain', score: 'mostly-engaged' },
+          { text: 'I\u2019m not sure', detail: 'uncertain', score: 'uncertain' },
+          { text: 'Partly avoiding it', detail: 'some running', score: 'some-avoidance' },
+          { text: 'Running from a hard conversation or stretch', detail: 'avoidance', score: 'avoidant' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'cost_benefit',
+        q: 'What is staying actually costing versus returning?',
+        hint: '',
+        options: [
+          { text: 'Roughly balanced', detail: 'returns match the cost', score: 'balanced' },
+          { text: 'Mostly balanced', detail: 'mostly', score: 'mostly-balanced' },
+          { text: 'I\u2019m not sure', detail: 'uncertain', score: 'uncertain' },
+          { text: 'Leaning net deficit', detail: 'taking more than it gives', score: 'deficit-leaning' },
+          { text: 'A clear net deficit', detail: 'erodes the rest of my life', score: 'deficit' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Has the role plateaued?', detail: 'the growth question', score: 'plateau' },
+          { text: 'Am I burned out or mismatched?', detail: 'the burnout question', score: 'burnout' },
+          { text: 'Is the role wrong for me?', detail: 'the mismatch question', score: 'mismatch' },
+          { text: 'Can I afford to leave?', detail: 'the feasibility question', score: 'feasibility' },
+          { text: 'Am I running away from something?', detail: 'the avoidance question', score: 'avoidance' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting doubt from story', score: 'interpret' },
+          { text: 'An outside perspective on the situation', detail: 'a read on the doubt', score: 'insight' },
+          { text: 'A view of what this period is doing', detail: 'the shape, not the verdict', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        repairability: { 'raised-engaged': 2, 'raised-fixable': 1, 'not-raised': 0, 'deflected': -1, 'structural-unfixable': -2, notell: null },
+        mismatch_type: { behavioral: 2, mixed: 1, unclear: 0, 'structural-leaning': -1, structural: -2, notell: null },
+        avoidance:     { engaged: 2, 'mostly-engaged': 1, uncertain: 0, 'some-avoidance': -1, avoidant: -2, notell: null },
+        cost_benefit:  { balanced: 2, 'mostly-balanced': 1, uncertain: 0, 'deficit-leaning': -1, deficit: -2, notell: null }
+      };
+      var keys = ['repairability', 'mismatch_type', 'avoidance', 'cost_benefit'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      /* Structural mismatch: the conflict is about how the role is built. */
+      if (vals.mismatch_type !== null && vals.mismatch_type <= -1) return 'structural-mismatch';
+      /* Avoidance: the impulse is running from something fixable. */
+      if (vals.avoidance !== null && vals.avoidance <= -1) return 'avoidance-driven';
+      /* Feasibility bind: staying is in net deficit. */
+      if (vals.cost_benefit !== null && vals.cost_benefit <= -1) return 'feasibility-bind';
+      /* Healthy doubt: the issue is engaged and fixable. */
+      if (vals.repairability !== null && vals.repairability >= 1) return 'healthy-doubt';
+      if (sum >= 2) return 'healthy-doubt';
+      if (sum <= -3) return 'avoidance-driven';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'healthy-doubt': {
+        path: 'A healthy, engaged doubt',
+        summary: 'The doubt is doing diagnostic work, not running you.',
+        suggest: function (a) {
+          var s = 'Your answers describe a doubt that is engaged rather than consuming \u2014 you\u2019ve raised what\u2019s wrong, and the issue is either being addressed or is fixable in-role.';
+          if (a.repairability === 'raised-engaged' || a.repairability === 'raised-fixable') s += ' That the direct fix is in motion is the signal: the doubt is diagnostic, not a verdict.';
+          if (a.mismatch_type === 'behavioral' || a.mismatch_type === 'mixed') s += ' And the mismatch, where it exists, is the adjustable kind \u2014 fit, not foundation.';
+          s += ' The honest move isn\u2019t a sudden exit; it\u2019s staying engaged with the fix and watching whether the feeling holds once the issue is actually on the table.';
+          return s;
+        },
+        dontTell: 'A healthy doubt doesn\u2019t predict the right answer \u2014 nothing does. What it does is name that the question is doing useful work: surfacing a fixable issue rather than running you toward a decision the data doesn\u2019t support yet. A few weeks of honest engagement usually clarifies which it is, and that clarity serves you regardless of the outcome.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep the direct fix in motion \u2014 raise or re-raise the specific issue (growth, scope, direction) and watch whether the response is genuine engagement or deflection.',
+            'Re-check the feeling after a real attempt lands. If the doubt eases once the issue is addressed, it was a signal, not a sentence.'
+          ];
+        }
+      },
+      'structural-mismatch': {
+        path: 'A structural mismatch',
+        summary: 'The conflict is about how the role is built, not your effort.',
+        suggest: function (a) {
+          var s = 'Your answers describe a mismatch that is structural \u2014 about how the role is built (values, direction, pace) rather than about fit you could adjust.';
+          if (a.mismatch_type === 'structural') s += ' The conflict is foundational, which is the one kind effort can\u2019t fix.';
+          if (a.repairability === 'structural-unfixable') s += ' And you\u2019ve already seen the fix isn\u2019t available in this role.';
+          s += ' The honest read isn\u2019t \u201Ctry harder\u201D \u2014 that prescription is a misdiagnosis here. It\u2019s accepting the mismatch as a values question and engaging the decision as one, while accounting for feasibility honestly.';
+          return s;
+        },
+        dontTell: 'A structural mismatch doesn\u2019t prove you must leave \u2014 some value conflicts are about expression and can be negotiated. What it does prove is that effort is the wrong tool, and that any reader who tells you to push through is applying the wrong frame. The decision stays yours; the pattern just reframes the question.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Name the conflict precisely \u2014 is it ethics, direction, or pace? The sharper the name, the clearer whether it is negotiable or fundamental.',
+            'Engage feasibility as part of the decision, not after it: whether the honest path is exit-now or exit-strategically (next role secured first).'
+          ];
+        }
+      },
+      'avoidance-driven': {
+        path: 'An avoidance-driven impulse',
+        summary: 'The wish to leave is running from something fixable.',
+        suggest: function (a) {
+          var s = 'Your answers describe an impulse to leave that is running from something \u2014 a hard conversation, a stretch, a conflict you haven\u2019t directly raised.';
+          if (a.avoidance === 'avoidant') s += ' The avoidance is the shape of the doubt, not evidence the role is wrong.';
+          if (a.repairability === 'not-raised' || a.trigger === 'avoiding') s += ' And the specific issue is still unraised, which means leaving would skip the test that might change the read.';
+          s += ' The honest move is the direct fix first \u2014 raise the thing you\u2019re avoiding and watch what happens. Leaving without trying means leaving a role that might have been adjusted, and carrying the same pattern into the next one.';
+          return s;
+        },
+        dontTell: 'An avoidance-driven impulse doesn\u2019t prove the role is right \u2014 sometimes the thing being avoided is the decision itself, and that\u2019s worth honoring. What it does is name that leaving, in this shape, may be a way around the issue rather than an answer to it. The direct conversation is the cheaper test, and it serves you either way.',
+        watchIntro: 'Before you decide:',
+        watch: function () {
+          return [
+            'Raise the specific issue you\u2019ve been avoiding \u2014 growth, scope, the value conflict \u2014 once, directly, and watch the response.',
+            'If the response is genuine engagement, the doubt often shifts. If it\u2019s deflection, that\u2019s its own answer, and you leave having tried.'
+          ];
+        }
+      },
+      'feasibility-bind': {
+        path: 'A feasibility bind',
+        summary: 'Staying is in net deficit, and the exit has a real cost.',
+        suggest: function (a) {
+          var s = 'Your answers describe a role that is in net deficit \u2014 it takes more than it returns \u2014 while leaving carries a real financial or strategic cost.';
+          if (a.cost_benefit === 'deficit') s += ' The deficit is clear: the work is eroding the rest of your life.';
+          if (a.status === 'stuck') s += ' And you\u2019re stuck not because the signal is weak but because the exit is constrained \u2014 which is a real constraint, not a weakness.';
+          s += ' The honest path engages feasibility as part of the decision, not as a separate obstacle: the strategic exit often means securing the next role before leaving, so the deficit ends without a worse one beginning.';
+          return s;
+        },
+        dontTell: 'A feasibility bind doesn\u2019t prove the signal is wrong \u2014 the role may genuinely be costing you, and that matters. What it does is name that the exit has a cost too, and that financial desperation degrades the next decision as much as burnout degrades this one. Engaging feasibility honestly protects the decision; overriding it produces a worse one.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Name the real constraint \u2014 runway, obligations, the next role \u2014 and plan the exit around it rather than against it.',
+            'If leaving without a next role would create genuine hardship, the honest path is usually securing that role first, then exiting from strength.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort the doubt into healthy, structural, avoidance-driven, or a feasibility bind, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the inbox-checking that would make everything worse.';
+        },
+        dontTell: 'An unreadable doubt isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that it\u2019s time tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward. The most honest instrument at this stage is time without the surveillance.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary work \u2014 living, not scanning for signs \u2014 watching only the four signals: the direct fix, mismatch type, avoidance, and net cost.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'plateau') {
+        return {
+          key: 'plateau-question',
+          label: 'What may be underneath: the plateau question',
+          text: '\u201CHas the role plateaued\u201D is a real question \u2014 but plateaus can be seasonal (a project phase) or structural (the role is built for maintenance). The honest test is whether the role has grown you across a long stretch or just through a hard season. A seasonal plateau rarely justifies exit; a structural one does. Distinguishing them is the work the signs lists skip.'
+        };
+      }
+      if (a.want === 'burnout') {
+        return {
+          key: 'burnout-question',
+          label: 'What may be underneath: the burnout question',
+          text: '\u201CAm I burned out or mismatched\u201D is the single most important distinction. Burnout \u2014 exhaustion, cynicism, reduced efficacy \u2014 is a state that calls for recovery before exit, because burned-out judgment is compromised and the same burnout often follows you into the next role. The honest test: would genuine rest change how the role feels? If yes, burnout is doing work the exit impulse is misreading.'
+        };
+      }
+      if (a.want === 'feasibility') {
+        return {
+          key: 'feasibility-question',
+          label: 'What may be underneath: the feasibility question',
+          text: '\u201CCan I afford to leave\u201D engages a real constraint, not a weakness. If leaving without a next role would create genuine hardship, the honest path is usually securing that role first \u2014 financial desperation degrades the next decision as much as burnout degrades this one. The question is whether the feasibility concern is a real constraint (engage it) or a mask for avoidance (examine it). This check is built to surface which is operating.'
+        };
+      }
+      if (a.want === 'avoidance' || a.trigger === 'avoiding' || pattern === 'avoidance-driven') {
+        return {
+          key: 'avoidance-question',
+          label: 'What may be underneath: the avoidance question',
+          text: '\u201CAm I running away from something\u201D is the question the exit impulse most resists. Leaving without raising the specific issue means skipping the test that might change the read \u2014 and carrying the same pattern into the next role. The direct conversation is the cheaper test, and it serves you whether the answer is stay or go.'
+        };
+      }
+      if (a.want === 'mismatch' || pattern === 'structural-mismatch') {
+        return {
+          key: 'mismatch-question',
+          label: 'What may be underneath: the mismatch question',
+          text: '\u201CIs the role wrong for me\u201D splits into structural and behavioral. Structural mismatch \u2014 about values, direction, pace \u2014 isn\u2019t fixed by trying harder; behavioral mismatch \u2014 about fit \u2014 often is. The honest first move is to name which kind, because the strategies that help one can actively hinder the other.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your job-change question', cluster: 'career-work' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'plateau' || h === 'interpret') return 'free_first';
+      if (w === 'burnout') return 'tarot_decision';
+      if (w === 'mismatch' || h === 'deeper') return 'tarot_deep';
+      if (w === 'feasibility' || h === 'guidance') return 'tarot_decision';
+      if (w === 'avoidance' || h === 'dynamic') return 'tarot_relationship';
+      if (h === 'insight') return 'psychic';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'should-i-quit-my-job', {
+        resultV2: true,
+        canTell: [
+          'Whether the doubt is healthy and engaged, or running you \u2014 the clearest signal there is',
+          'Whether the mismatch is structural (about how the role is built) or behavioral (about fit you could adjust)',
+          'Whether leaving is a real feasibility bind or an avoidance of a fixable issue \u2014 which decides the next step'
+        ],
+        edgeBridge: 'A quiz can read what your job-change doubt is doing \u2014 it can\u2019t decide whether to leave, which is yours to carry. A reading framed on the career\u2019s direction can give you perspective; it can\u2019t honestly promise a verdict on staying or going.',
+        ctaText: {
+          'plateau:free_first': 'Get the framework for the plateau',
+          'feasibility:tarot_decision': 'Get guidance on your next step',
+          'mismatch:tarot_deep': 'Get a deeper read on the mismatch',
+          'avoidance:tarot_relationship': 'Get a read on what you\u2019re avoiding',
+          '*:psychic': 'Get a reading on your career direction',
+          '*:tarot_relationship': 'Get a read on the situation',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the role',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'structural-mismatch',
+          text: 'when a reader frames your career decision as fated \u2014 \u201Cstay, the stars say your breakthrough is coming\u201D \u2014 that\u2019s not a reading, it\u2019s a sales pattern around a high-stakes question. Anyone who claims to know whether you should stay or go, or guarantees an outcome of either choice, is selling a certainty nobody possesses. If you book something, frame it on the role\u2019s direction, not on a verdict.'
+        }
+      });
+    }
+  },
+
+
+  'should-i-text-him': {
+    id: 'should-i-text-him',
+    title: 'What Is This Urge Really About?',
+    launchSub: 'Eight questions, about two minutes. It starts with your situation and what set off the impulse \u2014 then reads the initiative balance, whether silence is a pattern, and whether the pull is toward him or away from your own discomfort \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what the pattern may suggest \u2014 what it says, what it can\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What\u2019s your relationship with him right now?',
+        hint: 'This matters more than it sounds \u2014 the same impulse means different things in week one and month three.',
+        options: [
+          { text: 'We\u2019re in a relationship', detail: 'together, official', score: 'together' },
+          { text: 'We\u2019re dating, but it\u2019s not official', detail: 'seeing each other regularly', score: 'dating' },
+          { text: 'We\u2019re talking or getting to know each other', detail: 'early days', score: 'talking' },
+          { text: 'We\u2019re friends, but there might be more', detail: 'a line that keeps almost being crossed', score: 'friends' },
+          { text: 'We\u2019re separated or taking space', detail: 'a pause of some kind', score: 'separated' },
+          { text: 'We\u2019re exes', detail: 'it ended at some point', score: 'exes' },
+          { text: 'It\u2019s complicated', detail: 'even this question is hard to answer', score: 'complicated' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What set off the impulse to text him?',
+        hint: '',
+        options: [
+          { text: 'He\u2019s become more distant', detail: 'less contact than before', score: 'distant' },
+          { text: 'His contact feels inconsistent', detail: 'warm, then not', score: 'inconsistent' },
+          { text: 'We had a hard moment or argument', detail: 'and something shifted', score: 'conflict' },
+          { text: 'The connection feels stuck', detail: 'comfortable, not moving', score: 'stalled' },
+          { text: 'He hasn\u2019t responded to something I sent', detail: 'silence where there wasn\u2019t before', score: 'silence' },
+          { text: 'I just miss him', detail: 'no specific reason', score: 'miss' },
+          { text: 'I don\u2019t know why \u2014 I just want to', detail: 'the urge itself', score: 'urge' },
+          { text: 'Something about us feels different', detail: 'I can\u2019t name it', score: 'changed' }
+        ]
+      },
+      {
+        id: 'initiative',
+        q: 'Across the last few weeks, who has been carrying the contact?',
+        hint: 'Look at the longer stretch, not just the last exchange. The balance over time is the signal.',
+        options: [
+          { text: 'We initiate about evenly', detail: 'it flows both ways', score: 'mutual' },
+          { text: 'He initiates more than I do', detail: 'he reaches out first often', score: 'mostly-him' },
+          { text: 'It changes back and forth', detail: 'no steady pattern', score: 'varies' },
+          { text: 'He responds, but rarely starts', detail: 'contact resumes when I make it', score: 'responds-only' },
+          { text: 'I carry most of the contact', detail: 'he replies, almost never begins', score: 'mostly-me' },
+          { text: 'I honestly can\u2019t tell', detail: 'I haven\u2019t tracked it', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'response',
+        q: 'How would you describe the quality of his replies?',
+        hint: '',
+        options: [
+          { text: 'Substantive and engaged', detail: 'he gives real replies', score: 'substantive' },
+          { text: 'Warm, but on the shorter side', detail: 'affectionate, not long', score: 'warm-brief' },
+          { text: 'It varies week to week', detail: 'sometimes deep, sometimes flat', score: 'mixed' },
+          { text: 'Mostly minimal or one-word', detail: 'polite, not engaged', score: 'minimal' },
+          { text: 'Like he feels obligated', detail: 'replying out of habit', score: 'duty' },
+          { text: 'I can\u2019t really judge', detail: 'I haven\u2019t noticed', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'silence',
+        q: 'When you go quiet or don\u2019t text, what happens?',
+        hint: 'Recurring silence after your contact is a pattern; a single gap is often just weather.',
+        options: [
+          { text: 'He usually reaches out on his own', detail: 'silence doesn\u2019t last long', score: 'never' },
+          { text: 'He sometimes fills the gap', detail: 'not reliably, but it happens', score: 'sometimes' },
+          { text: 'It depends on the week', detail: 'no steady read', score: 'varies' },
+          { text: 'Silence often follows my contact', detail: 'more often than not', score: 'often' },
+          { text: 'Silence recurs after I reach out', detail: 'the same pattern repeats', score: 'recurs' },
+          { text: 'We haven\u2019t had that distance', detail: 'too early, or never tested', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'motive',
+        q: 'When you picture sending the text, what is the pull actually about?',
+        hint: 'Be honest \u2014 expression and relief look identical on the surface and have different honest answers.',
+        options: [
+          { text: 'I have something genuine to share', detail: 'there\u2019s a real thing to say', score: 'expression' },
+          { text: 'I genuinely want to connect with him', detail: 'it feels like reaching toward him', score: 'connection' },
+          { text: 'Both \u2014 interest and nerves', detail: 'they sit together', score: 'mixed' },
+          { text: 'It\u2019s urgent and I want relief', detail: 'sending to feel better', score: 'relief-urgent' },
+          { text: 'I\u2019m not sure what the pull is', detail: 'I can\u2019t name it', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know right now?',
+        hint: 'This decides what actually helps you next.',
+        options: [
+          { text: 'Would he reach out if I didn\u2019t?', detail: 'the mutuality question', score: 'mutuality' },
+          { text: 'How would a message land with him?', detail: 'receptivity', score: 'receptivity' },
+          { text: 'What his silence means', detail: 'is it information or weather', score: 'silence' },
+          { text: 'To feel less anxious about it', detail: 'the relief I\u2019m after', score: 'relief' },
+          { text: 'There\u2019s something I want to share', detail: 'expression, not a move', score: 'express' },
+          { text: 'Should I wait, or move on?', detail: 'stuck between two futures', score: 'wait' },
+          { text: 'I just want clarity', detail: 'whatever clarity looks like', score: 'clarity' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A clearer read on the dynamic between us', detail: 'the pattern, not the forecast', score: 'read-dynamic' },
+          { text: 'Insight into what he may be feeling', detail: 'his side of it', score: 'his-side' },
+          { text: 'Guidance on what I should do next', detail: 'a next step', score: 'next-step' },
+          { text: 'Understanding my own pattern in this', detail: 'why I keep landing here', score: 'understand-self' },
+          { text: 'I\u2019m not sure what would help', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    /* ---- Pattern scoring ----
+       Four signal questions are scored -2..+2 (unsure answers score
+       nothing and count as "uncertain"). The model is deliberately
+       transparent: patterns, not points. */
+    resolve: function (a) {
+      var S = {
+        initiative: { mutual: 2, 'mostly-him': 1, varies: 0, 'responds-only': -1, 'mostly-me': -2, unsure: null },
+        response:   { substantive: 2, 'warm-brief': 1, mixed: 0, minimal: -1, duty: -2, unsure: null },
+        silence:    { never: 2, sometimes: 1, varies: 0, often: -1, recurs: -2, unsure: null },
+        motive:     { expression: 2, connection: 1, mixed: 0, 'relief-urgent': -2, unsure: null }
+      };
+      var keys = ['initiative', 'response', 'silence', 'motive'];
+      var sum = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][a[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; continue; }
+        sum += v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (a.motive === 'relief-urgent') return 'anxiety-driven';
+      if (a.silence === 'recurs' || a.silence === 'often') return 'silence-speaking';
+      if (a.initiative === 'mostly-me' || a.initiative === 'responds-only') return 'responsive-imbalance';
+      if (sum >= 4) return 'clear-mutual';
+      return 'responsive-imbalance';
+    },
+
+    /* ---- The five patterns ---- */
+    results: {
+      'clear-mutual': {
+        path: 'Mutual, reciprocal engagement',
+        summary: 'Contact runs both ways and the interest reads as something shared rather than something you maintain alone.',
+        suggest: function (a) {
+          var s = 'Across what you\u2019ve described, the contact doesn\u2019t seem to rest on you holding it up.';
+          if (a.initiative === 'mutual') s += ' You and he initiate about evenly.';
+          if (a.response === 'substantive' || a.response === 'warm-brief') s += ' His replies carry real engagement rather than bare politeness.';
+          if (a.silence === 'never' || a.silence === 'sometimes') s += ' And when there\u2019s a gap, he tends to close it.';
+          s += ' In the four-signal frame, that\u2019s the steadiest pattern observable behavior shows \u2014 and it usually looks quieter than a grand gesture, and more reliable.';
+          return s;
+        },
+        dontTell: 'Mutuality shows a connection is shared \u2014 it can\u2019t tell you how a specific message will land or what he privately wants next. Two people can be mutually engaged and still be unsure where it\u2019s going. That part only an actual exchange can answer.',
+        watchIntro: 'Worth watching over the coming weeks:',
+        watch: function () {
+          return [
+            'Whether his effort holds during his own busy or hard weeks \u2014 engagement that survives inconvenience is the strongest signal there is.',
+            'Whether the two of you talk about direction, not just the day-to-day. Reciprocity is present-tense; where it\u2019s heading is the question it can\u2019t answer for you.'
+          ];
+        }
+      },
+      'responsive-imbalance': {
+        path: 'The contact runs on your effort',
+        summary: 'Much of what keeps the connection moving appears to come from your side.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the visible momentum in this connection comes largely from you.';
+          if (a.initiative === 'mostly-me' || a.initiative === 'responds-only') s += ' He responds more than he begins.';
+          if (a.silence === 'often' || a.silence === 'recurs') s += ' And when you step back, the silence tends to stay.';
+          if (a.response === 'minimal' || a.response === 'duty') s += ' His replies read as thin or obligatory rather than engaged.';
+          s += ' That doesn\u2019t reveal how he feels. What it does reveal is just as worth knowing: as it currently runs, the relationship depends on you to exist.';
+          return s;
+        },
+        dontTell: 'One-sided effort doesn\u2019t prove he doesn\u2019t care \u2014 some people only engage under structure, and some are simply passive. But it doesn\u2019t prove he does, either. The honest signal here isn\u2019t about his feelings. It\u2019s about the shape you\u2019re maintaining, and what it costs you.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function () {
+          return [
+            'Let one thing go quiet that you\u2019d normally carry \u2014 one check-in, one plan \u2014 and watch what happens to the connection. Not as a test; as information.',
+            'Sit with the question behind the question: not only \u201Cshould I text him,\u201D but \u201Cis this connection meeting my needs as it actually is \u2014 not as it might become?\u201D'
+          ];
+        }
+      },
+      'silence-speaking': {
+        path: 'Silence that keeps repeating',
+        summary: 'The absence of contact recurs after you reach out, and that repetition is doing work of its own.',
+        suggest: function (a) {
+          var s = 'Your answers point to a pattern rather than a single gap: silence returns after your contact.';
+          if (a.silence === 'recurs') s += ' The same quiet follows the same move, again and again.';
+          if (a.initiative === 'mostly-me' || a.initiative === 'responds-only') s += ' And the contact that does happen tends to resume only when you make it.';
+          if (a.response === 'minimal' || a.response === 'duty') s += ' What comes back is brief or obligated, not open.';
+          s += ' None of that tells you what he feels. It does tell you that the silence is a pattern \u2014 and a pattern is information regardless of what you decide to do with it.';
+          return s;
+        },
+        dontTell: 'Recurring silence has many possible causes: avoidance, another priority, a different communication rhythm, or genuine disinterest. The pattern can\u2019t separate those for you \u2014 and it can\u2019t tell you what he privately thinks. It can only say the silence is consistent, which is a fact worth holding.',
+        watchIntro: 'Try a simple observation window:',
+        watch: function () {
+          return [
+            'For a few weeks, note privately what happens when you don\u2019t reach out \u2014 no tests, no experiments, just watching whether he initiates across a reasonable stretch.',
+            'A silence that keeps returning after ordinary contact isn\u2019t a phase. It\u2019s the relationship\u2019s current shape, and it deserves a direct conversation rather than another round of decoding.'
+          ];
+        }
+      },
+      'anxiety-driven': {
+        path: 'The pull is toward relief',
+        summary: 'The impulse to reach out reads as a move away from your own discomfort more than a move toward him.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the urge to text is less about him and more about the discomfort it would relieve.';
+          if (a.motive === 'relief-urgent') s += ' You described it as urgent and relief-seeking.';
+          if (a.want === 'relief') s += ' What you most want is to feel less anxious about it.';
+          s += ' That\u2019s a common and human place to be \u2014 but a text sent to calm the nerves tends to extend the very uncertainty it\u2019s meant to settle. The honest signal here isn\u2019t about his interest. It\u2019s about which feeling is actually asking to be held.';
+          return s;
+        },
+        dontTell: 'Wanting relief doesn\u2019t make the feeling wrong, and it doesn\u2019t mean he doesn\u2019t care. But a reading, a rule, or a message can\u2019t resolve anxiety that lives on the inside \u2014 they can only momentarily distract from it. That part is worth engaging directly, not outsourcing.',
+        watchIntro: 'Over the next few days:',
+        watch: function () {
+          return [
+            'When the urge hits, sit with it for 24 to 48 hours before acting. The impulse that survives that window is usually expression; the one that fades was anxiety.',
+            'Notice what the discomfort is actually about \u2014 not \u201Cwill he reply,\u201D but \u201Cwhat am I avoiding feeling right now.\u201D That question has a better answer than any message can give.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough history yet',
+        summary: 'Too early, or too close, to read \u2014 which is information too.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D or \u201CI haven\u2019t tracked it\u201D \u2014 and that\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable pattern to read, which usually means one of two things: the connection is genuinely new, or you\u2019re standing too close to see its shape.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in yet. At this stage, hunting for one more \u201Csign\u201D tends to produce noise \u2014 every small gesture gets recruited as evidence for whichever answer you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary contact, watching only two things: who initiates, and whether his behavior stays steady across different weeks.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper.'
+          ];
+        }
+      }
+    },
+
+    /* ---- What may be underneath the impulse ----
+       Optional, one at most, offered as an observation \u2014 never a
+       diagnosis. Returns { key, label, text } or null. */
+    underneath: function (a, pattern) {
+      var u = a;
+      if ((u.status === 'exes' || u.status === 'separated') &&
+          (u.trigger === 'distant' || u.trigger === 'changed' || u.want === 'silence' || u.want === 'clarity')) {
+        return {
+          key: 'closure',
+          label: 'What may be underneath: the closure question',
+          text: 'When something ends without a full explanation, the mind tends to keep the question open \u2014 \u201Cshould I text him\u201D can quietly become a way of keeping the connection alive. If that lands, the more useful frame is closure \u2014 what that chapter was and what it means now \u2014 rather than what he\u2019s doing tonight.'
+        };
+      }
+      if (u.motive === 'relief-urgent' || u.want === 'relief') {
+        return {
+          key: 'anxiety',
+          label: 'What may be underneath: the anxiety question',
+          text: 'Worth noticing: the pull you described is relief-seeking more than connection-seeking. When the urge returns even when there\u2019s nothing to say, it\u2019s sometimes about anxiety rather than him \u2014 the mind scanning for a certainty no message can supply. If relief is what\u2019s being sought, no single text or reading can hold it for long.'
+        };
+      }
+      if (u.want === 'wait') {
+        return {
+          key: 'decision',
+          label: 'What may be underneath: the decision question',
+          text: '\u201CShould I wait or move on\u201D isn\u2019t really a feelings question \u2014 it\u2019s a decision you\u2019re carrying, and it may be the actual question underneath. A reading can give you a richer view of each path, but the decision stays yours; and any reader who offers to make it for you is selling certainty nobody has.'
+        };
+      }
+      if (u.initiative === 'mostly-me' && (pattern === 'responsive-imbalance' || pattern === 'silence-speaking')) {
+        return {
+          key: 'cycle',
+          label: 'What may be underneath: the cycle question',
+          text: 'Your answers show you carrying the contact, and this may not be the first time you\u2019ve asked where you stand \u2014 with him, or with someone who felt like him. If this is the second or third round, the more useful question may not be about his interest this time. It may be about the cycle itself: why one-sided pursuit keeps feeling like the connection worth waiting for.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.lovePracticeSet('should-i-text-him'),
+
+    matchPractice: window.loveMatchPractice,
+
+    matchAha: window.topicMatchAha,
+
+    /* ---- Custom result renderer (engine hook) ---- */
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'should-i-text-him', {
+        resultV2: true,
+        canTell: [
+          'Which part of the question is actually driving you \u2014 mutuality, receptivity, or your own anxiety',
+          'What the initiative balance and the silence pattern are each doing',
+          'Which kind of next step fits the question you\u2019re really asking'
+        ],
+        edgeBridge: 'A quiz can organize your impulse \u2014 it cannot determine what another person privately thinks, feels, or will do. That part takes either his words, or a deeper reading focused on your specific situation.',
+        ctaText: {
+          'mutuality:psychic': 'Get a read on the dynamic between you',
+          'receptivity:psychic': 'Get perspective on how it might land',
+          'silence:psychic': 'Get a reading on what the pattern holds',
+          'relief:tarot_deep': 'Get a structured reflection on the feeling',
+          'express:psychic': 'Get a reading for this question',
+          'wait:tarot_decision': 'Get guidance on your next step',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on the connection',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
+        negativePatternTip: {
+          pattern: 'anxiety-driven',
+          text: 'when the pull is this relief-driven, a reading can quietly become a more expensive way of managing the discomfort. If you book one, frame it on the dynamic \u2014 not on a forecast of his reply.'
+        }
+      });
+    }
+  },
+
+
+  'what-are-chakras': {
+    id: 'what-are-chakras',
+    title: 'What Do You Actually Want From Chakras?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you use chakras as body-awareness reflection, whether energy-blockage attribution is doing work the framework can\u2019t support, and whether spiritual bypassing is operating \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your relationship with chakras \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'engage',
+        q: 'What brings you to chakras right now?',
+        hint: 'This shapes how the same framework reads.',
+        options: [
+          { text: 'I want to understand the concept', detail: 'the framework itself', score: 'concept' },
+          { text: 'I think a chakra is blocked', detail: 'a specific blockage', score: 'blocked' },
+          { text: 'I want to balance my chakras', detail: 'the method question', score: 'balance' },
+          { text: 'I think my chakras affect my health', detail: 'a health attribution', score: 'health' },
+          { text: 'The themes feel meaningful to me', detail: 'reflection lands', score: 'themes' },
+          { text: 'A reader told me about my chakras', detail: 'the idea came from a reading', score: 'reader-told' }
+        ]
+      },
+      {
+        id: 'source',
+        q: 'Where did the chakra idea come from for you?',
+        hint: '',
+        options: [
+          { text: 'My own reading of the tradition', detail: 'I explored it', score: 'own' },
+          { text: 'A friend or community', detail: 'someone close', score: 'a-friend' },
+          { text: 'Something I read online', detail: 'a post or article', score: 'online' },
+          { text: 'A reader or practitioner diagnosed me', detail: 'an external diagnosis', score: 'a-reader' },
+          { text: 'A gut feeling', detail: 'intuition, no single source', score: 'intuition' },
+          { text: 'I genuinely don\u2019t know', detail: 'no clear source', score: 'notell' }
+        ]
+      },
+      {
+        id: 'reflection_energy',
+        q: 'How do you use the chakra framework?',
+        hint: 'The honest use is reflection, not literal-energy belief.',
+        options: [
+          { text: 'As a reflection and body-awareness lens', detail: 'a lens, not literal energy', score: 'reflective' },
+          { text: 'Mostly as reflection, curious about energy', detail: 'leaning, not fixed', score: 'mostly' },
+          { text: 'Both \u2014 reflection and a real energy system', detail: 'holding both', score: 'both' },
+          { text: 'Leaning toward believing it\u2019s literal energy', detail: 'energy as real', score: 'leaning' },
+          { text: 'I take the energy centers as literally real', detail: 'literal anatomy', score: 'literal' },
+          { text: 'I can\u2019t tell how I use it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'blockage_attribution',
+        q: 'How do you read a stuck issue?',
+        hint: 'Whether you frame it as a blocked chakra.',
+        options: [
+          { text: 'I don\u2019t frame issues as blocked chakras', detail: 'not my lens', score: 'none' },
+          { text: 'Rarely \u2014 only as loose metaphor', detail: 'occasional', score: 'rarely' },
+          { text: 'Sometimes, when something feels stuck', detail: 'a habit of framing', score: 'sometimes' },
+          { text: 'Often \u2014 I read issues as blockages', detail: 'frequent framing', score: 'often' },
+          { text: 'I treat specific issues as blocked chakras', detail: 'a direct diagnosis', score: 'treat' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'bypass_risk',
+        q: 'When an issue comes up, what do you do first?',
+        hint: 'Whether the framework stands in for the response.',
+        options: [
+          { text: 'Engage it directly \u2014 clinical or practical', detail: 'the real response', score: 'direct' },
+          { text: 'Mostly directly, framework as support', detail: 'alongside, not instead', score: 'mostly' },
+          { text: 'Mixed \u2014 sometimes I lean on the framework', detail: 'partial defer', score: 'mixed' },
+          { text: 'Sometimes I defer the response to energy work', detail: 'leaning away', score: 'defer' },
+          { text: 'I use clearing to avoid facing the issue', detail: 'bypass', score: 'avoid' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'mechanism_awareness',
+        q: 'What do you believe the practices actually do?',
+        hint: 'Documented mechanisms vs literal energy.',
+        options: [
+          { text: 'Relaxation, attention, meaning-making', detail: 'documented', score: 'aware' },
+          { text: 'Mostly \u2014 not literal energy', detail: 'psychological', score: 'mostly' },
+          { text: 'Unsure what the mechanism is', detail: 'genuinely unsure', score: 'unsure' },
+          { text: 'I think it works through real energy flow', detail: 'energy as cause', score: 'energy' },
+          { text: 'I believe chakras determine health and well-being', detail: 'deterministic', score: 'health' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what helps next.',
+        options: [
+          { text: 'What is the chakra framework, really?', detail: 'the concept', score: 'concept' },
+          { text: 'Are chakras literally real energy centers?', detail: 'the ontology', score: 'ontology' },
+          { text: 'Is my chakra actually blocked?', detail: 'the blockage', score: 'blockage' },
+          { text: 'How do I balance them?', detail: 'the method', score: 'method' },
+          { text: 'Do my chakras affect my health?', detail: 'the health claim', score: 'health' },
+          { text: 'What is the framework prompting in me?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting reflection from claim', score: 'interpret' },
+          { text: 'An outside perspective on the reflection', detail: 'a read on the themes', score: 'insight' },
+          { text: 'A view of what the framework points at', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do', score: 'guidance' },
+          { text: 'A deeper read of the whole picture', detail: 'the full frame', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        reflection_energy:    { reflective: 2, mostly: 1, both: 0, leaning: -1, literal: -2, notell: null },
+        blockage_attribution: { none: 2, rarely: 1, sometimes: 0, often: -1, treat: -2, notell: null },
+        bypass_risk:          { direct: 2, mostly: 1, mixed: 0, defer: -1, avoid: -2, notell: null },
+        mechanism_awareness:  { aware: 2, mostly: 1, unsure: 0, energy: -1, health: -2, notell: null }
+      };
+      var keys = ['reflection_energy', 'blockage_attribution', 'bypass_risk', 'mechanism_awareness'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.blockage_attribution !== null && vals.blockage_attribution <= -2) return 'energy-blockage-attribution';
+      if (vals.mechanism_awareness !== null && vals.mechanism_awareness <= -2) return 'deterministic-health-claim';
+      if (vals.bypass_risk !== null && vals.bypass_risk <= -2) return 'spiritual-bypassing';
+      if (vals.reflection_energy !== null && vals.reflection_energy >= 2 &&
+          (vals.blockage_attribution === null || vals.blockage_attribution >= 0)) return 'reflective-body-awareness';
+      if (sum <= -3) return 'spiritual-bypassing';
+      if (vals.reflection_energy !== null && vals.reflection_energy >= 1) return 'reflective-body-awareness';
+      if (sum >= 1) return 'reflective-body-awareness';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-body-awareness': {
+        path: 'A reflective body-awareness use',
+        summary: 'You\u2019re using chakras as a reflection and body-awareness lens \u2014 the honest shape.',
+        suggest: function (a) {
+          var s = 'Your answers describe chakras used as a reflection and body-awareness lens, not as literal energy centers \u2014 which is the shape the framework honestly supports.';
+          if (a.reflection_energy === 'reflective') s += ' The reflection itself is the practice; the themes prompt insight without needing energy to be literal.';
+          if (a.mechanism_awareness === 'aware') s += ' And you read the practices as relaxation, attention, and meaning-making \u2014 the documented mechanisms, not energy manipulation.';
+          s += ' The benefit you get is real and well-supported; it just doesn\u2019t require the literal-anatomy claim to land.';
+          return s;
+        },
+        dontTell: 'A reflective use doesn\u2019t prove chakras aren\u2019t literal energy centers \u2014 nothing can settle that ontology for you. What it does is name the honest mechanism: the framework works as reflection, and the reflection holds without the energy claim.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Use each chakra\u2019s theme-question as a prompt \u2014 grounding, creativity, power, love, expression, intuition, meaning \u2014 and answer from your own life.',
+            'If a health or emotional issue surfaces, engage it clinically or practically; the framework supports well-being alongside care, not instead of it.'
+          ];
+        }
+      },
+      'energy-blockage-attribution': {
+        path: 'Energy-blockage attribution',
+        summary: 'You\u2019re reading issues as blocked chakras \u2014 a reflective frame stretched past its reach.',
+        suggest: function (a) {
+          var s = 'Your answers trace a habit of reading issues as blocked chakras \u2014 which is the framework doing diagnostic work it honestly can\u2019t support.';
+          if (a.blockage_attribution === 'treat') s += ' The step from \u201Cstuck\u201D to \u201Cblocked chakra\u201D is a metaphor being taken as a finding.';
+          if (a.engage === 'blocked') s += ' And you arrived with a specific blockage in mind, which the framework can reflect on but not confirm.';
+          s += ' The honest version: let the theme prompt reflection, and meet any real issue through clinical or practical means.';
+          return s;
+        },
+        dontTell: 'Energy-blockage attribution doesn\u2019t prove a blockage isn\u2019t \u201Creal\u201D in felt terms \u2014 the feeling is real. It does flag the bypass risk: framing a health or emotional issue as a blocked chakra can delay the response that actually helps.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'When something feels stuck, ask the theme-question as reflection \u2014 not as a diagnosis to fix.',
+            'If the stuckness is a health or emotional issue, take it to a clinician or therapist first; the chakra lens can sit alongside, not stand in for, that care.'
+          ];
+        }
+      },
+      'deterministic-health-claim': {
+        path: 'A deterministic health claim',
+        summary: 'You\u2019re attributing health and well-being to chakra state \u2014 the claim the evidence doesn\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers describe chakras as determining health and well-being \u2014 which is the one claim the research most firmly doesn\u2019t support.';
+          if (a.mechanism_awareness === 'health') s += ' The belief that chakra state causes health turns a reflective framework into a medical model it was never built to be.';
+          if (a.want === 'health') s += ' And your question was health-shaped, which is exactly where clinical engagement belongs first.';
+          s += ' The practices support relaxation and attention; they don\u2019t treat or cause health outcomes.';
+          return s;
+        },
+        dontTell: 'A deterministic health claim doesn\u2019t mean the practices are useless \u2014 meditation and body-scan genuinely help well-being. It means chakra state isn\u2019t a substitute for clinical care, and anyone who says clearing will heal a condition is selling a certainty nobody possesses.',
+        watchIntro: 'If a health concern is in the picture:',
+        watch: function (a) {
+          return [
+            'Take it to a licensed clinician first \u2014 the honest next step for any health or emotional symptom, before any energy work.',
+            'Use the chakra practices as support alongside care: reflection, relaxation, attention. They complement treatment; they don\u2019t replace it.'
+          ];
+        }
+      },
+      'spiritual-bypassing': {
+        path: 'Spiritual bypassing',
+        summary: 'The framework is standing in for the response an issue actually needs.',
+        suggest: function (a) {
+          var s = 'Your answers describe the chakra framework standing in for the response a real issue needs \u2014 which is spiritual bypassing, not reflection.';
+          if (a.bypass_risk === 'avoid') s += ' Clearing and balancing become a way to avoid the issue rather than meet it.';
+          if (a.engage === 'reader-told' || a.source === 'a-reader') s += ' And the shape arrived through a reader, which can hand you a practice to perform instead of a step to take.';
+          s += ' The honest move is to engage the issue directly \u2014 clinical, practical, or relational \u2014 with the framework as support, not cover.';
+          return s;
+        },
+        dontTell: 'Spiritual bypassing doesn\u2019t mean the framework is worthless \u2014 reflection and relaxation are real. It means the framework is being used to keep an unmet issue at a distance, and the longer that goes on, the more the underlying issue tends to cost.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Name the issue the framework is standing in for, and take one direct step on it \u2014 a conversation, an appointment, a boundary.',
+            'Let the chakra themes support that work as reflection, not as a substitute for it. If the avoidance persists, a therapist is the more honest match than a reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function (a) {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your use into reflective, attributive, or bypassing, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a \u201Cblockage\u201D tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function (a) {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for blockages \u2014 watching only the four signals: reflection vs energy, blockage framing, bypass, mechanism awareness.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'blockage') {
+        return {
+          key: 'blockage-question',
+          label: 'What may be underneath: the blockage question',
+          text: 'The wish to know if a chakra is blocked is the question most easily monetized \u2014 and the framework is reflective, not diagnostic. There is no established way to diagnose a blockage, and the felt-blockage is usually a metaphor for an emotional or health issue that deserves direct engagement.'
+        };
+      }
+      if (a.want === 'health') {
+        return {
+          key: 'health-attribution',
+          label: 'What may be underneath: the health-attribution question',
+          text: 'The wish to tie health to chakra state is human, and it doesn\u2019t make the claim true. The honest reframe: engage any health concern clinically first, and let the framework support well-being alongside care rather than stand in for it.'
+        };
+      }
+      if (a.bypass_risk === 'avoid' || pattern === 'spiritual-bypassing') {
+        return {
+          key: 'avoidance-pattern',
+          label: 'What may be underneath: the avoidance pattern',
+          text: 'When the framework stands in for the response an issue needs, the avoidance itself is the signal. Research on spiritual bypassing describes exactly this: a practice used to distance from, rather than meet, an unmet issue. The honest step is direct engagement \u2014 clinical, practical, or relational.'
+        };
+      }
+      if (a.source === 'a-reader' || a.engage === 'reader-told' || pattern === 'energy-blockage-attribution') {
+        return {
+          key: 'source-incentive',
+          label: 'What may be underneath: the source incentive',
+          text: 'The chakra idea came from a reader or practitioner, which deserves more skepticism \u2014 not because the reader is dishonest, but because a source that profits from a diagnosis being true is the least reliable source for that diagnosis.'
+        };
+      }
+      if (a.want === 'ontology') {
+        return {
+          key: 'ontology-question',
+          label: 'What may be underneath: the ontology question',
+          text: 'The question of whether chakras are literal energy centers is answerable honestly: as a cultural framework, yes; as literal anatomical centers, not supported. You can use the framework as reflection without settling that ontology \u2014 the reflection holds either way.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your chakra question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (a.help === 'unsure') return 'general';
+      if (w === 'concept' || w === 'ontology') return 'free_first';
+      if (w === 'blockage') return 'tarot_deep';
+      if (w === 'method') return 'tarot_relationship';
+      if (w === 'health') return 'psychic';
+      if (h === 'interpret' || h === 'dynamic') return 'tarot_relationship';
+      if (h === 'insight') return 'psychic';
+      if (h === 'guidance') return 'tarot_decision';
+      if (h === 'deeper') return 'tarot_deep';
+      if (w === 'beneath') return 'tarot_deep';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-are-chakras', {
+        resultV2: true,
+        canTell: [
+          'Whether you use chakras as reflection or as literal energy \u2014 the shape of the honest use',
+          'Whether a stuck issue is being read as a blocked chakra, which the framework can\u2019t diagnose',
+          'Whether the framework is standing in for the response a real issue needs'
+        ],
+        edgeBridge: 'A quiz can read what your relationship with chakras is doing \u2014 it can\u2019t diagnose a blockage or confirm literal energy. A reading can frame the reflection; it cannot tell you a chakra is blocked. If a health or emotional issue is in the picture, a clinician comes first, not energy work.',
+        ctaText: {
+          'reflective-body-awareness:tarot_relationship': 'Get a reflective read on the themes',
+          'energy-blockage-attribution:psychic': 'Get a perspective on the reflection',
+          'deterministic-health-claim:psychic': 'Get a perspective, clinician first',
+          'spiritual-bypassing:tarot_deep': 'Get a deeper read on what\u2019s avoided',
+          '*:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reading on the reflection',
+          '*:tarot_relationship': 'Get a reflective tarot read',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read',
+          '*:closure': 'Get a closure-framed read',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'spiritual-bypassing',
+          text: 'when the framework is standing in for the response an issue needs, a reading about blockages can quietly become a more expensive way of keeping the avoidance running. If you book one, frame it on what the reflection surfaces \u2014 not on what needs clearing.'
+        }
+      });
+    }
+  },
+
+
+  'what-are-synchronicities': {
+    id: 'what-are-synchronicities',
+    title: 'What Your Coincidences Are Actually Pointing At',
+    launchSub: 'Eight questions, about two minutes. It reads whether you are using synchronicity as meaning-making, whether message-seeking is doing work the framework can\u2019t support, and whether apophenia is operating \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of how you are holding meaningful coincidence \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What are you sitting with right now?',
+        hint: 'This shapes how the same experience reads.',
+        options: [
+          { text: 'A single meaningful coincidence', detail: 'one event that stood out', score: 'single' },
+          { text: 'A run of coincidences', detail: 'several, clustering', score: 'run' },
+          { text: 'I notice them everywhere lately', detail: 'increased noticing', score: 'increased' },
+          { text: 'It feels like a message for me', detail: 'a directed communication', score: 'message' },
+          { text: 'A stressful or anxious period', detail: 'life is strained', score: 'stress' },
+          { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the idea in your head that this means something?',
+        hint: '',
+        options: [
+          { text: 'The coincidence itself', detail: 'it just felt significant', score: 'itself' },
+          { text: 'Reading about synchronicity', detail: 'an article or a post', score: 'reading' },
+          { text: 'A friend or reader said so', detail: 'someone suggested it', score: 'someone' },
+          { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'intuition' },
+          { text: 'A stressful period made me notice', detail: 'strain heightened it', score: 'stress' },
+          { text: 'No single thing \u2014 it built', detail: 'the idea crept in', score: 'nothing' }
+        ]
+      },
+      {
+        id: 'use_frame',
+        q: 'How are you holding the coincidence?',
+        hint: 'Reflection works; supernatural cause isn\u2019t supported.',
+        options: [
+          { text: 'As a reflective prompt', detail: 'what does this surface about my life', score: 'reflect' },
+          { text: 'With open curiosity', detail: 'either way is possible', score: 'curious' },
+          { text: 'Both reflection and wondering', detail: 'a mix of the two', score: 'mixed' },
+          { text: 'Leaning it was caused', detail: 'a sense of arrangement', score: 'cause' },
+          { text: 'Certain it was supernaturally caused', detail: 'no doubt', score: 'certain' },
+          { text: 'I can\u2019t tell', detail: 'hard to name the frame', score: 'notell' }
+        ]
+      },
+      {
+        id: 'apophenia',
+        q: 'Have you accounted for apophenia \u2014 the mind\u2019s pattern-detection?',
+        hint: 'The mind detects patterns, including in random data.',
+        options: [
+          { text: 'Yes \u2014 that explains some of it', detail: 'pattern-detection is real', score: 'aware' },
+          { text: 'Somewhat', detail: 'I\u2019ve considered it', score: 'somewhat' },
+          { text: 'No, I hadn\u2019t thought of that', detail: 'new to me', score: 'no' },
+          { text: 'No \u2014 I think it\u2019s real arrangement', detail: 'not pattern-detection', score: 'reject' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'message',
+        q: 'Do you read the coincidence as a message?',
+        hint: 'Message-attribution extends seeking \u2014 it doesn\u2019t establish a channel.',
+        options: [
+          { text: 'No \u2014 just meaningful', detail: 'a coincidence, not a communication', score: 'no' },
+          { text: 'Sometimes I wonder', detail: 'the thought crosses my mind', score: 'wonder' },
+          { text: 'Yes \u2014 it feels directed', detail: 'aimed at me', score: 'yes' },
+          { text: 'Constantly \u2014 I track the signs', detail: 'ongoing sign-reading', score: 'constantly' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'priming',
+        q: 'Since you started noticing, has the frequency gone up?',
+        hint: 'Increased noticing is largely attention, not occurrence.',
+        options: [
+          { text: 'Yes \u2014 and that\u2019s just attention', detail: 'I was watching for it', score: 'aware' },
+          { text: 'I\u2019m unsure', detail: 'can\u2019t separate the two', score: 'unsure' },
+          { text: 'No \u2014 I think it\u2019s arrangement', detail: 'more is actually happening', score: 'no' },
+          { text: 'I haven\u2019t considered it', detail: 'new angle', score: 'reject' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'What does this mean for me?', detail: 'the reflection', score: 'meaning' },
+          { text: 'Was it supernaturally caused?', detail: 'the causation question', score: 'cause' },
+          { text: 'Is it a message for me?', detail: 'the directed question', score: 'message' },
+          { text: 'Why am I noticing so many?', detail: 'the frequency question', score: 'frequency' },
+          { text: 'What should I do with it?', detail: 'the action question', score: 'what-do' },
+          { text: 'What is underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest read of the pattern', detail: 'sorting meaning from story', score: 'interpret' },
+          { text: 'An outside perspective', detail: 'a read on what it surfaces', score: 'insight' },
+          { text: 'A view of what it\u2019s pointing at', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole picture', detail: 'the long-arc view', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        use_frame: { reflect: 2, curious: 1, mixed: 0, cause: -1, certain: -2, notell: null },
+        apophenia: { aware: 2, somewhat: 1, no: 0, reject: -1, notell: null },
+        message:   { no: 2, wonder: 0, yes: -1, constantly: -2, notell: null },
+        priming:   { aware: 2, unsure: 1, no: 0, reject: -1, notell: null }
+      };
+      var keys = ['use_frame', 'apophenia', 'message', 'priming'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.message !== null && vals.message <= -2) return 'message-seeking';
+      if ((answers.status === 'stress' || answers.trigger === 'stress') &&
+          (vals.apophenia !== null && vals.apophenia <= 0) &&
+          (vals.message !== null && vals.message <= -1 || vals.priming !== null && vals.priming <= 0)) return 'anxiety-amplification';
+      if (vals.message !== null && vals.message === -1) return 'message-seeking';
+      if (vals.apophenia !== null && vals.apophenia <= -1) return 'apophenia-pattern';
+      if (vals.use_frame !== null && vals.use_frame >= 2 &&
+          (vals.message === null || vals.message >= 0)) return 'meaning-making-framework';
+      if (sum <= -3) return 'apophenia-pattern';
+      if (vals.use_frame !== null && vals.use_frame >= 1) return 'meaning-making-framework';
+      if (sum >= 1) return 'meaning-making-framework';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'meaning-making-framework': {
+        path: 'A meaning-making framework you can use',
+        summary: 'You are holding the coincidence as reflection, not causation.',
+        suggest: function (a) {
+          var s = 'Your answers describe using the coincidence as a reflective prompt \u2014 which is the honest, usable form of synchronicity. The meaning you make from it can support self-understanding whether or not it was caused.';
+          if (a.use_frame === 'reflect') s += ' The reflection frame itself is the signal: you\u2019re asking what it surfaces about your life, not claiming it was arranged.';
+          if (a.message === 'no' || a.message === 'wonder') s += ' And you\u2019re not reading it as a directed message, which keeps the seeking from extending.';
+          if (a.apophenia === 'aware') s += ' Accounting for apophenia means you know some of the felt-meaning is pattern-detection \u2014 and that doesn\u2019t cancel the meaning that\u2019s real.';
+          return s;
+        },
+        dontTell: 'A meaning-making framework doesn\u2019t prove there was no supernatural cause \u2014 nothing can prove a negative on an unfalsifiable claim. What it does is put the usable part in your hands: the reflection works regardless of the cause, and no reading can confirm the cause anyway.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Use the coincidence as a prompt \u2014 \u201Cwhat does this surface about my life?\u201D \u2014 and answer it from your own situation, not from a reader\u2019s decode.',
+            'If the meaning keeps clarifying with a little distance, that\u2019s the framework doing its job. If you start wanting it to be a message, retake the check.'
+          ];
+        }
+      },
+      'message-seeking': {
+        path: 'Message-seeking that extends the question',
+        summary: 'You are reading the coincidence as a directed message.',
+        suggest: function (a) {
+          var s = 'Your answers describe reading the coincidence as a message aimed at you \u2014 which is the one framing the evidence doesn\u2019t support, and the one that extends seeking without delivering.';
+          if (a.message === 'constantly') s += ' Tracking signs constantly is the strongest form: the looking itself becomes a habit that the next coincidence always feeds.';
+          if (a.message === 'yes') s += ' The sense of direction is genuine-feeling, but the channel isn\u2019t established \u2014 no framework honestly connects coincidence to a sender.';
+          if (a.status === 'message' || a.trigger === 'someone') s += ' And the message idea arrived partly from outside you, which is worth noting about where the frame came from.';
+          return s;
+        },
+        dontTell: 'Message-seeking doesn\u2019t prove you\u2019re wrong to want meaning \u2014 the wish for meaning is real and human. What it does is name the framing that tends to keep you looking rather than reflecting, because each new coincidence can be recruited as proof of the message.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Try the reflection frame for a defined window \u2014 \u201Cwhat does this surface about my life?\u201D \u2014 without assigning a sender. Notice whether the urge to decode lessens.',
+            'If the sign-reading turns anxious or starts directing daily choices, that\u2019s the point to step back or talk to someone outside the frame.'
+          ];
+        }
+      },
+      'apophenia-pattern': {
+        path: 'Apophenia is doing real work here',
+        summary: 'The pattern-detection is flagging connections the cause claim can\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers describe the mind\u2019s pattern-detection operating without much account taken of it \u2014 which is the honest explanation for why coincidence feels meaningful, and why it can feel like arrangement.';
+          if (a.apophenia === 'reject' || a.apophenia === 'no') s += ' You hadn\u2019t fully accounted for apophenia, so the felt-meaning reads as evidence of cause \u2014 when it may be pattern-detection noise.';
+          if (a.priming === 'no' || a.priming === 'reject') s += ' And the frequency increase is being read as more happening, rather than more noticing \u2014 attentional priming explains the rise.';
+          if (a.use_frame === 'cause' || a.use_frame === 'certain') s += ' Holding it as caused leans on the pattern-detection rather than on anything established.';
+          return s;
+        },
+        dontTell: 'Apophenia isn\u2019t a flaw \u2014 it\u2019s a documented tendency of the mind to detect patterns, including in random data. Naming it doesn\u2019t cancel the meaning that\u2019s real; it just separates the reflection you can use from the causal claim the evidence doesn\u2019t support.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Account for attentional priming: notice that once you watch for meaningful coincidence, you find it \u2014 the increase is noticing, not occurrence.',
+            'If the pattern-noticing turns anxious or intrusive, a licensed therapist is the more honest match than a reading \u2014 pattern-perception under strain is their territory, not a reader\u2019s.'
+          ];
+        }
+      },
+      'anxiety-amplification': {
+        path: 'Pattern-perception amplified by a strained period',
+        summary: 'The noticing is tied to anxiety or a stressful stretch.',
+        suggest: function (a) {
+          var s = 'Your answers describe coincidence-noticing happening inside a stressful or anxious period \u2014 which is exactly the condition under which the mind generates and amplifies patterns to regain a felt sense of control.';
+          if (a.status === 'stress' || a.trigger === 'stress') s += ' The strain is the context: pattern-perception rises when life feels unmanageable, and the signs can feel more loaded than they are.';
+          if (a.message !== null && (a.message === 'yes' || a.message === 'constantly')) s += ' And message-seeking is layered on top, which tends to intensify rather than settle the looking.';
+          if (a.apophenia !== null && a.apophenia <= 0) s += ' With little account taken of apophenia, the pattern feels like evidence \u2014 when it may be strain doing the seeing.';
+          return s;
+        },
+        dontTell: 'Anxiety-amplification doesn\u2019t mean the coincidences aren\u2019t real \u2014 strain produces real, measurable effects on attention and mood. What it does is name the mechanism behind the intensified pattern-perception, which is worth knowing about the question itself before any reading.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Address the situation underneath the noticing \u2014 sleep, workload, the stressful stretch \u2014 rather than the signs. Pattern-perception tends to lessen as the strain eases.',
+            'If the pattern-noticing is intrusive, or distress is affecting your daily life, a licensed therapist is the more honest and reliable match than any spiritual reading.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function (a) {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your experience into meaning-making, message-seeking, or apophenia, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of meaning tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function (a) {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: reflection vs causation, apophenia, message-attribution, and attentional priming.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'cause') {
+        return {
+          key: 'causation-question',
+          label: 'What may be underneath: the causation question',
+          text: 'The wish to know whether the coincidence was supernaturally caused is the one the evidence can\u2019t support \u2014 and the structural problem is that any reader who confirms a causal arrangement is offering a projection nobody can verify. The honest move is to use the coincidence as a reflective prompt; the meaning-making works whether or not the cause is supernatural.'
+        };
+      }
+      if (a.message === 'yes' || a.message === 'constantly' || pattern === 'message-seeking') {
+        return {
+          key: 'message-attribution',
+          label: 'What may be underneath: the message-attribution pattern',
+          text: 'Reading the coincidence as a directed message is the framing the evidence doesn\u2019t support, and it extends seeking without delivering. The honest reframe: the meaning is real as reflection \u2014 \u201Cwhat does this surface about my life?\u201D \u2014 without requiring a sender the framework can\u2019t establish.'
+        };
+      }
+      if (a.status === 'stress' || a.trigger === 'stress' || pattern === 'anxiety-amplification') {
+        return {
+          key: 'pattern-anxiety',
+          label: 'What may be underneath: pattern-perception under strain',
+          text: 'When life feels strained or anxious, the mind generates and amplifies patterns to regain a felt sense of control. Research on illusory pattern perception found exactly this: low control increases the tendency to see patterns that aren\u2019t there. The intensified noticing, in this shape, is information about how your mind is reading the period \u2014 not evidence about a sender.'
+        };
+      }
+      if (a.want === 'frequency') {
+        return {
+          key: 'attentional-priming',
+          label: 'What may be underneath: the attentional-priming question',
+          text: 'The wish to know why you notice so many synchronicities has a documented answer: attentional priming. Once you watch for meaningful coincidence, your brain preferentially detects it \u2014 so the increase is in noticing, not in occurrence. The honest position keeps the experience real while placing the cause in attention, not arrangement.'
+        };
+      }
+      if (a.apophenia === 'no' || a.apophenia === 'reject' || pattern === 'apophenia-pattern') {
+        return {
+          key: 'apophenia-blind-spot',
+          label: 'What may be underneath: the apophenia blind spot',
+          text: 'The mind detects patterns, including in random data \u2014 a documented tendency, not a flaw. When that isn\u2019t accounted for, felt-meaning reads as evidence of arrangement. Naming apophenia doesn\u2019t cancel the meaning that\u2019s real; it separates the reflection you can use from the causal claim the evidence doesn\u2019t support.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your synchronicity question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'meaning' || w === 'frequency' || h === 'interpret') return 'free_first';
+      if (w === 'message' || h === 'dynamic' || w === 'what-do' || h === 'guidance') return 'tarot_decision';
+      if (w === 'cause' || h === 'insight') return 'psychic';
+      if (w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-are-synchronicities', {
+        resultV2: true,
+        canTell: [
+          'Whether you are holding the coincidence as reflection or reaching for a cause \u2014 which is the clearest signal there is',
+          'Whether message-attribution is operating, and whether the seeking is extending because of it',
+          'Whether apophenia and attentional priming account for the felt-meaning and the rise in noticing'
+        ],
+        edgeBridge: 'A quiz can read how you are holding the coincidence \u2014 it can\u2019t confirm a supernatural cause or decode a message, which no honest reader can either. A reading framed on the reflection can offer perspective; it can\u2019t honestly promise a causal arrangement.',
+        ctaText: {
+          '*:free_first': 'Start with the free framework',
+          'message:tarot_decision': 'Get a structured read on what it points at',
+          'cause:psychic': 'Get an outside perspective',
+          'frequency:free_first': 'Start with the free framework',
+          '*:psychic': 'Get an outside perspective',
+          '*:tarot_decision': 'Get a next step you can take',
+          '*:tarot_deep': 'Get a deeper read on the whole picture',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'message-seeking',
+          text: 'when the sign-reading has become the day, a reader who offers to decode the messages across several sessions can quietly become a more expensive way of keeping the looking running. If you book one, frame it on what the coincidence surfaces \u2014 not on what the signs mean or who sent them.'
+        }
+      });
+    }
+  },
+
+
+  'what-is-my-angel-number': {
+    id: 'what-is-my-angel-number',
+    title: 'What Your Angel Number Is Actually For',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using the number as reflection, whether the calculation is doing meaning-attribution, and whether the number is anchoring identity \u2014 ending on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your relationship with your angel number \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'found',
+        q: 'How did you arrive at your angel number?',
+        hint: 'The path you took shapes how the number reads.',
+        options: [
+          { text: 'I calculated it from my birth date', detail: 'the reduction method', score: 'birth-date' },
+          { text: 'I noticed it repeating in my life', detail: 'a number I keep seeing', score: 'sighting' },
+          { text: 'A reading or app assigned it to me', detail: 'the number came from outside', score: 'reader-gave' },
+          { text: 'I\u2019m not sure \u2014 it just appeared', detail: 'the origin is unclear', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'pull',
+        q: 'What\u2019s drawing you to ask about it right now?',
+        hint: '',
+        options: [
+          { text: 'Curiosity about what it means', detail: 'the meaning question', score: 'curiosity' },
+          { text: 'A sense it\u2019s following me', detail: 'the frequency question', score: 'following' },
+          { text: 'I want it to mean something about me', detail: 'the identity question', score: 'identity-draw' },
+          { text: 'I want to get the calculation right', detail: 'the method question', score: 'method-draw' },
+          { text: 'Not sure what\u2019s pulling me', detail: 'the question is unclear', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'use',
+        q: 'How are you actually using the number?',
+        hint: 'This is the dimension that most changes the honest read.',
+        options: [
+          { text: 'As a reflective prompt \u2014 I answer from my own life', detail: 'reflection over decoding', score: 'reflection' },
+          { text: 'Mostly reflection, sometimes I wonder what it \u201Creally\u201D means', detail: 'leaning reflective', score: 'mostly' },
+          { text: 'Somewhere in between', detail: 'not clearly either', score: 'unsure' },
+          { text: 'I want it to decode something about me', detail: 'seeking a read on me', score: 'identity' },
+          { text: 'I\u2019m looking for my decoded identity in it', detail: 'the number as who I am', score: 'decoded' },
+          { text: 'I can\u2019t tell', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'meaning',
+        q: 'What do you believe the number means?',
+        hint: '',
+        options: [
+          { text: 'It\u2019s a cultural framework I use as reflection', detail: 'a tool, not a truth claim', score: 'own' },
+          { text: 'The associations are interesting prompts', detail: 'usable, not fixed', score: 'cultural' },
+          { text: 'I\u2019m not sure what it means yet', detail: 'still forming', score: 'unsure' },
+          { text: 'It carries a personal significance meant for me', detail: 'assigned to me', score: 'assigned' },
+          { text: 'It decodes something true about my life', detail: 'a fixed meaning', score: 'decoded' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'identity',
+        q: 'Is the number anchoring how you see yourself?',
+        hint: '',
+        options: [
+          { text: 'Not really \u2014 it\u2019s just a tool', detail: 'no identity load', score: 'none' },
+          { text: 'A little \u2014 a light theme', detail: 'soft anchoring', score: 'light' },
+          { text: 'I\u2019m not sure', detail: 'unclear', score: 'unsure' },
+          { text: 'Some \u2014 I check my type sometimes', detail: 'moderate anchoring', score: 'some' },
+          { text: 'Yes \u2014 it defines something about who I am', detail: 'strong anchoring', score: 'heavy' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'method',
+        q: 'How do you feel about the calculation method?',
+        hint: '',
+        options: [
+          { text: 'Calm \u2014 any method works as reflection', detail: 'the method is loose', score: 'calm' },
+          { text: 'Curious \u2014 I like exploring traditions', detail: 'exploring', score: 'curious' },
+          { text: 'I\u2019m not sure which to use', detail: 'undecided', score: 'unsure' },
+          { text: 'Anxious to find the \u201Cright\u201D one', detail: 'method anxiety', score: 'anxious' },
+          { text: 'Stuck \u2014 I keep second-guessing it', detail: 'method stuck', score: 'stuck' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'How to calculate it, or what it is', detail: 'the method question', score: 'how' },
+          { text: 'What it means for me', detail: 'the meaning question', score: 'meaning' },
+          { text: 'Why it keeps appearing', detail: 'the frequency question', score: 'why' },
+          { text: 'What it says about who I am', detail: 'the identity question', score: 'identity' },
+          { text: 'How to use it honestly', detail: 'the practice question', score: 'use' },
+          { text: 'Something underneath I can\u2019t name', detail: 'something unspoken', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting reflection from story', score: 'interpret' },
+          { text: 'An outside perspective on what it surfaces', detail: 'a read on the number', score: 'insight' },
+          { text: 'A structured reflection on what it points at', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole pattern', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        use:      { reflection: 2, mostly: 1, unsure: 0, identity: -1, decoded: -2, notell: null },
+        meaning:  { own: 2, cultural: 1, unsure: 0, assigned: -1, decoded: -2, notell: null },
+        identity: { none: 2, light: 1, unsure: 0, some: -1, heavy: -2, notell: null },
+        method:   { calm: 2, curious: 1, unsure: 0, anxious: -1, stuck: -2, notell: null }
+      };
+      var keys = ['use', 'meaning', 'identity', 'method'];
+      var sum = 0, uncertain = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.identity !== null && vals.identity <= -2) return 'identity-anchor';
+      if (vals.meaning !== null && vals.meaning <= -2) return 'meaning-attribution';
+      if (vals.method !== null && vals.method <= -2) return 'calculation-seeking';
+      if (vals.use !== null && vals.use >= 2 &&
+          (vals.identity === null || vals.identity >= 0)) return 'reflective-personal-number';
+      if (sum >= 2) return 'reflective-personal-number';
+      if (vals.identity !== null && vals.identity <= -1) return 'identity-anchor';
+      if (vals.method !== null && vals.method <= -1) return 'calculation-seeking';
+      if (vals.meaning !== null && vals.meaning <= -1) return 'meaning-attribution';
+      if (sum <= -3) return 'identity-anchor';
+      if (sum <= -1) return 'meaning-attribution';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-personal-number': {
+        path: 'A reflective, personal number',
+        summary: 'You\u2019re using the number as a tool for self-understanding, not as a decoded identity.',
+        suggest: function (a) {
+          var s = 'Your answers describe the number as a reflective anchor \u2014 a prompt for self-understanding rather than a decoded identity.';
+          if (a.use === 'reflection' || a.use === 'mostly') s += ' The reflection framing is doing the work: you answer from your own life, not from the number\u2019s assignment.';
+          if (a.identity === 'none' || a.identity === 'light') s += ' And the number isn\u2019t carrying identity weight, which keeps the engagement honest.';
+          if (a.method === 'calm' || a.method === 'curious') s += ' The calculation method is loose for you \u2014 any tradition works as reflection, which is the honest position.';
+          s += ' The number is yours to use, not to be assigned by.';
+          return s;
+        },
+        dontTell: 'A reflective use doesn\u2019t prove the number is meaningless \u2014 the meaning you make is real, and research on meaning-making shows constructing significance from symbolic frameworks supports self-understanding whether or not the framework is \u201Cobjectively\u201D true. What it does is name the honest use: the number works as reflection without requiring supernatural assignment.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep answering from your own life \u2014 let the number prompt a question, then answer it yourself. The reflection is the part that serves you.',
+            'If ' + (a.use === 'reflection' ? 'the reflective use' : 'the number') + ' starts drifting toward decoding \u2014 wanting it to say who you are \u2014 notice it, and return to the prompt.'
+          ];
+        }
+      },
+      'calculation-seeking': {
+        path: 'Calculation-seeking',
+        summary: 'The method anxiety is doing the work \u2014 wondering which calculation is \u201Cright.\u201D',
+        suggest: function (a) {
+          var s = 'Your answers describe the calculation method as the sticking point \u2014 anxious to find the \u201Cright\u201D one, or stuck second-guessing it.';
+          if (a.method === 'anxious' || a.method === 'stuck') s += ' The method anxiety is worth noticing, because no numerological tradition is supernaturally correct \u2014 Pythagorean, Chaldean, and others produce different numbers from the same birth date.';
+          if (a.found === 'birth-date') s += ' You arrived by calculation, which makes the \u201Cwhich method\u201D question louder.';
+          s += ' The honest position is that any method produces a number usable as a reflective anchor; the method\u2019s correctness is cultural, not supernatural, and the reflection works regardless of which you use.';
+          return s;
+        },
+        dontTell: 'Calculation-seeking doesn\u2019t prove the number is wrong \u2014 it proves the method anxiety is doing work the reflection doesn\u2019t require. Different traditions genuinely disagree, which is exactly why no single method can be the supernaturally correct one; the anxiety is a feature of the framework, not a flaw in you.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Pick any method and use the number as a reflective anchor \u2014 the reflection is the same regardless of which tradition produced the digit.',
+            'If the method anxiety keeps returning, notice it as the thing to engage, not as a question with an answer. Wanting the \u201Cright\u201D calculation is its own pattern.'
+          ];
+        }
+      },
+      'meaning-attribution': {
+        path: 'Meaning-attribution',
+        summary: 'You\u2019re treating the number as carrying a personal significance meant for you.',
+        suggest: function (a) {
+          var s = 'Your answers describe the number as carrying a significance assigned to you \u2014 a personal meaning meant for your life.';
+          if (a.meaning === 'assigned' || a.meaning === 'decoded') s += ' The attribution is the signal: the number is read as decoding something true, rather than as a prompt you answer yourself.';
+          if (a.pull === 'following' || a.want === 'why') s += ' And the frequency \u2014 seeing it repeatedly \u2014 is credited to the number \u201Cfollowing\u201D you, when research on attentional priming shows it\u2019s largely attention: once a number enters your notice, you see it everywhere.';
+          s += ' The honest reframe isn\u2019t that the meaning is false \u2014 it\u2019s that the meaning is yours to make, not decode, and the attentional-priming explanation accounts for most of the frequency.';
+          return s;
+        },
+        dontTell: 'Meaning-attribution doesn\u2019t prove the number carries no significance for you \u2014 the resonance can be genuine. What it does is name where the significance comes from: meaning-making is a real psychological function, and attentional priming explains the frequency. Neither requires supernatural assignment to be useful.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Try answering the number\u2019s prompt from your own life rather than treating its meaning as pre-assigned \u2014 the reflection is the part that serves you.',
+            'Notice whether sightings drop once the acute charge of the discovery settles \u2014 that quieting is the attentional-priming effect, not a loss of significance.'
+          ];
+        }
+      },
+      'identity-anchor': {
+        path: 'Identity-anchoring',
+        summary: 'The number is anchoring how you see yourself \u2014 which can limit honest self-examination.',
+        suggest: function (a) {
+          var s = 'Your answers describe the number as defining something about who you are \u2014 a strong anchor on identity.';
+          if (a.identity === 'heavy' || a.identity === 'some') s += ' The anchoring is the signal: \u201Cmy number is 7 \u2014 I\u2019m a seeker\u201D turns the calculation into decoded identity.';
+          if (a.want === 'identity' || a.pull === 'identity-draw') s += ' And the wish for the number to mean something about you is genuine \u2014 that\u2019s human, and it\u2019s worth noticing rather than acting on.';
+          s += ' The catch: decoded identity can make honest self-examination harder, not easier, because it settles the question before you answer it. The reflection framing keeps the question open.';
+          return s;
+        },
+        dontTell: 'Identity-anchoring doesn\u2019t prove the number is meaningless \u2014 the resonance can be real and useful. What it does is name the risk: when a number decodes who you are, it can limit the honest look at yourself the reflection is meant to prompt. Noticing the anchoring is the first move, not a verdict on it.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'When the number surfaces, ask what it prompts in you before assigning it a meaning about who you are \u2014 let the reflection lead.',
+            'If the identity load feels heavy or connected to distress, a licensed therapist is the more honest match than a reading \u2014 identity questions are often better held there.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function (a) {
+          var s = 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it.';
+          s += ' Right now there isn\u2019t enough observed pattern to sort your relationship with the number into reflective use or identity-anchoring, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape.';
+          return s;
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of what the number \u201Cmeans\u201D tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only how you use the number and whether it\u2019s anchoring identity.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'identity' || a.pull === 'identity-draw' || pattern === 'identity-anchor') {
+        return {
+          key: 'identity-question',
+          label: 'What may be underneath: the identity question',
+          text: 'The wish for a number to mean something about you is deeply human, and it doesn\u2019t mean the number decodes who you are. The honest reframe: let the number prompt a question and answer it from your life. Decoded identity can make honest self-examination harder, not easier \u2014 the reflection framing keeps the question open.'
+        };
+      }
+      if (a.pull === 'following' || a.want === 'why' || pattern === 'meaning-attribution') {
+        return {
+          key: 'frequency-attribution',
+          label: 'What may be underneath: the frequency attribution',
+          text: 'Seeing a number repeatedly is often credited to the number \u201Cfollowing\u201D you \u2014 but research on attentional priming shows it\u2019s largely attention: once a number enters your notice, your brain preferentially detects it everywhere. The frequency is evidence of attention, not of personal significance. The meaning you make from it stays yours to construct.'
+        };
+      }
+      if (a.method === 'anxious' || a.method === 'stuck' || a.want === 'how' || pattern === 'calculation-seeking') {
+        return {
+          key: 'method-anxiety',
+          label: 'What may be underneath: the method anxiety',
+          text: 'Wondering which calculation is the \u201Cright\u201D one is the method anxiety, and it\u2019s worth noticing because no numerological tradition is supernaturally correct \u2014 Pythagorean, Chaldean, and others produce different numbers from the same birth date. The honest position is that any method produces a number usable as a reflective anchor; the method\u2019s correctness is cultural, not supernatural.'
+        };
+      }
+      if (a.found === 'reader-gave' || a.pull === 'curiosity') {
+        return {
+          key: 'external-source',
+          label: 'What may be underneath: the external source',
+          text: 'The number came from a reading or an app rather than your own calculation or noticing \u2014 which is fine as a starting point, but worth holding loosely. Any source that assigns your \u201Ctrue\u201D number, claims a number is \u201Cblocked,\u201D or offers ongoing decoding is selling a certainty nobody possesses. The number works best as a reflection you answer yourself.'
+        };
+      }
+      if (a.want === 'beneath') {
+        return {
+          key: 'unspoken-question',
+          label: 'What may be underneath: the unspoken question',
+          text: 'Something underneath the number is pulling at you that you can\u2019t yet name. That\u2019s a common place to start, and the number may be a stand-in for a larger question about meaning, direction, or self-understanding. A structured reflection or an outside perspective can help surface it \u2014 without requiring the number to be supernaturally assigned.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'finding your angel number', cluster: 'angel-numbers' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'how' || w === 'use') return 'free_first';
+      if (w === 'why' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'meaning' || h === 'insight') return 'psychic';
+      if (w === 'identity' || h === 'deeper') return 'tarot_deep';
+      if (h === 'guidance') return 'tarot_decision';
+      if (h === 'interpret') return 'free_first';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-my-angel-number', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the number as a reflective anchor or seeking a decoded identity \u2014 the dimension that most changes the honest read',
+          'Whether the calculation method is doing anxiety work, or sitting loose as one cultural framework among others',
+          'Whether the number is anchoring identity in a way that limits honest self-examination'
+        ],
+        edgeBridge: 'A quiz can read what your relationship with the number already tracks \u2014 it can\u2019t calculate or certify your \u201Ctrue\u201D angel number, which no framework can honestly do. A reading can frame the reflection and the pattern of your noticing; it cannot assign a supernaturally \u201Cyours\u201D number, and any reader who confirms one is offering a projection dressed as certification.',
+        ctaText: {
+          'reflective-personal-number:free_first': 'Start with the free framework',
+          'calculation-seeking:free_first': 'Start with the free framework',
+          'meaning-attribution:psychic': 'Get a read on what it surfaces',
+          'identity-anchor:tarot_deep': 'Get a deeper read on the pattern',
+          '*:psychic': 'Get a reading on what it surfaces',
+          '*:tarot_relationship': 'Get a reflective spread',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the pattern',
+          '*:closure': 'Get a reading focused on closure',
+          '*:free_first': 'Start with the free framework'
+        },
+        negativePatternTip: {
+          pattern: 'identity-anchor',
+          text: 'when the number starts defining who you are, a reading that confirms a decoded identity can quietly become a more expensive way of keeping the anchoring in place. If you book one, frame it on what the number surfaces for you \u2014 not on certifying what it says about who you are.'
+        }
+      });
+    }
+  },
+
+
+  'what-is-my-life-purpose': {
+    id: 'what-is-my-life-purpose',
+    title: 'What Is Your Life-Purpose Question Really About?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re seeking a discoverable purpose, whether a meaning-gap is the real issue, and whether the discovery model is paralyzing you \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your life-purpose question \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup; it never assigns you a purpose.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What brought the life-purpose question up for you right now?',
+        hint: 'This shapes how the same question reads \u2014 the situation matters.',
+        options: [
+          { text: 'A life transition', detail: 'a job change, move, loss, or empty nest', score: 'transition' },
+          { text: 'A persistent emptiness', detail: 'a lack of significance', score: 'emptiness' },
+          { text: 'Comparing myself to others', detail: 'people who seem to have found theirs', score: 'comparison' },
+          { text: 'Burnout or a stalled chapter', detail: 'a period that stopped moving', score: 'burnout' },
+          { text: 'Genuine curiosity, not distress', detail: 'an open question', score: 'curiosity' },
+          { text: 'A reader said my purpose is blocked', detail: 'the idea came from a reading', score: 'reader-told' },
+          { text: 'I\u2019m not sure what triggered it', detail: 'no clear origin', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What form is the question taking for you?',
+        hint: '',
+        options: [
+          { text: 'There must be one thing I\u2019m meant to do', detail: 'the discovery framing', score: 'find-thing' },
+          { text: 'Why do I feel empty', detail: 'the meaning question', score: 'empty-feel' },
+          { text: 'Have I missed my purpose', detail: 'the missed-path fear', score: 'missed' },
+          { text: 'What should I actually do', detail: 'the action question', score: 'what-do' },
+          { text: 'Am I behind everyone else', detail: 'the timeline question', score: 'timeline' },
+          { text: 'A reader said my purpose is blocked', detail: 'the diagnosis came externally', score: 'reader' },
+          { text: 'It crept in, no single moment', detail: 'the idea built slowly', score: 'built-up' }
+        ]
+      },
+      {
+        id: 'meaning_vs_purpose',
+        q: 'When you ask \u201Cwhat is my life purpose,\u201D what are you most feeling?',
+        hint: 'Meaning and purpose are different states with different honest responses.',
+        options: [
+          { text: 'A lack of significance \u2014 life feels empty', detail: 'the meaning-gap', score: 'meaning-gap' },
+          { text: 'Both emptiness and no single direction', detail: 'they arrive together', score: 'both' },
+          { text: 'Like I\u2019m missing the one direction to commit to', detail: 'the purpose-gap framing', score: 'purpose-seek' },
+          { text: 'I can\u2019t name what I\u2019m feeling', detail: 'too close to read', score: 'cant-name' },
+          { text: 'I can\u2019t tell which it is', detail: 'the two feel fused', score: 'notell' }
+        ]
+      },
+      {
+        id: 'discovery_paralysis',
+        q: 'How are you approaching the question right now?',
+        hint: 'Clarity follows commitment \u2014 the waiting is often the paralysis, not the path.',
+        options: [
+          { text: 'I\u2019m already engaging things, even uncertain ones', detail: 'committing and learning', score: 'engaging' },
+          { text: 'Mostly acting, with some waiting for clarity', detail: 'moving, with doubt', score: 'mostly-acting' },
+          { text: 'Some engagement, some waiting', detail: 'a mixed stance', score: 'mixed' },
+          { text: 'Waiting for clarity before I commit to anything', detail: 'the discovery model', score: 'waiting' },
+          { text: 'Frozen \u2014 I can\u2019t commit until I know the purpose', detail: 'full paralysis', score: 'frozen' },
+          { text: 'I can\u2019t tell how I\u2019m approaching it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'absorbs',
+        q: 'Is there something that already absorbs you \u2014 even slightly?',
+        hint: 'What already engages you is the raw material purpose is built from.',
+        options: [
+          { text: 'Yes \u2014 something clearly absorbs me', detail: 'a real pull', score: 'clear-thing' },
+          { text: 'Something absorbs me somewhat', detail: 'a partial pull', score: 'somewhat' },
+          { text: 'A vague interest, nothing concrete', detail: 'unformed', score: 'vague' },
+          { text: 'Nothing really absorbs me right now', detail: 'a flat period', score: 'nothing' },
+          { text: 'I feel numb \u2014 nothing pulls at all', detail: 'a sustained emptiness', score: 'numb' },
+          { text: 'I can\u2019t tell what absorbs me', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'missed_purpose',
+        q: 'How much is fear of having missed \u201Cthe one\u201D path driving this?',
+        hint: 'Purpose is built, not fated \u2014 so \u201Cmissing\u201D it is partly a category error.',
+        options: [
+          { text: 'Not at all \u2014 that framing doesn\u2019t fit me', detail: 'not anxiety-driven', score: 'no-fear' },
+          { text: 'A little \u2014 occasional worry', detail: 'passing', score: 'mild' },
+          { text: 'Sometimes \u2014 it comes and goes', detail: 'intermittent', score: 'sometimes' },
+          { text: 'A lot \u2014 I fear I bypassed the right path', detail: 'the fear is active', score: 'fearful' },
+          { text: 'Constantly \u2014 it consumes the question', detail: 'the anxiety leads', score: 'obsessed' },
+          { text: 'I can\u2019t tell how much fear is in it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'What is my actual purpose', detail: 'the identification question', score: 'identify' },
+          { text: 'Why do I feel empty', detail: 'the meaning question', score: 'meaning' },
+          { text: 'What should I actually do', detail: 'the action question', score: 'what-do' },
+          { text: 'Did I miss my purpose', detail: 'the missed-path question', score: 'missed' },
+          { text: 'Is purpose found or made', detail: 'the paradigm question', score: 'paradigm' },
+          { text: 'What\u2019s really underneath all of this', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting the answerable from the not', score: 'interpret' },
+          { text: 'An outside perspective on my situation', detail: 'a read on the question', score: 'insight' },
+          { text: 'A view of what this period is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        meaning_vs_purpose: { 'meaning-gap': 2, 'both': 1, 'purpose-seek': 0, 'cant-name': -1, 'notell': null },
+        discovery_paralysis: { 'engaging': 2, 'mostly-acting': 1, 'mixed': 0, 'waiting': -1, 'frozen': -2, 'notell': null },
+        absorbs: { 'clear-thing': 2, 'somewhat': 1, 'vague': 0, 'nothing': -1, 'numb': -2, 'notell': null },
+        missed_purpose: { 'no-fear': 2, 'mild': 1, 'sometimes': 0, 'fearful': -1, 'obsessed': -2, 'notell': null }
+      };
+      var keys = ['meaning_vs_purpose', 'discovery_paralysis', 'absorbs', 'missed_purpose'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.missed_purpose !== null && vals.missed_purpose <= -2) return 'missed-purpose-anxiety';
+      if (vals.meaning_vs_purpose !== null && vals.meaning_vs_purpose >= 2 &&
+          (vals.discovery_paralysis === null || vals.discovery_paralysis >= 0)) return 'meaning-gap';
+      if (vals.discovery_paralysis !== null && vals.discovery_paralysis <= -1 &&
+          (vals.meaning_vs_purpose === null || vals.meaning_vs_purpose <= 0)) return 'discovery-paralysis';
+      if (sum <= -3) return 'discovery-paralysis';
+      if (vals.absorbs !== null && vals.absorbs >= 1) return 'purpose-in-progress';
+      if (sum >= 1) return 'meaning-gap';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'purpose-in-progress': {
+        path: 'Purpose in progress',
+        summary: 'Something already absorbs you, and you\u2019re engaging \u2014 the building has begun.',
+        suggest: function (a) {
+          var s = 'Your answers describe something that already absorbs you and a stance of engaging rather than waiting \u2014 which is exactly the condition under which purpose clarifies.';
+          if (a.absorbs === 'clear-thing') s += ' The clear pull is the raw material; purpose is built from sustained engagement with it, not found pre-formed.';
+          if (a.discovery_paralysis === 'engaging' || a.discovery_paralysis === 'mostly-acting') s += ' And you\u2019re committing before clarity, which is the mechanism that actually produces direction.';
+          s += ' The honest next step isn\u2019t a reading that names your purpose \u2014 it\u2019s deeper engagement with what already pulls, letting direction form through commitment.';
+          return s;
+        },
+        dontTell: 'Purpose in progress doesn\u2019t mean you\u2019ve \u201Cfound it\u201D \u2014 purpose is built across a life, not arrived at once. It means the building has started, and the clarity follows the engagement rather than preceding it. A reading framed on what absorbs you can be a useful mirror; one that names a singular destiny is offering a projection.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Deepen engagement with what already absorbs you \u2014 let competence and meaning build through commitment, not through waiting for a revelation.',
+            'Notice whether direction clarifies as you go. If the pull fades, that\u2019s information too \u2014 most people build several directions across a life.'
+          ];
+        }
+      },
+      'meaning-gap': {
+        path: 'A meaning-gap, not a purpose-gap',
+        summary: 'The emptiness is about significance and engagement, not a missing single direction.',
+        suggest: function (a) {
+          var s = 'Your answers describe a sense of emptiness that reads as a meaning-gap \u2014 a lack of significance and engagement \u2014 rather than a missing singular purpose. That\u2019s the more addressable of the two, and the response differs from the purpose response.';
+          if (a.absorbs === 'numb' || a.absorbs === 'nothing') s += ' The numbness you describe can also be mimicked by depression or burnout \u2014 if the emptiness is chronic and affects daily life, a licensed therapist is the more honest match than any purpose framework.';
+          if (a.meaning_vs_purpose === 'meaning-gap') s += ' Naming it as meaning rather than purpose is the first honest step: engage meaningfully now, through contribution and connection, which is available across many kinds of activity.';
+          s += ' The question to ask isn\u2019t \u201Cwhat is my purpose\u201D but \u201Cwhat sustained engagement might build into one.\u201D';
+          return s;
+        },
+        dontTell: 'A meaning-gap doesn\u2019t prove there\u2019s no purpose to find \u2014 it reframes the issue as engagement and significance, which is the part you can act on now. Purpose often clarifies through exactly this kind of meaningful engagement; the wait for a singular revelation tends to keep the gap open.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Engage meaningfully now \u2014 contribution, connection, sustained attention \u2014 rather than waiting for a singular purpose to arrive.',
+            'If the emptiness is chronic, flattens everything, or touches sleep and daily function, a licensed therapist offers more reliable support than any reading or quiz.'
+          ];
+        }
+      },
+      'missed-purpose-anxiety': {
+        path: 'Missed-purpose anxiety',
+        summary: 'The fear of having bypassed \u201Cthe one\u201D path is driving the question.',
+        suggest: function (a) {
+          var s = 'Your answers describe the question led by a fear that you bypassed \u201Cthe one\u201D path \u2014 which is usually an anxiety pattern, not a genuine retrospective.';
+          if (a.want === 'missed') s += ' The \u201Cdid I miss my purpose\u201D framing assumes a single fated path, and purpose is built, not fated \u2014 so \u201Cmissing\u201D it is partly a category error.';
+          if (a.missed_purpose === 'obsessed') s += ' And the fear is consuming the question, which is the signal to name the pattern rather than keep answering it.';
+          s += ' The honest move is to recognize the anxiety as the thing to engage, and to begin sustained engagement with what absorbs you \u2014 because clarity follows commitment, not the reverse.';
+          return s;
+        },
+        dontTell: 'Missed-purpose anxiety doesn\u2019t prove you actually bypassed a real path \u2014 purpose is constructed across a life, and most people build several directions. The fear is worth naming because it keeps you scanning the past instead of engaging the present, which is where direction is actually built.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Name the missed-path fear as an anxiety pattern, not as a fact about your life \u2014 and notice when it returns.',
+            'Begin one sustained engagement with something that absorbs you, however small. The comparison to others\u2019 clarity misreads the mechanism: their direction usually followed engagement, not preceded it.'
+          ];
+        }
+      },
+      'discovery-paralysis': {
+        path: 'Discovery-model paralysis',
+        summary: 'Waiting for a pre-formed purpose to reveal itself is the paralysis, not the path.',
+        suggest: function (a) {
+          var s = 'Your answers describe the discovery model working against you \u2014 waiting for clarity before committing, as if purpose were a hidden thing to be found. The evidence runs the other way: clarity follows commitment, and the waiting is the paralysis.';
+          if (a.discovery_paralysis === 'frozen') s += ' The freeze \u2014 unable to commit until you know the purpose \u2014 is the most direct form of it, and it keeps you standing still while life passes.';
+          if (a.absorbs === 'nothing' || a.absorbs === 'numb') s += ' With little pulling at you right now, the wait feels safer than engagement \u2014 but engagement is what surfaces the pull; waiting can\u2019t.';
+          s += ' The honest move is to begin sustained engagement with something that absorbs you even slightly, because direction clarifies through the doing, not before it.';
+          return s;
+        },
+        dontTell: 'Discovery-paralysis doesn\u2019t prove you\u2019re lazy or avoiding life \u2014 the model is everywhere in \u201Cfind your purpose\u201D content, and it produces real paralysis. What it does is name the mechanism so you can act against it: commit before clarity, and let the purpose build.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Pick one thing that absorbs you even slightly and begin sustained engagement \u2014 the pull usually surfaces through doing, not through more waiting.',
+            'Notice the voice that says \u201Cit doesn\u2019t count until I know the real purpose.\u201D That voice is the discovery model; the engagement is the answer to it.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read the question honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your question into a clear shape, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read it without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that you\u2019ve \u201Cmissed\u201D or \u201Cfound\u201D a purpose tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: meaning vs purpose, how you\u2019re approaching it, what absorbs you, and how much missed-path fear is in it.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      var x = a;
+      if (x.want === 'identify' || x.trigger === 'find-thing') {
+        return {
+          key: 'discovery-model',
+          label: 'What may be underneath: the discovery model',
+          text: 'The wish for a single pre-existing purpose to be identified is the discovery model \u2014 a framing the evidence doesn\u2019t support. Purpose is built through sustained engagement, not found pre-formed; anyone naming your specific purpose with certainty is offering a projection. The honest reframe is to ask what sustained engagement might build into a direction, rather than what the hidden thing is.'
+        };
+      }
+      if (x.want === 'missed' || x.missed_purpose === 'obsessed' || pattern === 'missed-purpose-anxiety') {
+        return {
+          key: 'missed-category',
+          label: 'What may be underneath: the missed-path fear',
+          text: 'The fear of having bypassed \u201Cthe one\u201D path is usually an anxiety pattern, not a genuine retrospective. Purpose is built, not fated \u2014 so \u201Cmissing\u201D it is partly a category error. Naming the fear as the thing to engage, rather than answering it, is the more honest move.'
+        };
+      }
+      if (x.absorbs === 'numb' || x.absorbs === 'nothing' || pattern === 'meaning-gap') {
+        return {
+          key: 'emptiness-clinical',
+          label: 'What may be underneath: the emptiness question',
+          text: 'A persistent emptiness or numbness can be a meaning-gap \u2014 the real issue is engagement, not a missing purpose. But depression and burnout can mimic the felt-emptiness. If the sense of emptiness is chronic and affects daily life, a licensed therapist offers a more appropriate and reliable form of support than any purpose-search framework or reading.'
+        };
+      }
+      if (x.discovery_paralysis === 'frozen' || x.discovery_paralysis === 'waiting' || pattern === 'discovery-paralysis') {
+        return {
+          key: 'discovery-paralysis',
+          label: 'What may be underneath: the discovery paralysis',
+          text: 'Waiting for a pre-formed purpose to reveal itself inverts the actual mechanism \u2014 clarity follows commitment, not the reverse. Research on interest development finds passions are built through sustained engagement and growing competence, not discovered fully formed. The waiting is the paralysis, not the path; beginning is what surfaces the direction.'
+        };
+      }
+      if (x.meaning_vs_purpose === 'meaning-gap') {
+        return {
+          key: 'meaning-gap',
+          label: 'What may be underneath: the meaning-gap',
+          text: 'The emptiness is often a meaning-gap \u2014 a lack of significance and engagement \u2014 dressed as a purpose-gap. The honest response is to engage meaningfully now, through contribution and connection, which is available across many kinds of activity rather than only through a singular purpose.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your life-purpose question', cluster: 'life-direction' }),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'identify' || w === 'paradigm') return 'psychic';
+      if (w === 'meaning' || w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      if (w === 'what-do' || h === 'guidance') return 'tarot_decision';
+      if (w === 'missed' || h === 'dynamic') return 'tarot_relationship';
+      if (h === 'insight') return 'psychic';
+      return 'free_first';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-my-life-purpose', {
+        resultV2: true,
+        canTell: [
+          'Whether the emptiness is a meaning-gap or a purpose-gap \u2014 which is the more addressable of the two and changes the honest response',
+          'Whether the discovery model is paralyzing you \u2014 waiting for clarity before committing, when clarity actually follows commitment',
+          'What already absorbs you, even slightly \u2014 the raw material purpose is built from, never a pre-formed thing to be found'
+        ],
+        edgeBridge: 'A quiz can read what your own experience already tracks \u2014 the shape of the question, not its answer. It cannot deliver a pre-formed purpose; no honest reading, framework, or epiphany can. A reading framed on what engages you can offer perspective; it cannot name a singular destiny, and any reader who guarantees one is selling a certainty nobody possesses.',
+        ctaText: {
+          'identify:psychic': 'Get a perspective on what engages you',
+          'meaning:tarot_deep': 'Get a reflective read on the emptiness',
+          'what-do:tarot_decision': 'Get a next step you can take',
+          'missed:tarot_relationship': 'Get a read on the missed-path fear',
+          '*:psychic': 'Get a perspective on what engages you',
+          '*:tarot_deep': 'Get a deeper read on the question',
+          '*:tarot_decision': 'Get a next step you can take',
+          '*:tarot_relationship': 'Get a read on the dynamic',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'discovery-paralysis',
+          text: 'when the waiting has become the day, a reading that promises to name your purpose can quietly become a more expensive way of keeping the paralysis running. If you book one, frame it on what already engages you \u2014 not on the hidden purpose the paying party names for you.'
+        }
+      });
+    }
+  },
+
+
+  'what-is-my-rising-sign': {
+    id: 'what-is-my-rising-sign',
+    title: 'What Your Rising Sign Actually Tells You',
+    launchSub: 'Eight questions, about two minutes. It surfaces whether you\u2019re using the rising sign as reflection, whether calculation-seeking is doing the work, and whether influence-attribution or identity-anchoring is reaching past what the framework supports \u2014 then ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of how you relate to your rising sign \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'found',
+        q: 'How did you come to your rising sign?',
+        hint: 'This shapes how the same sign reads.',
+        options: [
+          { text: 'I calculated it from my birth data', detail: 'a free chart calculator', score: 'calc' },
+          { text: 'I read about it and got curious', detail: 'an article or a post', score: 'read' },
+          { text: 'A reader or app told me', detail: 'the sign came from a reading', score: 'reader' },
+          { text: 'I\u2019m exploring my whole chart', detail: 'sun, moon, and rising', score: 'chart' },
+          { text: 'A friend mentioned it', detail: 'someone close brought it up', score: 'friend' },
+          { text: 'I\u2019m not sure how I got here', detail: 'the interest crept in', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'meaning',
+        q: 'What does the rising sign mean to you right now?',
+        hint: '',
+        options: [
+          { text: 'A lens for how I meet the world', detail: 'reflection, not a verdict', score: 'lens' },
+          { text: 'A sign I want to understand', detail: 'curiosity about meaning', score: 'curious' },
+          { text: 'Something that explains my persona', detail: 'it accounts for first impressions', score: 'explains' },
+          { text: 'A key to who I am', detail: 'it decodes my identity', score: 'key' },
+          { text: 'A calculation I haven\u2019t done yet', detail: 'I just want the sign', score: 'todo' },
+          { text: 'I can\u2019t quite put it into words', detail: 'a feeling, not a statement', score: 'notell' }
+        ]
+      },
+      {
+        id: 'use',
+        q: 'How are you mainly using the rising sign?',
+        hint: 'This is the question that decides what the framework can honestly do for you.',
+        options: [
+          { text: 'As a reflective lens', detail: 'on persona and first impressions', score: 'reflect' },
+          { text: 'A mix of reflection and curiosity', detail: 'lens plus interest in meaning', score: 'mixed' },
+          { text: 'Curious what it might predict', detail: 'open to prediction', score: 'curious' },
+          { text: 'I want it to predict my traits', detail: 'personality or path', score: 'predict' },
+          { text: 'I want it to decode specific traits', detail: 'a fixed read-out', score: 'decode' },
+          { text: 'I can\u2019t tell how I\u2019m using it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'attribution',
+        q: 'Do you think your rising sign actually shapes who you are?',
+        hint: '',
+        options: [
+          { text: 'It\u2019s a lens, not a cause', detail: 'usable, not predictive', score: 'lens' },
+          { text: 'It might nudge first impressions', detail: 'a small influence', score: 'nudge' },
+          { text: 'I\u2019m not sure', detail: 'no settled view', score: 'unsure' },
+          { text: 'Yes, it explains a lot of how I present', detail: 'a real influence', score: 'explains' },
+          { text: 'Yes, it determines my traits and path', detail: 'a fixed cause', score: 'determines' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'anchor',
+        q: 'How much does the chart anchor how you see yourself?',
+        hint: '',
+        options: [
+          { text: 'Not much \u2014 one small lens', detail: 'a reference among others', score: 'little' },
+          { text: 'Somewhat \u2014 a useful reference', detail: 'part of the picture', score: 'some' },
+          { text: 'A fair amount', detail: 'it carries weight', score: 'fair' },
+          { text: 'A lot \u2014 my chart explains me', detail: 'the chart does the work', score: 'lot' },
+          { text: 'It defines who I am', detail: 'decoded identity', score: 'defines' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'method',
+        q: 'How are you feeling about your birth time and the calculation?',
+        hint: 'Birth time matters for the calculation only \u2014 not for the meaning.',
+        options: [
+          { text: 'I have it and used a calculator', detail: 'the calculation is done', score: 'have' },
+          { text: 'I have it and use it as a reference', detail: 'a settled point', score: 'ref' },
+          { text: 'I\u2019m not sure I have the exact time', detail: 'some uncertainty', score: 'unsure' },
+          { text: 'I\u2019m anxious to get the precise time', detail: 'precision for accuracy', score: 'anxious' },
+          { text: 'I need the exact time to make it \u201Creal\u201D', detail: 'precision for the meaning', score: 'exact' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'How do I calculate it?', detail: 'the practical ask', score: 'calc' },
+          { text: 'What does it mean for me?', detail: 'the meaning question', score: 'meaning' },
+          { text: 'Does it explain how people see me?', detail: 'the persona question', score: 'persona' },
+          { text: 'Can my chart explain who I am?', detail: 'the identity question', score: 'identity' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' },
+          { text: 'I\u2019m not sure what I\u2019m asking', detail: 'clarity first', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'How to calculate it accurately', detail: 'the method', score: 'calc' },
+          { text: 'An honest read of what it means', detail: 'sorting lens from claim', score: 'interpret' },
+          { text: 'An outside perspective on my chart', detail: 'a read on what it surfaces', score: 'insight' },
+          { text: 'A view of what it surfaces in my life', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A deeper read of the whole chart', detail: 'the full picture', score: 'deeper' },
+          { text: 'What to do with it', detail: 'a next step', score: 'guidance' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        use:        { reflect: 2, mixed: 1, curious: 0, predict: -1, decode: -2, notell: null },
+        attribution: { lens: 2, nudge: 1, unsure: 0, explains: -1, determines: -2, notell: null },
+        anchor:      { little: 2, some: 1, fair: 0, lot: -1, defines: -2, notell: null },
+        method:      { have: 2, ref: 1, unsure: 0, anxious: -1, exact: -2, notell: null }
+      };
+      var keys = ['use', 'attribution', 'anchor', 'method'];
+      var sum = 0, uncertain = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.method !== null && vals.method <= -2) return 'calculation-seeking';
+      if (vals.use !== null && vals.use >= 2 && (vals.attribution === null || vals.attribution >= 0)) return 'reflective-framework-use';
+      if (vals.attribution !== null && vals.attribution <= -1 && (vals.use === null || vals.use <= 0)) return 'influence-attribution';
+      if (vals.anchor !== null && vals.anchor <= -1 && (vals.use === null || vals.use <= 0)) return 'identity-anchoring';
+      if (sum <= -3) return (vals.attribution !== null && (vals.anchor === null || vals.attribution <= vals.anchor)) ? 'influence-attribution' : 'identity-anchoring';
+      if (sum >= 1) return 'reflective-framework-use';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-framework-use': {
+        path: 'A reflective framework you\u2019re using well',
+        summary: 'You\u2019re using the rising sign as a lens, not a verdict.',
+        suggest: function (a) {
+          var s = 'Your answers describe the rising sign as a reflective lens \u2014 a frame for how you meet the world and the first impressions you make, rather than a decoder of fixed traits.';
+          if (a.use === 'reflect') s += ' That framing is the honest use: it prompts reflection without requiring the sign to predict.';
+          if (a.attribution === 'lens' || a.attribution === 'nudge') s += ' And you\u2019re holding the influence lightly, which keeps the Barnum effect visible.';
+          if (a.method === 'have' || a.method === 'ref') s += ' The calculation is settled, so the meaning question is free to stay reflective.';
+          s += ' The framework can support self-examination here; it doesn\u2019t need to be a predictor for that to be true.';
+          return s;
+        },
+        dontTell: 'A reflective use doesn\u2019t prove the predictions are false for you \u2014 your sense that the lens helps may be real. What it does is name the honest limit: the personality and appearance claims aren\u2019t supported by controlled tests, so the value is in the reflection, not in any decoded trait.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Use the rising sign as a prompt, not a conclusion \u2014 a question about how you present, answered from your life rather than read off the chart.',
+            'Re-check the felt-accuracy: if a description lands hard, ask whether it would land for many rising signs. That habit keeps the lens honest.'
+          ];
+        }
+      },
+      'calculation-seeking': {
+        path: 'A calculation you want to get right',
+        summary: 'The focus is on the birth time and the math \u2014 the real, answerable part.',
+        suggest: function (a) {
+          var s = 'Your answers put the weight on the calculation \u2014 getting the birth time exact and the ascendant computed, which is the one part that is genuinely astronomical and reproducible.';
+          if (a.method === 'exact') s += ' The catch worth noticing: precision matters for the calculation, not for the meaning. An exact time makes the point precise; it doesn\u2019t make the personality claims supported.';
+          if (a.method === 'anxious') s += ' The anxiety about precision is about the math, and that\u2019s fine \u2014 but it can drift into treating the meaning as more solid the more exact the time is, which the evidence doesn\u2019t warrant.';
+          if (a.want === 'calc') s += ' Wanting the sign itself is fully answerable: a free calculator with your birth date, time, and place gives it to you.';
+          s += ' The calculation is honest; what\u2019s built on it interpretively is where the limits begin.';
+          return s;
+        },
+        dontTell: 'Needing the exact birth time doesn\u2019t mean the meaning is unearned \u2014 without a reliable time the rising sign simply can\u2019t be computed, and that\u2019s a real constraint. What it doesn\u2019t do is make the predictions more supported: precision affects the calculation, not the claim.',
+        watchIntro: 'Before you chase the precise time:',
+        watch: function () {
+          return [
+            'Use a free natal chart calculator with the birth time you have \u2014 and if you don\u2019t have it, check the birth certificate or ask family rather than paying for rectification, which is speculative.',
+            'Once the sign is computed, keep the question reflective: the point is a reference, not a verdict on your traits.'
+          ];
+        }
+      },
+      'influence-attribution': {
+        path: 'Influence-attribution doing work the framework can\u2019t support',
+        summary: 'You\u2019re letting the rising sign explain traits the evidence doesn\u2019t back.',
+        suggest: function (a) {
+          var s = 'Your answers lean toward letting the rising sign explain who you are \u2014 attributing real influence over personality or path to the ascendant, which the controlled tests don\u2019t support.';
+          if (a.attribution === 'explains') s += ' The felt fit is real, but rising-sign descriptions feel accurate for most people \u2014 that\u2019s the Barnum effect, not a decoded trait.';
+          if (a.attribution === 'determines') s += ' Treating it as a fixed cause goes past what any honest framework claims; the ascendant is a reflective frame, not a determinant.';
+          if (a.use === 'predict' || a.use === 'decode') s += ' And the prediction framing invites exactly this: the calculation\u2019s rigor gets borrowed by the claims built on it.';
+          s += ' The honest version keeps the influence as a lens, not a cause.';
+          return s;
+        },
+        dontTell: 'Influence-attribution doesn\u2019t prove the framework is useless \u2014 a lens can genuinely help you think about how you present. What it names is the over-reach: when the rising sign is doing explanatory work the evidence can\u2019t support, it can crowd out the lived patterns that actually shape you.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'When a trait feels \u201Cexplained\u201D by the sign, test it against your actual history \u2014 behavior, context, and choice explain far more than the ascendant does.',
+            'If the attribution is doing heavy identity work, a licensed therapist is the more honest match than a reading; the chart can prompt reflection, not replace self-examination.'
+          ];
+        }
+      },
+      'identity-anchoring': {
+        path: 'Identity-anchoring to the chart',
+        summary: 'The chart is doing the work of explaining who you are.',
+        suggest: function (a) {
+          var s = 'Your answers describe the chart as carrying real weight in how you see yourself \u2014 at the far end, the rising sign defines who you are, which is identity-anchoring.';
+          if (a.anchor === 'lot') s += ' The chart explaining you can feel grounding, but it can also offload self-examination onto a fixed read-out.';
+          if (a.anchor === 'defines') s += ' Letting it define you is the sharpest version of this: the wish for the chart to answer \u201Cwho am I\u201D is genuine, yet decoded identity can quietly limit the honest look at your own patterns.';
+          if (a.want === 'identity') s += ' The identity question is human; the honest reframe is to use the chart as one lens among many, not the source of the answer.';
+          s += ' Noticing the anchor is the move \u2014 it keeps the framework reflective instead of决定性.';
+          return s;
+        },
+        dontTell: 'Identity-anchoring doesn\u2019t mean the chart is wrong for you \u2014 the wish for it to explain you is real and common. What it deserves is notice: when decoded identity stands in for self-examination, the framework stops clarifying and starts substituting, which is exactly where a reading can over-reach.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Catch the moments you reach for the chart to settle a \u201Cwho am I\u201D question, and answer at least one of them from your life instead.',
+            'If the anchoring is tied to distress or anxiety, a licensed therapist is the more reliable support than any spiritual reading \u2014 the chart is a lens, not a diagnosis.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your relationship with the rising sign into reflective use, calculation-seeking, influence-attribution, or identity-anchoring, which usually means one of two things: the interest is genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything noisier.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that the chart \u201Cmeans\u201D something tends to produce noise: every neutral detail gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary life \u2014 living, not scanning the chart for confirmation \u2014 watching only the four signals: reflection vs prediction, influence-attribution, identity-anchoring, and the birth-time calculation.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has shifted in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'calc' || a.method === 'exact' || a.method === 'anxious' || pattern === 'calculation-seeking') {
+        return {
+          key: 'method-anxiety',
+          label: 'What may be underneath: the method anxiety',
+          text: 'The pull toward the exact birth time and the precise calculation is the one fully answerable part of the rising sign \u2014 the ascendant is a real astronomical point. The thing worth separating: precision matters for the calculation, not for the meaning. An exact time makes the point accurate; it doesn\u2019t make the personality predictions supported, which controlled tests haven\u2019t produced.'
+        };
+      }
+      if (a.attribution === 'explains' || a.attribution === 'determines' || pattern === 'influence-attribution') {
+        return {
+          key: 'influence-attribution',
+          label: 'What may be underneath: the influence attribution',
+          text: 'Letting the rising sign explain traits is the over-reach the framework can\u2019t support. The felt fit is real \u2014 but rising-sign descriptions feel accurate for most people because they\u2019re vague and positive, the Barnum effect, not a decoded self. The honest use keeps the influence as a lens, not a cause.'
+        };
+      }
+      if (a.anchor === 'lot' || a.anchor === 'defines' || a.want === 'identity' || pattern === 'identity-anchoring') {
+        return {
+          key: 'identity-anchor',
+          label: 'What may be underneath: the identity anchor',
+          text: 'Using the chart to explain who you are is a genuine and common wish, but decoded identity can quietly stand in for self-examination. The rising sign is a reflective frame on how you meet the world, not a source of the answer to \u201Cwho am I.\u201D Noticing the anchor keeps the framework clarifying instead of substituting \u2014 and if the anchoring is tied to distress, a therapist is the more reliable support.'
+        };
+      }
+      if (a.meaning === 'lens' || a.use === 'reflect' || pattern === 'reflective-framework-use') {
+        return {
+          key: 'reflective-use',
+          label: 'What may be underneath: the reflective use',
+          text: 'Using the rising sign as a lens on persona and first impressions is the honest version \u2014 it prompts reflection without requiring the sign to predict. The calculation is real; the meaning is interpretive. Held this way, the framework supports self-examination rather than replacing it, and the Barnum effect stays visible enough to keep the lens honest.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your rising sign and how you present', cluster: 'astrology' }),
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'calc') return 'free_first';
+      if (h === 'insight' || w === 'identity') return 'psychic';
+      if (h === 'dynamic' || w === 'persona') return 'tarot_relationship';
+      if (h === 'deeper' || w === 'beneath') return 'tarot_deep';
+      if (h === 'guidance' || w === 'meaning') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-my-rising-sign', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the rising sign as a reflective lens or reaching for it as a predictor \u2014 the line that decides what the framework can honestly do',
+          'Whether influence-attribution or identity-anchoring is doing work the evidence can\u2019t support, which is the part worth noticing in yourself',
+          'That the birth time matters for the calculation only \u2014 not for the meaning the predictions claim'
+        ],
+        edgeBridge: 'A quiz can read how you relate to your rising sign \u2014 it can\u2019t calculate the ascendant or certify what it means. A reading framed on what your chart surfaces can offer perspective; it can\u2019t honestly promise that the sign predicts your traits, which controlled tests haven\u2019t supported.',
+        ctaText: {
+          'reflective-framework-use:free_first': 'Start with the free framework',
+          'calculation-seeking:free_first': 'Get the free calculator',
+          'influence-attribution:psychic': 'Get a read on what it surfaces',
+          'identity-anchoring:psychic': 'Get a perspective on the reflection',
+          'not-enough-evidence:general': 'Find your question first',
+          '*:psychic': 'Get a reading on what your chart surfaces',
+          '*:tarot_relationship': 'Get a structured reflection on your chart',
+          '*:tarot_decision': 'Get guidance on what to do with it',
+          '*:tarot_deep': 'Get a deeper read on the chart',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'identity-anchoring',
+          text: 'when the chart starts doing the work of explaining who you are, a reading framed on \u201Cwhat does my rising sign mean\u201D can quietly become a more authoritative way of fixing the identity in place. If you book one, frame it on what the chart surfaces for you \u2014 not on certifying who you are.'
+        }
+      });
+    }
+  },
+
+
+  'what-is-my-spirit-animal': {
+    id: 'what-is-my-spirit-animal',
+    title: 'What Is Your Spirit Animal Question Really About?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using the animal as personal-symbol reflection, whether supernatural attribution is doing work the framework can\u2019t support, and whether identity-anchoring is operating \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your relationship with the spirit-animal framework \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'found',
+        q: 'How did you come to your spirit animal?',
+        hint: 'This matters \u2014 the entry shapes how the same symbol reads.',
+        options: [
+          { text: 'Through self-reflection', detail: 'animals that resonate', score: 'reflection' },
+          { text: 'A quiz result', detail: 'an online quiz', score: 'quiz' },
+          { text: 'A reader or psychic told me', detail: 'an outside assignment', score: 'reader' },
+          { text: 'A dream or repeated encounter', detail: 'a felt sign', score: 'encounter' },
+          { text: 'I\u2019m not sure how it started', detail: 'it crept in', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'meaning',
+        q: 'What does the spirit animal mean to you right now?',
+        hint: '',
+        options: [
+          { text: 'A personal symbol I reflect on', detail: 'meaning I make', score: 'symbol' },
+          { text: 'A decoded part of who I am', detail: 'an identity', score: 'identity' },
+          { text: 'A supernatural sign about my life', detail: 'an omen', score: 'omen' },
+          { text: 'A tool for self-understanding', detail: 'reflection on my life', score: 'explore' },
+          { text: 'I haven\u2019t settled what it means', detail: 'still forming', score: 'unsettled' }
+        ]
+      },
+      {
+        id: 'use_type',
+        q: 'How do you actually use the spirit animal?',
+        hint: 'The reflection-versus-assignment line is the clearest signal there is.',
+        options: [
+          { text: 'As a personal-symbol reflection', detail: 'I reflect on what it means', score: 'reflect' },
+          { text: 'It prompts a question I answer from my life', detail: 'a prompt', score: 'prompt' },
+          { text: 'Not sure how I use it', detail: 'neutral', score: 'neutral' },
+          { text: 'As a decoded identity trait', detail: 'it tells me who I am', score: 'decode' },
+          { text: 'As a supernaturally assigned animal', detail: 'mine, by something beyond me', score: 'assigned' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'barnum',
+        q: 'When a description of your animal felt accurate, what did you make of it?',
+        hint: '',
+        options: [
+          { text: 'It might just be the Barnum effect', detail: 'vague fits many', score: 'barnum' },
+          { text: 'I considered it could be general', detail: 'a possibility', score: 'consider' },
+          { text: 'Not sure what to make of it', detail: 'neutral', score: 'neutral' },
+          { text: 'It felt accurate, so it must be true', detail: 'confirmation', score: 'accurate' },
+          { text: 'It proves the animal is really mine', detail: 'a verification', score: 'proof' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'identity_anchor',
+        q: 'How does the animal relate to who you are?',
+        hint: '',
+        options: [
+          { text: 'A symbol, separate from my core self', detail: 'distinct', score: 'separate' },
+          { text: 'A flavor of self-understanding', detail: 'a lens', score: 'flavor' },
+          { text: 'Not sure how it relates to me', detail: 'neutral', score: 'neutral' },
+          { text: 'It anchors part of my identity', detail: 'woven in', score: 'anchor' },
+          { text: 'It defines who I am', detail: 'central', score: 'define' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'attention',
+        q: 'When you keep encountering the animal, what do you read into it?',
+        hint: '',
+        options: [
+          { text: 'Probably attentional priming', detail: 'I notice it more now', score: 'attention' },
+          { text: 'Maybe it\u2019s just attention', detail: 'a possibility', score: 'maybe' },
+          { text: 'Not sure what to read into it', detail: 'neutral', score: 'neutral' },
+          { text: 'A meaningful sign', detail: 'significance', score: 'sign' },
+          { text: 'An omen or message', detail: 'something arranged', score: 'omen' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'What does it surface about my life?', detail: 'the reflection', score: 'reflect' },
+          { text: 'Which animal is truly mine?', detail: 'the identification', score: 'identify' },
+          { text: 'Is the animal supernaturally assigned?', detail: 'the assignment', score: 'assigned' },
+          { text: 'What does it mean, for real?', detail: 'the meaning', score: 'meaning' },
+          { text: 'Why do I keep seeing it?', detail: 'the encounters', score: 'encounters' },
+          { text: 'What\u2019s really underneath this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to reflect on it honestly', detail: 'sorting symbol from claim', score: 'reflect' },
+          { text: 'An outside perspective on the symbolism', detail: 'a read', score: 'insight' },
+          { text: 'A view of what this is doing for me', detail: 'the shape', score: 'dynamic' },
+          { text: 'Help knowing if it\u2019s an omen', detail: 'the sign question', score: 'omen' },
+          { text: 'A deeper read of the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var a = answers;
+      var S = {
+        use_type:        { reflect: 2, prompt: 1, neutral: 0, decode: -1, assigned: -2, notell: null },
+        barnum:          { barnum: 2, consider: 1, neutral: 0, accurate: -1, proof: -2, notell: null },
+        identity_anchor: { separate: 2, flavor: 1, neutral: 0, anchor: -1, define: -2, notell: null },
+        attention:       { attention: 2, maybe: 1, neutral: 0, sign: -1, omen: -2, notell: null }
+      };
+      var keys = ['use_type', 'barnum', 'identity_anchor', 'attention'];
+      var sum = 0, uncertain = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.identity_anchor !== null && vals.identity_anchor <= -1) return 'identity-anchoring';
+      if ((vals.attention !== null && vals.attention <= -2) || (vals.use_type !== null && vals.use_type <= -2)) return 'supernatural-attribution';
+      if (vals.use_type !== null && vals.use_type >= 2 && (vals.identity_anchor === null || vals.identity_anchor >= 0)) return 'reflective-symbol-use';
+      if (a.want === 'meaning' || a.help === 'reflect') return 'meaning-seeking';
+      if (sum <= -3) return 'supernatural-attribution';
+      if ((vals.use_type !== null && vals.use_type >= 1) || (vals.barnum !== null && vals.barnum >= 1)) return 'meaning-seeking';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-symbol-use': {
+        path: 'A reflective, personal-symbol use',
+        summary: 'You\u2019re using the animal as reflection, not assignment.',
+        suggest: function (a) {
+          var s = 'Your answers describe the spirit animal as a personal symbol you reflect on \u2014 which is the honest, usable form of the framework.';
+          if (a.use_type === 'reflect') s += ' The reflection framing is doing the work: you make the meaning, rather than receiving it as an assignment.';
+          if (a.identity_anchor === 'separate' || a.identity_anchor === 'flavor') s += ' And you\u2019re keeping it distinct from your core identity, which leaves room for honest self-examination.';
+          s += ' The animal prompts a question you answer from your own life \u2014 and that is the part the framework actually supports.';
+          return s;
+        },
+        dontTell: 'Reflective use doesn\u2019t prove the animal isn\u2019t supernaturally assigned \u2014 nothing can prove a negative on an unfalsifiable claim. What it does is keep the honest use intact: the meaning is yours to make, and a reading can frame the reflection without pretending to assign it.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep using the animal as a prompt \u2014 \u201Cwhat does this surface about my life\u201D \u2014 and notice if the wish for a fixed assignment creeps in.',
+            'If ' + (a.use_type === 'reflect' ? 'the reflection' : 'the symbol') + ' keeps giving, that\u2019s the framework working. If you start wanting it decoded as fact, retake the check.'
+          ];
+        }
+      },
+      'identity-anchoring': {
+        path: 'Identity-anchoring to the animal',
+        summary: 'The animal is doing identity work the framework can\u2019t honestly support.',
+        suggest: function (a) {
+          var s = 'Your answers describe the spirit animal as woven into who you are \u2014 which can be comforting, and worth noticing.';
+          if (a.identity_anchor === 'define') s += ' When it defines you, the symbol risks limiting honest self-examination: who you are becomes fixed to one animal\u2019s traits.';
+          if (a.meaning === 'identity' || a.found === 'reader') s += ' And the identification arrived as a decoded identity rather than something you reflected into \u2014 which makes it harder to question.';
+          s += ' The honest version keeps the animal as a symbol you hold, not a verdict on who you are.';
+          return s;
+        },
+        dontTell: 'Identity-anchoring doesn\u2019t mean the resonance is fake \u2014 the draw to an animal can be genuinely meaningful. What it does is name the mechanism to watch: a symbol that defines identity can quietly close off the self-examination the framework is meant to open.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice where the animal helps you reflect versus where it closes a question about yourself. The first is the honest use; the second is worth pausing on.',
+            'If identity distress or fixation on the animal affects daily life, a licensed therapist is the more honest match than a reading or a decoding service.'
+          ];
+        }
+      },
+      'supernatural-attribution': {
+        path: 'Supernatural-attribution',
+        summary: 'The framework is being read as a supernatural assignment the evidence doesn\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers treat the spirit animal as supernaturally assigned or as an omen \u2014 which is the one claim the framework can\u2019t honestly make.';
+          if (a.attention === 'omen' || a.attention === 'sign') s += ' The repeated encounters read as arranged meaning, when attentional priming explains much of it: once an animal enters attention, you notice it more.';
+          if (a.use_type === 'assigned') s += ' And the assignment framing itself creates a market for \u201Cdecoding\u201D that the reflection framing doesn\u2019t.';
+          s += ' Anyone confirming your \u201Ctrue\u201D animal, or offering to clear or unlock it, is selling a certainty nobody possesses \u2014 a significant red flag.';
+          return s;
+        },
+        dontTell: 'Supernatural-attribution doesn\u2019t prove the encounters are meaningless \u2014 resonance and recurrence can be real and personal. What it does is mark the limit: no method verifies a supernatural assignment, and a reader who guarantees one is the pattern to walk away from.',
+        watchIntro: 'Before you book anything or pay for a decoding:',
+        watch: function () {
+          return [
+            'Separate the symbol from the assignment \u2014 reflect on what the animal surfaces, rather than seeking who assigned it or what it \u201Cmeans\u201D as fact.',
+            'If you still want a perspective, frame it on the reflection, not the omen \u2014 and walk away from any reader who offers both the diagnosis and the paid remedy.'
+          ];
+        }
+      },
+      'meaning-seeking': {
+        path: 'Meaning-seeking, reflectively',
+        summary: 'You want self-understanding from the symbol \u2014 the honest use, still forming.',
+        suggest: function (a) {
+          var s = 'Your answers point to wanting self-understanding from the animal \u2014 which is the reflective question, not the assignment one.';
+          if (a.want === 'meaning') s += ' The \u201Cwhat does it mean\u201D is yours to answer from your own life, not from a fixed dictionary of animal traits.';
+          if (a.help === 'reflect') s += ' And you said an honest way to reflect would help most \u2014 which this page can give you for free.';
+          s += ' The framework supports the meaning you make; it doesn\u2019t hand you a decoded one.';
+          return s;
+        },
+        dontTell: 'Meaning-seeking doesn\u2019t prove the animal is supernaturally yours \u2014 the meaning-making works whether or not the assignment holds. What it does is keep the question honest: let the animal prompt a question, and answer it from your experience.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Reflect on what the animal carries for you \u2014 from your culture and your experience \u2014 and let it prompt one question about your life.',
+            'If a real question surfaces underneath, that\u2019s when an outside perspective might fit; until then the free framework and the Daily Card are enough.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your relationship with the framework into reflective use or attribution, which usually means it\u2019s genuinely too new, or you\u2019re standing too close to read its shape.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of assignment tends to produce noise: every neutral encounter gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: reflection vs assignment, Barnum-awareness, identity-anchoring, attentional priming.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed in a month, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'assigned') {
+        return {
+          key: 'assignment-question',
+          label: 'What may be underneath: the assignment question',
+          text: 'The wish for a supernatural assignment is the one most directly monetized \u2014 and the structural problem is that the diagnosis and the remedy come from the same paid source. No method verifies that a specific animal is supernaturally yours; anyone confirming it is offering a projection.'
+        };
+      }
+      if (a.attention === 'omen' || a.attention === 'sign' || pattern === 'supernatural-attribution') {
+        return {
+          key: 'omen-attribution',
+          label: 'What may be underneath: the omen-attribution pattern',
+          text: 'Reading repeated encounters as an omen is the brain regaining a felt sense of meaning by naming a cause \u2014 even a false one feels more orderly than random coincidence. Attentional priming explains much of it: once an animal enters attention, you notice it more. The encounters may be attention, not arrangement.'
+        };
+      }
+      if (a.identity_anchor === 'anchor' || a.identity_anchor === 'define' || pattern === 'identity-anchoring') {
+        return {
+          key: 'identity-anchoring-pattern',
+          label: 'What may be underneath: the identity-anchoring pattern',
+          text: 'When an animal defines identity, the symbol can limit honest self-examination \u2014 who you are becomes fixed to one animal\u2019s traits. The resonance is genuine; the risk is the closing. Keeping the animal as a symbol you hold, not a verdict, leaves the examination open.'
+        };
+      }
+      if (a.want === 'meaning' || a.help === 'reflect') {
+        return {
+          key: 'meaning-question',
+          label: 'What may be underneath: the meaning question',
+          text: 'The wish for self-understanding from the symbol is the honest use \u2014 and it doesn\u2019t need a supernatural assignment to work. The meaning-making through projection and narrative is real; the decoded fact is not. Let the animal prompt a question and answer it from your life.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your spirit animal question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'identify' || a.want === 'assigned') return 'tarot_relationship';
+      if (a.help === 'omen') return 'psychic';
+      if (a.want === 'meaning' || a.help === 'reflect') return 'free_first';
+      if (a.want === 'encounters' || a.help === 'insight') return 'psychic';
+      if (a.want === 'reflect' || a.help === 'dynamic') return 'tarot_relationship';
+      if (a.help === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+
+    matchAha: function (a, pattern) {
+      if (a.want === 'identify') return 'scarcity_panic';
+      if (a.want === 'assigned' || pattern === 'supernatural-attribution') return 'illusion_fixation';
+      if (pattern === 'identity-anchoring') return 'toxic_loop';
+      if (a.want === 'meaning') return 'sudden_loss';
+      if (pattern === 'reflective-symbol-use') return 'choice_friction';
+      return 'scarcity_panic';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-my-spirit-animal', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the animal as personal-symbol reflection or seeking a supernatural assignment \u2014 the distinction that decides what honestly fits',
+          'Whether identity-anchoring is operating \u2014 the animal defining who you are rather than prompting a question',
+          'Whether repeated encounters are attentional priming or something you\u2019re reading as an arranged omen'
+        ],
+        edgeBridge: 'A quiz can read what your relationship with the framework is doing \u2014 it can\u2019t assign you an animal supernaturally, which no method can verify. A reading can frame the reflection; it cannot confirm a \u201Ctrue\u201D spirit animal, and any reader who does is offering a projection.',
+        ctaText: {
+          'reflective-symbol-use:free_first': 'Start with the free framework',
+          'meaning-seeking:free_first': 'Start with the free framework',
+          'identity-anchoring:tarot_relationship': 'Get a read on the dynamic',
+          'supernatural-attribution:psychic': 'Get a perspective on the reflection',
+          '*:psychic': 'Get a perspective on the reflection',
+          '*:tarot_relationship': 'Get a read on the symbolism',
+          '*:tarot_deep': 'Get a deeper read on the symbolism',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'supernatural-attribution',
+          text: 'when the encounters start reading as omens, a reading that confirms the assignment can quietly become a more expensive way of keeping the surveillance running. If you book one, frame it on the reflection the animal prompts \u2014 not on who assigned it or what it \u201Cmeans\u201D as fact.'
+        }
+      });
+    }
+  },
+
+
+  'what-is-shadow-work': {
+    id: 'what-is-shadow-work',
+    title: 'What Is Your Shadow Work Actually About?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using shadow work as self-integration reflection, whether energy-clearing attribution is doing work the practice can\u2019t support, and whether trauma-surfacing needs clinical support \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your own practice is actually doing \u2014 integration, attribution, trauma, or bypass \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'entry',
+        q: 'What brings you to this question about shadow work?',
+        hint: 'This matters \u2014 the situation shapes how the same practice reads.',
+        options: [
+          { text: 'I\u2019m trying to understand the concept', detail: 'what the practice actually is', score: 'concept' },
+          { text: 'I want to identify my own shadow', detail: 'which parts I\u2019ve disowned', score: 'identify' },
+          { text: 'I want to clear my blocks', detail: 'a clearing or removal', score: 'clear' },
+          { text: 'The practice surfaced something heavy', detail: 'material I\u2019m struggling with', score: 'heavy' },
+          { text: 'I\u2019m weighing therapy against this', detail: 'which is the honest step', score: 'therapy' },
+          { text: 'I\u2019m not sure how to name it', detail: 'the situation is unclear', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'source',
+        q: 'Where did the \u201Cshadow clearing\u201D idea come from for you?',
+        hint: '',
+        options: [
+          { text: 'My own reflection', detail: 'I noticed the pattern', score: 'own' },
+          { text: 'A practitioner said they could clear it', detail: 'the claim came from a paid source', score: 'practitioner' },
+          { text: 'Something I read online', detail: 'an article, a post', score: 'online' },
+          { text: 'A gut feeling', detail: 'intuition, no external source', score: 'intuition' },
+          { text: 'I genuinely don\u2019t know', detail: 'no clear source', score: 'notell' }
+        ]
+      },
+      {
+        id: 'use_shape',
+        q: 'How are you using the practice right now?',
+        hint: 'The use is the clearest signal there is \u2014 integration works; clearing isn\u2019t supported.',
+        options: [
+          { text: 'Reflection and integration', detail: 'recognizing parts and what they ask for', score: 'integration' },
+          { text: 'A mix of both', detail: 'some reflection, some hoping for a clearing', score: 'mixed' },
+          { text: 'Wanting a clearing', detail: 'hoping it removes blocks or an entity', score: 'clearing' },
+          { text: 'I can\u2019t tell how I\u2019m using it', detail: 'too close to read', score: 'notell' }
+        ]
+      },
+      {
+        id: 'trauma_surface',
+        q: 'Has the practice brought up heavy material?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 it\u2019s been manageable reflection', detail: 'in hand', score: 'none' },
+          { text: 'Some \u2014 nothing overwhelming', detail: 'present but held', score: 'some' },
+          { text: 'Yes \u2014 trauma or distress I\u2019m struggling with', detail: 'material that may need clinical support', score: 'heavy' },
+          { text: 'I can\u2019t tell', detail: 'hard to assess from inside', score: 'notell' }
+        ]
+      },
+      {
+        id: 'bypass',
+        q: 'Are you using shadow work instead of therapy?',
+        hint: '',
+        options: [
+          { text: 'No \u2014 I\u2019m in or open to therapy when needed', detail: 'clinical support available', score: 'none' },
+          { text: 'Maybe \u2014 it depends on the week', detail: 'a gray area', score: 'maybe' },
+          { text: 'Yes \u2014 I\u2019m avoiding therapy and using this instead', detail: 'spiritual bypassing', score: 'avoiding' },
+          { text: 'I can\u2019t tell', detail: 'unclear', score: 'notell' }
+        ]
+      },
+      {
+        id: 'recognition',
+        q: 'Can you name what the disowned part is asking for?',
+        hint: '',
+        options: [
+          { text: 'Yes \u2014 fairly clearly', detail: 'a named need', score: 'named' },
+          { text: 'Partly \u2014 I have a sense but not clear', detail: 'partial', score: 'partial' },
+          { text: 'Not really \u2014 it feels vague or diffuse', detail: 'unformed', score: 'vague' },
+          { text: 'I can\u2019t tell', detail: 'too soon to name', score: 'notell' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want from this?',
+        hint: 'Be honest with this one \u2014 it decides what actually helps you next.',
+        options: [
+          { text: 'Understand the concept and the honest practice', detail: 'the what question', score: 'concept' },
+          { text: 'Identify my own shadow', detail: 'the which-parts question', score: 'identify' },
+          { text: 'Clear my blocks or remove a shadow entity', detail: 'the clearing question', score: 'clear' },
+          { text: 'Know if what surfaced needs a therapist', detail: 'the clinical question', score: 'therapy' },
+          { text: 'Understand what the disowned part wants', detail: 'the integration question', score: 'integrate' },
+          { text: 'I\u2019m not sure what I\u2019m asking', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'An honest framing of what the practice is', detail: 'sorting reflection from clearing', score: 'interpret' },
+          { text: 'An outside perspective on my situation', detail: 'a read on the material', score: 'insight' },
+          { text: 'A view of what the material is asking of me', detail: 'the shape, not the cause', score: 'dynamic' },
+          { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+          { text: 'A deeper read on the whole picture', detail: 'the full picture', score: 'deeper' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (answers) {
+      var S = {
+        use_shape:      { integration: 2, mixed: 0, clearing: -2, notell: null },
+        trauma_surface: { none: 2, some: 0, heavy: -2, notell: null },
+        bypass:         { none: 2, maybe: 0, avoiding: -2, notell: null },
+        recognition:    { named: 2, partial: 0, vague: -1, notell: null }
+      };
+      var keys = ['use_shape', 'trauma_surface', 'bypass', 'recognition'];
+      var sum = 0, uncertain = 0, neg = 0;
+      var vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+        if (v <= -1) neg++;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.trauma_surface !== null && vals.trauma_surface <= -2) return 'trauma-surfacing';
+      if (vals.use_shape !== null && vals.use_shape <= -2 &&
+          (vals.trauma_surface === null || vals.trauma_surface >= 0)) return 'energy-clearing-attribution';
+      if (vals.bypass !== null && vals.bypass <= -2 &&
+          (vals.use_shape === null || vals.use_shape >= 0)) return 'spiritual-bypassing';
+      if (sum <= -3) return 'spiritual-bypassing';
+      if (vals.use_shape !== null && vals.use_shape >= 2) return 'reflective-integration-practice';
+      if (sum >= 1) return 'reflective-integration-practice';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'reflective-integration-practice': {
+        path: 'A reflective integration practice',
+        summary: 'You\u2019re using shadow work as honest self-reflection.',
+        suggest: function (a) {
+          var s = 'Your answers describe shadow work used as honest self-reflection \u2014 recognizing disowned parts and what they ask for, not a clearing.';
+          if (a.use_shape === 'integration') s += ' The integration use is the honest one: the practice works as reflection, and you\u2019re using it that way.';
+          if (a.recognition === 'named') s += ' And you can name what the part is asking for, which is exactly the integration the framework supports.';
+          if (a.bypass === 'none') s += ' You\u2019re also not using it to avoid therapy, which keeps the practice honest.';
+          s += ' The shadow is psychological, not energetic \u2014 the work is bringing disowned parts into conscious relationship, not clearing an entity.';
+          return s;
+        },
+        dontTell: 'A reflective integration practice doesn\u2019t prove a clearing happened or was needed \u2014 there is no supported mechanism for shadow \u201Cclearing.\u201D What it does is name the honest use: engaging disowned parts through reflection, which is the practice doing what it can actually support.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Keep the reflective practice \u2014 journaling on what you react against in others, what you deny in yourself, and what the part is asking for. Integration deepens through this, not through a clearing.',
+            'If the material that surfaces ever feels heavy or unmanageable, that\u2019s the signal to bring in a licensed therapist \u2014 the practice works alongside clinical care, not instead of it.'
+          ];
+        }
+      },
+      'energy-clearing-attribution': {
+        path: 'Energy-clearing attribution',
+        summary: 'The clearing claim is doing work the practice can\u2019t support.',
+        suggest: function (a) {
+          var s = 'Your answers describe shadow work credited with clearing blocks or an entity \u2014 which is the attribution the practice can\u2019t honestly support.';
+          if (a.use_shape === 'clearing') s += ' The clearing wish is the signal: the practice is reflection, not energy work.';
+          if (a.source === 'practitioner') s += ' And the clearing claim came from a paid source, which is exactly the incentive structure to weigh carefully.';
+          s += ' The shadow is psychological; anyone offering to \u201Cclear your shadow\u201D is offering a projection dressed as energy work.';
+          return s;
+        },
+        dontTell: 'Energy-clearing attribution doesn\u2019t prove the practitioner is dishonest \u2014 some believe their claims. It proves the claim isn\u2019t supported by the framework, and that a source profiting from the clearing is the least reliable source for it. The honest weight: treat the clearing claim as you would any claim from a source that profits from it being true.',
+        watchIntro: 'Before you book a clearing or pay for removal:',
+        watch: function () {
+          return [
+            'Reframe the goal as integration \u2014 recognizing the disowned part and what it asks for \u2014 through reflection, not a clearing. The mechanism that works is psychological.',
+            'If the practice has surfaced heavy material, or if a clearing service is framed as trauma treatment, a licensed therapist is the honest first step \u2014 not an entity-clearing package.'
+          ];
+        }
+      },
+      'trauma-surfacing': {
+        path: 'Trauma material has surfaced',
+        summary: 'The practice has brought up material that may need clinical support.',
+        suggest: function (a) {
+          var s = 'Your answers describe material surfacing through the practice that is heavy \u2014 trauma or distress you\u2019re struggling with.';
+          if (a.trauma_surface === 'heavy') s += ' The practice has brought up content that goes past reflection.';
+          if (a.entry === 'heavy') s += ' And you came here because something surfaced that you couldn\u2019t hold alone.';
+          s += ' This is the point where the honest response is clinical, not a reading \u2014 shadow work can surface trauma, and a licensed therapist is the appropriate support.';
+          return s;
+        },
+        dontTell: 'Trauma-surfacing doesn\u2019t mean shadow work caused the material \u2014 depth practices can surface what was already there. What it means is that the material now needs more than self-reflection, and the honest step is a licensed therapist. Shadow work can function alongside therapy, not instead of it.',
+        watchIntro: 'The most honest next step:',
+        watch: function () {
+          return [
+            'Reach out to a licensed therapist, especially if the distress is persistent or tied to trauma. This is the appropriate response, and it isn\u2019t a step backward from the practice.',
+            'Keep shadow work light or paused while you do \u2014 let clinical support hold the heavy material. A reading can frame reflection later, but it can\u2019t clear trauma, and no practitioner should claim to.'
+          ];
+        }
+      },
+      'spiritual-bypassing': {
+        path: 'Shadow work as bypass',
+        summary: 'You may be using the practice to avoid clinical response.',
+        suggest: function (a) {
+          var s = 'Your answers describe shadow work used to avoid therapy \u2014 the practice standing in for clinical response.';
+          if (a.bypass === 'avoiding') s += ' The avoidance is the signal: you\u2019re reaching for the practice instead of the help the material may actually need.';
+          if (a.trauma_surface === 'heavy' || a.trauma_surface === 'some') s += ' And material has surfaced that clinical support is better placed to hold.';
+          s += ' The honest practice recognizes when therapy is the more appropriate response \u2014 and using reflection to delay it is bypass, not integration.';
+          return s;
+        },
+        dontTell: 'Spiritual bypassing doesn\u2019t mean the practice is worthless \u2014 reflection has real value. It means the practice is doing displacement work, standing in for the clinical care the situation calls for. Naming it isn\u2019t a judgment; it\u2019s the distinction that protects you from extending the seeking.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Ask directly whether a licensed therapist would hold this better than self-reflection. If the material is heavy, persistent, or trauma-linked, the answer is yes.',
+            'Let shadow work run alongside clinical care rather than in place of it. A reader who guarantees a clearing or frames the practice as trauma treatment is selling a certainty that delays the help you actually need.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your practice into integration, clearing attribution, trauma response, or bypass, which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that would make everything worse.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a clearing or a diagnosis tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary practice \u2014 reflecting, not scanning for signs \u2014 watching only the four signals: how you\u2019re using it, what surfaced, whether you\u2019re avoiding therapy, and whether you can name the part.',
+            'Then come back and retake this check. If the material that surfaced is ever heavy or unmanageable, don\u2019t wait \u2014 a licensed therapist is the honest step regardless of the pattern.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.want === 'clear') {
+        return {
+          key: 'clearing-question',
+          label: 'What may be underneath: the clearing question',
+          text: 'The wish for a clearing \u2014 that the practice remove blocks or an entity \u2014 is the most monetized frame, and the structural problem is that the diagnosis and the remedy come from the same paid source. There is no supported mechanism for shadow clearing; the shadow is psychological, and the honest work is integration through reflection.'
+        };
+      }
+      if (a.source === 'practitioner' || pattern === 'energy-clearing-attribution') {
+        return {
+          key: 'source-incentive',
+          label: 'What may be underneath: the source incentive',
+          text: 'The clearing claim came from a practitioner, which deserves the most weight \u2014 not because the practitioner is dishonest, but because the incentive structure makes the claim unreliable. A source that profits from a claim being true is the least reliable source for that claim.'
+        };
+      }
+      if (a.trauma_surface === 'heavy' || a.entry === 'heavy' || pattern === 'trauma-surfacing') {
+        return {
+          key: 'trauma-referral',
+          label: 'What may be underneath: the trauma question',
+          text: 'Heavy material surfacing is the signal that matters most. Shadow work can bring up trauma that needs clinical support, and the honest response is a licensed therapist \u2014 the practice can function alongside therapy, not instead of it. Anyone framing a clearing as trauma treatment is a red flag.'
+        };
+      }
+      if (a.bypass === 'avoiding' || pattern === 'spiritual-bypassing') {
+        return {
+          key: 'bypass-risk',
+          label: 'What may be underneath: the bypass risk',
+          text: 'Using shadow work to avoid therapy is a real and documented risk. The practice can do displacement work, standing in for clinical care the situation calls for. Naming it lets you choose integration alongside therapy rather than using reflection to delay the help you need.'
+        };
+      }
+      if (a.want === 'identify') {
+        return {
+          key: 'identification',
+          label: 'What may be underneath: shadow identification',
+          text: 'The wish to identify your shadow is the honest, answerable question \u2014 through reflection on what you react against in others and deny in yourself. The shadow isn\u2019t \u201Cbad\u201D; it\u2019s disowned, and it carries real needs that integration addresses.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your shadow-work question', cluster: 'spiritual-growth' }),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'clear' || w === 'concept' || h === 'interpret') return 'free_first';
+      if (w === 'identify') return 'tarot_relationship';
+      if (w === 'integrate' || h === 'deeper') return 'tarot_deep';
+      if (w === 'therapy') return 'general';
+      if (h === 'insight') return 'psychic';
+      if (h === 'dynamic') return 'tarot_relationship';
+      if (h === 'guidance') return 'tarot_decision';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-shadow-work', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the practice for integration or for an energy clearing the practice can\u2019t support',
+          'Whether the material that surfaced needs clinical support \u2014 which is the part that matters most',
+          'Whether the practice is doing reflective work or quietly standing in for therapy'
+        ],
+        edgeBridge: 'A quiz can read what your practice is doing \u2014 it can\u2019t clear a shadow entity, and anyone who claims to is offering a projection. Where trauma or persistent distress has surfaced, the honest step is a licensed therapist; a reading can frame the reflection, not replace clinical care.',
+        ctaText: {
+          'reflective-integration-practice:tarot_relationship': 'Get a reflective read on your shadow',
+          'energy-clearing-attribution:free_first': 'Start with the honest framework',
+          'trauma-surfacing:general': 'Find the honest next step',
+          'spiritual-bypassing:general': 'Find the honest next step',
+          '*:psychic': 'Get a reading on what your shadow surfaces',
+          '*:tarot_relationship': 'Get a reflective spread on your shadow',
+          '*:tarot_deep': 'Get a deeper read on the picture',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'energy-clearing-attribution',
+          text: 'when a clearing wish is running, an entity-clearing or monthly \u201Cshadow clearing\u201D package can quietly become a more expensive way of extending the seeking \u2014 particularly dangerous if it delays clinical care. If you book anything, frame it on what the reflection surfaces, not on a clearing a paying party named for you.'
+        }
+      });
+    }
+  },
+
+
+  'when-will-i-meet-my-soulmate': {
+    id: 'when-will-i-meet-my-soulmate',
+    title: 'What Are You Really Asking?',
+    launchSub: 'Eight questions, about two minutes. Start with where you are and what triggered the question \u2014 then read the shape of your waiting, and end on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A read of what the pattern of your waiting may suggest \u2014 and where it stops. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'stage',
+        q: 'Where are you in life right now?',
+        hint: 'This shapes what the question is really doing for you.',
+        options: [
+          { text: 'Single and actively looking', detail: 'searching, on the apps, asking around', score: 'looking' },
+          { text: 'Single, open but not searching', detail: 'not hunting, but not closed', score: 'open' },
+          { text: 'Content on my own, but it nags', detail: 'the question won\u2019t quite leave', score: 'content' },
+          { text: 'Recently out of something', detail: 'an ending in the rearview', score: 'recent' },
+          { text: 'It changes week to week', detail: 'some weeks fine, some weeks heavy', score: 'fluctuating' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What brought the question up for you right now?',
+        hint: '',
+        options: [
+          { text: 'A friend got engaged or married', detail: 'peer momentum', score: 'peer' },
+          { text: 'A birthday or a milestone', detail: 'a marker passed', score: 'milestone' },
+          { text: 'A breakup or an ending', detail: 'something just closed', score: 'breakup' },
+          { text: 'I keep noticing the absence', detail: 'the gap, not an event', score: 'absence' },
+          { text: 'I want a forecast to hold onto', detail: 'a date would settle me', score: 'forecast' },
+          { text: 'No reason \u2014 it just won\u2019t leave', detail: 'the question itself', score: 'persistent' },
+          { text: 'I\u2019m questioning the concept', detail: 'is the frame even real?', score: 'concept' }
+        ]
+      },
+      {
+        id: 'waiting',
+        q: 'When you think about not having met them yet, how does it sit day to day?',
+        hint: 'Healthy patience lives the present; anxious waiting postpones it.',
+        options: [
+          { text: 'I live my life and stay open', detail: 'friendships, work, rest \u2014 full, not on hold', score: 'healthy' },
+          { text: 'Mostly living, some postponing', detail: 'I notice the gap but keep going', score: 'mostlyok' },
+          { text: 'It comes and goes', detail: 'some weeks fine, some weeks heavy', score: 'mixed' },
+          { text: 'Life feels like a waiting room', detail: 'the present is paused until they arrive', score: 'suspended' },
+          { text: 'Everything is on hold', detail: 'I\u2019ve put living aside for the arrival', score: 'holding' },
+          { text: 'I can\u2019t quite tell', detail: 'too close to name', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'blame',
+        q: 'When it hasn\u2019t happened, where does your mind go?',
+        hint: 'Timing is shaped by circumstance far more than by your worth.',
+        options: [
+          { text: 'It isn\u2019t about me', detail: 'circumstances, not a verdict on me', score: 'none' },
+          { text: 'Rarely about me', detail: 'a flicker, then I let it go', score: 'rarely' },
+          { text: 'Sometimes I wonder', detail: 'am I doing something wrong?', score: 'sometimes' },
+          { text: 'Often I blame myself', detail: '\u201CI\u2019m not enough\u201D shows up', score: 'often' },
+          { text: 'Constantly \u2014 something\u2019s wrong with me', detail: 'the absence feels like proof', score: 'constantly' },
+          { text: 'I\u2019m not sure what I think', detail: 'too muddled to say', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'concept',
+        q: 'Does the \u201Csoulmate\u201D idea help you, or keep you searching?',
+        hint: '',
+        options: [
+          { text: 'It helps me recognize real depth', detail: 'a lens, not a condition', score: 'helpful' },
+          { text: 'Mostly it helps', detail: 'a frame I like', score: 'mostlyhelpful' },
+          { text: 'I\u2019m unsure what it\u2019s doing', detail: 'a neutral question', score: 'unsure' },
+          { text: 'It keeps me searching', detail: 'extends the search', score: 'anxiety' },
+          { text: 'I may be waiting on a wish', detail: 'not a real person yet', score: 'wish' },
+          { text: 'Haven\u2019t really considered it', detail: 'never looked at it directly', score: 'notsure' }
+        ]
+      },
+      {
+        id: 'agency',
+        q: 'Is there a part of this you feel you can actually affect?',
+        hint: 'Not the timing \u2014 but your approach to connection is in your hands.',
+        options: [
+          { text: 'Yes \u2014 my openness and social life', detail: 'engaging it honestly', score: 'engaging' },
+          { text: 'I\u2019m considering it', detail: 'maybe my approach', score: 'considering' },
+          { text: 'It\u2019s neutral to me', detail: 'neither here nor there', score: 'neutral' },
+          { text: 'I\u2019d rather not look there', detail: 'it feels like blame', score: 'avoiding' },
+          { text: 'No \u2014 it\u2019s all fate', detail: 'nothing I do matters', score: 'resisting' },
+          { text: 'I don\u2019t know', detail: 'no read on it', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'Will you give me a date?', detail: 'the forecast', score: 'date' },
+          { text: 'How do I live the time until then?', detail: 'waiting management', score: 'live' },
+          { text: 'What\u2019s wrong with me?', detail: 'the self-blame ask', score: 'wrong' },
+          { text: 'Is the concept even real?', detail: 'concept validity', score: 'real' },
+          { text: 'What could I do differently?', detail: 'the agency question', score: 'differently' },
+          { text: 'I just want to understand the pattern', detail: 'the shape of it', score: 'pattern' },
+          { text: 'I\u2019m not sure what I\u2019m asking', detail: 'the question itself', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A realistic frame for the waiting', detail: 'how to live it', score: 'frame' },
+          { text: 'Relief from the self-blame', detail: 'putting it down', score: 'relief' },
+          { text: 'A reflection on what I\u2019m really seeking', detail: 'the concept', score: 'reflection' },
+          { text: 'Guidance on my next step', detail: 'something actionable', score: 'guidance' },
+          { text: 'A reading on my search pattern', detail: 'an outside perspective', score: 'reading' },
+          { text: 'I\u2019m not sure \u2014 I just want to understand', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    /* ---- Pattern scoring ----
+       Four signal questions are scored -2..+2 (uncertain answers score
+       nothing and count as "uncertain"). The model is deliberately
+       transparent: patterns, not points. The forecast is not among them. */
+    resolve: function (answers) {
+      var S = {
+        waiting: { healthy: 2, mostlyok: 1, mixed: 0, suspended: -1, holding: -2, unsure: null },
+        blame:   { none: 2, rarely: 1, sometimes: 0, often: -1, constantly: -2, unsure: null },
+        concept: { helpful: 2, mostlyhelpful: 1, unsure: 0, anxiety: -1, wish: -2, notsure: null },
+        agency:  { engaging: 2, considering: 1, neutral: 0, avoiding: -1, resisting: -2, unsure: null }
+      };
+      var keys = ['waiting', 'blame', 'concept', 'agency'];
+      var sum = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; continue; }
+        sum += v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (answers.blame === 'constantly' || answers.blame === 'often') return 'self-blame';
+      if (answers.waiting === 'holding' || answers.waiting === 'suspended') return 'anxious-waiting';
+      if (answers.concept === 'wish' || answers.concept === 'anxiety') return 'concept-questioning';
+      return 'healthy-patience';
+    },
+
+    /* ---- The five patterns ---- */
+    results: {
+      'healthy-patience': {
+        path: 'Healthy patience',
+        summary: 'The waiting isn\u2019t costing you the years \u2014 you\u2019re living the present while staying open.',
+        suggest: function (a) {
+          var s = 'Your answers describe a waiting you can live with: the present isn\u2019t on hold while the partner arrives.';
+          if (a.waiting === 'healthy') s += ' You\u2019re living your life and staying open, which is the waiting that doesn\u2019t trade the years.';
+          if (a.blame === 'none' || a.blame === 'rarely') s += ' And the absence isn\u2019t reading as a verdict on you.';
+          if (a.agency === 'engaging' || a.agency === 'considering') s += ' You\u2019re also engaging the part that\u2019s actually in your hands \u2014 your openness and how you approach connection.';
+          s += ' The forecast isn\u2019t available, but the shape you\u2019re holding is the one that tends to fare best.';
+          return s;
+        },
+        dontTell: 'Healthy patience is a shape, not a guarantee. Living fully doesn\u2019t make the partner arrive sooner \u2014 but it means the time isn\u2019t lost, and a fuller life is what a future partnership joins rather than replaces. The quiz can\u2019t tell you when; this pattern only tells you how you\u2019re spending the in-between.',
+        watchIntro: 'Worth watching:',
+        watch: function () {
+          return [
+            'Whether the openness stays real \u2014 not a performance of patience, but actual contact with people and pursuits.',
+            'Whether the question keeps its softness. If the wait starts to harden into anxious waiting, that\u2019s the shift worth noticing early.'
+          ];
+        }
+      },
+      'anxious-waiting': {
+        path: 'Anxious waiting',
+        summary: 'The present feels suspended until the partner arrives \u2014 which extends the very loneliness it seeks to end.',
+        suggest: function (a) {
+          var s = 'Your answers point to a waiting that has started to postpone living: the present reads as a waiting room, not a life being lived.';
+          if (a.waiting === 'holding') s += ' You\u2019ve put parts of your life aside for the arrival.';
+          if (a.waiting === 'suspended') s += ' Day to day, things feel paused until they show up.';
+          if (a.blame === 'often' || a.blame === 'constantly') s += ' And self-blame sits under it \u2014 as if waiting harder were the task.';
+          s += ' The hard part: a life on hold doesn\u2019t become fuller when the partner arrives; it just becomes a fuller life\u2019s absence. That\u2019s the opposite of what the wait is for.';
+          return s;
+        },
+        dontTell: 'Anxious waiting isn\u2019t a flaw in you and it doesn\u2019t mean the partner won\u2019t come. It means the shape of the wait is costing the years it spans. The quiz can\u2019t date the meeting \u2014 but it can show this pattern, because the waiting shape is the part you can actually affect.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function () {
+          return [
+            'Pick one thing you\u2019ve deferred \u201Cuntil\u201D and do it now \u2014 not as a test, but as information about what the present holds.',
+            'Notice whether living a little more narrowly tracks with the question getting louder. They often move together, and naming it is the first lever.'
+          ];
+        }
+      },
+      'self-blame': {
+        path: 'Self-blame pattern',
+        summary: 'The absence is reading as a verdict on your worth \u2014 the most costly pattern this question installs.',
+        suggest: function (a) {
+          var s = 'Your answers show the absence being taken personally: the timing has become a measure of something in you.';
+          if (a.blame === 'constantly') s += ' \u201CSomething\u2019s wrong with me\u201D shows up often, as if the silence were proof.';
+          if (a.blame === 'often') s += ' Self-blame shows up regularly, not just in hard moments.';
+          if (a.waiting === 'suspended' || a.waiting === 'holding') s += ' And it rides under an anxious wait.';
+          s += ' The honest read: partnership timing is shaped heavily by circumstance \u2014 networks, life-stage, geography, chance \u2014 far more than by any individual\u2019s worth. The absence isn\u2019t the verdict it feels like.';
+          return s;
+        },
+        dontTell: 'Self-blame is a pattern, not a finding. Nothing in your answers tells us the absence is your fault \u2014 and reading it as one tends to narrow confidence and extend the isolation it tries to explain. The quiz can\u2019t date the meeting; what it can do is name this pattern plainly, because naming it is the first step out of it.',
+        watchIntro: 'Worth trying:',
+        watch: function () {
+          return [
+            'When the \u201Cwhat\u2019s wrong with me\u201D thought arrives, label it as the pattern, not as a fact \u2014 the timing question installs it, it doesn\u2019t prove it.',
+            'If it runs daily or touches how you move through the world, a licensed therapist is the more reliable match than any reading \u2014 this is their terrain, not a spiritual one.'
+          ];
+        }
+      },
+      'concept-questioning': {
+        path: 'Concept-questioning',
+        summary: 'You\u2019re wondering whether the soulmate frame is helping or just keeping you searching.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the concept itself is in question \u2014 whether \u201Csoulmate\u201D is doing diagnostic work or anxiety work in your search.';
+          if (a.concept === 'wish') s += ' You named the possibility that you may be waiting on a wish, not a person yet.';
+          if (a.concept === 'anxiety') s += ' The idea seems to extend the search more than it clarifies it.';
+          if (a.want === 'real') s += ' And you came asking whether the concept is even real.';
+          s += ' That\u2019s a useful place to be honest: the concept can help you recognize depth, or it can keep a search open past its natural close. Which one it is changes how you wait \u2014 and whether you\u2019re waiting on something real.';
+          return s;
+        },
+        dontTell: 'Questioning the concept isn\u2019t rejecting love or proving it false. It\u2019s checking whether the frame fits your actual life. The quiz can\u2019t settle whether soulmates exist \u2014 the concept is genuinely ambiguous \u2014 but it can show when the question is doing anxiety work rather than diagnostic work, and that distinction is yours to use.',
+        watchIntro: 'Worth sitting with:',
+        watch: function () {
+          return [
+            'Whether the soulmate frame helps you notice real depth in people in front of you, or filters them out against an ideal no one meets.',
+            'If letting the concept loosen changes how you feel about the wait, that\u2019s information about what the concept was doing for you.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough to read yet',
+        summary: 'Too early, or too close, to read \u2014 which is information too.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI\u2019m not sure\u201D \u2014 and that\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable pattern to read, which usually means one of two things: you\u2019re standing too close to the question to see its shape, or the question is newer than the patterns it would take to answer it.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in yet. At this stage, hunting for one more \u201Csign\u201D or asking a reading to date the meeting tends to produce noise \u2014 every small thing gets recruited as evidence for whichever answer you\u2019re already leaning toward. The forecast isn\u2019t available, and forcing one here would be the least reliable move.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary life, watching only two things: whether the waiting feels live or suspended, and whether self-blame shows up.',
+            'Then come back and retake this check. With more honest pattern to read, the result will be sharper \u2014 and the timing question will be exactly as unsettleable as it is now.'
+          ];
+        }
+      }
+    },
+
+    /* ---- What may be underneath the question ----
+       Optional, one at most, offered as an observation \u2014 never a
+       diagnosis. Returns { key, label, text } or null. */
+    underneath: function (a, pattern) {
+      if (a.want === 'date') {
+        return {
+          key: 'control',
+          label: 'What may be underneath: the control question',
+          text: 'Asking for a date is often a way of seeking control over a timing no one can control. The wish for a forecast is real, but the certainty isn\u2019t available \u2014 and a reading that offers one is selling a projection dressed as foresight. The part you can actually hold is the waiting shape, not the calendar.'
+        };
+      }
+      if ((a.waiting === 'holding' || a.waiting === 'suspended') && (a.blame === 'often' || a.blame === 'constantly')) {
+        return {
+          key: 'postpone',
+          label: 'What may be underneath: the postponement loop',
+          text: 'When the present is on hold and self-blame sits under it, the two feed each other: the wait feels like proof something\u2019s wrong, and the blame makes the wait heavier. Naming the loop is the first move \u2014 neither piece is a fact about you, and both are shapes you can shift without a date ever arriving.'
+        };
+      }
+      if (a.concept === 'wish' || a.concept === 'anxiety') {
+        return {
+          key: 'wish',
+          label: 'What may be underneath: the wish question',
+          text: 'Questioning whether the soulmate frame is helping or just keeping you searching is a more honest question than \u201Cwhen.\u201D If the concept is doing anxiety work, the waiting extends; if it\u2019s doing diagnostic work, it helps you recognize real depth. Which one it is in your life is worth a direct look, independent of any timeline.'
+        };
+      }
+      if (a.stage === 'recent' || a.trigger === 'breakup') {
+        return {
+          key: 'recent',
+          label: 'What may be underneath: the recent-ending question',
+          text: 'This question often arrives right after an ending, a milestone, or a wave of comparison to peers. With a little distance it tends to soften, and the waiting shape reads more clearly once the acute charge of the trigger fades. That isn\u2019t avoidance \u2014 it\u2019s timing on the question itself.'
+        };
+      }
+      return null;
+    },
+
+    /* ---- Practice matching (LOVE cluster) ---- */
+    practice: window.lovePracticeSet('when-will-i-meet-my-soulmate'),
+    matchPractice: window.loveMatchPractice,
+    matchAha: window.topicMatchAha,
+
+    /* ---- Custom result renderer (engine hook) ----
+       Delegates to the shared pattern-result renderer in v2 mode. */
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'when-will-i-meet-my-soulmate', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re seeking a forecast the question can\u2019t give, or a way to live the time',
+          'Which waiting shape you\u2019re actually holding \u2014 healthy patience or anxious waiting',
+          'Whether self-blame has turned the timing into a verdict on your worth'
+        ],
+        edgeBridge: 'A quiz can organize your question \u2014 it cannot date when you\u2019ll meet a specific partner, because that timing depends on choices and circumstances no method can see. Anyone who offers a specific date is selling a certainty nobody possesses.',
+        ctaText: {
+          'date:psychic': 'Get an outside read on your search pattern',
+          'live:tarot': 'Get a reflection on your waiting',
+          'wrong:closure': 'Get support putting the self-blame down',
+          'real:tarot': 'Get a reflection on the concept',
+          'differently:psychic': 'Get a read on your approach to connection',
+          '*:psychic': 'Get a reading on your search pattern',
+          '*:tarot': 'Get a reflection on your waiting',
+          '*:astrology': 'Get a long-arc frame on your relating',
+          '*:general': 'Find the practice that fits'
+        },
+        negativePatternTip: {
+          pattern: 'self-blame',
+          text: 'when self-blame is this present, a reading framed on \u201Cwhen\u201D can quietly reinforce the verdict-on-worth pattern \u2014 it turns timing into something to be fixed. If you book one, frame it on your search pattern, never on a date.'
+        }
+      });
+    }
+  },
+
+
+  'who-is-my-soulmate': {
+    id: 'who-is-my-soulmate',
+    title: 'What Is Your Search Really About?',
+    launchSub: 'Eight questions, about two minutes. It works outward from your situation \u2014 what you\u2019re looking for, what the soulmate idea is doing in your search, and what fits next.',
+    subtitle: 'Eight questions, about two minutes. A read of what your search may actually be about \u2014 whether you\u2019re seeking a person or a feeling, whether the concept is doing diagnostic or anxiety work, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'search',
+        q: 'Where are you in your search right now?',
+        hint: 'This shapes what the question is really doing \u2014 the same wish means different things in different places.',
+        options: [
+          { text: 'I\u2019m with someone and it feels unusually deep', detail: 'a present connection', score: 'in-connection' },
+          { text: 'I\u2019m seeing someone, but it isn\u2019t defined', detail: 'not official yet', score: 'dating' },
+          { text: 'I\u2019m single and actively looking', detail: 'searching outward', score: 'single-looking' },
+          { text: 'I\u2019m single and waiting for the right person', detail: 'the one will arrive', score: 'single-waiting' },
+          { text: 'A connection ended and I keep thinking about it', detail: 'a past thread stays open', score: 'after-ending' },
+          { text: 'I\u2019m not sure where I am with this', detail: 'even this is hard', score: 'not-sure' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What brought the question up for you?',
+        hint: '',
+        options: [
+          { text: 'A connection feels deeper than I expected', detail: 'the recognition itself', score: 'depth' },
+          { text: 'I started doubting soulmates are real', detail: 'the concept slipped', score: 'doubt' },
+          { text: 'I keep revisiting someone from my past', detail: 'a maybe-the-one behind me', score: 'past' },
+          { text: 'I feel alone and want to know who\u2019s out there', detail: 'the absence', score: 'alone' },
+          { text: 'The early intensity faded and I wonder if it was real', detail: 'the rush didn\u2019t hold', score: 'intensity' },
+          { text: 'No reason \u2014 I just want to understand it', detail: 'the question itself', score: 'curious' }
+        ]
+      },
+      {
+        id: 'object',
+        q: 'When you picture \u201Cmy soulmate,\u201D what are you actually looking for?',
+        hint: 'Seeking a person and seeking a feeling are different searches with different honest trajectories.',
+        options: [
+          { text: 'A specific person I\u2019d recognize', detail: 'the identity', score: 'person' },
+          { text: 'A feeling of unusual resonance', detail: 'the experience', score: 'feeling' },
+          { text: 'Both \u2014 a person and the feeling', detail: 'hard to pull apart', score: 'both' },
+          { text: 'I can\u2019t separate the two', detail: 'they blur together', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'anxiety',
+        q: 'Is the soulmate idea helping you look, or keeping you looking?',
+        hint: 'The concept can do diagnostic work, or anxiety work that extends the search.',
+        options: [
+          { text: 'It helps me notice depth worth engaging', detail: 'a useful frame', score: 'diagnostic' },
+          { text: 'It keeps the search running, even when I\u2019m with someone', detail: 'it won\u2019t close', score: 'anxiety' },
+          { text: 'A bit of both', detail: 'it cuts both ways', score: 'mixed' },
+          { text: 'I don\u2019t know which', detail: 'I can\u2019t tell', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'retro',
+        q: 'Do you go back over past connections as maybe-the-one?',
+        hint: 'The retrospective check is often an anxiety pattern wearing the language of fate.',
+        options: [
+          { text: 'Often \u2014 several people from my past', detail: 'more than one', score: 'often' },
+          { text: 'Sometimes, one or two', detail: 'a few stand out', score: 'sometimes' },
+          { text: 'Rarely, I look forward', detail: 'the past stays past', score: 'rarely' },
+          { text: 'I haven\u2019t tracked it', detail: 'no clear read', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'felt',
+        q: 'Can you tell the early intensity from what a connection settles into?',
+        hint: 'Intense early recognition can mimic the signal; what it settles into is the closer test.',
+        options: [
+          { text: 'Yes \u2014 I watch what it becomes over time', detail: 'trajectory over rush', score: 'yes' },
+          { text: 'Partly, it\u2019s hard to tell', detail: 'not always clear', score: 'partly' },
+          { text: 'No \u2014 the rush feels like the answer', detail: 'the flush is the proof', score: 'no' },
+          { text: 'I\u2019m not sure', detail: 'I can\u2019t say', score: 'unsure' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what would actually help next.',
+        options: [
+          { text: 'Who specifically is the person?', detail: 'the identity question', score: 'identity' },
+          { text: 'How will I recognize them?', detail: 'the recognition question', score: 'recognition' },
+          { text: 'When will I meet them?', detail: 'the timing question', score: 'timing' },
+          { text: 'Is the soulmate concept even real?', detail: 'the concept question', score: 'validity' },
+          { text: 'Is this person I\u2019m with the one?', detail: 'the present question', score: 'present' },
+          { text: 'Have I already met \u2014 and missed \u2014 them?', detail: 'the retrospective question', score: 'past' },
+          { text: 'I just want clarity on the question', detail: 'whatever clarity looks like', score: 'curious' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A clearer frame for the question', detail: 'naming the asks', score: 'frame' },
+          { text: 'A read on the pattern of my search', detail: 'the shape from outside', score: 'pattern' },
+          { text: 'A structured reflection on what I\u2019m seeking', detail: 'the object of the search', score: 'reflection' },
+          { text: 'A long-arc view of my relating', detail: 'the running shape', score: 'longarc' },
+          { text: 'I\u2019m not sure \u2014 I just want to understand', detail: 'help me find the question', score: 'unsure' }
+        ]
+      }
+    ],
+
+    /* ---- Pattern scoring ----
+       Four signal questions are scored -2..+2 (unsure answers score
+       nothing and count as "uncertain"). String-key map, read by
+       S[qid][a[qid]]. The sum feeds only the evidence guard; the
+       categorical pattern is chosen from the answers themselves. */
+    resolve: function (answers) {
+      var S = {
+        object:  { person: 1, feeling: -1, both: 0, unsure: null },
+        anxiety: { diagnostic: 2, mixed: 0, anxiety: -2, unsure: null },
+        retro:   { often: -2, sometimes: -1, rarely: 1, unsure: null },
+        felt:    { yes: 2, partly: 0, no: -2, unsure: null }
+      };
+      var keys = ['object', 'anxiety', 'retro', 'felt'];
+      var sum = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; continue; }
+        sum += v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (answers.retro === 'often') return 'looking-backward';
+      if (answers.retro === 'sometimes' && answers.anxiety === 'anxiety') return 'looking-backward';
+      if (answers.anxiety === 'anxiety') return 'questioning-the-concept';
+      if (answers.object === 'feeling') return 'unrecognized-present';
+      if (answers.object === 'person' && answers.felt === 'yes') return 'recognized-present';
+      if (answers.object === 'person') return 'unrecognized-present';
+      if (answers.object === 'both') return 'questioning-the-concept';
+      return 'unrecognized-present';
+    },
+
+    /* ---- The five patterns ---- */
+    results: {
+      'recognized-present': {
+        path: 'A present connection worth engaging',
+        summary: 'You describe recognition with someone now, and you can tell the early intensity from what it settles into.',
+        suggest: function (a) {
+          var s = 'Your answers point to a connection in front of you that carries unusual depth.';
+          if (a.object === 'person') s += ' You\u2019re looking for a specific person, and one appears to be present.';
+          if (a.felt === 'yes') s += ' You also say you can separate the early rush from what the connection becomes over time \u2014 which is the closer test, not the felt-sense itself.';
+          s += ' The honest move is to engage it seriously and watch the trajectory, because what it settles into matters more than how it began.';
+          return s;
+        },
+        dontTell: 'Recognition with a present person is real, but it can\u2019t prove \u201Cthe one\u201D or that it will last. No framework \u2014 and no reading \u2014 can name a soulmate in advance; the recognition happens through relating, not before it.',
+        watchIntro: 'Worth watching over the coming weeks:',
+        watch: function () {
+          return [
+            'Whether the depth builds or fades once the early intensity passes \u2014 the trajectory is the signal, not the opening rush.',
+            'Whether the recognition runs both ways, or mainly on your side.'
+          ];
+        }
+      },
+      'unrecognized-present': {
+        path: 'Searching, not yet recognizing',
+        summary: 'You\u2019re seeking a person or a feeling, but no present connection has settled into recognition yet.',
+        suggest: function (a) {
+          var s = 'Your answers describe a search that hasn\u2019t landed on a present connection.';
+          if (a.object === 'feeling') s += ' You\u2019re chasing a feeling of unusual resonance \u2014 an experience a specific person may not sustainably provide, because the early flush changes.';
+          if (a.object === 'person') s += ' You want a specific person you\u2019d recognize, and that recognition can only happen through relating, not from a description in advance.';
+          s += ' The honest frame is to engage connections that carry real depth and watch what they become, rather than to seek a name before the connection exists.';
+          return s;
+        },
+        dontTell: 'A reading can\u2019t name your soulmate in advance \u2014 anyone who claims to is offering a projection dressed as foresight. What you can do is notice unusual depth and mutual recognition as they actually appear, in real time.',
+        watchIntro: 'Worth watching:',
+        watch: function () {
+          return [
+            'Whether you\u2019re measuring connections by the early rush or by what they settle into \u2014 the second is the better marker.',
+            'Whether the search is about a person or a feeling, because the two have different honest trajectories.'
+          ];
+        }
+      },
+      'looking-backward': {
+        path: 'Looking backward',
+        summary: 'You keep returning to past connections as maybe-the-one.',
+        suggest: function (a) {
+          var s = 'Your answers show you revisiting people from your past as possible soulmates.';
+          if (a.retro === 'often') s += ' That\u2019s several connections, not one \u2014 which suggests the pattern is about the search itself, not a single missed person.';
+          s += ' Often this is an anxiety pattern wearing the language of fate: the wish for a missed connection to have been \u201Cthe one\u201D reframes a real ending as destiny-deferred, and keeps the search running backward instead of engaging the present.';
+          return s;
+        },
+        dontTell: 'Revisiting the past can be genuine recognition, but more often it renews a wish without producing new understanding. A reading that predicts reunion tends to keep the question open \u2014 and keep you paying. The honest test is whether looking back produces new material or just renews the want.',
+        watchIntro: 'Worth watching:',
+        watch: function () {
+          return [
+            'Whether going back produces new understanding, or just renews the feeling of having missed something.',
+            'Whether a little distance has changed what the past connection looks like \u2014 acute charge fades, and the pattern often reads more clearly afterward.'
+          ];
+        }
+      },
+      'questioning-the-concept': {
+        path: 'Questioning the concept',
+        summary: 'The soulmate idea may be doing anxiety work more than diagnostic work in your search.',
+        suggest: function (a) {
+          var s = 'Your answers suggest the concept itself is worth questioning.';
+          if (a.anxiety === 'anxiety') s += ' You said the idea keeps the search running even when you\u2019re with someone \u2014 that\u2019s anxiety work, not a tool for noticing real depth.';
+          if (a.object === 'both') s += ' You\u2019re holding both a person and a feeling without separating them, which is worth pausing on.';
+          s += ' The concept points at something real \u2014 unusual resonance is a reported experience \u2014 but it\u2019s ambiguous, and asking whether it\u2019s doing honest work in your search changes what would actually help.';
+          return s;
+        },
+        dontTell: 'Questioning the concept isn\u2019t the same as deciding it\u2019s false \u2014 it\u2019s a real, honest question. But if the search is driven by repetitive overthinking or distress that touches daily life, a licensed therapist is the more reliable form of support than any reading.',
+        watchIntro: 'Worth watching:',
+        watch: function () {
+          return [
+            'Whether the soulmate idea helps you notice depth, or extends a search that has become about the experience.',
+            'Whether the question shifts once the acute charge of a specific connection fades.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough to read yet',
+        summary: 'Too uncertain, or too soon, to form a pattern \u2014 which is information too.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI don\u2019t know\u201D or \u201Cunsure.\u201D That\u2019s worth taking seriously rather than papering over. Right now there isn\u2019t enough observable pattern to read, which usually means the search is genuinely too new, or you\u2019re standing too close to see its shape.';
+        },
+        dontTell: 'An unclear pattern isn\u2019t a negative one. It means the data isn\u2019t in yet. Hunting for one more sign tends to produce noise \u2014 every small gesture gets recruited as evidence for whichever answer you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary contact or ordinary searching, watching only who you\u2019re actually seeking and whether any connection settles into something sustained.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper.'
+          ];
+        }
+      }
+    },
+
+    /* ---- What may be underneath the question ----
+       Optional, one at most, offered as an observation \u2014 never a
+       diagnosis. Returns { key, label, text } or null. */
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if ((a.search === 'after-ending' || a.retro === 'often' || a.retro === 'sometimes') &&
+          (a.want === 'past' || a.trigger === 'past')) {
+        return {
+          key: 'retro',
+          label: 'What may be underneath: the closure question',
+          text: 'When a past connection won\u2019t close, the mind tends to keep the question open \u2014 \u201Chave I missed them\u201D can quietly become a way of keeping the connection alive. If that lands, the more useful frame is closure \u2014 what that chapter was and what it means now \u2014 rather than whether they were \u201Cthe one.\u201D Readings that keep predicting reunion tend to keep the question open, and keep you paying.'
+        };
+      }
+      if (a.object === 'feeling') {
+        return {
+          key: 'feeling',
+          label: 'What may be underneath: the feeling question',
+          text: 'You described seeking a feeling rather than a person. The experience of unusual resonance is real, but chasing it as a sustained state can pursue something no single relationship can reliably provide \u2014 because the early rush of recognition is a phase that changes. If that lands, the useful question isn\u2019t who supplies the feeling, but what the search is actually about.'
+        };
+      }
+      if (a.anxiety === 'anxiety') {
+        return {
+          key: 'concept',
+          label: 'What may be underneath: the concept question',
+          text: 'You said the soulmate idea keeps the search running even when you\u2019re with someone. That\u2019s the concept doing anxiety work rather than diagnostic work \u2014 extending a search that may have become about the experience. Naming it changes what would honestly help; it doesn\u2019t mean the concept is false, only that it\u2019s worth asking what it\u2019s doing in your search.'
+        };
+      }
+      if ((a.search === 'in-connection' || a.search === 'dating') && a.felt === 'no') {
+        return {
+          key: 'rush',
+          label: 'What may be underneath: the early-rush question',
+          text: 'You\u2019re with someone and you say the rush feels like the answer. Intense early recognition can mimic the soulmate signal \u2014 the neurobiological early flush produces a felt-sense of singularity the trajectory doesn\u2019t always sustain. If that lands, the closer test is what the connection settles into over time, not how it began.'
+        };
+      }
+      return null;
+    },
+
+    /* ---- Practice matching (honest, not salesy) ---- */
+    practice: {
+      psychic: {
+        name: 'Psychic reading',
+        fit: 'An outside perspective on the pattern of your search \u2014 never a name. Framed on the shape of what you\u2019re seeking, not on identifying a person.',
+        href: '/psychic/',
+        cta: 'Explore psychic readings',
+        secondary: { name: 'Tarot \u2014 reflective spread', fit: 'if you want a structured reflection on what the search is actually seeking', href: '/tarot/' },
+        choose: { name: 'How to Choose a Psychic Reader', href: '/guides/how-to-choose-psychic-reader' },
+        note: 'Frame the pattern, not the name. \u201CWhat\u2019s the shape of my search\u201D reads far better than \u201Cwho is my soulmate.\u201D Any reader who names a person by initial or fate is selling a certainty nobody has.'
+      },
+      tarot_reflective: {
+        name: 'Tarot \u2014 reflective spread',
+        fit: 'A structured reflection on the object and shape of your search \u2014 what you\u2019re actually seeking, and whether the concept is doing diagnostic or anxiety work.',
+        href: '/tarot/',
+        cta: 'Explore tarot readings',
+        secondary: { name: 'Psychic reading', fit: 'if you want an outside read on the pattern of your search', href: '/psychic/' },
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        note: 'Bring \u201Cwhat is my search actually seeking\u201D rather than \u201Cwho is the one.\u201D The second invites a Barnum answer.'
+      },
+      astrology: {
+        name: 'Astrology \u2014 natal + 7th house',
+        fit: 'A pattern-level frame for the long-running shape of your relating, which is sometimes more useful than analyzing any single connection.',
+        href: '/astrology/',
+        cta: 'Explore astrology readings',
+        secondary: { name: 'Tarot \u2014 reflective spread', fit: 'if you want the search reflected rather than the long arc', href: '/tarot/' },
+        choose: { name: 'How to Choose an Astrology Reader', href: '/guides/how-to-choose-astrologer' },
+        note: 'Synastry and the seventh house address relating patterns over time \u2014 a frame, not a name.'
+      },
+      therapist: {
+        name: 'A licensed therapist',
+        fit: 'If the search is driven by repetitive overthinking, attachment anxiety, or distress that touches daily life, a therapist is the more reliable and appropriate form of support than any spiritual reading.',
+        href: '/questions/love-relationships/',
+        cta: 'Read the love guides',
+        secondary: { name: 'Do What Fits \u2014 the matcher', fit: 'if you want to map the whole question first', href: '/do-what-fits' },
+        choose: { name: 'Before Paying for a Psychic Reading', href: '/guides/before-paying-psychic-reading' },
+        note: 'This isn\u2019t a no to practice \u2014 it\u2019s the honest match when the question is affecting daily life.'
+      },
+      do_what_fits: {
+        name: 'Do What Fits \u2014 the matcher',
+        fit: 'You\u2019re not sure what you\u2019re asking yet, which is a fine place to start. The seven-question matcher maps your situation to the practice that fits \u2014 or to none.',
+        href: '/do-what-fits',
+        cta: 'Take Do What Fits',
+        secondary: { name: 'Psychic vs Tarot', fit: 'the decision rule for relationship questions', href: '/guides/psychic-vs-tarot' },
+        note: 'Free, two minutes, and it ends with a next step either way.'
+      },
+      free_first: {
+        name: 'This framework + the free Daily Card',
+        fit: 'If a clearer frame is what helps most, this page gives it for free \u2014 the four-signal model and your result are most of it. The Daily Card adds a small reflective practice, still free.',
+        href: '/tools/daily-card',
+        cta: 'Try the free Daily Card',
+        secondary: { name: 'Do What Fits \u2014 the matcher', fit: 'if a real question surfaces and you want the complete match', href: '/do-what-fits' },
+        note: 'If, after watching the pattern, a real question forms \u2014 that\u2019s your question, and that\u2019s when a reading earns its cost.'
+      }
+    },
+
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help, an = answers.anxiety;
+      if (an === 'anxiety' && (w === 'validity' || w === 'past' || w === 'identity')) return 'therapist';
+      if (h === 'longarc') return 'astrology';
+      if (h === 'reflection' || w === 'validity') return 'tarot_reflective';
+      if (h === 'pattern') return 'psychic';
+      if (h === 'unsure' || w === 'curious' || w === 'recognition' || w === 'timing') return 'do_what_fits';
+      if (h === 'frame') return 'free_first';
+      return 'psychic';
+    },
+
+    /* ---- Aha matching (result engine v2) ---- */
+    matchAha: window.topicMatchAha,
+
+    /* ---- Custom result renderer (engine hook) ---- */
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'who-is-my-soulmate', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re seeking a person or a feeling \u2014 two searches with different honest trajectories',
+          'Whether the concept is doing diagnostic work or anxiety work in your search',
+          'Which kind of practice, if any, fits the question you\u2019re really asking'
+        ],
+        edgeBridge: 'A quiz can organize your question \u2014 it cannot name a specific soulmate in advance. Recognition happens through relating, not before it, and any reading claiming to identify a person by description, initial, or fate is offering a projection dressed as foresight.',
+        ctaText: {
+          'identity:psychic': 'Get a read on your search pattern',
+          'validity:tarot_reflective': 'Reflect on what the concept is doing',
+          'past:therapist': 'Get support on the retrospective pattern',
+          'present:psychic': 'Get a read on the present connection',
+          'timing:do_what_fits': 'Map the whole question first',
+          'curious:do_what_fits': 'Find what you\u2019re actually asking',
+          '*:psychic': 'Get a reading on your search',
+          '*:tarot_reflective': 'Reflect on what you\u2019re seeking',
+          '*:astrology': 'Get a long-arc view of your relating',
+          '*:therapist': 'Consider a licensed therapist',
+          '*:do_what_fits': 'Take Do What Fits',
+          '*:free_first': 'Try the free Daily Card'
+        },
+        negativePatternTip: {
+          pattern: 'looking-backward',
+          text: 'when the search keeps running backward, a reading that predicts reunion can quietly become a more expensive way of keeping the question open. If you book one, frame it on closure \u2014 not on naming a missed soulmate.'
+        }
+      });
+    }
+  },
+
+
+  'zodiac-compatibility': {
+    id: 'zodiac-compatibility',
+    title: 'Are You Reflecting, or Seeking a Verdict?',
+    launchSub: 'Eight questions, about two minutes. It reads whether you\u2019re using zodiac as meaning-making or reaching for a sign-based verdict \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of how you\u2019re using the compatibility framework \u2014 as a reflective lens or as a predictor \u2014 what it suggests, what it doesn\u2019t, and what to watch next. No score, no verdict, no signup.',
+    questions: [
+      { id: 'status', q: 'What kind of relationship situation are you in right now?', hint: 'This matters \u2014 the situation shapes how the compatibility question reads.', options: [
+        { text: 'An existing relationship', detail: 'something already established', score: 'existing' },
+        { text: 'Something new is starting', detail: 'early, getting to know each other', score: 'new' },
+        { text: 'I\u2019m considering dating someone', detail: 'a possibility, weighing it', score: 'considering' },
+        { text: 'A relationship that\u2019s hard', detail: 'ongoing difficulty', score: 'hard' },
+        { text: 'A breakup or ending', detail: 'something recently ended', score: 'breakup' },
+        { text: 'Single and just curious', detail: 'no specific person', score: 'single' },
+        { text: 'I\u2019m not sure how to describe it', detail: 'the situation is unclear', score: 'not-sure' } ] },
+      { id: 'trigger', q: 'What put the compatibility question in your head?', hint: '', options: [
+        { text: 'A compatibility description I read', detail: 'online pairing, a post', score: 'read' },
+        { text: 'A friend mentioned our signs', detail: 'someone close raised it', score: 'friend' },
+        { text: 'The relationship is hard', detail: 'the difficulty prompted it', score: 'difficulty' },
+        { text: 'I\u2019m deciding whether to date someone', detail: 'a decision prompt', score: 'deciding' },
+        { text: 'A reader or reading I had', detail: 'the idea came from a reading', score: 'reader' },
+        { text: 'A gut feeling', detail: 'intuition, no single thing', score: 'intuition' } ] },
+      { id: 'use', q: 'Are you using the framework as reflection or seeking a prediction?', hint: 'The honest line most people cross without noticing.', options: [
+        { text: 'As a lens on our dynamics', detail: 'reflecting on how we interact', score: 'reflection' },
+        { text: 'To check what each path requires', detail: 'structure for the reflection', score: 'dynamics' },
+        { text: 'A bit of both', detail: 'reflecting and wanting a verdict', score: 'both' },
+        { text: 'A yes/no on the pairing', detail: 'the verdict question', score: 'prediction' },
+        { text: 'I can\u2019t tell', detail: 'hard to name from inside', score: 'notell' } ] },
+      { id: 'barnum', q: 'How do you read the felt-accuracy of compatibility descriptions?', hint: '', options: [
+        { text: 'It felt accurate \u2014 and I checked it\u2019s vague', detail: 'recognized the Barnum effect', score: 'checked' },
+        { text: 'I\u2019m skeptical of generic descriptions', detail: 'they fit most people', score: 'skeptical' },
+        { text: 'I haven\u2019t really thought about it', detail: 'just took it in', score: 'unthought' },
+        { text: 'It felt accurate, so it must be true', detail: 'took the fit as fact', score: 'truth' },
+        { text: 'I can\u2019t tell', detail: 'not sure how I read it', score: 'notell' } ] },
+      { id: 'attribution', q: 'When your relationship is hard, what do you reach for?', hint: '', options: [
+        { text: 'Communication, values, conflict skills', detail: 'the behavioral factors', score: 'behavioral' },
+        { text: 'The actual work the relationship needs', detail: 'engaging it directly', score: 'work' },
+        { text: 'A mix of both', detail: 'signs and behavior', score: 'mix' },
+        { text: '\u201CWe\u2019re just incompatible signs\u201D', detail: 'the sign explanation', score: 'signs' },
+        { text: 'I can\u2019t tell', detail: 'not sure what I reach for', score: 'notell' } ] },
+      { id: 'matchseeking', q: 'Have you weighed connections by sign?', hint: '', options: [
+        { text: 'I give signs very little weight', detail: 'behavior and values lead', score: 'little' },
+        { text: 'I consider signs as one factor', detail: 'a lens among others', score: 'factor' },
+        { text: 'I\u2019ve searched for my perfect sign', detail: 'extending the search', score: 'searching' },
+        { text: 'I\u2019ve passed on people over sign mismatch', detail: 'rejected viable connections', score: 'rejected' },
+        { text: 'I can\u2019t tell', detail: 'not sure how much I weight it', score: 'notell' } ] },
+      { id: 'want', q: 'What do you most want to know?', hint: 'Be honest \u2014 this decides what actually helps next.', options: [
+        { text: 'Are our signs compatible?', detail: 'the compatibility verdict', score: 'compatibility' },
+        { text: 'Is zodiac compatibility even real?', detail: 'the ontology question', score: 'ontology' },
+        { text: 'Why is our relationship hard?', detail: 'the attribution question', score: 'attribution' },
+        { text: 'Should I date this sign?', detail: 'the decision question', score: 'decision' },
+        { text: 'What\u2019s the dynamic really like?', detail: 'the reflection question', score: 'dynamic' },
+        { text: 'What\u2019s underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' } ] },
+      { id: 'help', q: 'What would help you most right now?', hint: '', options: [
+        { text: 'A way to read this honestly', detail: 'sorting lens from verdict', score: 'interpret' },
+        { text: 'An outside perspective on the situation', detail: 'a read on the dynamic', score: 'insight' },
+        { text: 'A view of what this period is doing', detail: 'the shape, not the cause', score: 'dynamic' },
+        { text: 'A next step I can actually take', detail: 'something to do with this', score: 'guidance' },
+        { text: 'A deeper read of the whole situation', detail: 'the full picture', score: 'deeper' },
+        { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'clarity first', score: 'unsure' } ] }
+    ],
+    resolve: function (answers) {
+      var S = {
+        use:          { reflection: 2, dynamics: 1, both: 0, prediction: -2, notell: null },
+        barnum:       { checked: 2, skeptical: 2, unthought: 0, truth: -2, notell: null },
+        attribution:  { behavioral: 2, work: 1, mix: 0, signs: -2, notell: null },
+        matchseeking: { little: 2, factor: 1, searching: -1, rejected: -2, notell: null }
+      };
+      var keys = ['use', 'barnum', 'attribution', 'matchseeking'];
+      var sum = 0, uncertain = 0, vals = {};
+      for (var i = 0; i < keys.length; i++) {
+        var v = S[keys[i]][answers[keys[i]]];
+        if (v === null || typeof v === 'undefined') { uncertain++; vals[keys[i]] = null; continue; }
+        sum += v; vals[keys[i]] = v;
+      }
+      if (uncertain >= 2 && Math.abs(sum) < 3) return 'not-enough-evidence';
+      if (vals.attribution !== null && vals.attribution <= -2) return 'relationship-attribution';
+      if (vals.matchseeking !== null && vals.matchseeking <= -1) return 'match-seeking';
+      if (vals.use !== null && vals.use <= -2) return 'deterministic-thinking';
+      if (vals.use !== null && vals.use >= 2 && (vals.attribution === null || vals.attribution >= 1) && (vals.matchseeking === null || vals.matchseeking >= 1)) return 'cultural-meaning-making';
+      if (sum >= 2) return 'cultural-meaning-making';
+      if (sum <= -2) return 'deterministic-thinking';
+      return 'not-enough-evidence';
+    },
+    results: {
+      'cultural-meaning-making': {
+        path: 'A framework used as meaning-making',
+        summary: 'You\u2019re using zodiac as a reflective lens, not a verdict.',
+        suggest: function (a) {
+          var s = 'Your answers describe zodiac being used as a meaning-making framework \u2014 a usable vocabulary for reflecting on your dynamic, rather than a tool promising to predict the outcome.';
+          if (a.use === 'reflection') s += ' The reflection itself is the honest use: how your styles interact, where friction might arise, what each of you brings.';
+          if (a.barnum === 'checked' || a.barnum === 'skeptical') s += ' And you\u2019ve checked the felt-accuracy against the Barnum effect, which is exactly what keeps the reflection honest.';
+          if (a.attribution === 'behavioral' || a.attribution === 'work') s += ' The relationship difficulty, when it shows up, is being read as behavioral \u2014 communication, values, conflict skills \u2014 which is where the real work lives.';
+          s += ' The honest next step isn\u2019t a sign verdict; it\u2019s letting the framework prompt the reflection it was built for, while engaging the behavioral factors that actually predict outcomes.';
+          return s;
+        },
+        dontTell: 'Using the framework as meaning-making doesn\u2019t prove the signs \u201Cmean\u201D anything about your fate \u2014 nothing can prove a prediction the evidence doesn\u2019t support. What it does is give you a real, usable lens on your dynamic, and the reflection works whether or not the prediction holds.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Let the element and modality associations prompt reflection on how your styles interact \u2014 without asking them to predict whether the relationship works.',
+            'Engage the actual behavioral factors \u2014 communication, shared values, conflict skills \u2014 which is where relationship outcomes are actually predicted.'
+          ];
+        }
+      },
+      'deterministic-thinking': {
+        path: 'Deterministic thinking about the pairing',
+        summary: 'You\u2019re reaching for the framework as a predictor.',
+        suggest: function (a) {
+          var s = 'Your answers describe the compatibility question being used as a predictor \u2014 a yes/no on the pairing, as if sun signs determine the outcome.';
+          if (a.use === 'prediction') s += ' The verdict framing is the part the evidence doesn\u2019t support: controlled tests of astrological compatibility have not produced replicable results.';
+          if (a.barnum === 'truth') s += ' And the felt-accuracy of the descriptions is being taken as fact, which is mostly the Barnum effect plus confirmation bias \u2014 not specificity to your pairing.';
+          s += ' The honest reframe isn\u2019t that the framework is useless \u2014 it\u2019s that the prediction isn\u2019t available, while the reflection is. The relationship\u2019s shape is decided by behavior, not signs.';
+          return s;
+        },
+        dontTell: 'Reaching for a sign verdict doesn\u2019t make you wrong \u2014 the wish for one is human and enormous. What it does is trade a usable lens for a prediction the evidence can\u2019t deliver, and deterministic thinking can quietly avoid the behavioral work the relationship actually needs.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice when you\u2019re asking the framework to predict rather than reflect \u2014 and redirect the question to the dynamic itself.',
+            'If a reader offers a sign-based fate verdict, treat it as a projection dressed as prediction; the outcome is yours to live, not theirs to guarantee.'
+          ];
+        }
+      },
+      'relationship-attribution': {
+        path: 'Sign-based relationship attribution',
+        summary: 'The difficulty is being read as the signs.',
+        suggest: function (a) {
+          var s = 'Your answers describe relationship difficulty being attributed to the signs \u2014 \u201Cwe\u2019re just incompatible signs\u201D \u2014 which can become a way of avoiding the behavioral work.';
+          if (a.attribution === 'signs') s += ' The sign explanation is doing the avoidance: the real issue is usually communication, values, or conflict skills, not the chart.';
+          if (a.status === 'hard' || a.trigger === 'difficulty') s += ' And the difficulty is real \u2014 the question is what it\u2019s actually about, not whether the signs caused it.';
+          s += ' The honest move is to engage the difficulty directly: the behavioral factors are available now, regardless of what the signs say, and they\u2019re where the actual change lives.';
+          return s;
+        },
+        dontTell: 'Reading the difficulty as signs doesn\u2019t prove the difficulty isn\u2019t real \u2014 it proves the cause is being placed where it can\u2019t be worked. The relationship\u2019s fate isn\u2019t settled by the chart; it\u2019s built in the behavioral work the sign framing can postpone.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Name the difficulty in behavioral terms \u2014 communication, values, conflict patterns \u2014 rather than as sign incompatibility.',
+            'If the distress is significant, a licensed therapist or couples counselor is the more honest match than a sign-based explanation.'
+          ];
+        }
+      },
+      'match-seeking': {
+        path: 'Match-seeking over a non-predictor',
+        summary: 'The search for the right sign is doing the work.',
+        suggest: function (a) {
+          var s = 'Your answers describe match-seeking \u2014 weighing connections by sign, or searching for the \u201Cright\u201D sign \u2014 which extends the search over a factor that doesn\u2019t predict fit.';
+          if (a.matchseeking === 'rejected') s += ' Passing on viable connections over a sign mismatch is a real cost: you may be declining someone you\u2019d work well with over a non-predictor.';
+          if (a.matchseeking === 'searching') s += ' And the hunt for a perfect sign can run indefinitely, because signs don\u2019t predict fit \u2014 behavior and shared values do.';
+          s += ' The honest weight: give the sign very little relative to how the two of you actually interact, what you share, and whether the connection builds.';
+          return s;
+        },
+        dontTell: 'Match-seeking doesn\u2019t prove signs never matter \u2014 they can be a pleasing lens. What it proves is that using them as a filter over behavior costs real possibilities, and no sign pairing is reliably \u201Cmost compatible\u201D in the evidence.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Notice when a sign is quietly overriding the actual evidence of how you connect \u2014 and check which one you\u2019re really weighting.',
+            'Let behavior, values, and the lived dynamic lead the decision; keep the framework as one reflective factor among many.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers say \u201CI can\u2019t tell\u201D \u2014 and taking that seriously beats papering over it. Right now there isn\u2019t enough observed pattern to sort your use of the framework into meaning-making or deterministic thinking, which usually means one of two things: the question is genuinely new, or you\u2019re standing too close to read its shape without the scanning that would make everything louder.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of compatibility tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'A few weeks of ordinary life \u2014 living, not scanning for sign confirmations \u2014 watching only the four signals: reflection vs. prediction, Barnum-awareness, attribution, and match-seeking.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed, that is an answer too.'
+          ];
+        }
+      }
+    },
+    underneath: function (answers, pattern) {
+      var a = answers;
+      if (a.use === 'prediction' || pattern === 'deterministic-thinking') {
+        return { key: 'prediction-unavailable', label: 'What may be underneath: the prediction that isn\u2019t available',
+          text: 'The wish for a sign verdict \u2014 a yes/no on the pairing \u2014 is human, and it doesn\u2019t mean the prediction exists. Controlled tests of astrological compatibility (including Carlson, 1985, in Nature) have not produced replicable results, and the felt-accuracy is largely the Barnum effect plus confirmation bias. The honest reframe: keep the framework as a reflective lens, and let the behavioral factors carry the actual question.' };
+      }
+      if (a.attribution === 'signs' || pattern === 'relationship-attribution') {
+        return { key: 'attribution-avoidance', label: 'What may be underneath: attribution as avoidance',
+          text: 'Framing relationship difficulty as \u201Cincompatible signs\u201D can quietly avoid the behavioral work \u2014 the communication, value, or conflict-skill issue that\u2019s really at play. The difficulty is real; the cause is behavioral, not astral. Engaging it directly is available now, regardless of what the signs say.' };
+      }
+      if (a.matchseeking === 'rejected' || a.matchseeking === 'searching' || pattern === 'match-seeking') {
+        return { key: 'match-seeking-cost', label: 'What may be underneath: the cost of match-seeking',
+          text: 'The search for the \u201Cright\u201D sign extends the hunt over a non-predictor \u2014 signs don\u2019t predict fit; behavior and shared values do. Rejecting a viable connection over a sign mismatch is a real cost, and no sign pairing is reliably \u201Cmost compatible.\u201D' };
+      }
+      if (a.want === 'ontology' || a.barnum === 'truth') {
+        return { key: 'felt-accuracy-check', label: 'What may be underneath: the Barnum check',
+          text: 'The felt-accuracy of compatibility descriptions is high for most people \u2014 not because they\u2019re specific to your pairing, but because they\u2019re vague and broadly resonant (the Barnum/Forer effect), reinforced by confirmation bias. Checking that makes the reflection honest.' };
+      }
+      if (a.want === 'beneath' || a.help === 'deeper') {
+        return { key: 'reflection-depth', label: 'What may be underneath: the reflection worth having',
+          text: 'What the framework can honestly offer is a reflective lens on your dynamic \u2014 how your temperamental styles interact, where friction might arise, what each of you brings. That reflection is real whether or not the prediction holds. A reading can frame the dynamics; it cannot predict the outcome.' };
+      }
+      return null;
+    },
+    practice: window.topicPracticeSet({ topic: 'your compatibility question', cluster: 'astrology' }),
+    matchPractice: function (answers) {
+      var w = answers.want, h = answers.help;
+      if (h === 'unsure') return 'general';
+      if (w === 'compatibility' || h === 'interpret') return 'free_first';
+      if (w === 'ontology' || h === 'insight') return 'psychic';
+      if (w === 'attribution' || h === 'dynamic') return 'tarot_relationship';
+      if (w === 'decision' || h === 'guidance') return 'tarot_decision';
+      if (w === 'beneath' || h === 'deeper') return 'tarot_deep';
+      return 'general';
+    },
+    matchAha: window.topicMatchAha,
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'zodiac-compatibility', {
+        resultV2: true,
+        canTell: [
+          'Whether you\u2019re using the framework as a reflective lens or reaching for a sign-based verdict \u2014 which is the line most people cross without noticing',
+          'Whether sign-attribution is doing avoidance work on a real relationship difficulty that behavior could address',
+          'Whether match-seeking over a non-predictor is costing viable connections \u2014 which is the part you can actually change'
+        ],
+        edgeBridge: 'A quiz can read how you\u2019re using the compatibility framework \u2014 it can\u2019t tell you whether your signs are \u201Ccompatible,\u201D which no evidence supports. A reading framed on the relationship\u2019s dynamics can offer perspective; it can\u2019t honestly confirm a sign-based fate.',
+        ctaText: {
+          '*:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reading for this situation',
+          '*:tarot_relationship': 'Get a read on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'deterministic-thinking',
+          text: 'when the compatibility question becomes a verdict hunt, a reading that confirms a sign-based fate can quietly become a more expensive way of avoiding the behavioral work the relationship needs. If you book one, frame it on the dynamic \u2014 not on whether your signs are compatible.'
+        }
+      });
+    }
+  },
+
+
+  'is-he-cheating': {
+    id: 'is-he-cheating',
+    title: 'Is He Cheating? What You Can and Can\u2019t Know',
+    launchSub: 'Eight questions, about two minutes. It reads what you\u2019ve actually observed across four signals \u2014 his openness, his time, his warmth, and his device habits \u2014 and sorts your suspicion into one of five patterns, ending on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of what your observations suggest, what they don\u2019t prove, and what to watch next \u2014 no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'What are you living through right now?',
+        hint: 'The situation shapes how the same behavior reads.',
+        options: [
+          { text: 'We live together', detail: 'a shared daily life', score: 'together' },
+          { text: 'We\u2019re married', detail: 'a legal and daily commitment', score: 'married' },
+          { text: 'We\u2019re dating', detail: 'still defining the shape', score: 'dating' },
+          { text: 'It\u2019s long distance', detail: 'time and distance between us', score: 'longdistance' },
+          { text: 'We\u2019re engaged', detail: 'a planned next step', score: 'engaged' },
+          { text: 'We\u2019re separated', detail: 'a pause or an ending', score: 'separated' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cis he cheating\u201D question in your head?',
+        hint: 'A hunch, a find, and a rumor deserve different weights.',
+        options: [
+          { text: 'It built gradually', detail: 'the feeling crept in', score: 'gradual' },
+          { text: 'I found something', detail: 'a concrete thing I saw', score: 'found' },
+          { text: 'A gut feeling', detail: 'an intuition with no proof', score: 'intuition' },
+          { text: 'A pattern from past relationships', detail: 'this has happened before', score: 'history' },
+          { text: 'Someone said something', detail: 'a rumor or a hint', score: 'rumor' },
+          { text: 'His behavior changed', detail: 'something in him shifted', score: 'changed' }
+        ]
+      },
+      {
+        id: 'openness',
+        q: 'How has his openness about his life changed?',
+        hint: 'Detail collapsing into vagueness \u2014 or flowing in from topics that used to be closed \u2014 is a change in the information environment.',
+        options: [
+          { text: 'He hides more than he used to', detail: 'less arrives at me voluntarily', score: 'hides' },
+          { text: 'He\u2019s more guarded', detail: 'answers stay surface', score: 'guarded' },
+          { text: 'It\u2019s become vague', detail: 'fewer specifics than before', score: 'vague' },
+          { text: 'He\u2019s consistent with before', detail: 'about the same as his normal', score: 'consistent' },
+          { text: 'He shares more than before', detail: 'detail flows in', score: 'flowing' }
+        ]
+      },
+      {
+        id: 'routine',
+        q: 'How has his time and routine changed?',
+        hint: 'An affair requires hours. Watch for unaccounted windows that repeat, and explanations that stay thin.',
+        options: [
+          { text: 'There are real gaps', detail: 'time I can\u2019t account for', score: 'gaps' },
+          { text: 'The gaps keep repeating', detail: 'a rhythm I can\u2019t explain', score: 'repeated' },
+          { text: 'His time is thinner', detail: 'less of it reaches me', score: 'thinner' },
+          { text: 'It\u2019s about the same', detail: 'his schedule tracks his normal', score: 'steady' },
+          { text: 'He accounts for it fully', detail: 'nothing unexplained', score: 'full' }
+        ]
+      },
+      {
+        id: 'temperature',
+        q: 'How has the warmth between you changed?',
+        hint: 'Withdrawal that reads as exhaustion differs from withdrawal that reads as avoidance \u2014 and over-sweetness after cold stretches is its own signature.',
+        options: [
+          { text: 'He feels distant', detail: 'withdrawal I can\u2019t name', score: 'distant' },
+          { text: 'Warm but rough', detail: 'affection with friction', score: 'warmrough' },
+          { text: 'Suddenly over-sweet', detail: 'waves of attention after cold', score: 'oversweet' },
+          { text: 'Steady and warm', detail: 'about his normal', score: 'warm' },
+          { text: 'Closer than before', detail: 'more warmth than usual', score: 'close' }
+        ]
+      },
+      {
+        id: 'device',
+        q: 'How have his device habits changed?',
+        hint: 'Affairs require a communication channel. A new boundary around the phone is the classic first flag \u2014 but privacy is a value, not a confession.',
+        options: [
+          { text: 'His phone is locked down', detail: 'passcodes, screens away', score: 'locked' },
+          { text: 'He\u2019s more private with it', detail: 'less open than before', score: 'private' },
+          { text: 'He\u2019s attached to it', detail: 'never leaves it', score: 'attached' },
+          { text: 'No change from before', detail: 'same as his normal', score: 'unchanged' },
+          { text: 'He\u2019s relaxed with it', detail: 'open, unbothered', score: 'relaxed' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 this decides what actually helps next.',
+        options: [
+          { text: 'Is he or isn\u2019t he?', detail: 'one way or the other', score: 'verify' },
+          { text: 'I\u2019m already sure \u2014 confirm it', detail: 'the answer I carry', score: 'certainly' },
+          { text: 'Should I stay or leave?', detail: 'the exit question', score: 'stayleave' },
+          { text: 'Can trust come back?', detail: 'the repair question', score: 'trust' },
+          { text: 'Am I just paranoid?', detail: 'the self-trust question', score: 'paranoid' },
+          { text: 'I want peace of mind', detail: 'a calmer read', score: 'peace' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting signal from story', score: 'interpret' },
+          { text: 'An outside perspective', detail: 'a read on the pattern', score: 'insight' },
+          { text: 'A deeper look at the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'A next step I can take', detail: 'something concrete', score: 'guidance' },
+          { text: 'Help reading the dynamic', detail: 'what\u2019s between us', score: 'dynamic' },
+          { text: 'I\u2019m not sure \u2014 find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var S = {
+        openness:    { hides: -2, guarded: -1, vague: 0, consistent: 2, flowing: 2 },
+        routine:     { gaps: -2, repeated: -2, thinner: -1, steady: 2, full: 2 },
+        temperature: { distant: -1, warmrough: -1, oversweet: 0, warm: 2, close: 2 },
+        device:      { locked: -2, private: -1, attached: -1, unchanged: 2, relaxed: 2 }
+      };
+      var keys = ['openness', 'routine', 'temperature', 'device'];
+      var vals = {}, sum = 0, negCount = 0, lowCount = 0, uncertain = 0;
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var v = S[k][a[k]];
+        if (v === null || typeof v === 'undefined') { vals[k] = null; uncertain++; continue; }
+        vals[k] = v; sum += v;
+        if (v <= -2) negCount++;
+        if (v < 0) lowCount++;
+      }
+      if (uncertain >= 3) return 'not-enough-evidence';
+      if (negCount >= 2) return 'cluster-serious';
+      if (vals.temperature !== null && vals.temperature < 0 && (vals.openness === null || vals.openness >= 0) && (vals.routine === null || vals.routine >= 0) && (vals.device === null || vals.device >= 0)) return 'distance-only';
+      if (lowCount === 1 && vals.temperature !== null && vals.temperature >= 0) return 'one-thread';
+      if (lowCount === 0 && sum >= 4) return 'steady-baseline';
+      return 'not-enough-evidence';
+    },
+
+    results: {
+      'cluster-serious': {
+        path: 'A cluster worth taking seriously',
+        summary: 'Several of his signals shifted together \u2014 information, time, warmth, devices \u2014 which is the closest thing to signal that observation offers.',
+        suggest: function (a) {
+          var s = 'Your answers describe several signals moving together \u2014 which is the closest thing to signal that observation can offer. A single change can have a hundred innocent causes; the same changes arriving as a cluster, over weeks rather than days, is what actually carries information.';
+          if (a.openness === 'hides' || a.openness === 'guarded') s += ' The information flowing to you has narrowed, which is the one domain an affair structurally requires.';
+          if (a.routine === 'gaps' || a.routine === 'repeated') s += ' And unaccounted time that repeats on a rhythm is the cost an affair can\u2019t fake away.';
+          if (a.device === 'locked' || a.device === 'private') s += ' His device boundary has tightened too, which is the classic first flag \u2014 though privacy alone is never proof.';
+          s += ' None of it confirms what he has or hasn\u2019t done; it says something is worth a direct conversation, stated plainly and once.';
+          return s;
+        },
+        dontTell: 'A cluster of changes doesn\u2019t prove an affair \u2014 it proves something is worth a direct conversation. The honest move is the conversation stated plainly and once, not an interrogation designed to relieve anxiety, which produces denials whether or not anything happened.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function (a) {
+          return [
+            'Hold a defined observation window \u2014 two or three weeks of the five signals noted in ordinary life, no phone forensics \u2014 and watch whether the cluster develops or settles.',
+            (a.openness === 'hides' || a.openness === 'guarded' ? 'The narrowed information flow is the thread to name plainly in the conversation, not to accuse around.' : 'Watch which of the changed signals survives a few weeks of ordinary life.')
+          ];
+        }
+      },
+      'distance-only': {
+        path: 'Distance without concealment',
+        summary: 'The warmth dropped, but the information and the time didn\u2019t \u2014 which points at something internal, not a third person.',
+        suggest: function (a) {
+          var s = 'Your answers point at a drop in warmth without the concealment that would make it point at a third person \u2014 his openness and his time hold about their normal. Distance has many causes that involve no one else: stress, a depressive stretch, shame about something you don\u2019t know yet.';
+          if (a.temperature === 'oversweet') s += ' The over-sweetness after cold stretches is its own signature \u2014 guilt and genuine repair look identical from the outside, and only the pattern over months separates them.';
+          s += ' What observation can\u2019t do is name the cause; the direct conversation can.';
+          return s;
+        },
+        dontTell: 'Distance without concealment doesn\u2019t prove a third person \u2014 it often points at something internal: stress, a rough season, shame about a failure you don\u2019t know yet. The risk is answering a distance question with surveillance, which costs the trust you still have.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function (a) {
+          return [
+            'Name the distance directly \u2014 \u201Cyou\u2019ve felt far away lately; what\u2019s going on?\u201D \u2014 rather than reading it as evidence of a third person.',
+            'Give it a defined window: stress, a rough season, or a depressive stretch can read as concealment and resolve on their own.'
+          ];
+        }
+      },
+      'one-thread': {
+        path: 'One thread pulled hard',
+        summary: 'One signal changed against his baseline, but the rest held \u2014 one vivid sign is noise until it develops company.',
+        suggest: function (a) {
+          var s = 'Your answers describe one signal pulled hard against his baseline while the rest held \u2014 one vivid sign is noise until it develops company. A guarded phone in a private man, or a gap in a man who travels, is Tuesday, not evidence.';
+          if (a.openness === 'hides' || a.openness === 'guarded') s += ' The narrowed information is the thread to watch, not to convict on.';
+          if (a.routine === 'gaps' || a.routine === 'repeated') s += ' The unaccounted time is worth noting, but one domain rarely makes a case.';
+          if (a.device === 'locked' || a.device === 'private' || a.device === 'attached') s += ' The device change is the classic flag \u2014 and privacy is a value, not a confession.';
+          s += ' None of it confirms anything; it says which thread, if any, earns a conversation.';
+          return s;
+        },
+        dontTell: 'One pulled thread doesn\u2019t make a case \u2014 a single change against his baseline is Tuesday, not evidence, and three weak signs from one domain are one life change. The risk is sign-stacking: counting list items instead of weighing them, which turns noise into a verdict.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function (a) {
+          var which = a.openness === 'hides' || a.openness === 'guarded' ? 'the information' : (a.routine === 'gaps' || a.routine === 'repeated' ? 'the time' : (a.device === 'locked' || a.device === 'private' || a.device === 'attached' ? 'the device habit' : 'the one signal'));
+          return [
+            'One changed thread is noise until it develops company \u2014 watch whether ' + which + ' shift settles or spreads to other domains.',
+            'A single sign deserves a conversation about that change, not an accusation about his conduct.'
+          ];
+        }
+      },
+      'steady-baseline': {
+        path: 'The baseline is steady',
+        summary: 'Against his own normal, the four signals haven\u2019t moved together \u2014 which doesn\u2019t prove a negative, only that observation shows no cluster.',
+        suggest: function (a) {
+          var s = 'Against his own normal, the four signals \u2014 openness, time, warmth, devices \u2014 haven\u2019t moved together. That doesn\u2019t prove a negative; it means observation shows no cluster, which is the honest read at this moment.';
+          if (a.trigger === 'intuition') s += ' A gut feeling is real and worth honoring, but confidence that you \u201Ccan just tell\u201D is not itself evidence \u2014 detection research puts people barely above chance.';
+          s += ' If the suspicion lingers without new evidence, the question may be more about the fear than about him.';
+          return s;
+        },
+        dontTell: 'A steady baseline isn\u2019t a clean bill of conduct \u2014 it means observation shows no cluster right now, which can change. The risk is either dismissing a real slow shift or, just as wrongly, recruiting ordinary behavior as evidence because the fear is loud.',
+        watchIntro: 'Over the next few weeks:',
+        watch: function (a) {
+          return [
+            'Against his own normal the four signals held \u2014 which is reassuring, not a verdict. Watch the baseline, not a list.',
+            'If the suspicion persists without new evidence, the question may be about the fear itself; a defined window of ordinary life is the honest test.'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Not enough evidence yet',
+        summary: 'The signals are mixed or mid-range \u2014 too early, or too close, to read honestly.',
+        suggest: function (a) {
+          return 'Your signals are mixed or mid-range \u2014 too early, or too close, to read honestly. Several answers sit in the middle, which usually means one of two things: it\u2019s genuinely new, or you\u2019re standing too close to read the shape without the scanning that makes everything louder. Hunting for one more sign tends to produce noise.';
+        },
+        dontTell: 'A mixed read isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign that he\u2019s cheating tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function (a) {
+          return [
+            'A few weeks of ordinary life, watching the five signals, before booking anything or confronting anyone.',
+            'Suspicion formed in a day reads poorly; patterns read well. The question will still be there if it\u2019s real.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      if (a.want === 'stayleave') {
+        return {
+          key: 'decision',
+          label: 'What may be underneath: the exit question',
+          text: 'The exit question is really about your own decision, wearing a question about his behavior. \u201CShould I stay or leave\u201D deserves a structured view of both paths \u2014 and a hard boundary: no reading can or should make the leave-or-stay call for you. Any reader who offers to is selling certainty nobody has.'
+        };
+      }
+      if (a.want === 'trust') {
+        return {
+          key: 'repair',
+          label: 'What may be underneath: the repair question',
+          text: 'The repair question can arrive before you know the answer \u2014 the relationship already feels broken, whatever the facts are. Repair after betrayal is skilled, structured work with a poor DIY success rate; couples counseling comes first. A reading can support your perspective through it; it cannot do the repair.'
+        };
+      }
+      if (a.want === 'paranoid') {
+        return {
+          key: 'selftrust',
+          label: 'What may be underneath: the self-trust question',
+          text: 'The self-trust question shows up when the checking has outlasted the evidence \u2014 when you\u2019ve rebuilt timelines at 2 a.m. and felt worse each time. If reassurance keeps expiring no matter what you find, the loop deserves its own attention, and a licensed therapist is the more honest match than a reader \u2014 not because the suspicion is false, but because the loop is real.'
+        };
+      }
+      if (a.want === 'certainly') {
+        return {
+          key: 'verification',
+          label: 'What may be underneath: the verification question',
+          text: 'The verification question is the unbearable in-between, not the answer itself. What fits is a defined observation window \u2014 a few weeks, the five signals, written down \u2014 then the direct conversation. What doesn\u2019t fit is a reading that promises to confirm, because confirmation is the one thing it cannot honestly supply.'
+        };
+      }
+      if (a.want === 'verify' && a.trigger === 'history') {
+        return {
+          key: 'pattern-question',
+          label: 'What may be underneath: the pattern question',
+          text: 'If this is the second or third relationship where suspicion arrived uninvited \u2014 sometimes confirmed, sometimes not \u2014 the useful question may be about the pattern, not the man. Pattern-oriented work, a depth-focused reading, or often the most honest answer, a good therapist, tends to fit better than another round of surveillance.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.lovePracticeSet('is-he-cheating'),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.want === 'verify' || a.want === 'certainly') return 'psychic';
+      if (a.want === 'trust') return 'closure';
+      if (a.want === 'stayleave') return 'tarot_decision';
+      if (a.want === 'paranoid') return 'free_first';
+      if (a.help === 'dynamic') return 'tarot_relationship';
+      if (a.help === 'deeper') return 'tarot_deep';
+      if (a.help === 'insight') return 'psychic';
+      if (a.help === 'guidance') return 'tarot_decision';
+      if (a.help === 'interpret') return 'free_first';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'is-he-cheating', {
+        resultV2: true,
+        canTell: [
+          'Whether his behavior changed across several of his own signals at once \u2014 openness, time, warmth, devices \u2014 which is the only honest unit of comparison, not a list of \u201Csigns\u201D',
+          'Whether the change points at concealment (information, time, devices) or at something else entirely \u2014 distance has many causes with no third person involved',
+          'Whether your real question is verification, self-trust, repair, exit, or a pattern \u2014 which decides what actually helps next'
+        ],
+        edgeBridge: 'A quiz can read what you\u2019ve observed \u2014 it can\u2019t confirm what he has or hasn\u2019t done, which no honest reading can either. A reading framed on the situation can offer a perspective to weigh; it can\u2019t deliver a verdict on his conduct, and a reader who \u201Cconfirms\u201D an affair is selling certainty nobody possesses.',
+        ctaText: {
+          'cluster-serious:psychic': 'Get an outside read on the situation',
+          'cluster-serious:closure': 'Get a closure-framed read',
+          'cluster-serious:tarot_decision': 'Get a two-path read on stay or leave',
+          'cluster-serious:tarot_deep': 'Get a deeper read on the whole thing',
+          'cluster-serious:tarot_relationship': 'Get a read on the dynamic',
+          'cluster-serious:free_first': 'Start with the free framework',
+          'cluster-serious:general': 'Take Do What Fits',
+          'distance-only:tarot_relationship': 'Get a read on the dynamic',
+          'distance-only:psychic': 'Get an outside perspective',
+          'distance-only:tarot_decision': 'Get guidance on your next step',
+          'distance-only:tarot_deep': 'Get a deeper read',
+          'distance-only:closure': 'Get a closure-framed read',
+          'distance-only:free_first': 'Start with the free framework',
+          'distance-only:general': 'Take Do What Fits',
+          'one-thread:psychic': 'Get an outside perspective',
+          'one-thread:tarot_relationship': 'Get a read on the dynamic',
+          'one-thread:tarot_decision': 'Get guidance on your next step',
+          'one-thread:tarot_deep': 'Get a deeper read',
+          'one-thread:closure': 'Get a closure-framed read',
+          'one-thread:free_first': 'Start with the free framework',
+          'one-thread:general': 'Take Do What Fits',
+          'steady-baseline:psychic': 'Get an outside perspective',
+          'steady-baseline:tarot_relationship': 'Get a read on the dynamic',
+          'steady-baseline:tarot_decision': 'Get guidance on your next step',
+          'steady-baseline:tarot_deep': 'Get a deeper read',
+          'steady-baseline:closure': 'Get a closure-framed read',
+          'steady-baseline:free_first': 'Start with the free framework',
+          'steady-baseline:general': 'Take Do What Fits',
+          'not-enough-evidence:psychic': 'Get an outside perspective',
+          'not-enough-evidence:tarot_relationship': 'Get a read on the dynamic',
+          'not-enough-evidence:tarot_decision': 'Get guidance on your next step',
+          'not-enough-evidence:tarot_deep': 'Get a deeper read',
+          'not-enough-evidence:closure': 'Get a closure-framed read',
+          'not-enough-evidence:free_first': 'Start with the free framework',
+          'not-enough-evidence:general': 'Take Do What Fits',
+          '*:psychic': 'Get a reading on your situation',
+          '*:tarot_relationship': 'Get a read on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the whole thing',
+          '*:closure': 'Get a closure-framed read',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'cluster-serious',
+          text: 'when the changes cluster, a reading that \u201Cconfirms\u201D an affair or names a third party can quietly become an expensive way of getting the validation you arrived wanting. If you book one, frame it on the situation, not on whether he\u2019s cheating \u2014 and walk away from any reader who offers to remove someone for a fee.'
+        }
+      });
+    }
+  },
+
+
+  'will-he-come-back': {
+    id: 'will-he-come-back',
+    title: 'Will He Come Back? An Honest Pattern Check',
+    launchSub: 'Eight questions, about two minutes. It reads the shape of the ending, whether he returns after distance as a pattern, how much of your day is checking, and how the pain has been moving \u2014 and ends on the step that fits.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your wait \u2014 what your answers suggest, what they don\u2019t prove, and what to look at next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'status',
+        q: 'Where is the connection sitting right now?',
+        hint: 'This shapes how the same signals read.',
+        options: [
+          { text: 'We\u2019re broken up \u2014 apart, but the question stays live', detail: 'the bond feels unresolved', score: 'brokenup' },
+          { text: 'He ended it', detail: 'the ending came from him', score: 'he-ended' },
+          { text: 'I ended it', detail: 'you closed it', score: 'i-ended' },
+          { text: 'It\u2019s on-and-off \u2014 we cycle', detail: 'a repeating pattern', score: 'onoff' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cwill he come back\u201D question in your head?',
+        hint: '',
+        options: [
+          { text: 'Nothing specific \u2014 it just arrived', detail: 'it built on its own', score: 'nothing' },
+          { text: 'The no-contact silence', detail: 'the quiet became a question', score: 'silence' },
+          { text: 'A feeling he\u2019s not done', detail: 'a felt sense', score: 'feel' },
+          { text: 'A pattern \u2014 he\u2019s come back before', detail: 'history', score: 'history' },
+          { text: 'That he ended it', detail: 'the ending itself', score: 'he-ended' }
+        ]
+      },
+      {
+        id: 'ending_shape',
+        q: 'What shape was the ending?',
+        hint: 'Clean endings are easier to grieve; ambiguous ones keep the question open by design.',
+        options: [
+          { text: 'Clean \u2014 mutual, stated, closed', detail: 'it was named', score: 'clean' },
+          { text: 'Ambiguous \u2014 drifted, never quite named', detail: 'left open', score: 'ambiguous' },
+          { text: 'He pulled away', detail: 'he withdrew', score: 'pulled' },
+          { text: 'One-sided \u2014 I was doing the work', detail: 'mostly me', score: 'one-sided' },
+          { text: 'A cycle \u2014 this has happened before', detail: 'on-and-off', score: 'cycle' },
+          { text: 'I ended it', detail: 'you closed it', score: 'i-ended' }
+        ]
+      },
+      {
+        id: 'reciprocity_history',
+        q: 'After pulling away before, has he returned?',
+        hint: 'A pattern of return is real \u2014 and statistically tends to be a pattern of leaving, which is the part that repeats.',
+        options: [
+          { text: 'Never', detail: 'no history of return', score: 'never' },
+          { text: 'Once', detail: 'one return', score: 'first' },
+          { text: 'Always \u2014 he comes back after distance', detail: 'a reliable pattern', score: 'always' },
+          { text: 'Sometimes', detail: 'it varies', score: 'sometimes' }
+        ]
+      },
+      {
+        id: 'checking',
+        q: 'How much of your day goes to checking on him?',
+        hint: 'His socials, the signs, mutual friends \u2014 the most measurable signal of processing versus cycling.',
+        options: [
+          { text: 'Most of my day', detail: 'constant checking', score: 'constant' },
+          { text: 'Frequently \u2014 several times a day', detail: 'frequent', score: 'frequent' },
+          { text: 'Daily, but not all day', detail: 'a daily pull', score: 'daily' },
+          { text: 'Rarely', detail: 'occasional', score: 'rare' },
+          { text: 'Some \u2014 I check now and then', detail: 'some', score: 'some' }
+        ]
+      },
+      {
+        id: 'course',
+        q: 'Over the weeks since, how has the pain moved?',
+        hint: 'Processing integrates; cycling resets to peak. The course tells you which is happening.',
+        options: [
+          { text: 'It cycles \u2014 resets to peak every few weeks', detail: 'looping', score: 'cycling' },
+          { text: 'It\u2019s gotten worse', detail: 'intensifying', score: 'worse' },
+          { text: 'It\u2019s ebbing \u2014 slowly fading', detail: 'processing', score: 'ebbing' },
+          { text: 'It\u2019s flat \u2014 neither better nor worse', detail: 'stuck', score: 'flat' },
+          { text: 'It\u2019s processing \u2014 less sharp, more carried', detail: 'integrating', score: 'processing' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 this decides what actually helps next.',
+        options: [
+          { text: 'Will he reach out again?', detail: 'the prediction', score: 'predict' },
+          { text: 'Did the ending mean it\u2019s really over?', detail: 'closure', score: 'closure' },
+          { text: 'Is the silence a phase?', detail: 'framework', score: 'silence' },
+          { text: 'Am I waiting, or moving on?', detail: 'the decision', score: 'moveon' },
+          { text: 'Why can\u2019t I stop thinking about it?', detail: 'the loop', score: 'cantstop' },
+          { text: 'Is there something I should do to bring him back?', detail: 'control', score: 'bringback' },
+          { text: 'Something underneath \u2014 I\u2019m not sure what', detail: 'the question beneath', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A way to read this honestly', detail: 'sorting signal from story', score: 'interpret' },
+          { text: 'An outside perspective on my situation', detail: 'a read on the dynamic', score: 'insight' },
+          { text: 'A deeper look at the whole thing', detail: 'the full picture', score: 'deeper' },
+          { text: 'A next step I can actually take', detail: 'something to do', score: 'guidance' },
+          { text: 'Help telling the loop from the decision', detail: 'the distinction', score: 'dynamic' },
+          { text: 'I\u2019m not sure \u2014 find the question', detail: 'clarity first', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var S = {
+        ending_shape:        { clean: -1, ambiguous: 1, pulled: 1, 'one-sided': -1, cycle: 2, 'i-ended': -1 },
+        reciprocity_history: { never: 0, first: 1, always: 2, sometimes: 1 },
+        checking:            { constant: 2, frequent: 1, daily: 1, rare: -1, some: 0 },
+        course:              { cycling: 2, worse: 2, ebbing: -1, flat: 0, processing: -1 }
+      };
+      var es = S.ending_shape[a.ending_shape];
+      var rh = S.reciprocity_history[a.reciprocity_history];
+      var ck = S.checking[a.checking];
+      var co = S.course[a.course];
+
+      // The six bundled questions, named. The intent answer decides first.
+      if (a.want === 'moveon')   return 'decision';
+      if (a.want === 'bringback') return 'control';
+      if (a.want === 'closure')   return 'closure-ending';
+      if (a.want === 'cantstop')  return 'reassurance-loop';
+
+      // He has come back before, or this is an on/off cycle: the historical-return tendency.
+      if (a.status === 'onoff' || a.trigger === 'history' || rh >= 2) return 'historical-pattern';
+
+      // A closed or one-sided ending points at the closure question.
+      if (es <= -1) return 'closure-ending';
+
+      // He pulled away and you\u2019re still watching: the control loop (trying to bring him back).
+      if (a.ending_shape === 'pulled') return 'control';
+
+      // High checking or a cycling course: the rumination loop.
+      if (ck >= 1 || co >= 2) return 'reassurance-loop';
+
+      // Everything else: the decision question \u2014 waiting versus moving on.
+      return 'decision';
+    },
+
+    results: {
+      'decision': {
+        path: 'A waiting-or-moving-on question',
+        summary: 'Your answers point at the decision underneath the prediction \u2014 whether you\u2019re asking about his behavior or quietly deferring your own.',
+        suggest: function (a) {
+          var s = 'Your answers point at the decision underneath the prediction. The \u201Cwill he\u201D question is unfalsifiable, which is exactly why it holds \u2014 but the decision of whether to wait is yours, and a wait with no defined end tends to become a wait with no end.';
+          if (a.status === 'i-ended') s += ' You ended it, which makes the question sharper: you\u2019re not waiting on him, you\u2019re deciding whether to reopen it.';
+          if (a.course === 'processing' || a.course === 'ebbing') s += ' The pain is easing, which means you already have a path that\u2019s working \u2014 the question now is whether to keep walking it.';
+          if (a.checking === 'constant' || a.checking === 'frequent') s += ' And the checking is loud right now, which makes waiting feel like action when it\u2019s usually the opposite.';
+          return s;
+        },
+        dontTell: 'A decision question answered by waiting is a decision deferred \u2014 and the cost compounds quietly. No reading can or should make the wait-or-leave choice for you; any reader who offers to, or names a reunion with a timeline, is selling certainty nobody has.',
+        watchIntro: 'What to look at next:',
+        watch: function (a) {
+          return [
+            'Give the question a defined window \u2014 a real end date for the waiting, not an open horizon \u2014 and notice what\u2019s left when the checking goes quiet.',
+            (a.help === 'guidance' ? 'A two-path read (waiting versus moving on) can give each option a shape; the choice still stays yours.' : 'A structured look at both paths can make the decision stand on more than fatigue.')
+          ];
+        }
+      },
+      'control': {
+        path: 'A control question',
+        summary: 'Your answers point at the control question \u2014 the wish that a strategy could produce another person\u2019s choice.',
+        suggest: function (a) {
+          var s = 'Your answers point at the control question: the wish that something you do \u2014 no-contact, manifestation, a \u201Cignore him and he\u2019ll miss you\u201D frame \u2014 could produce his return. Nothing external honestly does that; those frameworks tend to keep you waiting while calling it work.';
+          if (a.trigger === 'silence') s += ' The silence reads as strategy to you, but silence is silence \u2014 treating it as a phase gives it a meaning it may not have.';
+          if (a.reciprocity_history === 'always' || a.ending_shape === 'cycle') s += ' A history of return makes the control question seductive, because it feels earned \u2014 but past return is a tendency, not a lever you can pull.';
+          if (a.checking === 'constant') s += ' And the constant checking is the cost of the control frame: it keeps the question open in the name of managing it.';
+          return s;
+        },
+        dontTell: 'No strategy honestly produces another person\u2019s decision \u2014 and the rituals or protocols that promise to (come-back spells, return-love upsells) monetize the exact promise that makes the question hold. The honest answer is that your recovery is the part you can actually do.',
+        watchIntro: 'What to look at next:',
+        watch: function (a) {
+          return [
+            'Step back from the tactics for a defined window and watch whether the pull survives without the fuel \u2014 most control framings collapse once the checking stops.',
+            (a.reciprocity_history === 'always' ? 'If the return pattern is real, the useful question is about the cycle itself, not the next iteration \u2014 and that\u2019s often better served by reflection or therapy than by another reading.' : 'Notice what the control question is protecting you from feeling, and whether the strategy is work or avoidance.')
+          ];
+        }
+      },
+      'closure-ending': {
+        path: 'A closure question',
+        summary: 'Your answers point at the closure question \u2014 whether the ending was clean enough to grieve or ambiguous enough to keep the question open.',
+        suggest: function (a) {
+          var s = 'Your answers point at the closure question: not \u201Cwill he return,\u201D but \u201Cdid the ending mean it\u2019s really over.\u201D A clean ending is harder to deny and easier to grieve; an ambiguous one keeps the question open by design, because no one closed it.';
+          if (a.status === 'he-ended') s += ' He ended it, which is a kind of closure even when it doesn\u2019t feel like one \u2014 the ending happened, whatever the wording.';
+          if (a.ending_shape === 'one-sided') s += ' You were doing most of the work, which is its own answer about what the connection actually was.';
+          if (a.course === 'ebbing' || a.course === 'processing') s += ' And the pain is easing, which suggests the grief is doing its work even without a tidy ending.';
+          return s;
+        },
+        dontTell: 'An ambiguous ending keeps the question open by design \u2014 it usually means the ending wasn\u2019t done well, not that it wasn\u2019t done. A reading that keeps predicting reunion tends to keep you paying; a closure-framed read, focused on what the relationship was, is the honest fit.',
+        watchIntro: 'What to look at next:',
+        watch: function (a) {
+          return [
+            'Name the ending\u2019s shape honestly to yourself, even if no one else did \u2014 naming it is what lets the grief move.',
+            (a.help === 'dynamic' ? 'If you want help telling the loop from the actual ending, a closure-framed read can reflect what this was, never what he\u2019ll do.' : 'A closure-framed reading or reflection can hold what the relationship meant, without predicting his return.')
+          ];
+        }
+      },
+      'reassurance-loop': {
+        path: 'A rumination loop',
+        summary: 'Your answers point at the loop \u2014 the checking and re-asking the question encourages, which deepens the very pain it tries to read.',
+        suggest: function (a) {
+          var s = 'Your answers point at the loop. The \u201Cwhy can\u2019t I stop thinking about it\u201D question isn\u2019t evidence about him \u2014 it\u2019s information about how your attachment system runs. The checking that feels like staying informed functions as re-opening the question, not settling it.';
+          if (a.trigger === 'feel') s += ' The felt sense that he\u2019s not done is one of the most reported experiences \u2014 and it proves something about your attachment system, not about him.';
+          if (a.checking === 'constant' || a.checking === 'frequent') s += ' At your level of checking, the surveillance is associated with greater distress and slower recovery \u2014 each look re-opens the wound.';
+          if (a.course === 'cycling' || a.course === 'worse') s += ' And the course is resetting rather than integrating, which is the signature of the loop, not the evidence.';
+          return s;
+        },
+        dontTell: 'The loop isn\u2019t a sign about him \u2014 it\u2019s the mind re-asking the question rather than gathering new information. A reading that promises to settle it can deepen the very loop it claims to calm; if the checking is affecting your sleep, work, or daily life, a licensed therapist is the more honest match than another reading.',
+        watchIntro: 'What to look at next:',
+        watch: function (a) {
+          return [
+            'Give the checking a defined rest \u2014 a few weeks of living your life without the surveillance \u2014 then look at whether the pull survived without the fuel.',
+            (a.checking === 'constant' || a.checking === 'frequent' ? 'If the urge feels compulsive rather than chosen, that\u2019s a therapist question, not a willpower one \u2014 the loop deserves its own attention.' : 'Notice the difference between a calm, specific knowing and an urgent, diffuse one; the second is usually anxiety, not intuition.')
+          ];
+        }
+      },
+      'historical-pattern': {
+        path: 'A historical-return tendency',
+        summary: 'Your answers point at a real pattern \u2014 he has returned after distance before, which raises the base rate modestly but says nothing about today.',
+        suggest: function (a) {
+          var s = 'Your answers point at a real behavioral tendency: he has come back after distance before. That\u2019s worth knowing \u2014 it raises the base rate modestly \u2014 but past return is not prediction. It says he has returned, not that he will, and patterns of return tend to be patterns of leaving, which is the part that repeats.';
+          if (a.reciprocity_history === 'always') s += ' The return has been reliable enough that it feels like a law \u2014 but a law about him leaving as often as returning.';
+          if (a.ending_shape === 'cycle' || a.status === 'onoff') s += ' This connection has cycled on-and-off, which is the clearest version of the pattern \u2014 and the question worth asking is whether the next iteration is the one you want.';
+          if (a.checking === 'constant') s += ' The constant checking is the cost of living inside a pattern you can name but not control.';
+          return s;
+        },
+        dontTell: 'Past return is not prediction \u2014 it says he has returned, not that he will, and the leaving tends to repeat too. The useful question may be about the cycle itself, not the next return, and that question is often better served by therapy or honest reflection than by another reading promising a reunion.',
+        watchIntro: 'What to look at next:',
+        watch: function (a) {
+          return [
+            'Weigh the return pattern against the current signals \u2014 the shape of this ending, whether he\u2019s returned after this particular kind of distance before \u2014 rather than the history alone.',
+            (a.status === 'onoff' || a.ending_shape === 'cycle' ? 'If the cycle is on-and-off, ask whether the next iteration is the one you want, or whether the pattern itself is the thing worth examining.' : 'Sit with the harder question: a real tendency is information, not a guarantee \u2014 and the waiting has a cost either way.')
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      if (a.want === 'moveon') {
+        return {
+          key: 'decision',
+          label: 'What may be underneath: the decision',
+          text: 'The \u201Cwill he\u201D question is often a stand-in for the one that\u2019s actually yours: am I waiting, or moving on? The prediction can\u2019t be answered, but the decision can \u2014 and deferring it into waiting is what costs years. Naming it is most of the work.'
+        };
+      }
+      if (a.want === 'bringback') {
+        return {
+          key: 'control',
+          label: 'What may be underneath: the control question',
+          text: 'The wish that something you do could bring him back is human and understandable \u2014 and it\u2019s the most seductive of the six. No strategy honestly produces another person\u2019s choice; the frameworks that promise to tend to keep you waiting while calling it work. The honest reframe is to put that energy into your own recovery.'
+        };
+      }
+      if (a.want === 'closure') {
+        return {
+          key: 'closure-ending',
+          label: 'What may be underneath: the closure question',
+          text: 'Under \u201Cwill he come back\u201D often sits \u201Cdid the ending mean it\u2019s really over.\u201D A clean ending is easier to grieve; an ambiguous one keeps the question open, which is the point of leaving it ambiguous. Naming the ending\u2019s shape honestly is what lets the grief move \u2014 a reading framed on closure, not on predicting his return, is the honest fit.'
+        };
+      }
+      if (a.want === 'cantstop') {
+        return {
+          key: 'reassurance-loop',
+          label: 'What may be underneath: the rumination loop',
+          text: 'The \u201Cwhy can\u2019t I stop thinking about it\u201D question is rarely about him \u2014 it\u2019s about how your attachment system runs. The checking that feels like staying informed functions as re-opening the question. If the loop is affecting your sleep, work, or daily life, a licensed therapist is the more honest match than a reading; the loop deserves its own attention.'
+        };
+      }
+      if (a.status === 'onoff' || a.trigger === 'history') {
+        return {
+          key: 'historical-pattern',
+          label: 'What may be underneath: the historical-return question',
+          text: 'Under \u201Cwill he come back\u201D can sit \u201Che\u2019s come back before \u2014 does that mean he will again.\u201D Past return is a real tendency and worth knowing, but it\u2019s also usually a pattern of leaving, which is the part that repeats. The useful question may be about the cycle itself, not the next iteration \u2014 and that question is often better served by reflection or therapy than by another reading.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.lovePracticeSet('will-he-come-back'),
+
+    matchPractice: function (a) {
+      var w = a.want, h = a.help;
+      if (h === 'unsure') return 'general';
+      if (h === 'interpret') return 'free_first';
+      if (w === 'moveon') return 'tarot_decision';
+      if (w === 'closure') return 'closure';
+      if (w === 'bringback') return 'tarot_deep';
+      if (w === 'silence') return 'tarot_relationship';
+      if (w === 'cantstop') return 'tarot_decision';
+      if (w === 'predict') return 'psychic';
+      if (w === 'beneath') return 'psychic';
+      if (h === 'guidance') return 'tarot_decision';
+      if (h === 'deeper') return 'tarot_deep';
+      if (h === 'insight') return 'psychic';
+      if (h === 'dynamic') return 'closure';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'will-he-come-back', {
+        resultV2: true,
+        canTell: [
+          'Whether the ending was clean or ambiguous \u2014 which tells you about the ending itself, not his future behavior',
+          'Whether he has a pattern of returning after distance \u2014 a real tendency that raises the base rate modestly, but predicts nothing about today',
+          'How much of your day the checking is consuming \u2014 the most measurable signal of whether the waiting is processing or cycling'
+        ],
+        edgeBridge: 'A quiz can read what the waiting is doing to you \u2014 it cannot predict his return, which is his to choose and no honest source will claim. A reading framed on the ending and the waiting can offer a perspective; it cannot confirm a reunion or a timeline.',
+        ctaText: {
+          'decision:tarot_decision': 'Get a structured look at both paths',
+          'control:tarot_deep': 'Get a deeper read on the pattern',
+          'closure-ending:closure': 'Get a closure-framed read',
+          'reassurance-loop:psychic': 'Get an outside perspective on the loop',
+          'historical-pattern:tarot_relationship': 'Get a read on the cycle',
+          '*:psychic': 'Get a reading on your situation',
+          '*:tarot_relationship': 'Get a read on the dynamic',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the situation',
+          '*:closure': 'Get a closure-framed read',
+          '*:free_first': 'Try the free Daily Card',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'control',
+          text: 'when the question is really \u201Cwhat can I do to bring him back,\u201D a reading that offers a come-back ritual or a return-love spell is selling the exact control the question wants \u2014 and keeping you waiting and paying. If you book one, frame it on the ending, not on producing his return.'
+        }
+      });
+    }
+  },
+
+
+  'am-i-cursed': {
+    title: 'Am I Cursed?',
+    cluster: 'spiritual-growth',
+    launchSub: 'A two-minute check on whether the bad luck is clustering in a real, addressable way \u2014 or your mind is pattern-making under strain.',
+    questions: [
+      {
+        id: 'status',
+        q: 'What\u2019s the shape of what you\u2019re living through right now?',
+        options: [
+          { text: 'A streak of bad luck', score: 'streak' },
+          { text: 'A reader told me I\u2019m cursed', score: 'reader-told' },
+          { text: 'Everything feels like it\u2019s falling apart', score: 'chaos' },
+          { text: 'A specific loss or ending', score: 'loss' },
+          { text: 'A health concern', score: 'health' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Ccursed\u201D idea in your head?',
+        options: [
+          { text: 'The streak itself', score: 'streak' },
+          { text: 'A reader\u2019s diagnosis', score: 'reader' },
+          { text: 'Nothing in particular \u2014 it just arrived', score: 'nothing' },
+          { text: 'Things keep breaking', score: 'breakage' },
+          { text: 'My health', score: 'health' },
+          { text: 'Vivid dreams or a heavy feeling', score: 'dreams' }
+        ]
+      },
+      {
+        id: 'streak_shape',
+        q: 'Where is the bad luck clustering?',
+        options: [
+          { text: 'In one clear domain \u2014 health, work, one relationship', score: 'focused' },
+          { text: 'Across a few unrelated areas', score: 'scattered' },
+          { text: 'Across many areas at once', score: 'widespread' },
+          { text: 'Every part of my life at once', score: 'everything' }
+        ]
+      },
+      {
+        id: 'control',
+        q: 'How manageable has life felt lately?',
+        options: [
+          { text: 'Mostly manageable', score: 'manageable' },
+          { text: 'Largely under control', score: 'mostly' },
+          { text: 'Slipping', score: 'slipping' },
+          { text: 'Overwhelmed', score: 'overwhelmed' },
+          { text: 'Out of control', score: 'out-of-control' }
+        ]
+      },
+      {
+        id: 'claim_source',
+        q: 'Where did the \u201Ccursed\u201D claim come from?',
+        options: [
+          { text: 'My own observation', score: 'own-observation' },
+          { text: 'A friend\u2019s concern', score: 'a-friend' },
+          { text: 'An online quiz or post', score: 'online' },
+          { text: 'A strong intuition', score: 'intuition' },
+          { text: 'A reader diagnosed it', score: 'a-reader' }
+        ]
+      },
+      {
+        id: 'course',
+        q: 'Over the last few weeks, how has the streak been moving?',
+        options: [
+          { text: 'Resolving', score: 'resolving' },
+          { text: 'Flat', score: 'flat' },
+          { text: 'Ebbing', score: 'ebbing' },
+          { text: 'Cycling', score: 'cycling' },
+          { text: 'Worsening', score: 'worsening' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        options: [
+          { text: 'Why is this happening?', score: 'why' },
+          { text: 'Who caused it?', score: 'who' },
+          { text: 'How do I remove it?', score: 'remove' },
+          { text: 'What should I do?', score: 'what-do' },
+          { text: 'What\u2019s really underneath this?', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would honestly help most?',
+        options: [
+          { text: 'Help interpreting the pattern', score: 'interpret' },
+          { text: 'An outside perspective', score: 'insight' },
+          { text: 'Concrete guidance', score: 'guidance' },
+          { text: 'Seeing how it\u2019s moving', score: 'dynamic' },
+          { text: 'A deeper reflection', score: 'deeper' }
+        ]
+      }
+    ],
+
+    /* Custom resolve (non-love). Signal questions scored via ONE string-key
+       S map; the reader red flag short-circuits to reader-curse. */
+    resolve: function (a) {
+      var S = {
+        streak_shape: { focused: 2, scattered: 1, widespread: -1, everything: -2 },
+        control: { manageable: 2, mostly: 1, slipping: 0, overwhelmed: -1, 'out-of-control': -2 },
+        claim_source: { 'own-observation': 1, 'a-friend': 1, online: 0, intuition: -1, 'a-reader': -2 },
+        course: { resolving: 2, flat: 1, ebbing: 0, cycling: -1, worsening: -2 }
+      };
+      if (a.claim_source === 'a-reader') return 'reader-curse';
+      var ss = S.streak_shape[a.streak_shape];
+      var ct = S.control[a.control];
+      if (a.streak_shape === 'focused' && ct >= 1 && S.course[a.course] >= 0) return 'real-cluster';
+      if (ct <= -1 || ss <= -1) return 'stress-pattern';
+      if (S.course[a.course] <= 0 && a.streak_shape !== 'focused') return 'finite-streak';
+      return 'insufficient';
+    },
+
+    results: {
+      'real-cluster': {
+        path: 'A real cluster worth investigating',
+        summary: 'Your bad luck is clustering in one addressable domain \u2014 which is the honest signal to investigate it, not to curse it.',
+        suggest: function (a) {
+          var s = 'Your answers describe the misfortune clustering in one clear domain rather than everywhere at once, which is the signature of a real, addressable cause \u2014 not a directed one.';
+          if (a.streak_shape === 'focused') s += ' A focused streak usually has a focused source: health, work, one relationship, one environmental factor.';
+          if (a.control === 'manageable' || a.control === 'mostly') s += ' And because life has felt largely under control, the curse framing isn\u2019t doing the explaining here \u2014 the situation is.';
+          s += ' The honest next step is ordinary investigation, not a removal.';
+          return s;
+        },
+        dontTell: 'A focused cluster doesn\u2019t prove a curse \u2014 it points at a real, addressable cause worth investigating directly. A doctor, an inspection, or a hard look at the situation is the honest first match; a reader is not.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Investigate the domain honestly \u2014 a doctor, an inspection, a clear look at the situation \u2014 rather than reading the streak as supernatural.',
+            'Watch whether the streak narrows as the real cause gets addressed; a focused, moving problem is exactly what ordinary help is for.'
+          ];
+        }
+      },
+      'stress-pattern': {
+        path: 'Stress-driven pattern perception',
+        summary: 'When control feels low, the mind generates patterns \u2014 curses, signs, conspiracies \u2014 to regain a felt sense of it.',
+        suggest: function (a) {
+          var s = 'Your answers describe a streak spread across many areas while life has felt hard to manage, which is the classic signature of stress acting on everything \u2014 not a single directed cause.';
+          if (a.streak_shape === 'everything' || a.streak_shape === 'widespread') s += ' A streak touching every part of your life at once is what chaos looks like up close, not what a curse looks like.';
+          if (a.control === 'out-of-control' || a.control === 'overwhelmed') s += ' And low control is exactly the condition under which the brain manufactures patterns to compensate for helplessness.';
+          s += ' The curse attribution is most likely reading your situation, not describing its source.';
+          return s;
+        },
+        dontTell: 'A stress-driven pattern doesn\u2019t prove there\u2019s no real problem \u2014 it proves the attribution arrives precisely when life is hardest to verify. What it can\u2019t prove is a directed cause: widespread misfortune under low control is the signature of strain, not malice.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Address the situation underneath the pattern \u2014 sleep, workload, a major change, an environmental factor \u2014 rather than a spiritual diagnosis.',
+            'Watch whether the curse framing quiets as control returns; if the dread persists without a real cluster, a therapist is the more honest match than a reading.'
+          ];
+        }
+      },
+      'reader-curse': {
+        path: 'A reader-suggested curse',
+        summary: 'A reader who diagnoses a curse and offers to remove it for a fee has a direct financial stake in the diagnosis \u2014 the structural red flag.',
+        suggest: function (a) {
+          var s = 'Your answers describe the \u201Ccursed\u201D claim coming from a reader who diagnosed it \u2014 and that source deserves the most weight, not as confirmation but as the one predictable bias.';
+          if (a.claim_source === 'a-reader') s += ' A diagnosis and a remedy from the same paid source is the sales pattern, not the spiritual one; the reader profits from both the claim and the fix.';
+          if (a.control === 'overwhelmed' || a.control === 'out-of-control') s += ' The attribution also tends to arrive when control feels lowest, which is exactly when it\u2019s hardest to check.';
+          s += ' No honest source can verify a curse \u2014 so the diagnosis is evidence of incentive, not of the phenomenon.';
+          return s;
+        },
+        dontTell: 'A reader\u2019s curse diagnosis can\u2019t prove a curse \u2014 the concept is unfalsifiable, and this source profits from the claim. What it can\u2019t tell you is anything about your actual situation: walk away from any reader who offers both the diagnosis and the paid removal.',
+        watchIntro: 'Before you book anything:',
+        watch: function () {
+          return [
+            'Ask whether the bad luck is clustering in one real domain \u2014 if it is, investigate that domain with ordinary tools, not a reader.',
+            'Walk away from any diagnosis-remedy package; frame any reading on the streak and your situation, never on the curse a paying party named for you.'
+          ];
+        }
+      },
+      'finite-streak': {
+        path: 'A finite streak passing',
+        summary: 'Your bad luck is moving through a finite window \u2014 a hard season, not a permanent condition.',
+        suggest: function (a) {
+          var s = 'Your answers describe a streak that is ebbing, cycling, or shifting rather than locked in place, which is the signature of a finite run of misfortune passing through.';
+          if (a.course === 'ebbing' || a.course === 'resolving') s += ' A streak that\u2019s already easing is usually a hard season ending, not a curse beginning.';
+          if (a.streak_shape === 'scattered') s += ' And the clustering is across a few areas, not everything \u2014 which reads more like ordinary difficulty than directed harm.';
+          s += ' Streaks are what randomness looks like up close; this one appears to be moving on its own.';
+          return s;
+        },
+        dontTell: 'A finite streak doesn\u2019t prove a curse is lifting \u2014 it usually means the underlying stressor or season is passing. What it can\u2019t prove is that worsening means a curse is strengthening: it usually means the underlying cause hasn\u2019t been addressed yet.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Live, don\u2019t scan \u2014 a few weeks of ordinary watching against the five signals, without hunting for one more sign.',
+            'Retake this check if nothing has shifted; a moving streak that resolves on its own is the most common honest outcome.'
+          ];
+        }
+      },
+      'insufficient': {
+        path: 'Not enough evidence yet',
+        summary: 'Too early, or too close, to read honestly.',
+        suggest: function () {
+          return 'Several of your answers describe a pattern that isn\u2019t sharp enough to sort into a real cluster, stress-driven perception, a reader-suggested curse, or a finite streak \u2014 which usually means one of two things: it\u2019s genuinely too new, or you\u2019re standing too close to read its shape without the scanning that makes everything worse. Taking \u201Cnot yet\u201D seriously beats papering over it.';
+        },
+        dontTell: 'An unreadable pattern isn\u2019t a negative one \u2014 it means the data isn\u2019t in yet. At this stage, hunting for one more sign of a curse tends to produce noise: every neutral event gets recruited as evidence for whichever reading you\u2019re already leaning toward.',
+        watchIntro: 'Give it a defined window:',
+        watch: function () {
+          return [
+            'Three or four weeks of ordinary life \u2014 living, not scanning for signs \u2014 watching only the four signals: the streak\u2019s shape, your sense of control, where the claim came from, and how it\u2019s moving.',
+            'Then come back and retake this check. With more pattern to read, the result will be sharper \u2014 and if nothing has changed, that is an answer too.'
+          ];
+        }
+      }
+    },
+
+    /* What may be underneath the question. Keys: intervention-question,
+       source-incentive, control-loss-pattern, agent-attribution,
+       grief-closure (plus null when there\u2019s no current to surface). */
+    underneath: function (a, pattern) {
+      if (a.status === 'loss') {
+        return {
+          key: 'grief-closure',
+          label: 'What may be underneath: the closure question',
+          text: 'A loss sitting under the \u201Ccursed\u201D question is common \u2014 the streak can become a way of keeping the ending open. If that lands, the more useful frame is closure: what this was and what it means now, rather than who or what caused it.'
+        };
+      }
+      if (a.want === 'remove') {
+        return {
+          key: 'intervention-question',
+          label: 'What may be underneath: the intervention question',
+          text: '\u201CHow do I remove it\u201D is the one most directly monetized. Nothing needs removing, because nothing has been verified to operate \u2014 the work is on the streak itself and your situation, not a ritual. Any service that diagnoses a curse and sells its removal is the red-flag pattern, not the spiritual one.'
+        };
+      }
+      if (a.want === 'who') {
+        if (a.claim_source === 'a-reader') {
+          return {
+            key: 'source-incentive',
+            label: 'What may be underneath: the source incentive',
+            text: 'Wanting to know who \u201Csent\u201D it, after a reader named the sender, is the incentive talking: the same paid source profits from both the diagnosis and the removal. The honest question isn\u2019t who \u2014 it\u2019s whether the bad luck is clustering in a real, addressable domain.'
+          };
+        }
+        return {
+          key: 'agent-attribution',
+          label: 'What may be underneath: the agent-attribution question',
+          text: 'Wanting someone to blame for a streak of misfortune is deeply human, and it doesn\u2019t mean a who exists. If the bad luck clusters in a real domain, the who is that domain\u2019s source \u2014 a health issue, an environmental factor, a situational stressor \u2014 not a person willing harm.'
+        };
+      }
+      if (a.want === 'why') {
+        return {
+          key: 'control-loss-pattern',
+          label: 'What may be underneath: the control-loss pattern',
+          text: '\u201CWhy is everything going wrong at once\u201D is the streak-perception question. Bad luck across many domains at once is usually the signature of stress or chaos acting on everything, not a single directed cause \u2014 and under low control the mind generates patterns to compensate, which is why the curse attribution arrives precisely when it\u2019s hardest to explain.'
+        };
+      }
+      if (a.want === 'beneath') {
+        return {
+          key: 'control-loss-pattern',
+          label: 'What may be underneath: the control-loss pattern',
+          text: 'The pull to know what\u2019s really underneath is real \u2014 and the honest answer usually lives in your situation, not in a supernatural cause. A structured reflection can surface the theme; it still can\u2019t decode a curse the bad luck doesn\u2019t carry.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your bad-luck streak', cluster: 'spiritual-growth' }),
+
+    /* Custom practice match (non-love). Returns only valid practice keys;
+       free_first and general must both be reachable, and \u22656 of 7. */
+    matchPractice: function (a) {
+      if (a.want === 'remove') return 'free_first';
+      if (a.want === 'what-do') return 'general';
+      if (a.want === 'who') return 'psychic';
+      if (a.want === 'beneath') return 'tarot_deep';
+      if (a.want === 'why') {
+        if (a.help === 'deeper') return 'closure';
+        if (a.help === 'dynamic') return 'tarot_deep';
+        if (a.help === 'insight') return 'psychic';
+        return 'tarot_relationship';
+      }
+      if (a.help === 'insight') return 'psychic';
+      if (a.help === 'guidance') return 'general';
+      return 'general';
+    },
+
+    matchAha: window.topicMatchAha,
+
+    suggest: function (a) {
+      var shape = {
+        focused: 'one clear domain',
+        scattered: 'a few unrelated areas',
+        widespread: 'many areas at once',
+        everything: 'every part of your life'
+      }[a.streak_shape] || 'your life';
+      var control = a.control ? ', while life has felt ' + a.control : '';
+      return 'Your answers describe the bad luck clustering across ' + shape + control + ' \u2014 and the honest test is whether that cluster is a real, addressable domain or the signature of strain under low control.';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'am-i-cursed', {
+        resultV2: true,
+        canTell: [
+          'Whether the bad luck is clustering in one real, addressable domain \u2014 which is the most honest read of whether there\u2019s a cause worth investigating',
+          'Whether your sense of control is driving the pattern-making, which is the documented mechanism behind curse attributions',
+          'Whether the claim came from a paid source, which is the structural red flag rather than evidence'
+        ],
+        edgeBridge: 'A quiz can read the shape of your streak \u2014 it can\u2019t confirm or deny a curse, which is unfalsifiable. A reading framed on the streak and your situation can offer perspective; it can\u2019t verify a directed malice nobody can reach.',
+        ctaText: {
+          'remove:free_first': 'Read the free framework',
+          'who:psychic': 'Get an outside perspective',
+          'why:tarot_relationship': 'Get a read on the shape',
+          'why:tarot_deep': 'Get a deeper read on your pattern',
+          'why:closure': 'Get a reading on what this was',
+          'beneath:tarot_deep': 'Get a deeper read on what\u2019s underneath',
+          'what-do:general': 'Take Do What Fits',
+          '*:psychic': 'Get an outside perspective',
+          '*:tarot_relationship': 'Get a read on the shape',
+          '*:tarot_deep': 'Get a deeper read on your pattern',
+          '*:closure': 'Get a reading on meaning',
+          '*:free_first': 'Start with the free framework',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'reader-curse',
+          text: 'The single most useful thing to name: the diagnosis and the remedy coming from the same paid source is the sales pattern, not the spiritual one. Walk away from any reader who offers both the curse and its removal for a fee.'
+        }
+      });
+    }
+  },
+
+
+  'will-i-get-the-job': {
+    id: 'will-i-get-the-job',
+    title: 'Will I Get the Job?',
+    subtitle: 'Eight questions, about two minutes. A pattern check on what the waiting is doing to you \u2014 not a called outcome. It reads the cost of the uncertainty, your timeline realism, your fit read, and how much weight one offer is carrying \u2014 then ends on the step that fits.',
+    questions: [
+      {
+        id: 'status',
+        q: 'Where are you in the process?',
+        hint: 'This shapes how the same wait reads.',
+        options: [
+          { text: 'Still searching', detail: 'no application in yet', score: 'searching' },
+          { text: 'Applied, waiting to hear', detail: 'the post-application wait', score: 'applied' },
+          { text: 'Interviewing', detail: 'in the loop', score: 'interview' },
+          { text: 'Final round or references', detail: 'late stage', score: 'final' }
+        ]
+      },
+      {
+        id: 'trigger',
+        q: 'What put the \u201Cwill I\u201D question in your head?',
+        hint: '',
+        options: [
+          { text: 'I applied and now I\u2019m waiting', detail: 'the application itself', score: 'applied' },
+          { text: 'Silence from the employer', detail: 'no response, no update', score: 'silence' },
+          { text: 'An interview or conversation', detail: 'something happened', score: 'interview' },
+          { text: 'Nothing specific \u2014 it just won\u2019t leave', detail: 'the loop runs on its own', score: 'nothing' },
+          { text: 'A referral or intro', detail: 'someone put me forward', score: 'referral' }
+        ]
+      },
+      {
+        id: 'waiting_weight',
+        q: 'How much is the uncertainty costing you?',
+        hint: 'Sleep, mood, the ability to do other things.',
+        options: [
+          { text: 'Barely \u2014 I\u2019m fine', detail: 'manageable', score: 'manageable' },
+          { text: 'Some \u2014 it\u2019s there but steady', detail: 'steady', score: 'steady' },
+          { text: 'A lot \u2014 it strains most days', detail: 'straining', score: 'straining' },
+          { text: 'It\u2019s consuming me', detail: 'unbearable', score: 'unbearable' },
+          { text: 'More than anything else right now', detail: 'consuming', score: 'consuming' }
+        ]
+      },
+      {
+        id: 'timeline',
+        q: 'How does the wait feel against your timeline?',
+        hint: 'The planning fallacy says your estimate is probably short.',
+        options: [
+          { text: 'About right \u2014 my estimate matches', detail: 'realistic', score: 'realistic' },
+          { text: 'Roughly right', detail: 'roughly-right', score: 'roughly-right' },
+          { text: 'Too slow \u2014 it\u2019s dragging', detail: 'too-slow', score: 'too-slow' },
+          { text: 'I\u2019ve lost track of time', detail: 'lost-track', score: 'lost-track' }
+        ]
+      },
+      {
+        id: 'fit_read',
+        q: 'How clearly have you read fit \u2014 for you, not for them?',
+        hint: 'The better question hiding behind the prediction.',
+        options: [
+          { text: 'Clearly \u2014 I know the fit', detail: 'clear-fit', score: 'clear-fit' },
+          { text: 'Mostly \u2014 a few open parts', detail: 'mostly-clear', score: 'mostly-clear' },
+          { text: 'Mixed \u2014 some yes, some no', detail: 'mixed', score: 'mixed' },
+          { text: 'Not clearly at all', detail: 'unclear', score: 'unclear' }
+        ]
+      },
+      {
+        id: 'stakes',
+        q: 'How much weight is this one outcome carrying?',
+        hint: 'The impact bias says we overestimate how much it\u2019ll affect us.',
+        options: [
+          { text: 'One of several things in motion', detail: 'one-of-several', score: 'one-of-several' },
+          { text: 'Important, but one of a few', detail: 'important-but-one-of', score: 'important-but-one-of' },
+          { text: 'This or bust \u2014 somewhat', detail: 'this-or-bust-somewhat', score: 'this-or-bust-somewhat' },
+          { text: 'I\u2019m banking heavily on it', detail: 'banking-heavily', score: 'banking-heavily' },
+          { text: 'All of it rests on this', detail: 'all-on-this', score: 'all-on-this' }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What do you most want to know?',
+        hint: 'Be honest \u2014 it decides what actually helps next.',
+        options: [
+          { text: 'Should I keep waiting, or move on?', detail: 'the decision question', score: 'moveon' },
+          { text: 'How long will this take?', detail: 'the timeline question', score: 'how-long' },
+          { text: 'What if I don\u2019t get it?', detail: 'the stakes question', score: 'what-if' },
+          { text: 'Is this the right job for me?', detail: 'the fit question', score: 'fit' },
+          { text: 'Will I actually get it?', detail: 'the prediction question', score: 'predict' },
+          { text: 'What\u2019s really underneath all of this?', detail: 'something I can\u2019t name', score: 'beneath' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would help you most right now?',
+        hint: '',
+        options: [
+          { text: 'A next step I can actually take', detail: 'guidance', score: 'guidance' },
+          { text: 'An honest read of the situation', detail: 'interpret', score: 'interpret' },
+          { text: 'An outside perspective on my odds', detail: 'insight', score: 'insight' },
+          { text: 'A view of what this is asking of me', detail: 'dynamic', score: 'dynamic' },
+          { text: 'I\u2019m not sure \u2014 help me find the question', detail: 'unsure', score: 'unsure' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var S = {
+        'manageable': 0, 'steady': 1, 'straining': 2, 'unbearable': 3, 'consuming': 3,
+        'realistic': 0, 'roughly-right': 1, 'too-slow': 2, 'lost-track': 3,
+        'clear-fit': 0, 'mostly-clear': 1, 'mixed': 2, 'unclear': 3,
+        'one-of-several': 0, 'important-but-one-of': 1, 'this-or-bust-somewhat': 2, 'banking-heavily': 3, 'all-on-this': 3
+      };
+      var sum = (S[a.waiting_weight] || 0) + (S[a.timeline] || 0) + (S[a.fit_read] || 0) + (S[a.stakes] || 0);
+      if (sum <= 2) return 'silence-pattern';
+      if (sum <= 5) return 'decision';
+      if (sum <= 8) return 'fit-question';
+      if (sum <= 10) return 'timeline-question';
+      return 'stakes-bias';
+    },
+
+    results: {
+      'silence-pattern': {
+        path: 'A silent-wait pattern',
+        summary: 'Your answers describe a wait running on silence more than on signal \u2014 the uncertainty is doing the work, not the process.',
+        suggest: function (a) {
+          var s = 'Your answers describe a wait where silence is doing most of the work \u2014 and silence is the default state of hiring, not a verdict on you.';
+          if (a.waiting_weight === 'unbearable' || a.waiting_weight === 'consuming') s += ' The cost you describe is real, and it comes from not knowing, not from bad news.';
+          if (a.timeline === 'lost-track') s += ' Losing track of time is the planning fallacy in action \u2014 your estimate is almost certainly short.';
+          s += ' The honest move is to set a defined follow-up window and run a parallel search, so the silence stops being the only thing you read.';
+          return s;
+        },
+        dontTell: 'A quiet inbox cannot tell you the outcome \u2014 silence is the default state of a process you can\u2019t see, not evidence of rejection or selection. No honest reading can call the offer from it.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Set one defined follow-up window \u2014 a single polite check-in \u2014 then return to your own life.',
+            'Run a real parallel search so this one process stops being the only thing you\u2019re watching.'
+          ];
+        }
+      },
+      'decision': {
+        path: 'A decision-deferred pattern',
+        summary: 'The wait is really a decision you\u2019re carrying \u2014 keep waiting, or run a real search.',
+        suggest: function (a) {
+          var s = 'Your answers point to a decision wearing the shape of a wait \u2014 \u201Cshould I keep waiting or move on\u201D is a choice you\u2019re holding, not a question the employer will answer for you.';
+          if (a.stakes === 'one-of-several' || a.stakes === 'important-but-one-of') s += ' The stakes you describe are real but survivable, which makes moving in parallel lower-cost than it feels.';
+          if (a.waiting_weight === 'steady' || a.waiting_weight === 'manageable') s += ' And the wait itself isn\u2019t consuming you \u2014 which means the decision can be made calmly, on your terms.';
+          s += ' A single-bet wait tends to become a wait with no exit; a parallel search lowers the cost of any one outcome.';
+          return s;
+        },
+        dontTell: 'A reading can give you a richer view of each path, but the decision to keep waiting or move on stays yours \u2014 and any reader who offers to make it for you is selling certainty nobody has.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Name the decision out loud: a defined wait, or a parallel search, or both.',
+            'If you choose to wait, give it a fixed window \u2014 and a real search running alongside it.'
+          ];
+        }
+      },
+      'fit-question': {
+        path: 'A fit-unexamined pattern',
+        summary: 'The \u201Cwill I\u201D loop is hiding the better question \u2014 is this the right job for me?',
+        suggest: function (a) {
+          var s = 'Your answers suggest the prediction is standing in for a fit question you haven\u2019t fully answered \u2014 and fit is answerable, which the outcome isn\u2019t.';
+          if (a.fit_read === 'unclear' || a.fit_read === 'mixed') s += ' You said the fit isn\u2019t clear yet, which means the honest work is the fit read itself, free and on your own terms.';
+          if (a.waiting_weight === 'straining' || a.waiting_weight === 'unbearable') s += ' The weight you describe makes the fit read more urgent, not less \u2014 you\u2019ll decide from clarity either way.';
+          s += ' An honest fit read serves you regardless of the offer: if you get it, you decide from clarity; if you don\u2019t, the work carries to the next search.';
+          return s;
+        },
+        dontTell: 'A good fit read can\u2019t tell you whether they\u2019ll pick you \u2014 the two questions are separate. But it can tell you whether this job is worth holding your life open for, which the prediction never could.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Do the free fit read: the work, the people, the direction, the life it permits.',
+            'Let the fit question sit alongside the wait \u2014 they answer differently, and both matter.'
+          ];
+        }
+      },
+      'timeline-question': {
+        path: 'A timeline-distortion pattern',
+        summary: 'The \u201Ctaking too long\u201D feeling is mostly a mismatch of expectation \u2014 not a slow process meaning rejection.',
+        suggest: function (a) {
+          var s = 'Your answers describe a wait where the timeline itself is the distress \u2014 and the planning fallacy says your estimate is almost certainly too short.';
+          if (a.timeline === 'too-slow' || a.timeline === 'lost-track') s += ' A slow process usually means process: approvals, budget, competing priorities you can\u2019t see.';
+          if (a.waiting_weight === 'unbearable' || a.waiting_weight === 'consuming') s += ' Lengthening your mental timeline honestly \u2014 not pessimism, just realism \u2014 lowers the daily cost without changing a thing about the process.';
+          s += ' The honest edge is that the offer lands lighter than the wait suggests, whichever way it goes.';
+          return s;
+        },
+        dontTell: 'A slow timeline can\u2019t tell you the outcome \u2014 it usually means process, not rejection. Reading slowness as a verdict is the one move the evidence doesn\u2019t support.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Lengthen your mental timeline to match how hiring actually moves \u2014 it lowers the dread without changing the process.',
+            'Keep one defined check-in, then stop refreshing the inbox hourly.'
+          ];
+        }
+      },
+      'stakes-bias': {
+        path: 'A stakes-inflation pattern',
+        summary: 'This one outcome is carrying more weight than the result can bear \u2014 the impact bias at full volume.',
+        suggest: function (a) {
+          var s = 'Your answers describe one outcome carrying almost everything \u2014 and the impact bias says you\u2019ll feel the result less, and for shorter, than the anticipation now promises.';
+          if (a.stakes === 'all-on-this' || a.stakes === 'banking-heavily') s += ' The dread you\u2019re carrying is heavier than the event will be; the not-getting-it you fear will hurt, and then pass, faster than predicted.';
+          if (a.waiting_weight === 'unbearable' || a.waiting_weight === 'consuming') s += ' The weight is what\u2019s consuming you, not the wait \u2014 and a parallel search is the most reliable way to lower it.';
+          s += ' Naming the stakes honestly is most of the work: this job matters, but it is one event in a longer working life.';
+          return s;
+        },
+        dontTell: 'No honest reading can tell you the outcome \u2014 and betting the meaning of your whole working life on one hire is a weight the result was never built to carry. A parallel search is the more honest match than a verdict.',
+        watchIntro: 'Over the coming weeks:',
+        watch: function () {
+          return [
+            'Run a real parallel search \u2014 it lowers the stakes of any single bet and gives the uncertainty something to do.',
+            'If the dread is consuming your sleep or daily life, a licensed therapist is the more honest match than a reading.'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, pattern) {
+      var m = {
+        'moveon': { key: 'decision', label: 'What may be underneath: the decision question', text: 'You said what you most want is whether to keep waiting or move on \u2014 and that is a decision you\u2019re carrying, not a question the hiring committee will answer. A reading can give you a richer view of each path, but the decision stays yours; any reader who offers to make it for you is selling certainty nobody has.' },
+        'how-long': { key: 'timeline-question', label: 'What may be underneath: the timeline question', text: 'You said what you most want is how long this will take \u2014 the one question the planning fallacy guarantees you\u2019ll underestimate. Lengthening your mental timeline honestly lowers the dread without changing the process; reading slowness as rejection is the move the evidence doesn\u2019t support.' },
+        'what-if': { key: 'stakes-bias', label: 'What may be underneath: the stakes question', text: 'You said what you most want is what happens if you don\u2019t get it \u2014 the affective-forecasting question. The not-getting-it you dread will hurt less, and for shorter, than the anticipation promises; the stakes are heavier in your head than the event will be.' },
+        'fit': { key: 'fit-question', label: 'What may be underneath: the fit question', text: 'You said what you most want is whether this is the right job for you \u2014 the better question hiding behind the prediction. It is answerable, and free, and it serves you whether or not the offer comes; the prediction isn\u2019t and can\u2019t.' },
+        'predict': { key: 'silence-pattern', label: 'What may be underneath: the prediction question', text: 'You said what you most want is whether you\u2019ll actually get it \u2014 the literal question no honest source can answer. Silence is the default state of a process you can\u2019t see; the only honest read is on the wait and your direction, not a called outcome.' }
+      };
+      return m[a.want] || null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your job-application wait', cluster: 'career-work' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'unsure') return 'general';
+      if (a.help === 'interpret') return 'free_first';
+      if (a.want === 'what-if') return 'tarot_deep';
+      if (a.want === 'predict') return 'closure';
+      if (a.want === 'moveon') return 'tarot_decision';
+      if (a.want === 'fit') return 'tarot_relationship';
+      if (a.want === 'how-long') return 'psychic';
+      if (a.help === 'insight') return 'psychic';
+      if (a.help === 'dynamic') return 'tarot_relationship';
+      if (a.help === 'guidance') return 'tarot_decision';
+      return 'general';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'will-i-get-the-job', {
+        resultV2: true,
+        canTell: [
+          'Whether the uncertainty is costing you more than the process is \u2014 intolerance of uncertainty, not a sign of a bad outcome',
+          'Whether your timeline matches how hiring actually moves \u2014 the planning fallacy says your estimate is too short',
+          'Whether this one outcome is carrying more weight than the result can bear \u2014 the impact bias at work'
+        ],
+        edgeBridge: 'A quiz can organize what the waiting is doing to you \u2014 it can\u2019t call a hiring outcome, because that decision is made by people you can\u2019t see, on criteria you can\u2019t fully know. What a reading can offer is a perspective on the wait and your direction, never a verdict on the offer.',
+        ctaText: {
+          '*:free_first': 'Start with the free framework',
+          '*:psychic': 'Get a reading on your situation',
+          '*:tarot_relationship': 'Get a read on the fit question',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the stakes',
+          '*:closure': 'Get a closure-framed reflection',
+          '*:general': 'Take Do What Fits'
+        },
+        negativePatternTip: {
+          pattern: 'stakes-bias',
+          text: 'when one outcome is carrying everything, a reading that \u201Cconfirms\u201D you\u2019ll get it to relieve the dread sells a certainty nobody has \u2014 and leaves the stakes exactly where they were. A parallel search lowers the weight more reliably than a verdict.'
+        }
+      });
+    },
+
+    launchSub: 'Eight questions, about two minutes. It reads how much the uncertainty is costing you, whether your timeline is realistic, how clearly you\u2019ve read fit, and how much weight this one outcome is carrying \u2014 and ends on the step that fits.'
+  },
+
 };
