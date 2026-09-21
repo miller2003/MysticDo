@@ -365,6 +365,11 @@ def build_head_block(rel, html, title, desc, is_noindex):
     if not is_noindex:
         og_title = extract_meta(html, "og:title") or clean_title(title)
         og_desc = extract_meta(html, "og:description") or desc
+        # 2026-09-21 audit: og:title / og:description were computed but never
+        # emitted — 33 pages fell back to platform-side <title> inference.
+        # Emit them explicitly (top-tier standard).
+        parts.append('<meta property="og:title" content="%s">' % og_title)
+        parts.append('<meta property="og:description" content="%s">' % og_desc)
         parts.append('<meta property="og:url" content="%s">' % url)
         parts.append('<meta property="og:site_name" content="MysticDo">')
         parts.append('<meta property="og:locale" content="en_US">')
@@ -405,6 +410,8 @@ def build_head_block(rel, html, title, desc, is_noindex):
             parts.append('<meta property="article:author" content="MysticDo Editorial">')
             parts.append('<meta property="article:section" content="Spiritual Services Decision Guidance">')
             parts.append('<meta name="author" content="MysticDo Editorial">')
+        else:
+            parts.append('<meta property="og:type" content="website">')
 
     # JSON-LD
     jsonld_blocks = []

@@ -70,6 +70,46 @@ const LINK_HEADER = [
 
 const CORS_ANY = { 'Access-Control-Allow-Origin': '*' };
 
+/* ═══════════════ 1b. 安全头 + 资产缓存策略（2026-09-21 审计新增） ═══════════════ */
+
+/**
+ * 安全响应头 — 对站点所有响应统一生效（静态页、JSON 文档、OAuth、跳转）。
+ * 只追加、不覆盖：若上游（如 markdown 孪生体的 X-Robots-Tag）已有同名头则保留。
+ * 不设 CSP：站点有内联脚本（gtag 配置、 speculation rules），上线 CSP 需要
+ * Report-Only 观察期，避免一刀切弄坏分析 —— 留待后续单独评审。
+ */
+const SECURITY_HEADERS = {
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Frame-Options': 'SAMEORIGIN',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+};
+
+/** 在响应离开 Worker 前补齐安全头（幂等：已有则不覆盖）。 */
+function harden(res) {
+  const h = new Headers(res.headers);
+  for (const k of Object.keys(SECURITY_HEADERS)) {
+    if (!h.has(k)) h.set(k, SECURITY_HEADERS[k]);
+  }
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h });
+}
+
+/**
+ * 静态资产缓存策略。资产层默认 max-age=0（每次回访都条件请求），
+ * 对不变式资源是纯浪费：
+ *   · 字体：文件名自带版本（selfhost-fonts.py 产物）→ 一年 immutable
+ *   · 图片：内容基本不变 → 7 天
+ *   · CSS/JS：未做内容指纹 → 1 天（改版最多滞后一天，安全窗口）
+ * HTML 保持 must-revalidate 不动（内容页必须即时更新）。
+ */
+const ASSET_TTL_RULES = [
+  [/^font\//, 'public, max-age=31536000, immutable'],
+  [/^image\//, 'public, max-age=604800'],
+  [/^text\/css/, 'public, max-age=86400'],
+  [/javascript/, 'public, max-age=86400'],
+];
+
 /* ═══════════════ 1. 通用响应工具 ═══════════════ */
 
 /** 保证响应带 Vary: Accept —— 内容协商的正确性前提，缺了会让缓存串味 */
@@ -90,6 +130,10 @@ function mergeVary(h) {
 function decorate(res, url) {
   const h = mergeVary(new Headers(res.headers));
   const ctype = h.get('Content-Type') || '';
+  // 静态资产缓存策略（HTML 不匹配任何规则，保持原 must-revalidate）
+  for (const [re, cc] of ASSET_TTL_RULES) {
+    if (re.test(ctype)) { h.set('Cache-Control', cc); break; }
+  }
   if (!h.has('Link') && (ctype.includes('text/html') || ctype.includes('text/markdown'))) {
     h.set('Link', LINK_HEADER);
   }
@@ -498,16 +542,16 @@ export default {
     if (!isApex && !isPreview) {
       url.hostname = APEX;
       url.protocol = 'https:';
-      return Response.redirect(url.toString(), 301);
+      return harden(Response.redirect(url.toString(), 301));
     }
 
     // 2) 智能体发现层与接口层。
     //    任何异常都就地兜底：这一层坏掉可以，但绝不能让整个站点跟着坏。
     try {
       const handled = await routeAgentSurface(request, env, url.pathname);
-      if (handled) return handled;
+      if (handled) return harden(handled);
     } catch (err) {
-      return jsonDoc(
+      return harden(jsonDoc(
         {
           error: 'internal_error',
           message: 'The agent surface is temporarily unavailable. Static content is unaffected.',
@@ -516,10 +560,10 @@ export default {
         500,
         'application/json; charset=utf-8',
         { 'Cache-Control': 'no-store' },
-      );
+      ));
     }
 
     // 3) 其余请求 → 静态资产（含 Markdown for Agents 协商与 Link 头）
-    return serveAsset(request, env);
+    return harden(await serveAsset(request, env));
   },
 };

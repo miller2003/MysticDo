@@ -1,7 +1,7 @@
 # MysticDo — full corpus
 
 > The complete text of all 44 public pages on https://mysticdo.com, as markdown.
-> Generated from the live HTML on 2026-09-20. Each page keeps its canonical URL on the `> Source:` line.
+> Generated from the live HTML on 2026-09-21. Each page keeps its canonical URL on the `> Source:` line.
 
 Citation rules (condensed from https://mysticdo.com/llms.txt):
 
@@ -552,12 +552,9 @@ Your daily horoscope is written for one-twelfth of humanity. A natal reading is 
 
 Updated: September 2026 · Reading time: ~5 min
 
-### Direct answer
+## Direct answer A horoscope forecasts for everyone sharing your Sun sign — roughly one in twelve people. A professional astrology reading interprets **your full natal chart**: exact birth date, time, and place, producing placements and timing unique to you. Pay for a reading when you want durable self-knowledge or real timing analysis. Stick with free horoscopes when you want a two-minute reflection prompt — that's all they're built for.
 
-A horoscope forecasts for everyone sharing your Sun sign — roughly one in twelve people. A professional astrology reading interprets **your full natal chart**: exact birth date, time, and place, producing placements and timing unique to you. Pay for a reading when you want durable self-knowledge or real timing analysis. Stick with free horoscopes when you want a two-minute reflection prompt — that's all they're built for.
-
-### Key takeaways
-
+## Key takeaways
 - **Horoscopes use one data point** — your Sun sign. A natal reading uses your exact birth date, time, and place: hundreds of interacting data points.
 - **The birth time is the whole game** — it sets the Ascendant and houses, which govern timing and life areas. Without it, a reading loses most of its precision.
 - **A natal reading is a one-time purchase with a long shelf life** — the chart never changes; you re-interpret it for decades.
@@ -666,12 +663,9 @@ A direct answer to whether you should pay, when free content is enough, and the 
 
 Updated: September 2026 · Reading time: ~6 min
 
-### Direct answer
+## Direct answer Pay for a psychic reading when you have **one specific question** about a person or situation and want an outside read you can't generate yourself. Do not pay if your question is vague, if you want timing, if you want pattern reflection, or if you are seeking guaranteed outcomes. A focused 15-minute reading beats an unstructured hour.
 
-Pay for a psychic reading when you have **one specific question** about a person or situation and want an outside read you can't generate yourself. Do not pay if your question is vague, if you want timing, if you want pattern reflection, or if you are seeking guaranteed outcomes. A focused 15-minute reading beats an unstructured hour.
-
-### Key takeaways
-
+## Key takeaways
 - **Paying makes sense when** you have a specific question and want a responsive, conversational read.
 - **Free content is enough when** you're still exploring what kind of guidance you need — use the quiz and free tools first.
 - **The session's value lives in the question** — vague worries produce vague reads. Sharpen the question first.
@@ -801,12 +795,9 @@ The chart itself is free — any generator computes the same sky. What you're pa
 
 Updated: September 2026 · Reading time: ~6 min
 
-### Direct answer
+## Direct answer A birth chart reading costs **$20–$50** as an automated report, **$50–$150** as a recorded or written reading from a professional astrologer, and **$100–$300** as a live one-on-one session. The chart itself is always free — you're paying for synthesis: which of the hundred factors matter, and how they interact. For most people, one live natal session is a once-ever purchase, not a subscription.
 
-A birth chart reading costs **$20–$50** as an automated report, **$50–$150** as a recorded or written reading from a professional astrologer, and **$100–$300** as a live one-on-one session. The chart itself is always free — you're paying for synthesis: which of the hundred factors matter, and how they interact. For most people, one live natal session is a once-ever purchase, not a subscription.
-
-### Key takeaways
-
+## Key takeaways
 - **The chart is free; the interpretation is the product.** Every generator computes the same astronomy — paid tiers differ only in who synthesizes it and how.
 - **Three tiers exist**: automated reports ($20–$50), recorded/written professional readings ($50–$150), live sessions ($100–$300).
 - **A natal reading is a one-time purchase** — the chart never changes. Anyone selling you repeat natal readings is selling you the same chart twice.
@@ -926,12 +917,9 @@ Astrology has real study behind it — which means the gap between a trained ast
 
 Updated: September 2026 · Reading time: ~6 min
 
-### Direct answer
+## Direct answer Choose an astrologer on **synthesis and transparency**: they read placements as an interacting whole (not sign-by-sign recitation), state their tradition and method upfront, show sample work, and price a defined product. Match the reading type to your question first — natal for patterns, transit for timing, synastry for compatibility — then test the astrologer against your own free-generated chart.
 
-Choose an astrologer on **synthesis and transparency**: they read placements as an interacting whole (not sign-by-sign recitation), state their tradition and method upfront, show sample work, and price a defined product. Match the reading type to your question first — natal for patterns, transit for timing, synastry for compatibility — then test the astrologer against your own free-generated chart.
-
-### Key takeaways
-
+## Key takeaways
 - **Match the product to the question first** — natal (patterns), transit (timing), synastry (compatibility). Buying the wrong type wastes more money than choosing the wrong astrologer.
 - **Training signals exist here** — unlike psychics, astrologers can point to years of technical study, schools, and published work. Weight them.
 - **The synthesis test**: do they connect placements (“your Moon–Saturn square drives that 7th-house pattern”) or recite them (“your Moon is in Cancer, so you're nurturing”)?
@@ -1045,12 +1033,9 @@ Don't sort by 5-star averages. Use a fixed framework: specialization, format, pr
 
 Updated: September 2026 · Reading time: ~5 min
 
-### Direct answer
+## Direct answer Choose a reader who **specializes in your question type**, has verifiable specifics in their intro, allows refunds on unsatisfactory first minutes, and frames their work as perspective — not certainty. Avoid any reader who guarantees outcomes or sells “curse removal.”
 
-Choose a reader who **specializes in your question type**, has verifiable specifics in their intro, allows refunds on unsatisfactory first minutes, and frames their work as perspective — not certainty. Avoid any reader who guarantees outcomes or sells “curse removal.”
-
-### Key takeaways
-
+## Key takeaways
 - **Specialization beats star rating.** A 4.6 reader who focuses on relationships beats a 5.0 generalist for relationship questions.
 - **Read the 3-star reviews**, not just the 5-stars. They tell you what actually goes wrong.
 - **Set a time budget before connecting**. Per-minute drift is the most common overspend.
@@ -1167,12 +1152,9 @@ Anyone can learn card meanings in a weekend. The skill you're paying for is synt
 
 Updated: September 2026 · Reading time: ~6 min
 
-### Direct answer
+## Direct answer Choose a tarot reader on one skill: **synthesis** — whether they read the cards as an interacting whole or recite one memorized meaning per position. Filter by specialty first, read the mid-range reviews, then run a 10–15 minute test session with one specific question. If the reading could have come from an app, end it and use the refund window.
 
-Choose a tarot reader on one skill: **synthesis** — whether they read the cards as an interacting whole or recite one memorized meaning per position. Filter by specialty first, read the mid-range reviews, then run a 10–15 minute test session with one specific question. If the reading could have come from an app, end it and use the refund window.
-
-### Key takeaways
-
+## Key takeaways
 - **Synthesis is the whole game** — a reader who recites card-by-card meanings is an app with a per-minute rate.
 - **Specialization beats reputation** — a reader strong in relationship spreads is a relationship reader, whatever their overall rating says.
 - **The test session is cheap and decisive**: one specific question, 10–15 minutes, and listen for positions interacting.
@@ -1289,12 +1271,9 @@ There is no license, no registry, no certification that settles the question. So
 
 Updated: September 2026 · Reading time: ~7 min
 
-### Direct answer
+## Direct answer A legitimate online psychic shows **behavioral signals**, not credentials: a stated specialization, specific (not generic) statements, transparent pricing, a visible refund policy, and no outcome guarantees or fear-based upsells. Run the cold-reading test — share minimal context and see whether they bring specifics or fish for your story. Anyone who diagnoses a “curse” and sells the cure is not a reader; that's a script.
 
-A legitimate online psychic shows **behavioral signals**, not credentials: a stated specialization, specific (not generic) statements, transparent pricing, a visible refund policy, and no outcome guarantees or fear-based upsells. Run the cold-reading test — share minimal context and see whether they bring specifics or fish for your story. Anyone who diagnoses a “curse” and sells the cure is not a reader; that's a script.
-
-### Key takeaways
-
+## Key takeaways
 - **“Legit” splits into two questions**: is the service honest (no scams, transparent pricing) and is the reader any good (specific, useful, non-generic). Test them separately.
 - **The strongest signals are behavioral** — specialization, specificity, pricing transparency, refund policy, no guarantees.
 - **The cold-reading test takes five minutes**: give almost nothing, and watch whether they fish or they read.
@@ -1437,12 +1416,9 @@ A medium reading is not a psychic reading with a grief theme — it's a differen
 
 Updated: September 2026 · Reading time: ~7 min
 
-### Direct answer
+## Direct answer A medium reading is a session — typically 30–60 minutes, $75–$300 — in which the medium claims to relay communication from someone in your life who has died. The core product is **evidence plus message**: specific details meant to establish who is coming through, followed by the content of the communication. Judge it on the specificity of the evidence, never on how the session made you feel in the moment.
 
-A medium reading is a session — typically 30–60 minutes, $75–$300 — in which the medium claims to relay communication from someone in your life who has died. The core product is **evidence plus message**: specific details meant to establish who is coming through, followed by the content of the communication. Judge it on the specificity of the evidence, never on how the session made you feel in the moment.
-
-### Key takeaways
-
+## Key takeaways
 - **The session has a structure**: opening (who's coming through) → evidence (specific details) → message (what they allegedly want to say) → your questions.
 - **Evidence is the only checkable part** — names, objects, memories, mannerisms you didn't supply. Everything else is unfalsifiable by design.
 - **Typical cost is $75–$300 per session** — more than psychic or tarot, and worth it only if the evidence standard is met.
@@ -1567,12 +1543,9 @@ Same service, different machine. Online wins on price, choice, and accountabilit
 
 Updated: September 2026 · Reading time: ~5 min
 
-### Direct answer
+## Direct answer Choose **online** if you want lower cost, far more reader choice, written records, and platform refund protection — the right default for a first reading. Choose **in-person** if you already trust a specific local reader and value the ritual of a face-to-face session. Format changes the experience; it doesn't change the reader's skill. Validate the reader first, then pick the channel.
 
-Choose **online** if you want lower cost, far more reader choice, written records, and platform refund protection — the right default for a first reading. Choose **in-person** if you already trust a specific local reader and value the ritual of a face-to-face session. Format changes the experience; it doesn't change the reader's skill. Validate the reader first, then pick the channel.
-
-### Key takeaways
-
+## Key takeaways
 - **Online wins on mechanics**: 10–100× more reader choice, lower entry cost ($20–$60 vs $80–$200), refund policies, and chat transcripts you can reread.
 - **In-person wins on experience**: undivided attention, physical presence, and the ritual weight some people need to take a session seriously.
 - **Accountability is asymmetric** — online platforms publish refund policies and reviews; a local reader's accountability is their reputation in one town.
@@ -1704,12 +1677,9 @@ The advertised rate is rarely what you pay. Here's the full price structure — 
 
 Updated: September 2026 · Reading time: ~6 min
 
-### Direct answer
+## Direct answer A first psychic reading typically costs **$20–$60** on a per-minute platform (15–20 focused minutes, often with an intro offer) or **$60–$300** as a flat session with an independent reader. The rate matters less than the drift: an unfocused session at $3/min costs more than a sharp one at $8/min. Set a hard time budget before you connect.
 
-A first psychic reading typically costs **$20–$60** on a per-minute platform (15–20 focused minutes, often with an intro offer) or **$60–$300** as a flat session with an independent reader. The rate matters less than the drift: an unfocused session at $3/min costs more than a sharp one at $8/min. Set a hard time budget before you connect.
-
-### Key takeaways
-
+## Key takeaways
 - **Three pricing models exist**: per-minute platforms ($1–$15/min), per-session independents ($60–$300), and flat-fee reports or AI readings ($5–$50).
 - **A sensible first session costs $20–$60** — 15–20 minutes with one specific question.
 - **“Free minutes” are a sample, not a reading** — they're designed to convert you, so plan what you'll ask before they start.
@@ -1849,12 +1819,9 @@ The two labels are often blurred in marketing — “psychic medium” sells bet
 
 Updated: September 2026 · Reading time: ~5 min
 
-### Direct answer
+## Direct answer A **psychic** reads you and your situation — relationships, decisions, dynamics, likely directions. A **medium** claims to relay communication from people who have died. All mediums work psychically; most psychics do not practice mediumship. If your question is about the living, book a psychic. If it's about someone who passed, book a medium — and vet them harder, because grief is where this industry's worst actors hunt.
 
-A **psychic** reads you and your situation — relationships, decisions, dynamics, likely directions. A **medium** claims to relay communication from people who have died. All mediums work psychically; most psychics do not practice mediumship. If your question is about the living, book a psychic. If it's about someone who passed, book a medium — and vet them harder, because grief is where this industry's worst actors hunt.
-
-### Key takeaways
-
+## Key takeaways
 - **Psychic = reads the living.** Medium = claims contact with the dead. The overlap is technique, not purpose.
 - **“Psychic medium” as a label tells you nothing** — ask which job you actually need done.
 - **Mediumship questions are grief questions** — the emotional stakes change both the value and the risk.
@@ -1964,12 +1931,9 @@ They answer different questions. A psychic gives you an outside read on a specif
 
 Updated: September 2026 · Reading time: ~5 min
 
-### Direct answer
+## Direct answer Choose **psychic** when you have a specific question about a person or situation and want a direct, responsive read. Choose **tarot** when you want a structured reflection on dynamics, decisions, or patterns. If you want timing or long-arc patterns, neither is ideal — see [astrology](https://mysticdo.com/astrology/).
 
-Choose **psychic** when you have a specific question about a person or situation and want a direct, responsive read. Choose **tarot** when you want a structured reflection on dynamics, decisions, or patterns. If you want timing or long-arc patterns, neither is ideal — see [astrology](https://mysticdo.com/astrology/).
-
-### Key takeaways
-
+## Key takeaways
 - **Psychic answers**: “What's going on with this person / situation right now?”
 - **Tarot answers**: “What's the pattern / dynamic / angle I'm not seeing?”
 - **Psychic is conversational**; tarot is structured-symbolic.
@@ -2080,12 +2044,9 @@ Tarot is the cheapest entry point in spiritual services — and still easy to ov
 
 Updated: September 2026 · Reading time: ~6 min
 
-### Direct answer
+## Direct answer A tarot reading costs **$1–$8 per minute** on platforms (a focused first session: $15–$45), **$30–$150 per session** with an independent reader, and **$0–$30** for apps and AI readings. Tarot runs cheaper than psychic readings at every tier. The sweet spot for a first paid reading is a 15–20 minute platform session with a tarot specialist — not the biggest spread on the menu.
 
-A tarot reading costs **$1–$8 per minute** on platforms (a focused first session: $15–$45), **$30–$150 per session** with an independent reader, and **$0–$30** for apps and AI readings. Tarot runs cheaper than psychic readings at every tier. The sweet spot for a first paid reading is a 15–20 minute platform session with a tarot specialist — not the biggest spread on the menu.
-
-### Key takeaways
-
+## Key takeaways
 - **Tarot is priced below psychic at every tier** — the skill is structured and teachable, so supply is wider.
 - **A sensible first paid reading costs $15–$45** — 15–20 minutes, one question, one spread.
 - **Bigger spread ≠ better reading.** A focused 3-card spread on a sharp question beats a $200 Celtic Cross on a vague one.
@@ -2209,12 +2170,9 @@ They look interchangeable from the outside and aren't. Tarot is a mirror for the
 
 Updated: September 2026 · Reading time: ~5 min
 
-### Direct answer
+## Direct answer Choose **tarot** for questions about a current situation — a decision, a dynamic, a pattern you want reflected now. Choose **astrology** for questions about timing, life-arc patterns, compatibility, and the longer cycle you're inside. If your question starts with “when,” astrology is the only one of the two even attempting an answer.
 
-Choose **tarot** for questions about a current situation — a decision, a dynamic, a pattern you want reflected now. Choose **astrology** for questions about timing, life-arc patterns, compatibility, and the longer cycle you're inside. If your question starts with “when,” astrology is the only one of the two even attempting an answer.
-
-### Key takeaways
-
+## Key takeaways
 - **Tarot answers**: “What's going on in this situation right now, and what angle am I missing?”
 - **Astrology answers**: “What cycle am I in, when does it shift, and how am I wired for this?”
 - **Tarot is generated fresh per question**; astrology is computed from your birth data — same chart, many readings.
@@ -2467,8 +2425,7 @@ Take the 7-question matcher. If your situation is actually about clarity or patt
 How we work
 Spiritual services carry a real trust problem. We don't ask you to trust us. We show our work — where facts come from, how the quiz thinks, what AI does and doesn't do, how money flows, and where this site is still unfinished.
 
-### At a glance
-
+## At a glance
 - **What we publish:** decision guides, comparisons, an intent quiz, and free tools — not horoscopes, not an encyclopedia, not a link farm.
 - **Provider facts** come from the provider's own public pages, checked by us — never from reader-submitted bios or press releases.
 - **Every claim has a class:** verified by us, platform-stated, user-reported, or editorial judgment. The difference is labeled, not blurred.
@@ -3093,34 +3050,22 @@ Browse by question
 If you don't know whether you need a psychic, tarot, astrology, or medium reading—start from the question, not the practice. We map each intent to the practices that fit it.
 
 [
-### Love & Relationships
-
-Breakups, ex, no-contact, uncertainty, new relationships, future-of-relationship, emotional closure.
+## Love & Relationships Breakups, ex, no-contact, uncertainty, new relationships, future-of-relationship, emotional closure.
 
 Fits: psychic, tarot, astrology ](https://mysticdo.com/questions/love-relationships/) [
-### Career & Work
-
-Job offers, moves, team dynamics, direction, vocation, switching paths.
+## Career & Work Job offers, moves, team dynamics, direction, vocation, switching paths.
 
 Fits: psychic, astrology, tarot ](https://mysticdo.com/questions/career-work/) [
-### Money & Wealth
-
-Income anxiety, debt decisions, financial crossroads, abundance mindset.
+## Money & Wealth Income anxiety, debt decisions, financial crossroads, abundance mindset.
 
 Fits: astrology, psychic ](https://mysticdo.com/questions/money-wealth/) [
-### Life Direction
-
-Purpose, crossroads, transitions, “what's next?”
+## Life Direction Purpose, crossroads, transitions, “what's next?”
 
 Fits: astrology, tarot ](https://mysticdo.com/questions/life-direction/) [
-### Loss & Closure
-
-Grief, someone who passed, unanswered questions, endings.
+## Loss & Closure Grief, someone who passed, unanswered questions, endings.
 
 Fits: medium ](https://mysticdo.com/questions/loss-closure/) [
-### Spiritual Growth
-
-Intuition, recurring patterns, manifestation, personal transformation.
+## Spiritual Growth Intuition, recurring patterns, manifestation, personal transformation.
 
 Fits: tarot, astrology ](https://mysticdo.com/questions/spiritual-growth/)
 Don't see your question?
@@ -5757,10 +5702,9 @@ One card, one reflective prompt. The lowest-stakes way to feel what a tarot read
 
 Tap the card to draw. One card per day — your pull is saved locally so you can revisit it.
 
-### Reflective prompt
+## Reflective prompt
 
-### How to use this card
-
+## How to use this card
 - Don't treat it as a prediction. Treat it as a lens on the day.
 - If the prompt lands, write down what comes up — that's where the value is.
 - One card can't unpack a complex situation. If this surfaces something real, consider a [full tarot reading](https://mysticdo.com/tarot/) or take the [intent quiz](https://mysticdo.com/do-what-fits) to see if tarot is actually the right fit.
@@ -5770,9 +5714,7 @@ What is this
 
 A single tarot card with a reflective prompt. It's the smallest possible tarot experience — useful for daily reflection, for feeling out the format, or for opening a question. It is not a substitute for a structured reading on a real question.
 
-### The honest framing
-
-Tarot is symbolic. A single card pulled for a vague “my day” question is light interpretation, not a forecast. If you have a real question, a structured spread with a reader does more.
+## The honest framing Tarot is symbolic. A single card pulled for a vague “my day” question is light interpretation, not a forecast. If you have a real question, a structured spread with a reader does more.
 
 From free to paid
 ## When a free card isn't enough

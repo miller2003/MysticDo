@@ -331,6 +331,75 @@ if os.path.exists(catalog_path):
 else:
     warn(".well-known/ai-catalog.json", "File not found (GEO signal)")
 
+# ---- 20. FULL-SITE GATE (2026-09-21: every page, not just the 6 articles) ----
+# Root cause this gate closes: the per-article checks above only covered the 6
+# love-relationship flagships, so guides/category pages shipped 65+ char titles
+# (worst 102) with nobody catching it. This section scans ALL pages.
+print("\n--- FULL-SITE GATE (all pages) ---")
+BASE_URL_G = "https://mysticdo.com"
+NOINDEX_G = {"quiz/find-your-path.html", "404.html"}
+NEVER_PUBLISH_G = {"_design-check", "logo-drafts", "worker", "functions", "scripts",
+                   "node_modules", ".git", ".workbuddy", ".vscode", ".idea", ".wrangler",
+                   "email-templates"}
+
+def file_to_url_g(rel):
+    u = rel.replace("\\", "/")
+    if u.endswith("index.html"):
+        u = "/" + u[: -len("index.html")]
+        return u if len(u) > 1 else "/"
+    if u.endswith(".html"):
+        u = u[:-5]
+    return "/" + u
+
+def meta_content_g(html, name):
+    m = re.search(r'<meta\s+(?:name|property)=["\']' + re.escape(name) + r'["\']\s+content=(["\'])(.*?)\1',
+                  html, re.IGNORECASE | re.DOTALL)
+    return m.group(2) if m else ""
+
+site_files = []
+for _root, _dirs, _files in os.walk(BASE):
+    _dirs[:] = [d for d in _dirs if d not in NEVER_PUBLISH_G]
+    for _fn in _files:
+        if _fn.endswith(".html"):
+            site_files.append(os.path.relpath(os.path.join(_root, _fn), BASE))
+
+for rel in sorted(site_files):
+    rel = rel.replace("\\", "/")   # Windows os.walk relpath uses backslashes
+    html = read(os.path.join(BASE, rel))
+    is404 = rel == "404.html"
+    m = re.search(r'<title>(.*?)</title>', html, re.DOTALL)
+    title = strip_tags(m.group(1)).strip() if m else ""
+    tl = len(title)
+    if not title:
+        err(rel, "full-site: missing <title>")
+    elif tl > 65:
+        err(rel, "full-site: title too long (%d): %s" % (tl, title[:60]))
+    elif tl > 60 and not is404:
+        warn(rel, "full-site: title borderline (%d)" % tl)
+    desc = meta_content_g(html, "description")
+    if rel not in NOINDEX_G:
+        if not desc:
+            err(rel, "full-site: missing description")
+        elif len(desc) > 165:
+            warn(rel, "full-site: description long (%d)" % len(desc))
+    if rel not in NOINDEX_G:
+        m = re.search(r'<link\s+rel="canonical"\s+href="([^"]+)"', html)
+        canon = m.group(1) if m else ""
+        if canon != BASE_URL_G + file_to_url_g(rel):
+            err(rel, "full-site: canonical mismatch (%s)" % canon)
+        if not meta_content_g(html, "og:title"):
+            err(rel, "full-site: missing og:title")
+    h1n = len(re.findall(r"<h1[\s>]", html))
+    if h1n != 1 and not is404:
+        err(rel, "full-site: H1 count = %d" % h1n)
+    levels = [int(x) for x in re.findall(r"<h([1-6])[\s>]", html)]
+    for a, b in zip(levels, levels[1:]):
+        if b > a + 1:
+            warn(rel, "full-site: heading skip h%d->h%d" % (a, b))
+            break
+
+print("  pages scanned: %d" % len(site_files))
+
 # ---- Summary ----
 print("\n" + "=" * 70)
 print("SUMMARY")
@@ -350,3 +419,7 @@ if warnings:
 
 if not issues and not warnings:
     print("\n  ALL CHECKS PASSED — TOP-TIER SEO/GEO")
+
+# Gate contract: non-zero exit on any error, so CI/`npm test` chains can fail loud.
+import sys as _sys
+_sys.exit(1 if issues else 0)
