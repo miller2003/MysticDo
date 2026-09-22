@@ -15471,4 +15471,4856 @@ window.MYSTICDO_QUIZZES = {
     launchSub: 'Eight questions, about two minutes. It reads how much the uncertainty is costing you, whether your timeline is realistic, how clearly you\u2019ve read fit, and how much weight this one outcome is carrying \u2014 and ends on the step that fits.'
   },
 
+  /* ------------------------------------------------------------
+     BATCH 1: LOSS & CLOSURE + MONEY & WEALTH
+     ------------------------------------------------------------ */
+
+  /* 1. SIGNS FROM DECEASED LOVED ONES */
+  'signs-from-deceased-loved-ones': {
+    id: 'signs-from-deceased-loved-ones',
+    title: 'What Is Your Experience Asking For?',
+    subtitle: 'Eight questions, about two minutes. It maps how you interact with signs, whether the experience brings peace or sustains an anxious loop, and what kind of support fits your grief.',
+    launchSub: 'Eight questions, about two minutes. It reads whether your relationship to signs is bringing peace or sustaining an anxious loop, and matches you with a grounded next step.',
+    questions: [
+      {
+        id: 'grief_stage',
+        q: 'How long has it been since your loss, and how does your grief currently feel?',
+        hint: 'Context first \u2014 fresh loss and long-carried grief process symbolism differently.',
+        options: [
+          { text: 'Very recent (under 6 months) \u2014 still in acute shock and waves', score: 'recent' },
+          { text: '6 to 24 months \u2014 adjusting to absence, but pain hits in sharp surges', score: 'transition' },
+          { text: 'Several years on \u2014 steady baseline, but an anniversary or reminder stirred it', score: 'integrated' },
+          { text: 'A long-ago loss \u2014 gentle reflection, looking back with perspective', score: 'distant' }
+        ]
+      },
+      {
+        id: 'encounter_type',
+        q: 'What kind of encounter or sign prompted this question?',
+        hint: 'Where the attention was caught.',
+        options: [
+          { text: 'An animal or bird encounter (cardinal, butterfly, unusual wildlife behavior)', score: 'animal' },
+          { text: 'Sensory anomaly (a sudden whiff of perfume, pipe smoke, or feeling a presence)', score: 'sensory' },
+          { text: 'An object or number (coins on the floor, stopped clocks, repeating numbers)', score: 'object' },
+          { text: 'A vivid dream where they appeared healthy and spoke to you', score: 'dream' },
+          { text: 'Nothing at all \u2014 the complete silence is what is troubling you', score: 'silence' }
+        ]
+      },
+      {
+        id: 'emotional_effect',
+        q: 'How do you usually feel in the hours after you notice a potential sign?',
+        hint: 'The immediate emotional wake is the clearest signal of what the perception is doing.',
+        options: [
+          { text: 'Deeply comforted, warm, and able to return to my day with peace', detail: 'Comforting integration', score: 'comfort' },
+          { text: 'A brief, sweet smile, then ordinary life resumes normally', detail: 'Gentle reflection', score: 'gentle' },
+          { text: 'Brief relief, quickly replaced by analyzing whether it was \u201Creal\u201D', detail: 'Analysis loop', score: 'doubt' },
+          { text: 'Intense longing or panic \u2014 it re-opens the raw wound of their absence', detail: 'Anxiety spike', score: 'distress' },
+          { text: 'I am not sure how to feel about it yet', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'scanning_habit',
+        q: 'How often do you find yourself actively looking or waiting for signs?',
+        hint: 'Spontaneous perception brings comfort; compulsive scanning produces anxiety.',
+        options: [
+          { text: 'Almost never \u2014 encounters are completely spontaneous and unforced', detail: 'Organic occurrence', score: 'never' },
+          { text: 'Occasionally, during emotional milestones or difficult days', detail: 'Milestone awareness', score: 'occasional' },
+          { text: 'Daily \u2014 I regularly scan clocks, sidewalks, or nature hoping for messages', detail: 'Frequent scanning', score: 'frequent' },
+          { text: 'Constantly \u2014 I feel anxious and abandoned if a few days pass with no sign', detail: 'Hyper-vigilant scanning', score: 'constant' },
+          { text: 'It varies depending on my stress level', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'interpretation_weight',
+        q: 'What meaning does your mind tend to attach to these moments?',
+        hint: 'What is the sign being asked to carry?',
+        options: [
+          { text: 'A loving reminder that their impact and memory live on in my life', detail: 'Continuing bond', score: 'memory' },
+          { text: 'A meaningful coincidence that provided a comforting pause', detail: 'Poetic synchronicity', score: 'coincidence' },
+          { text: 'A message that they might be worried, troubled, or trying to warn me', detail: 'Worry projection', score: 'warning' },
+          { text: 'Proof that I am forgiven for words left unsaid before they passed', detail: 'Guilt absolution', score: 'guilt' },
+          { text: 'I am torn between believing and feeling skeptical', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'absence_distress',
+        q: 'How does it feel when weeks go by and you experience no signs whatsoever?',
+        hint: 'The quiet room reveals whether attachment security is intact.',
+        options: [
+          { text: 'Completely fine \u2014 our connection lives in my heart, not in external events', detail: 'Secure baseline', score: 'secure' },
+          { text: 'A little wistful, but I trust their love was real and complete', detail: 'Gentle longing', score: 'wistful' },
+          { text: 'Worried that I am losing my connection or failing to remember them', detail: 'Memory panic', score: 'fear' },
+          { text: 'Devastated \u2014 I fear they have abandoned me or are angry with me', detail: 'Abandonment distress', score: 'abandoned' },
+          { text: 'I have not had a long period of silence to test this', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What are you most hoping to understand right now?',
+        hint: 'Your real intention decides the practice fit.',
+        options: [
+          { text: 'Reassurance that they are at peace and that our love remains real', score: 'reassurance' },
+          { text: 'Resolution for regrets, guilt, or things left unsaid before death', score: 'resolution' },
+          { text: 'A perspective on how to carry their memory while rebuilding my life', score: 'direction' },
+          { text: 'Evidential contact \u2014 specific memories only they and I would know', score: 'contact' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What kind of support would honestly serve you best at this stage?',
+        hint: 'Different stages need different kinds of holding.',
+        options: [
+          { text: 'A grounded framework to quiet the compulsive scanning and anxiety', score: 'framework' },
+          { text: 'A session with an evidential medium, approached with healthy boundaries', score: 'medium' },
+          { text: 'A structured reflective reading (like tarot) on my grief and next steps', score: 'tarot' },
+          { text: 'A licensed grief counselor or peer support group for deep emotional holding', score: 'counseling' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      if ((a.scanning_habit === 'constant' || a.scanning_habit === 'frequent') && (a.emotional_effect === 'distress' || a.emotional_effect === 'doubt')) {
+        return 'hyper-vigilant';
+      }
+      if (a.interpretation_weight === 'guilt' || a.interpretation_weight === 'warning') {
+        return 'guilt-projection';
+      }
+      if (a.absence_distress === 'abandoned' || a.absence_distress === 'fear') {
+        return 'absence-distress';
+      }
+      if (a.emotional_effect === 'comfort' && (a.scanning_habit === 'never' || a.scanning_habit === 'occasional')) {
+        return 'comforting-integration';
+      }
+      var nullCount = 0;
+      if (a.emotional_effect === null) nullCount++;
+      if (a.scanning_habit === null) nullCount++;
+      if (a.interpretation_weight === null) nullCount++;
+      if (a.absence_distress === null) nullCount++;
+      if (nullCount >= 2) {
+        return 'not-enough-evidence';
+      }
+      return 'quiet-reflection';
+    },
+
+    results: {
+      'comforting-integration': {
+        path: 'Comforting Integration',
+        summary: 'Your encounters arrive organically and leave you with warmth, peace, and resilience.',
+        suggest: function (a) {
+          return 'Your answers describe a healthy continuing bond. When you notice a sign \u2014 whether a bird, scent, or memory \u2014 it functions as a moment of stillness and gratitude rather than an anxious hunt for proof. You do not rely on signs to survive, but welcome them as poetic reminders of enduring love.';
+        },
+        dontTell: 'It does not prove supernatural transmission in an empirical lab \u2014 but in this pattern, scientific proof is unnecessary because the emotional comfort is self-contained and free of distress.',
+        watchIntro: 'Continue anchoring your connection in living memory:',
+        watch: function (a) {
+          return [
+            'Notice how natural memory brings the same peace as external signs \u2014 their love lives in your neural architecture, not just on window ledges',
+            'Protect this peace from commercial exploitation \u2014 you do not need third-party readings to certify an experience that already feels whole',
+            'Continue sharing stories of their life with others who remember them'
+          ];
+        }
+      },
+      'hyper-vigilant': {
+        path: 'Hyper-Vigilant Scanning',
+        summary: 'Looking for signs has quietly converted from a spontaneous comfort into an exhausting anxiety loop.',
+        suggest: function (a) {
+          return 'Your answers indicate that sign-seeking is carrying the weight of emotional avoidance. When the pain of physical absence feels unbearable, the mind begins scanning clocks, sidewalks, and nature compulsively, treating every coincidence as a lifeline. The problem is that the relief lasts only hours before the doubt returns.';
+        },
+        dontTell: 'More signs cannot heal the underlying grief \u2014 compulsive scanning is an anxiety symptom that keeps the nervous system in suspended hyper-vigilance.',
+        watchIntro: 'Steps to bring your nervous system back into safety:',
+        watch: function (a) {
+          return [
+            'Set a gentle boundary with yourself: stop actively searching for signs for one full week',
+            'Notice the physical anxiety that surfaces when you stop scanning \u2014 that anxiety is the real grief asking to be felt and held',
+            'Ground yourself in physical routines, walks, and conversations with trusted living friends'
+          ];
+        }
+      },
+      'guilt-projection': {
+        path: 'Unresolved Guilt Projection',
+        summary: 'Encounters are carrying the heavy burden of words left unsaid or caregiver regrets.',
+        suggest: function (a) {
+          return 'Your answers suggest that potential signs are triggering self-blame or fear that your loved one is troubled. This is almost never about their actual state \u2014 it reflects your own waking moral guilt, deathbed trauma, or regrets about how things ended while they were alive.';
+        },
+        dontTell: 'No sign or external reading can absolve you \u2014 absolution must come from understanding that human relationships are imperfect, and a lifetime of love is not defined by its final difficult days.',
+        watchIntro: 'Ways to work with lingering guilt:',
+        watch: function (a) {
+          return [
+            'Write an uncensored letter to them detailing everything you wish you had said or done differently, then keep it in a private box',
+            'Recognize that a loved one who cared for you in life would not return to torment you with guilt from beyond',
+            'Consider speaking with a licensed grief counselor to unpack caregiver trauma'
+          ];
+        }
+      },
+      'absence-distress': {
+        path: 'Absence Distress',
+        summary: 'The silence feels like abandonment, but it is the natural fatigue of an overwhelmed nervous system.',
+        suggest: function (a) {
+          return 'You are feeling devastated because days or months pass with zero signs or dreams, leading you to fear that the bond has vanished or that they are angry with you. In reality, perceiving subtle synchronicities requires spare cognitive bandwidth that deep grief completely drains.';
+        },
+        dontTell: 'Silence does not mean absence of love \u2014 your loved one is not withholding affection; your brain is simply exhausted from processing profound loss.',
+        watchIntro: 'How to hold the quiet room:',
+        watch: function (a) {
+          return [
+            'Release the expectation of external theatrics \u2014 their presence lives in your values, your habits, and your memories',
+            'Prioritize physical rest, nourishment, and simple daily rhythms without demanding spiritual revelations',
+            'Remember that grief comparison on social media is toxic: others posting about \u201Cconstant signs\u201D are often projecting their own vulnerability'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Unsettled Exploration',
+        summary: 'You are in between skepticism and longing, with too many mixed feelings to form a fixed pattern.',
+        suggest: function (a) {
+          return 'Your answers show a mix of curiosity, doubt, and raw grief. You are trying to make sense of anomalous moments without wanting to surrender your rational mind. This ambiguity is completely normal in the landscape of bereavement.';
+        },
+        dontTell: 'You do not have to choose right now between cold materialism and total supernatural belief \u2014 you can hold an experience as meaningful without declaring it a proven miracle.',
+        watchIntro: 'What to observe over the coming weeks:',
+        watch: function (a) {
+          return [
+            'Keep a private notebook of moments that catch your attention, noting what you felt without forcing an interpretation',
+            'Notice whether your thoughts are leaning more toward practical recovery or spiritual searching',
+            'Take your time \u2014 grief does not follow an external schedule'
+          ];
+        }
+      },
+      'quiet-reflection': {
+        path: 'Quiet Reflective Memory',
+        summary: 'A gentle, steady relationship with their memory that needs no dramatic external validation.',
+        suggest: function (a) {
+          return 'Your answers reflect an understated, healthy balance. You notice occasional reminders of your loved one, smile with a mix of sweetness and sorrow, and continue living your life. The bond is quiet, internalized, and respectful of reality.';
+        },
+        dontTell: 'You do not need to seek out dramatic mediumship sessions \u2014 your own quiet heart is already doing the work of continuing bonds beautifully.',
+        watchIntro: 'Healthy ways to sustain this baseline:',
+        watch: function (a) {
+          return [
+            'Trust the adequacy of quiet moments \u2014 you do not need fireworks to have an authentic memorial connection',
+            'Honor their life by practicing the qualities you most admired in them',
+            'Share their stories with younger family members or friends who never met them'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, p) {
+      if (a.want === 'resolution' || p === 'guilt-projection') {
+        return {
+          key: 'unspoken_words',
+          label: 'The weight of unfinished conversations',
+          text: 'When someone dies unexpectedly or after painful estrangement, the mind reaches for signs as surrogate apologies. Naming the regret directly and working through it with compassion does more for your healing than hunting for external omens.'
+        };
+      }
+      if (p === 'hyper-vigilant' || a.scanning_habit === 'constant') {
+        return {
+          key: 'avoidance_of_finality',
+          label: 'Using signs to delay the finality of death',
+          text: 'Compulsive scanning is often an unconscious attempt to keep the person physically here so you do not have to face the terrifying emptiness of stepping into a new life alone. Giving yourself permission to mourn the finality is the turning point.'
+        };
+      }
+      if (a.absence_distress === 'abandoned' || p === 'absence-distress') {
+        return {
+          key: 'attachment_panic',
+          label: 'The fear of being permanently erased',
+          text: 'The silence of the room can trigger primal childhood fears of abandonment. Remind your nervous system that love given over a lifetime cannot be deleted by silence \u2014 their imprint on you is permanent.'
+        };
+      }
+      return null;
+    },
+
+    practice: {
+      free_first: {
+        name: 'The Continuing Bonds Framework',
+        fit: 'For grounding your experience without spending money or falling into superstition.',
+        href: '/questions/loss-closure/',
+        cta: 'Explore the Loss & Closure Hub',
+        secondary: { name: 'What Mediums Actually Do', fit: 'Consumer guide to reading vetting', href: '/guides/medium-reading-guide' },
+        note: 'When grief is tender, free self-reflection and trusted friends are almost always safer than paid strangers.'
+      },
+      medium: {
+        name: 'Evidential Medium Reading',
+        fit: 'For exploring evidential connection and memories when you feel emotionally stable.',
+        href: '/medium/',
+        cta: 'Read how mediumship works',
+        choose: { name: 'What Mediums Actually Do', href: '/guides/medium-reading-guide' },
+        secondary: { name: 'Psychic vs Medium', fit: 'Why booking the wrong format is expensive', href: '/guides/psychic-vs-medium' },
+        note: 'Never book a medium while in acute trauma or panic; wait until you have a stable emotional baseline.'
+      },
+      tarot_deep: {
+        name: 'Tarot Reflection for Grief',
+        fit: 'For structured symbolic exploration of your own emotional cycles and healing.',
+        href: '/tarot/',
+        cta: 'Explore reflective tarot',
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        secondary: { name: 'The Daily Card', fit: 'Free daily self-reflection', href: '/tools/daily-card' },
+        note: 'Tarot does not contact the dead \u2014 it holds a mirror to your own grief processing.'
+      },
+      tarot_decision: {
+        name: 'Grief Counseling / Support',
+        fit: 'For deep, safe holding when loss is causing persistent depression, panic, or guilt.',
+        href: '/questions/loss-closure/',
+        cta: 'See grief support resources',
+        secondary: { name: 'Dark Night of the Soul', fit: 'Spiritual crisis vs clinical depression', href: '/guides/dark-night-of-the-soul' },
+        note: 'A reading cannot stabilize a nervous system in crisis; licensed therapists are the honest first call.'
+      },
+      closure: {
+        name: 'Memorial Letter & Continuing Bonds',
+        fit: 'For resolving unspoken words and finding peace through personal ritual.',
+        href: '/questions/loss-closure/',
+        cta: 'Read closure frameworks',
+        secondary: { name: 'Do What Fits', fit: 'Comprehensive 7-question matcher', href: '/do-what-fits' },
+        note: 'Personal ritual costs nothing and provides deeper closure than third-party consultations.'
+      },
+      general: {
+        name: 'Do What Fits',
+        fit: 'When you are not sure whether this is grief, existential crisis, or anxiety.',
+        href: '/do-what-fits',
+        cta: 'Take the 7-question matcher',
+        secondary: { name: 'Questions Hub', fit: 'Explore all life questions', href: '/questions/' },
+        note: 'A quick matcher that screens emotional readiness before recommending any guidance.'
+      },
+      psychic: {
+        name: 'General Psychic Reading',
+        fit: 'Not recommended for deceased loved ones \u2014 psychics read the living, not the dead.',
+        href: '/guides/psychic-vs-medium',
+        cta: 'See why mediumship is required',
+        choose: { name: 'Psychic vs Medium', href: '/guides/psychic-vs-medium' },
+        secondary: { name: 'What Mediums Actually Do', fit: 'The right format for grief', href: '/guides/medium-reading-guide' },
+        note: 'Booking a general psychic for a deceased loved one question is the #1 booking mistake in this category.'
+      }
+    },
+
+    matchPractice: function (a) {
+      if (a.help === 'counseling' || a.emotional_effect === 'distress') {
+        return 'tarot_decision'; // Routes to grief counseling/support
+      }
+      if (a.help === 'medium' && (a.grief_stage === 'transition' || a.grief_stage === 'integrated')) {
+        return 'medium';
+      }
+      if (a.help === 'tarot') {
+        return 'tarot_deep';
+      }
+      if (a.want === 'resolution') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'signs-from-deceased-loved-ones', {
+        negativePatternTip: {
+          pattern: 'hyper-vigilant',
+          text: 'when scanning for signs becomes a daily compulsion, a reading promising \u201Cproof\u201D only deepens the dependency. Giving yourself permission to rest and mourn in quiet reality brings far more peace than chasing external omens.'
+        }
+      });
+    }
+  },
+
+  /* 2. DREAM ABOUT A DECEASED LOVED ONE */
+  'dream-about-deceased-loved-one': {
+    id: 'dream-about-deceased-loved-one',
+    title: 'What Is Your Grief Dream Surfacing?',
+    subtitle: 'Eight questions, about two minutes. It maps the structure of your dream, how it aligns with your grief stage, and what internal resolution it is pointing toward.',
+    launchSub: 'Eight questions, about two minutes. It reads whether your dream is serving emotional resolution, memory integration, or trauma replay, and matches you with a grounded next step.',
+    questions: [
+      {
+        id: 'loss_timing',
+        q: 'When did your loved one pass away?',
+        hint: 'Dream architecture changes dramatically as bereavement matures.',
+        options: [
+          { text: 'Very recently (within the last 6 months)', score: 'fresh' },
+          { text: 'Between 6 months and 2 years ago', score: 'mid' },
+          { text: 'Several years ago', score: 'long' },
+          { text: 'A decade or more ago', score: 'distant' }
+        ]
+      },
+      {
+        id: 'dream_appearance',
+        q: 'How did they look and appear in your dream?',
+        hint: 'The physical state in the dream reflects where your memory is anchored.',
+        options: [
+          { text: 'Healthy, radiant, whole, and at peace \u2014 looking like their best self', score: 'radiant' },
+          { text: 'Sick, frail, in pain, or as they were in their final hospice days', score: 'sick' },
+          { text: 'Ordinary and everyday \u2014 doing normal chores or having dinner', score: 'ordinary' },
+          { text: 'Shadowy, distant, or turning away from me', score: 'shadowy' }
+        ]
+      },
+      {
+        id: 'dream_tone',
+        q: 'What was the overall tone of communication and feeling?',
+        hint: 'What was the emotional atmosphere of the dream?',
+        options: [
+          { text: 'Warm embrace, reassurance, or clear words saying \u201CI am okay\u201D', detail: 'Comfort & peace', score: 'peace' },
+          { text: 'Total silence \u2014 they were present, but could not or would not speak', detail: 'Quiet presence', score: 'silent' },
+          { text: 'Urgent, chaotic, or frightening \u2014 trying to save them from death again', detail: 'Nightmare / Panic', score: 'panic' },
+          { text: 'Accusatory, tense, or filled with sadness and regret', detail: 'Conflict / Guilt', score: 'guilt' },
+          { text: 'I woke up before understanding what was happening', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'waking_afterglow',
+        q: 'How did you feel the morning after waking from the dream?',
+        hint: 'The waking afterglow is the truest marker of the dream’s psychological function.',
+        options: [
+          { text: 'A profound sense of peace, love, and emotional relief that lingered for days', detail: 'Deep comfort', score: 'comfort' },
+          { text: 'Bittersweet \u2014 happy to have \u201Cseen\u201D them, but sad they are gone', detail: 'Tender longing', score: 'longing' },
+          { text: 'Exhausted and shaken \u2014 as if I had lived through the funeral all over again', detail: 'Re-traumatized', score: 'reopened' },
+          { text: 'Confused, unsettled, and obsessively searching online for symbol meanings', detail: 'Anxious search', score: 'anxious' },
+          { text: 'My mood shifted several times during the day', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'dream_frequency',
+        q: 'How often do you have dreams of this nature?',
+        hint: 'Milestone dreams heal; chronic dream loops signal emotional trauma.',
+        options: [
+          { text: 'It was a single, vivid, unforgettable milestone dream', detail: 'Singular event', score: 'once' },
+          { text: 'Occasionally \u2014 every few months or on meaningful dates', detail: 'Periodic', score: 'periodic' },
+          { text: 'Regularly \u2014 several times a week in confusing variations', detail: 'Frequent', score: 'frequent' },
+          { text: 'Exhausting recurrent nightmares about their death', detail: 'Trauma loop', score: 'nightmare' },
+          { text: 'This was the very first time I have dreamed of them', detail: 'First time', score: null }
+        ]
+      },
+      {
+        id: 'unresolved_factors',
+        q: 'Were there unresolved conflicts or unspoken words between you when they died?',
+        hint: 'Subconscious dreams frequently work through relational debris.',
+        options: [
+          { text: 'No \u2014 our love was clear, complete, and fully expressed', detail: 'Clean closure', score: 'clean' },
+          { text: 'Minor regrets, but generally we had deep mutual affection', detail: 'Normal regrets', score: 'minor' },
+          { text: 'Yes \u2014 we were estranged, mid-argument, or things were left unsaid', detail: 'Significant unfinished business', score: 'heavy' },
+          { text: 'I carried intense caregiver guilt about decisions made in their care', detail: 'Caregiver trauma', score: 'caregiver' },
+          { text: 'It is complicated and difficult to summarize', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What are you most hoping this dream represents?',
+        hint: 'Your hope reveals the underlying need.',
+        options: [
+          { text: 'An authentic visitation confirming they are safe and watching over me', score: 'visitation' },
+          { text: 'A healthy sign that my own heart is finally healing and finding peace', score: 'healing' },
+          { text: 'An opportunity to say goodbye or apologize for things left unsaid', score: 'apology' },
+          { text: 'A warning or message about my current waking life direction', score: 'warning' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What kind of clarity would be most helpful right now?',
+        hint: 'What supports your emotional balance?',
+        options: [
+          { text: 'Permission to hold the comfort without needing to prove it scientifically', score: 'permission' },
+          { text: 'Clinical support to resolve traumatic nightmares of their illness', score: 'therapy' },
+          { text: 'A reflective reading to explore the emotional themes the dream surfaced', score: 'tarot' },
+          { text: 'A medium reading to check if they have further messages', score: 'medium' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      if (a.dream_tone === 'panic' || a.waking_afterglow === 'reopened' || a.dream_frequency === 'nightmare') {
+        return 'trauma-replay';
+      }
+      if (a.dream_tone === 'guilt' || a.unresolved_factors === 'heavy' || a.unresolved_factors === 'caregiver') {
+        return 'unresolved-guilt';
+      }
+      if (a.dream_appearance === 'radiant' && (a.dream_tone === 'peace' || a.waking_afterglow === 'comfort')) {
+        return 'comforting-visitation';
+      }
+      if (a.dream_appearance === 'ordinary' || a.waking_afterglow === 'longing') {
+        return 'cognitive-adjustment';
+      }
+      var nullCount = 0;
+      if (a.dream_tone === null) nullCount++;
+      if (a.waking_afterglow === null) nullCount++;
+      if (a.dream_frequency === null) nullCount++;
+      if (a.unresolved_factors === null) nullCount++;
+      if (nullCount >= 2) {
+        return 'not-enough-evidence';
+      }
+      return 'cognitive-adjustment';
+    },
+
+    results: {
+      'comforting-visitation': {
+        path: 'Comforting Visitation & Integration',
+        summary: 'A profound milestone dream that provided genuine emotional peace and closure.',
+        suggest: function (a) {
+          return 'Your dream features the classic markers of what researchers and spiritual traditions call a comforting visitation: your loved one appeared whole and radiant, the emotional atmosphere was peaceful, and you woke with lasting warmth. Whether viewed as an actual spirit encounter or deep REM emotional resolution, its healing gift to you is real.';
+        },
+        dontTell: 'It cannot be certified by third-party instruments \u2014 but you do not need outside verification to accept the peace it gave you.',
+        watchIntro: 'How to honor this dream:',
+        watch: function (a) {
+          return [
+            'Protect the memory \u2014 write it down in detail so that doubt does not erode its comfort over time',
+            'Accept the gift: treat it as permission from your own heart (and their memory) to flourish in life',
+            'Avoid consulting fortune-tellers who might complicate a clean, beautiful experience'
+          ];
+        }
+      },
+      'trauma-replay': {
+        path: 'Trauma Replay & Processing',
+        summary: 'Your dream is replaying the shock of death, reflecting waking post-traumatic stress.',
+        suggest: function (a) {
+          return 'Your dream replayed their illness, hospital alarms, or deathbed scene, leaving you exhausted and shaken. This is not a message from the spirit world that they are suffering \u2014 it is your brain struggling to integrate the traumatic shock of how they died. It is especially common after sudden loss or exhausting caregiving.';
+        },
+        dontTell: 'It is not an omen of bad luck or proof that their soul is restless \u2014 it is post-traumatic stress in your own nervous system.',
+        watchIntro: 'Steps to calm traumatic dream loops:',
+        watch: function (a) {
+          return [
+            'Remind yourself upon waking: \u201CThat was medical trauma replaying; they are no longer in pain\u201D',
+            'Seek out a trauma-informed grief therapist (EMDR or somatic therapies excel at resolving deathbed flashbacks)',
+            'Avoid watching medical dramas or reading triggering obituaries before bed'
+          ];
+        }
+      },
+      'unresolved-guilt': {
+        path: 'Guilt & Conflict Projection',
+        summary: 'The dream was tense or silent, reflecting your own unexpressed regrets and longing for absolution.',
+        suggest: function (a) {
+          return 'When relationships end with words left unsaid or caregiver burnout, the grieving brain projects that conflict into the dream world. If they turned away or seemed angry, that emotion belongs to your waking self-criticism, not to their current state.';
+        },
+        dontTell: 'Their dream figure is not holding a grudge \u2014 the harshness in the dream is your own guilt wearing their face.',
+        watchIntro: 'Healing the relational debris:',
+        watch: function (a) {
+          return [
+            'Write an unsent letter expressing every regret, apology, and gratitude you never voiced aloud',
+            'Remember that a lifetime bond is not erased by a messy ending or human impatience during illness',
+            'Practice self-compassion: you did the best you could with the emotional resources you had at the time'
+          ];
+        }
+      },
+      'cognitive-adjustment': {
+        path: 'Cognitive Reality Adjustment',
+        summary: 'Everyday dreams reflecting the brain updating its reality map to incorporate their absence.',
+        suggest: function (a) {
+          return 'Your dream was ordinary \u2014 doing chores, driving, or chatting \u2014 followed by the bittersweet realization that they are dead. This is the brain’s neural prediction engine slowly updating to the new reality of their physical absence. It is an organic, healthy part of mourning.';
+        },
+        dontTell: 'It does not mean you are failing to move on \u2014 the brain takes months or years to rewire lifelong habits of presence.',
+        watchIntro: 'Gentle ways to navigate these reminders:',
+        watch: function (a) {
+          return [
+            'Allow the morning sadness to wash through without panic \u2014 it is simply missing someone you loved',
+            'Keep their photo in a place of honor, greeting their memory with tenderness rather than dread',
+            'Continue building your daily routine: restoration-oriented activities help the brain ground itself'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Unclear Dream Boundary',
+        summary: 'Fragmented dream elements that need time before their emotional meaning becomes clear.',
+        suggest: function (a) {
+          return 'Your dream had mixed elements that don’t fit neatly into a single category. Dream fragments often jumble everyday stress with deep grief. Give yourself time before deciding what it means.';
+        },
+        dontTell: 'You do not need to rush to a dream dictionary \u2014 generic symbols rarely capture the truth of personal bereavement.',
+        watchIntro: 'Patience with your dreams:',
+        watch: function (a) {
+          return [
+            'Keep a dream journal by your bedside to capture future dreams right as you wake',
+            'Focus on how your waking body feels rather than dissecting individual surreal symbols',
+            'Talk with a compassionate friend about what you miss most about them'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'trauma-replay' || a.help === 'therapy') {
+        return {
+          key: 'medical_trauma',
+          label: 'The weight of witness and caregiver trauma',
+          text: 'Watching someone deteriorate or die leaves physical trauma in the witness. When nightmares replay the hospital room, the healing required is trauma stabilization, not spiritual interpretation.'
+        };
+      }
+      if (p === 'unresolved-guilt' || a.want === 'apology') {
+        return {
+          key: 'hunger_for_absolution',
+          label: 'The desperate search for absolution',
+          text: 'Grief magnifies human imperfection. We desperately want a dream to give us a clean slate. Granting yourself the forgiveness you wish they would vocalize is the real sacred work.'
+        };
+      }
+      if (p === 'comforting-visitation' || a.want === 'healing') {
+        return {
+          key: 'permission_to_live',
+          label: 'Permission to step back into the living world',
+          text: 'Comforting dreams often arrive when you are ready to live again. The peaceful smile in your dream is your own heart realizing that moving forward does not mean forgetting.'
+        };
+      }
+      return null;
+    },
+
+    practice: {
+      free_first: {
+        name: 'Dream Journaling & Reflection',
+        fit: 'For integrating peaceful dreams without external contamination or expense.',
+        href: '/questions/loss-closure/',
+        cta: 'Explore Loss & Closure',
+        secondary: { name: 'Signs From Loved Ones', fit: 'Waking encounters guide', href: '/questions/loss-closure/signs-from-deceased-loved-ones' },
+        note: 'The truest authority on your dream is your own waking feeling \u2014 no reader knows it better than you.'
+      },
+      medium: {
+        name: 'Evidential Medium Reading',
+        fit: 'For exploring evidential memories if you have lingering doubts about ongoing connection.',
+        href: '/medium/',
+        cta: 'Read mediumship vetting guide',
+        choose: { name: 'What Mediums Actually Do', href: '/guides/medium-reading-guide' },
+        secondary: { name: 'Psychic vs Medium', fit: 'Why booking the wrong format hurts', href: '/guides/psychic-vs-medium' },
+        note: 'Never tell the medium about your dream beforehand; let their evidence stand on its own.'
+      },
+      tarot_deep: {
+        name: 'Tarot Reflection for Grief',
+        fit: 'For exploring the subconscious symbols and emotional blocks surfaced by your dream.',
+        href: '/tarot/',
+        cta: 'Explore reflective tarot',
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        secondary: { name: 'Dreams Hub', fit: 'Explore dream frameworks', href: '/questions/dreams/' },
+        note: 'Tarot does not decode prophecies; it unpacks your own emotional associations.'
+      },
+      tarot_decision: {
+        name: 'Trauma-Informed Grief Therapy',
+        fit: 'For resolving distressing nightmares, hospice flashbacks, and acute sleep disruption.',
+        href: '/questions/loss-closure/',
+        cta: 'See grief support resources',
+        secondary: { name: 'Dark Night of the Soul', fit: 'Spiritual crisis vs clinical depression', href: '/guides/dark-night-of-the-soul' },
+        note: 'Clinical EMDR and somatic therapies are the gold standard for recurring bereavement nightmares.'
+      },
+      closure: {
+        name: 'Unsent Letter & Memorial Ritual',
+        fit: 'For reconciling unresolved guilt and completing conversations left unfinished.',
+        href: '/questions/loss-closure/',
+        cta: 'Read closure frameworks',
+        secondary: { name: 'Do What Fits', fit: 'Comprehensive 7-question matcher', href: '/do-what-fits' },
+        note: 'A quiet, personal ceremony offers deeper closure than third-party consultations.'
+      },
+      general: {
+        name: 'Do What Fits',
+        fit: 'When you are unsure if your dream is a grief question, anxiety, or life transition.',
+        href: '/do-what-fits',
+        cta: 'Take the 7-question matcher',
+        secondary: { name: 'Questions Hub', fit: 'Explore all life questions', href: '/questions/' },
+        note: 'A fast, private matcher that clarifies what kind of support your situation needs.'
+      },
+      psychic: {
+        name: 'General Psychic Reading',
+        fit: 'Not recommended for bereavement dreams \u2014 psychics read the living, not the departed.',
+        href: '/guides/psychic-vs-medium',
+        cta: 'See why mediumship is required',
+        choose: { name: 'Psychic vs Medium', href: '/guides/psychic-vs-medium' },
+        secondary: { name: 'What Mediums Actually Do', fit: 'The right format for grief', href: '/guides/medium-reading-guide' },
+        note: 'Do not book a psychic for a dream about someone who died; mediums handle grief.'
+      }
+    },
+
+    matchPractice: function (a) {
+      if (a.help === 'therapy' || a.waking_afterglow === 'reopened') {
+        return 'tarot_decision'; // Grief therapy
+      }
+      if (a.help === 'medium' && a.waking_afterglow === 'comfort') {
+        return 'medium';
+      }
+      if (a.help === 'tarot') {
+        return 'tarot_deep';
+      }
+      if (a.want === 'apology' || a.unresolved_factors === 'heavy') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dream-about-deceased-loved-one', {
+        negativePatternTip: {
+          pattern: 'trauma-replay',
+          text: 'when dreams replay painful hospice or medical scenes, beware of psychics claiming the spirit is \u201Crestless.\u201D That is a scam capitalizing on your pain. The distress is in your nervous system, and trauma counseling brings real relief.'
+        }
+      });
+    }
+  },
+
+  /* 3. IS MY LOVED ONE WATCHING OVER ME */
+  'is-my-loved-one-watching-over-me': {
+    id: 'is-my-loved-one-watching-over-me',
+    title: 'What Is Your Need for Reassurance Asking For?',
+    subtitle: 'Eight questions, about two minutes. It maps whether your relationship to their memory is providing a secure foundation or sustaining anxious loops, and maps the next step that fits.',
+    launchSub: 'Eight questions, about two minutes. It reads whether wondering if they are watching is bringing comfort or creating decision paralysis, and matches you with a grounded next step.',
+    questions: [
+      {
+        id: 'trigger_moment',
+        q: 'When does the question \u201Care they watching over me\u201D hit you hardest?',
+        hint: 'Context surfaces what the emotional need is.',
+        options: [
+          { text: 'During major milestones (graduations, weddings, births, career moves)', score: 'milestone' },
+          { text: 'In moments of acute loneliness, panic, or personal crisis', score: 'crisis' },
+          { text: 'When I am making a difficult moral or life decision and feel unsure', score: 'decision' },
+          { text: 'When I feel guilty about moving on, laughing, or living my life', score: 'guilt' },
+          { text: 'Just as a constant quiet curiosity in daily life', score: 'curiosity' }
+        ]
+      },
+      {
+        id: 'internal_voice',
+        q: 'When you sit quietly and think of them, can you hear or imagine their advice?',
+        hint: 'Internalized neural models of loved ones are deeply accurate.',
+        options: [
+          { text: 'Yes \u2014 I know exactly what they would say, and it brings clarity', detail: 'Strong internal anchor', score: 'anchor' },
+          { text: 'Partially \u2014 I remember their warmth, but feel unsure of their specific advice', detail: 'Gentle recall', score: 'partial' },
+          { text: 'No \u2014 it feels like a silent, empty void that brings pain', detail: 'Silence / Absence', score: 'void' },
+          { text: 'I only hear their criticism or worry that they would disapprove of me', detail: 'Critical projection', score: 'critic' },
+          { text: 'I am not sure', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'reassurance_habit',
+        q: 'How often do you seek external signs or psychic readings to confirm their presence?',
+        hint: 'Reassurance seeking can become an addictive substitute for self-trust.',
+        options: [
+          { text: 'Rarely \u2014 their memory in my heart is enough', detail: 'Self-contained', score: 'rare' },
+          { text: 'Occasionally \u2014 I like the idea, but I don’t rely on it to make choices', detail: 'Casual comfort', score: 'occasional' },
+          { text: 'Frequently \u2014 I feel uneasy if I don’t get a sign or confirmation', detail: 'Reassurance habit', score: 'frequent' },
+          { text: 'Compulsively \u2014 I consult readings repeatedly to feel safe', detail: 'Addictive loop', score: 'compulsive' },
+          { text: 'I have never consulted an outside source', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'decision_autonomy',
+        q: 'How does the thought of their gaze affect your big life choices?',
+        hint: 'Honoring memory vs. living in an imaginary prison.',
+        options: [
+          { text: 'It inspires me to live with courage, integrity, and joy', detail: 'Empowering legacy', score: 'empowered' },
+          { text: 'It comforts me, but I make my own choices independently', detail: 'Independent', score: 'independent' },
+          { text: 'It paralyzes me \u2014 I hesitate to date, move, or change jobs in case they disapprove', detail: 'Decision paralysis', score: 'paralyzed' },
+          { text: 'It creates guilt \u2014 I feel watched in my private mistakes or flaws', detail: 'Surveillance anxiety', score: 'watched' },
+          { text: 'It depends on the specific decision', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'presence_perception',
+        q: 'How does it feel when you go through long periods without \u201Cfeeling\u201D them near?',
+        hint: 'Does silence feel safe, or like abandonment?',
+        options: [
+          { text: 'Peaceful \u2014 love is a permanent fact of my history, not an hourly broadcast', detail: 'Secure attachment', score: 'secure' },
+          { text: 'A little sad, but natural as life demands my attention', detail: 'Normal adaptation', score: 'natural' },
+          { text: 'Panic that they are drifting away or forgetting me', detail: 'Separation anxiety', score: 'panic' },
+          { text: 'Guilt that I am failing to honor or remember them enough', detail: 'Memory guilt', score: 'guilt' },
+          { text: 'I am not sure', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'moving_on_guilt',
+        q: 'Do you ever feel guilty about experiencing joy, laughing, or thriving without them?',
+        hint: 'Survivor joy is often the hardest hurdle in grief.',
+        options: [
+          { text: 'No \u2014 I know they would want me to be happy and live fully', detail: 'Clean permission', score: 'free' },
+          { text: 'Sometimes a brief pang of guilt, but I allow myself to enjoy life', detail: 'Gentle pangs', score: 'minor' },
+          { text: 'Frequently \u2014 joy feels like an act of betrayal or abandonment', detail: 'Survivor guilt', score: 'heavy' },
+          { text: 'Constantly \u2014 I hold onto sorrow as proof of my devotion', detail: 'Sorrow-as-loyalty', score: 'severe' },
+          { text: 'I haven’t reached a point where joy is an option yet', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What are you most hoping an answer to this question will give you?',
+        hint: 'Name the real hunger.',
+        options: [
+          { text: 'Permission to be happy, make mistakes, and move forward without guilt', score: 'permission' },
+          { text: 'Protection and companionship \u2014 feeling less alone in a harsh world', score: 'safety' },
+          { text: 'Validation that they are proud of who I am becoming', score: 'pride' },
+          { text: 'Evidential proof that consciousness survives death', score: 'proof' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What kind of support would most stabilize you right now?',
+        hint: 'Match support to your emotional state.',
+        options: [
+          { text: 'A grounded framework to stop feeling watched, judged, or paralyzed', score: 'framework' },
+          { text: 'An evidential medium reading to feel their warmth one more time', score: 'medium' },
+          { text: 'Counseling to resolve deep survivor guilt and caregiver trauma', score: 'therapy' },
+          { text: 'A tarot reflection on moving forward with my own life choices', score: 'tarot' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      if (a.decision_autonomy === 'paralyzed' || a.moving_on_guilt === 'severe' || a.moving_on_guilt === 'heavy') {
+        return 'decision-paralysis';
+      }
+      if (a.reassurance_habit === 'compulsive' || a.presence_perception === 'panic' || a.decision_autonomy === 'watched') {
+        return 'anxious-reassurance-loop';
+      }
+      if (a.internal_voice === 'anchor' && (a.decision_autonomy === 'empowered' || a.decision_autonomy === 'independent')) {
+        return 'grounded-internal-anchor';
+      }
+      if (a.internal_voice === 'void' || a.presence_perception === 'panic') {
+        return 'absence-numbness';
+      }
+      var nullCount = 0;
+      if (a.internal_voice === null) nullCount++;
+      if (a.reassurance_habit === null) nullCount++;
+      if (a.decision_autonomy === null) nullCount++;
+      if (a.presence_perception === null) nullCount++;
+      if (nullCount >= 2) {
+        return 'not-enough-evidence';
+      }
+      return 'grounded-internal-anchor';
+    },
+
+    results: {
+      'grounded-internal-anchor': {
+        path: 'Grounded Internal Anchor',
+        summary: 'You carry their love as an internal compass that fosters courage rather than dependency.',
+        suggest: function (a) {
+          return 'Your answers describe the healthiest form of continuing bonds: their memory lives inside you as a source of strength, love, and practical guidance. When you wonder if they are watching, it is an expression of enduring warmth rather than fear. You make your own decisions while honoring the values they shared with you.';
+        },
+        dontTell: 'It does not prove metaphysical surveillance \u2014 but living with their internalized wisdom is far more valuable and real than chasing external signs.',
+        watchIntro: 'How to keep this foundation strong:',
+        watch: function (a) {
+          return [
+            'Continue trusting your internal dialogue \u2014 what you imagine they would say is an authentic reflection of their love',
+            'Live boldly: the greatest tribute to someone who loved you is to build a vibrant, courageous life',
+            'You do not need commercial readings \u2014 your connection is complete, free, and permanent'
+          ];
+        }
+      },
+      'anxious-reassurance-loop': {
+        path: 'Anxious Reassurance Loop',
+        summary: 'Wondering if they are watching has become an anxious cycle of seeking external approval.',
+        suggest: function (a) {
+          return 'Your answers show that the question is driven by attachment anxiety: you feel panicked when you don’t feel their presence, or you feel hyper-monitored in your private mistakes. When grief turns into surveillance anxiety, you are treating their memory like an external judge rather than a loving anchor.';
+        },
+        dontTell: 'More psychic readings cannot soothe this loop \u2014 external reassurance wears off in days because the doubt lives in your own self-trust.',
+        watchIntro: 'Steps to step out of the surveillance trap:',
+        watch: function (a) {
+          return [
+            'Remind yourself: someone who truly loved you in life would never want to become a harsh surveillance camera after death',
+            'Take a break from asking for signs or booking readings for at least 30 days',
+            'Practice offering yourself the compassion and validation you are currently begging from the other side'
+          ];
+        }
+      },
+      'decision-paralysis': {
+        path: 'Grief-Related Decision Paralysis',
+        summary: 'You are delaying major life choices out of fear of betraying or disappointing their memory.',
+        suggest: function (a) {
+          return 'You are hesitating to date, relocate, change jobs, or experience joy because part of you fears that moving forward is an act of disloyalty. You are holding onto grief as proof of devotion, turning their perceived gaze into a barrier against life.';
+        },
+        dontTell: 'Sacrificing your future does not honor their past \u2014 true love wants the surviving person to be safe, supported, and happy.',
+        watchIntro: 'Reclaiming your agency:',
+        watch: function (a) {
+          return [
+            'Give yourself explicit permission to make mistakes, change directions, and build new relationships',
+            'Notice where you are using \u201Cwhat would they think\u201D to avoid the scary vulnerability of choosing for yourself',
+            'Consider speaking with a grief counselor about survivor guilt'
+          ];
+        }
+      },
+      'absence-numbness': {
+        path: 'Absence Numbness & Depletion',
+        summary: 'Feeling only a painful void, leaving you exhausted and doubting the bond.',
+        suggest: function (a) {
+          return 'When you look into your heart or the quiet room, you feel only silence and emptiness. You worry that this means they have vanished or stopped caring. In truth, profound grief burns out the nervous system, creating emotional anesthesia that temporarily blocks warm memories.';
+        },
+        dontTell: 'The void does not mean the bond is dead \u2014 it means your brain is emotionally depleted and fighting for basic survival.',
+        watchIntro: 'Caring for your depleted system:',
+        watch: function (a) {
+          return [
+            'Do not force spiritual connection right now \u2014 prioritize physical rest, hydration, and sleep',
+            'Accept the silence without building a tragic narrative around it \u2014 the warmth will return as your nervous system stabilizes',
+            'Let trusted living friends support you in practical daily tasks'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Tender Exploration',
+        summary: 'Your relationship with their memory is evolving, with shifting moments of clarity and doubt.',
+        suggest: function (a) {
+          return 'Your answers indicate that your feelings change depending on the day. Milestone days trigger intense longing, while ordinary days feel manageable. You are navigating the natural dual process of mourning.';
+        },
+        dontTell: 'You do not need to rush to a fixed conclusion \u2014 continuing bonds take years to settle into a comfortable rhythm.',
+        watchIntro: 'Staying grounded on milestone days:',
+        watch: function (a) {
+          return [
+            'Create simple, personal rituals on birthdays and anniversaries to honor their place in your story',
+            'Notice how living according to their values keeps their presence active in the real world',
+            'Be gentle with yourself when grief unexpectedly surges'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'decision-paralysis' || a.want === 'permission') {
+        return {
+          key: 'survivor_guilt',
+          label: 'The fear that moving forward is an act of betrayal',
+          text: 'Many grievers subconsciously believe that being happy again means they didn’t love the person enough. Releasing this guilt is the hardest work in bereavement: knowing that flourishing is the greatest tribute you can pay to someone who loved you.'
+        };
+      }
+      if (p === 'anxious-reassurance-loop' || a.want === 'safety') {
+        return {
+          key: 'vulnerability_terror',
+          label: 'Feeling unprotected in an unpredictable world',
+          text: 'When a foundational protector (parent, spouse, mentor) passes, the world suddenly feels terrifyingly sharp. Asking if they are watching is often an expression of feeling physically and emotionally vulnerable.'
+        };
+      }
+      return null;
+    },
+
+    practice: {
+      free_first: {
+        name: 'The Internal Compass Framework',
+        fit: 'For drawing strength from their legacy without falling into superstition or expense.',
+        href: '/questions/loss-closure/',
+        cta: 'Explore Loss & Closure',
+        secondary: { name: 'Signs From Loved Ones', fit: 'Guide to signs and synchronicities', href: '/questions/loss-closure/signs-from-deceased-loved-ones' },
+        note: 'Consulting your own internalized memory of their advice costs nothing and builds real self-trust.'
+      },
+      medium: {
+        name: 'Evidential Medium Reading',
+        fit: 'For exploring evidential connection when you are emotionally stable and clear-headed.',
+        href: '/medium/',
+        cta: 'Read mediumship vetting guide',
+        choose: { name: 'What Mediums Actually Do', href: '/guides/medium-reading-guide' },
+        secondary: { name: 'Psychic vs Medium', fit: 'Why format matters for grief', href: '/guides/psychic-vs-medium' },
+        note: 'Never ask a medium for life decisions or permissions; keep the session focused on memory.'
+      },
+      tarot_decision: {
+        name: 'Decision-Focused Tarot Spread',
+        fit: 'For breaking through decision paralysis and exploring your own life choices.',
+        href: '/tarot/',
+        cta: 'Explore decision spreads',
+        choose: { name: 'How to Choose a Tarot Reader', href: '/guides/how-to-choose-tarot-reader' },
+        secondary: { name: 'Do What Fits', fit: '7-question life matcher', href: '/do-what-fits' },
+        note: 'Tarot helps you see your own options clearly; the choice remains completely yours.'
+      },
+      tarot_deep: {
+        name: 'Grief Counseling for Survivor Guilt',
+        fit: 'For deep clinical work when guilt, paralysis, or terror prevent daily functioning.',
+        href: '/questions/loss-closure/',
+        cta: 'See grief support resources',
+        secondary: { name: 'Dark Night of the Soul', fit: 'Spiritual crisis vs depression', href: '/guides/dark-night-of-the-soul' },
+        note: 'Guilt and decision paralysis respond to compassionate clinical therapy, not fortune-telling.'
+      },
+      closure: {
+        name: 'Memorial Dialogue & Letter Writing',
+        fit: 'For resolving doubts about their approval and expressing your love in private.',
+        href: '/questions/loss-closure/',
+        cta: 'Read closure frameworks',
+        secondary: { name: 'Do What Fits', fit: '7-question matcher', href: '/do-what-fits' },
+        note: 'Writing a letter to them puts their love into your hands rather than a stranger’s.'
+      },
+      general: {
+        name: 'Do What Fits',
+        fit: 'When you are unsure if this is grief, life direction, or relationship anxiety.',
+        href: '/do-what-fits',
+        cta: 'Take the 7-question matcher',
+        secondary: { name: 'Questions Hub', fit: 'Explore all life questions', href: '/questions/' },
+        note: 'A fast, private matcher that screens emotional readiness before recommending any guidance.'
+      },
+      psychic: {
+        name: 'General Psychic Reading',
+        fit: 'Not recommended for afterlife reassurance \u2014 psychics read the living, not the departed.',
+        href: '/guides/psychic-vs-medium',
+        cta: 'See why mediumship is required',
+        choose: { name: 'Psychic vs Medium', href: '/guides/psychic-vs-medium' },
+        secondary: { name: 'What Mediums Actually Do', fit: 'The right format for grief', href: '/guides/medium-reading-guide' },
+        note: 'Do not book a general psychic to ask about someone who passed; use mediumship or therapy.'
+      }
+    },
+
+    matchPractice: function (a) {
+      if (a.help === 'therapy' || a.decision_autonomy === 'paralyzed') {
+        return 'tarot_deep'; // Counseling for survivor guilt
+      }
+      if (a.help === 'medium' && (a.internal_voice === 'anchor' || a.presence_perception === 'secure')) {
+        return 'medium';
+      }
+      if (a.help === 'tarot') {
+        return 'tarot_decision';
+      }
+      if (a.want === 'permission') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'is-my-loved-one-watching-over-me', {
+        negativePatternTip: {
+          pattern: 'decision-paralysis',
+          text: 'when fear of disappointing someone who died stops you from living your own life, seeking more readings keeps you trapped. True love wants you to flourish; give yourself permission to choose your own path.'
+        }
+      });
+    }
+  },
+
+  /* 4. WHY AM I ALWAYS BROKE */
+  'why-am-i-always-broke': {
+    id: 'why-am-i-always-broke',
+    title: 'What Is Driving Your Financial Cycle?',
+    subtitle: 'Eight questions, about two minutes. It sorts your financial friction into mathematical deficits, avoidance loops, boundary leakage, or emotional spending, and matches you with a realistic next step.',
+    launchSub: 'Eight questions, about two minutes. It reads whether your financial depletion is mathematical, behavioral, or boundary-related, and ends on the next step that fits.',
+    questions: [
+      {
+        id: 'income_baseline',
+        q: 'How does your net take-home income compare to your bare survival costs (rent, food, transit, minimum debt)?',
+        hint: 'Math first \u2014 you cannot budget your way out of a mathematical deficit.',
+        options: [
+          { text: 'Survival costs exceed 90% of my income \u2014 there is literally no room to breathe', score: 'deficit' },
+          { text: 'Survival costs are roughly 70–80% \u2014 a small buffer, but unexpected costs wipe it out', score: 'tight' },
+          { text: 'Survival costs are under 60% \u2014 I earn decent money, but somehow it still evaporates', score: 'surplus_leak' },
+          { text: 'My income fluctuates wildly from month to month (freelance / gig work)', score: 'variable' }
+        ]
+      },
+      {
+        id: 'primary_leak',
+        q: 'Where does the money seem to go when it disappears?',
+        hint: 'Identify the primary exit channel.',
+        options: [
+          { text: 'Small, uncounted daily purchases and impulse orders after exhausting days', score: 'impulse' },
+          { text: 'Financial rescue for family, friends, or partners who rely on me', score: 'rescue' },
+          { text: 'Emergency crises that seem to hit every time I build up a tiny savings cushion', score: 'crisis' },
+          { text: 'High fixed interest rates, subscription creep, and overdraft / late fees', score: 'structural' },
+          { text: 'I honestly have no idea \u2014 I avoid looking at the numbers', score: 'avoidance' }
+        ]
+      },
+      {
+        id: 'avoidance_level',
+        q: 'How do you feel when you have to open your banking app or look at bills?',
+        hint: 'Money Avoidance script diagnosis.',
+        options: [
+          { text: 'Calm and objective \u2014 I track my numbers regularly without drama', detail: 'High visibility', score: 'calm' },
+          { text: 'Mild dread, but I look at it when I need to pay bills', detail: 'Manageable friction', score: 'mild' },
+          { text: 'Severe anxiety \u2014 I procrastinate for weeks until late notices arrive', detail: 'Active avoidance', score: 'avoid' },
+          { text: 'Physical nausea / panic \u2014 I keep my balance at a guess to avoid confronting reality', detail: 'Severe phobia', score: 'panic' },
+          { text: 'It varies widely', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'emotional_spending',
+        q: 'When are you most likely to spend money you know you should save?',
+        hint: 'Dopamine compensation triggers.',
+        options: [
+          { text: 'Rarely \u2014 my spending is planned and disciplined', detail: 'Low emotional spend', score: 'low' },
+          { text: 'When I am exhausted, angry, or burned out after grueling work weeks', detail: 'Burnout anesthetic', score: 'burnout' },
+          { text: 'When I am out with friends and terrified of looking cheap or broke', detail: 'Status comparison', score: 'status' },
+          { text: 'When I have an unexpected surplus and feel an urge to get rid of it', detail: 'Surplus discomfort', score: 'discomfort' },
+          { text: 'It happens randomly without a clear pattern', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'boundary_leakage',
+        q: 'How comfortable are you saying \u201Cno, I can’t afford that\u201D to friends or family?',
+        hint: 'Boundary leakage is one of the most common causes of chronic broke-ness.',
+        options: [
+          { text: 'Very comfortable \u2014 my financial boundaries are clear and respected', detail: 'Strong boundaries', score: 'firm' },
+          { text: 'A bit uncomfortable, but I can decline when necessary', detail: 'Decent boundaries', score: 'fair' },
+          { text: 'Very difficult \u2014 I often agree to expensive plans or lend money to avoid conflict', detail: 'People-pleasing leak', score: 'leak' },
+          { text: 'Impossible \u2014 I am the financial safety net for multiple people despite having nothing', detail: 'Codependent drain', score: 'severe_leak' },
+          { text: 'I am not sure', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'scarcity_script',
+        q: 'What message about money did you absorb growing up?',
+        hint: 'Unconscious childhood money scripts run adult bank accounts.',
+        options: [
+          { text: 'Money was a calm, managed resource used for security and living', detail: 'Healthy baseline', score: 'healthy' },
+          { text: 'Money was a source of constant screaming, fighting, and terror', detail: 'Money trauma', score: 'terror' },
+          { text: 'Having money was seen as greedy, corrupt, or spiritually inferior', detail: 'Money avoidance script', score: 'corrupt' },
+          { text: 'Having money was the only way to earn respect and worth in society', detail: 'Money status script', score: 'status_script' },
+          { text: 'It was never spoken about at all', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What are you most hoping to achieve right now?',
+        hint: 'Your real goal determines the tool that fits.',
+        options: [
+          { text: 'Breathing room \u2014 stopping the panic of overdraft fees and unpaid bills', score: 'breathing_room' },
+          { text: 'Stopping self-sabotage \u2014 learning why I spend money the moment I have it', score: 'behavior_change' },
+          { text: 'Higher income \u2014 figuring out how to transition to higher-leverage work', score: 'income_growth' },
+          { text: 'Spiritual clarity \u2014 understanding why bad luck seems to follow my finances', score: 'spiritual_read' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What kind of support would honestly make the biggest difference?',
+        hint: 'Select the tool that matches the problem layer.',
+        options: [
+          { text: 'A clear, honest diagnostic framework and a simple micro-buffer plan', score: 'framework' },
+          { text: 'Financial counseling / financial therapy to address avoidance and scripts', score: 'counseling' },
+          { text: 'A tarot or astrology reading on career crossroads and timing', score: 'reading' },
+          { text: 'Practical debt management or public community resource assistance', score: 'debt_help' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      if (a.income_baseline === 'deficit' || a.primary_leak === 'structural') {
+        return 'systemic-income-squeeze';
+      }
+      if (a.avoidance_level === 'panic' || a.avoidance_level === 'avoid' || a.primary_leak === 'avoidance') {
+        return 'avoidance-denial-loop';
+      }
+      if (a.boundary_leakage === 'severe_leak' || a.boundary_leakage === 'leak' || a.primary_leak === 'rescue') {
+        return 'boundary-leakage';
+      }
+      if (a.emotional_spending === 'burnout' || a.emotional_spending === 'status') {
+        return 'emotional-compensation';
+      }
+      if (a.scarcity_script === 'corrupt' || a.scarcity_script === 'terror') {
+        return 'scarcity-script';
+      }
+      var nullCount = 0;
+      if (a.avoidance_level === null) nullCount++;
+      if (a.emotional_spending === null) nullCount++;
+      if (a.boundary_leakage === null) nullCount++;
+      if (a.scarcity_script === null) nullCount++;
+      if (nullCount >= 2) {
+        return 'not-enough-evidence';
+      }
+      return 'systemic-income-squeeze';
+    },
+
+    results: {
+      'systemic-income-squeeze': {
+        path: 'Systemic Income Squeeze',
+        summary: 'Your core expenses exceed your wage; the friction is mathematical, not a vibrational flaw.',
+        suggest: function (a) {
+          return 'Your answers indicate that non-negotiable living costs absorb nearly all your take-home pay. You are not broke because you buy lattes or lack \u201Cabundance mindset\u201D \u2014 you are in an arithmetic deficit. Under these conditions, every unexpected expense causes a crisis because there is zero margin for error.';
+        },
+        dontTell: 'No spiritual ritual or manifestation script will fix a mathematical wage shortage \u2014 treating structural under-earning as an energetic block is predatory gaslighting.',
+        watchIntro: 'Strategic moves for an income deficit:',
+        watch: function (a) {
+          return [
+            'Do not spend single dollars on manifestation courses or psychic readings \u2014 every penny must protect your physical margin',
+            'Focus your scarce bandwidth on the only variable that moves math: income expansion, skill acquisition, or public debt restructuring',
+            'Release the moral shame \u2014 living in an economic squeeze is an arithmetic reality, not a character defect'
+          ];
+        }
+      },
+      'avoidance-denial-loop': {
+        path: 'Money Avoidance & Denial Loop',
+        summary: 'Anxiety makes you avoid looking at your accounts, turning small manageable issues into catastrophic crises.',
+        suggest: function (a) {
+          return 'You are caught in the classic Money Avoidance script: opening bank apps, reviewing bills, or checking balances causes such visceral anxiety that you procrastinate until late fees, shut-off notices, or overdrafts force your hand. The avoidance gives temporary relief for hours, but multiplies the financial cost exponentially.';
+        },
+        dontTell: 'Avoidance is not laziness \u2014 it is a trauma-based nervous system freeze response that requires gentle, structured desensitization.',
+        watchIntro: 'Steps to break the avoidance freeze:',
+        watch: function (a) {
+          return [
+            'Implement the \u201CFive-Minute Financial Glance\u201D \u2014 log into your account once a week with a timer set for 5 minutes, then close it immediately',
+            'Automate minimum payments on all critical debt so fees do not snowball while you build visibility tolerance',
+            'Reward yourself with a cup of tea or a walk after looking at the numbers to rewire the threat response'
+          ];
+        }
+      },
+      'boundary-leakage': {
+        path: 'Interpersonal Boundary Leakage',
+        summary: 'You are serving as the financial shock absorber for other adults at the cost of your own security.',
+        suggest: function (a) {
+          return 'Your answers show that money is leaking out through relationships: lending money you cannot afford to lose, paying for meals you cannot afford, or bailing out family members. You are using money as a covert transaction to buy safety, avoid rejection, or maintain a sense of worth.';
+        },
+        dontTell: 'You cannot rescue other people by drowning yourself \u2014 subsidizing other adults while your own emergency fund is zero is codependency, not generosity.',
+        watchIntro: 'How to seal boundary leaks:',
+        watch: function (a) {
+          return [
+            'Memorize and practice this phrase: \u201CI love you, but my finances are committed right now and I cannot lend or cover that\u201D',
+            'Separate love from transactions \u2014 true relationships survive financial boundaries; connections that end when the money stops were transactions, not friendships',
+            'Calculate how much money you gave away in the last 12 months \u2014 seeing the total number often provides the shock needed to set boundaries'
+          ];
+        }
+      },
+      'emotional-compensation': {
+        path: 'Burnout & Emotional Compensation',
+        summary: 'Using spending as an anesthetic to survive soul-crushing work exhaustion or status anxiety.',
+        suggest: function (a) {
+          return 'You earn decent money, but it evaporates because spending is your only available dopamine rescue from workplace burnout or feelings of inadequacy. The purchase provides a 20-minute peak of control and excitement, followed by days of shame when the statement arrives.';
+        },
+        dontTell: 'Budgeting apps will not cure emotional spending \u2014 you must treat the underlying burnout and lack of life margin that drives the hunger for retail relief.',
+        watchIntro: 'Interventions for emotional spending:',
+        watch: function (a) {
+          return [
+            'Implement a mandatory 72-hour delay rule on all non-essential purchases \u2014 remove stored credit cards from browser autofill',
+            'Address the source of the exhaustion: if your job is destroying your health, spending money on gadgets won’t save you',
+            'Find zero-cost dopamine alternatives: sleep, hot baths, library books, or intense physical exercise'
+          ];
+        }
+      },
+      'scarcity-script': {
+        path: 'Unconscious Scarcity Script',
+        summary: 'A childhood belief equating money with corruption or guilt creates an urge to spend down surpluses.',
+        suggest: function (a) {
+          return 'Growing up, money was either a source of screaming matches or viewed as spiritually corrupt. Consequently, your nervous system feels uncomfortable when your checking account has a cushion \u2014 having money feels like an invitation for disaster or family conflict, so you subconsciously find ways to drain it back to zero.';
+        },
+        dontTell: 'Financial safety will feel like an emergency to an untreated scarcity script \u2014 you must train your nervous system to tolerate stability as safe.',
+        watchIntro: 'Rewiring the scarcity comfort zone:',
+        watch: function (a) {
+          return [
+            'Create a \u201CHidden Buffer\u201D \u2014 transfer savings to an online bank with no debit card that you do not see in daily banking',
+            'Work with a certified financial therapist to explore childhood memories of financial trauma',
+            'Affirm that financial stability is a protective tool for your family, not a moral betrayal'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Complex Financial Friction',
+        summary: 'A combination of shifting factors that requires a month of honest tracking to untangle.',
+        suggest: function (a) {
+          return 'Your answers indicate that multiple factors are interacting: fluctuating income, variable expenses, and mixed emotional reactions. You need baseline data before choosing an intervention.';
+        },
+        dontTell: 'Do not buy quick-fix budgeting templates \u2014 take 30 days to observe your inflows and outflows objectively.',
+        watchIntro: 'Gathering clear baseline data:',
+        watch: function (a) {
+          return [
+            'Track every single dollar spent for 30 days in a pocket notebook without judgment or forced restrictions',
+            'Categorize expenses into Fixed Survival, Debt Servicing, and Discretionary Leaks',
+            'Notice the emotions present during your top 3 largest discretionary purchases'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'avoidance-denial-loop' || a.avoidance_level === 'panic') {
+        return {
+          key: 'denial_as_shield',
+          label: 'Using denial as a protective shield',
+          text: 'Avoiding financial accounts is not irresponsible laziness; it is the mind’s desperate attempt to avoid feeling intense shame and terror. Acknowledging the fear with compassion is the only way to lower the threat response enough to open the app.'
+        };
+      }
+      if (p === 'boundary-leakage' || a.boundary_leakage === 'severe_leak') {
+        return {
+          key: 'purchased_belonging',
+          label: 'Paying a protection fee for belonging',
+          text: 'Giving away your survival money to friends or family is often a covert attempt to buy safety against abandonment. True love respects your boundaries; anyone who leaves when you stop paying was an expense, not an ally.'
+        };
+      }
+      if (p === 'emotional-compensation' || a.emotional_spending === 'burnout') {
+        return {
+          key: 'burnout_anesthetic',
+          label: 'Shopping as an anesthetic for soul-crushing exhaustion',
+          text: 'When life feels like a treadmill of endless obligation, buying something new feels like the only personal choice you get to make. The solution lies in reclaiming your time and rest, not in tighter budget restrictions.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your money patterns and financial friction', cluster: 'money-wealth' }),
+
+    matchPractice: function (a) {
+      if (a.income_baseline === 'deficit' || a.avoidance_level === 'panic') {
+        return 'free_first'; // Zero cost buffer plan
+      }
+      if (a.help === 'counseling' || a.scarcity_script === 'terror') {
+        return 'tarot_decision'; // Financial therapy
+      }
+      if (a.help === 'reading' && a.income_baseline === 'surplus_leak') {
+        return 'tarot_deep';
+      }
+      if (a.boundary_leakage === 'severe_leak') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'why-am-i-always-broke', {
+        negativePatternTip: {
+          pattern: 'systemic-income-squeeze',
+          text: 'when your expenses exceed income, paying a psychic for \u201Cabundance clearing\u201D only deepens the deficit. Focus every dollar on physical shelter and income strategy; math cannot be manifested away.'
+        }
+      });
+    }
+  },
+
+  /* 5. WILL I BE RICH */
+  'will-i-be-rich': {
+    id: 'will-i-be-rich',
+    title: 'What Is Your Desire for Wealth Really Asking For?',
+    subtitle: 'Eight questions, about two minutes. It cuts through the fantasy of getting rich to identify what you are actually needing: safety, status, burnout relief, or practical career leverage.',
+    launchSub: 'Eight questions, about two minutes. It reads whether your desire for wealth is driven by safety deficits, status anxiety, or strategic ambition, and matches you with a grounded next step.',
+    questions: [
+      {
+        id: 'wealth_driver',
+        q: 'What feeling is most prominent when you imagine having millions of dollars?',
+        hint: 'The fantasy reveals the emotional deficiency in your waking life.',
+        options: [
+          { text: 'Permanent relief from terror \u2014 knowing no one can evict, fire, or trap me', score: 'safety' },
+          { text: 'Freedom to sleep, travel, and escape soul-crushing 60-hour work weeks', score: 'rest' },
+          { text: 'Respect, admiration, and proving wrong the people who doubted or looked down on me', score: 'status' },
+          { text: 'Excitement about building companies, creating art, or funding large projects', score: 'creation' }
+        ]
+      },
+      {
+        id: 'career_stage',
+        q: 'Where do you currently stand in your career and wealth-building trajectory?',
+        hint: 'Timing is developmental.',
+        options: [
+          { text: 'Early foundation stage (under 30) \u2014 still acquiring marketable skills and paying entry dues', score: 'early' },
+          { text: 'Mid-career plateau (30–45) \u2014 earning okay money, but feel trapped by fixed expenses', score: 'plateau' },
+          { text: 'Career crossroads \u2014 considering launching a venture or changing industries', score: 'crossroads' },
+          { text: 'Late career / transition \u2014 worried about retirement security and legacy', score: 'late' }
+        ]
+      },
+      {
+        id: 'savings_rate',
+        q: 'What happens to your money over a 12-month period?',
+        hint: 'The math of wealth accumulation.',
+        options: [
+          { text: 'I consistently retain and invest 15–30%+ of my gross income into productive assets', detail: 'Consistent compounder', score: 'high_save' },
+          { text: 'I save intermittently, but unexpected expenses or impulse spends drain it', detail: 'Unstable cushion', score: 'mid_save' },
+          { text: 'Every dollar is spent each month \u2014 savings remain at zero', detail: 'Zero accumulation', score: 'zero_save' },
+          { text: 'I am actively accumulating consumer debt to fund my current lifestyle', detail: 'Negative trajectory', score: 'debt' },
+          { text: 'I don’t track my annual retention', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'equity_leverage',
+        q: 'Does your income scale with hours worked, or through assets and leverage?',
+        hint: 'True wealth cannot be built on rented hours alone.',
+        options: [
+          { text: 'Strictly hours-for-dollars \u2014 if I stop working, my income stops completely', detail: 'Zero leverage', score: 'hourly' },
+          { text: 'Salary with minor bonuses, but no equity, royalties, or ownership', detail: 'Linear salary', score: 'salary' },
+          { text: 'I have some equity, commission, or independent freelance leverage', detail: 'Partial leverage', score: 'partial_equity' },
+          { text: 'I own equity, business assets, intellectual property, or significant investments', detail: 'Scalable ownership', score: 'owner' },
+          { text: 'I am currently unemployed or in transition', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'delayed_gratification',
+        q: 'Can you work diligently on a project for 2–3 years without immediate financial returns?',
+        hint: 'The planning fallacy means big payoffs take years of invisible labor.',
+        options: [
+          { text: 'Yes \u2014 I have a track record of multi-year patient execution', detail: 'High stamina', score: 'patient' },
+          { text: 'I can manage 6 to 12 months, but start panicking if returns don’t show', detail: 'Moderate stamina', score: 'moderate' },
+          { text: 'No \u2014 I need quick wins and tend to abandon projects after a few months', detail: 'Quick-win seeker', score: 'impatient' },
+          { text: 'I constantly jump between shiny new business ideas and get-rich concepts', detail: 'Shiny object syndrome', score: 'scattered' },
+          { text: 'I have never tried building a long-term independent venture', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'risk_tolerance',
+        q: 'How do you react when an investment or venture drops 20–30% in market value?',
+        hint: 'Wealth creation requires emotional tolerance of volatility.',
+        options: [
+          { text: 'Calm \u2014 I understand market cycles and view drawdowns as buying opportunities', detail: 'High risk tolerance', score: 'calm_investor' },
+          { text: 'Nervous, but I hold on according to my long-term plan', detail: 'Moderate tolerance', score: 'nervous_holder' },
+          { text: 'Panic \u2014 I sell immediately at the bottom to stop the bleeding', detail: 'Low tolerance', score: 'panic_seller' },
+          { text: 'I have never invested in assets with volatility', detail: 'Uncertain', score: null }
+        ]
+      },
+      {
+        id: 'want',
+        q: 'What is the primary reason you are asking this question today?',
+        hint: 'Identify what triggered the inquiry.',
+        options: [
+          { text: 'Exhaustion \u2014 I feel like a hamster on a wheel and need hope of an exit', score: 'burnout_exit' },
+          { text: 'Security panic \u2014 I feel terrified of poverty, medical bills, or homelessness', score: 'terror_security' },
+          { text: 'Status comparison \u2014 seeing peers succeed while I feel left behind', score: 'peer_comparison' },
+          { text: 'Strategic career planning \u2014 deciding where to invest my next 5 years', score: 'strategic_pivot' }
+        ]
+      },
+      {
+        id: 'help',
+        q: 'What would feel most grounding and valuable right now?',
+        hint: 'Select the tool that matches your actual developmental need.',
+        options: [
+          { text: 'A reality check on what wealth actually requires vs. fantasy promises', score: 'reality_framework' },
+          { text: 'An astrology transit reading on career timing and Saturn / Jupiter cycles', score: 'astrology' },
+          { text: 'A career coach or mentor to help me negotiate leverage and equity', score: 'career_coach' },
+          { text: 'A fiduciary financial advisor to optimize my actual savings and investments', score: 'financial_advisor' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      if (a.wealth_driver === 'safety' || a.want === 'terror_security') {
+        return 'security-buffer-deficit';
+      }
+      if (a.wealth_driver === 'rest' || a.want === 'burnout_exit') {
+        return 'burnout-escape-fantasy';
+      }
+      if (a.wealth_driver === 'status' || a.want === 'peer_comparison') {
+        return 'status-validation-hunt';
+      }
+      if (a.savings_rate === 'high_save' && (a.equity_leverage === 'owner' || a.equity_leverage === 'partial_equity')) {
+        return 'strategic-builder';
+      }
+      if (a.delayed_gratification === 'scattered' || a.savings_rate === 'debt') {
+        return 'burnout-escape-fantasy';
+      }
+      var nullCount = 0;
+      if (a.savings_rate === null) nullCount++;
+      if (a.equity_leverage === null) nullCount++;
+      if (a.delayed_gratification === null) nullCount++;
+      if (a.risk_tolerance === null) nullCount++;
+      if (nullCount >= 2) {
+        return 'not-enough-evidence';
+      }
+      return 'strategic-builder';
+    },
+
+    results: {
+      'security-buffer-deficit': {
+        path: 'Security Deficit & Safety Longing',
+        summary: 'You do not actually crave luxury; your nervous system is exhausted and crying out for safety.',
+        suggest: function (a) {
+          return 'Your answers show that your desire for wealth is rooted in survival terror. You imagine being a multimillionaire not to buy sports cars, but to ensure no landlord, boss, or medical emergency can ever threaten your survival again. Confusing this need for safety with extreme wealth keeps you searching for impossible windfalls instead of building an immediate emergency cushion.';
+        },
+        dontTell: 'You do not need $10M to feel safe \u2014 reaching an automated emergency fund of 6 months of living expenses relieves 90% of the terror you are currently carrying.',
+        watchIntro: 'Pragmatic moves for survival safety:',
+        watch: function (a) {
+          return [
+            'Stop daydreaming about lottery wins or billionaire charts \u2014 direct all energy into building your first $1,000, then 3 months, then 6 months of liquid cash',
+            'Notice how every month of savings buffer directly lowers your daytime cortisol levels',
+            'Invest in health insurance and term life insurance to protect against catastrophic tail risk'
+          ];
+        }
+      },
+      'burnout-escape-fantasy': {
+        path: 'Burnout Escape Fantasy',
+        summary: 'Dreaming of wealth is serving as a mental escape hatch from an exhausting, unfulfilling job.',
+        suggest: function (a) {
+          return 'When work feels like an inescapable prison of 60-hour weeks, the mind naturally retreats into fantasies of sudden wealth: winning the lottery, crypto windfalls, or a psychic promising riches. The fantasy gives you just enough dopamine to survive another week on the treadmill, but keeps you from making real structural career changes.';
+        },
+        dontTell: 'Waiting for a windfall is deferring your life \u2014 you need rest, healthy boundaries, and a vocational pivot today, not an imaginary yacht in 2035.',
+        watchIntro: 'Steps to dismantle the burnout escape:',
+        watch: function (a) {
+          return [
+            'Recognize that wealth fantasies are a symptom of exhaustion: evaluate your workload before buying into get-rich schemes',
+            'Start planning an honest career transition or negotiating a reduction in hours at your current job',
+            'Do not gamble savings on volatile high-risk assets hoping for a quick exit'
+          ];
+        }
+      },
+      'status-validation-hunt': {
+        path: 'Status & Validation Hunt',
+        summary: 'Equating net worth with self-worth in an attempt to shield yourself from feelings of inadequacy.',
+        suggest: function (a) {
+          return 'You want to be wealthy so that peers, family, or society will finally respect you and recognize your worth. While understandable in a hyper-capitalist culture, psychological research proves that external wealth never cures internal inadequacy. If you feel inferior today, you will simply become a wealthy person with deep imposter syndrome.';
+        },
+        dontTell: 'Net worth is not self-worth \u2014 buying luxury status symbols to impress people you don’t like keeps you chronically broke and spiritually hollow.',
+        watchIntro: 'Rewiring status anxiety:',
+        watch: function (a) {
+          return [
+            'Audit your social media consumption: mute accounts that trigger toxic comparison and lifestyle envy',
+            'Build self-worth in domains where money has no authority: physical fitness, deep friendships, artistic crafts, and integrity',
+            'Remember the Millionaire Next Door finding: real wealth is silent and frugal; conspicuous luxury is usually financed by debt'
+          ];
+        }
+      },
+      'strategic-builder': {
+        path: 'Strategic Long-Term Builder',
+        summary: 'You have the mathematical and behavioral habits of genuine compounding; patience is your game.',
+        suggest: function (a) {
+          return 'Your answers show high savings discipline, partial or growing asset leverage, and realistic risk tolerance. You understand that wealth is not an event, but a compounding process that takes decades of quiet consistency. Your challenge is simply enduring the plateau while the curve remains flat.';
+        },
+        dontTell: 'Astrology can confirm timing chapters, but it cannot speed up the mathematics of compound interest \u2014 stay the course.',
+        watchIntro: 'Optimizing your compounding curve:',
+        watch: function (a) {
+          return [
+            'Protect your portfolio from catastrophic errors \u2014 avoid excessive leverage and speculative gambles',
+            'Continue increasing your equity ownership: transition from hourly billing to asset-backed revenue',
+            'Use astrological cycles (Saturn and Jupiter transits) to identify when to build foundations vs. when to expand'
+          ];
+        }
+      },
+      'not-enough-evidence': {
+        path: 'Developing Financial Ambition',
+        summary: 'Your relationship with money and career leverage is in an early, fluid discovery stage.',
+        suggest: function (a) {
+          return 'You have strong ambitions, but haven’t yet settled on the vehicle or habits required to build scale. That is normal in your early career. The focus should be on skill mastery and financial literacy rather than predicting the outcome.';
+        },
+        dontTell: 'You do not need to know your 20-year destination \u2014 mastering one valuable market skill in the next 18 months moves you further than any fortune-teller.',
+        watchIntro: 'Focusing your energy:',
+        watch: function (a) {
+          return [
+            'Focus on skill acquisition: become top 10% in a valuable, specialized domain',
+            'Read foundational financial literature: *The Millionaire Next Door*, *The Psychology of Money*',
+            'Practice living well below your means now so that future raises compound automatically'
+          ];
+        }
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'security-buffer-deficit' || a.wealth_driver === 'safety') {
+        return {
+          key: 'terror_of_vulnerability',
+          label: 'The terror of living without a financial shock absorber',
+          text: 'When you have no savings, a broken car or unexpected medical bill feels like total destruction. You dream of being rich because you want to breathe. Building an emergency fund cures this terror long before you reach luxury.'
+        };
+      }
+      if (p === 'burnout-escape-fantasy' || a.wealth_driver === 'rest') {
+        return {
+          key: 'exhaustion_escape',
+          label: 'The fantasy of an exit door from chronic exhaustion',
+          text: 'Dreaming of millions is often the only mental vacation an exhausted worker allows themselves. Reclaiming real rest, setting work boundaries, and planning a career pivot is the honest way out.'
+        };
+      }
+      if (p === 'status-validation-hunt' || a.wealth_driver === 'status') {
+        return {
+          key: 'imposter_shame',
+          label: 'Using money to purchase unconditional respect',
+          text: 'Hoping wealth will silence childhood shame or family disrespect is a tragic trap. External admiration from shallow observers never heals the soul; true self-worth must be built on character and self-compassion.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'your wealth and career trajectory', cluster: 'money-wealth' }),
+
+    matchPractice: function (a) {
+      if (a.help === 'astrology' || a.career_stage === 'crossroads') {
+        return 'tarot_deep';
+      }
+      if (a.help === 'career_coach') {
+        return 'tarot_decision';
+      }
+      if (a.help === 'financial_advisor' && a.savings_rate === 'high_save') {
+        return 'closure';
+      }
+      if (a.wealth_driver === 'rest' || a.wealth_driver === 'safety') {
+        return 'free_first';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'will-i-be-rich', {
+        negativePatternTip: {
+          pattern: 'burnout-escape-fantasy',
+          text: 'when a psychic promises you millions to relieve the dread of your job, they are selling you an expensive daydream. Real relief comes from setting boundaries, cutting living costs, and planning a vocational transition today.'
+        }
+      });
+    }
+  },
+
+
+  /* ----------------------------------------------------------
+     52. 444 MEANING — Foundation, Grounding & Protection
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  '444-meaning': {
+    id: '444-meaning',
+    title: 'Why Is 444 on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are using 444 as a grounding anchor, seeking reassurance under acute stress, caught in attentional priming, or bypassing practical action.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 444 sightings — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'life_context',
+        q: 'What were you going through when 444 began appearing in your awareness?',
+        hint: 'The life setting gives the symbol its psychological charge.',
+        options: [
+          { text: 'A period of intense personal or financial instability', detail: 'vulnerable, anxious, or facing uncertainty', score: 'instability' },
+          { text: 'Building a new business, home, or creative project', detail: 'laying tangible long-term foundations', score: 'building' },
+          { text: 'Grieving a loss or feeling emotionally isolated', detail: 'seeking comfort or a sense of presence', score: 'grief_isolation' },
+          { text: 'A relatively calm, regular routine', detail: 'no acute crisis, just noticed the number', score: 'routine' },
+          { text: 'Engaging with spiritual media and angel number posts', detail: 'immersed in online esoteric content', score: 'media' }
+        ]
+      },
+      {
+        id: 'sighting_trigger',
+        q: 'When does 444 catch your eye most frequently?',
+        hint: 'Context clarifies whether it is circadian conditioning or emotional projection.',
+        options: [
+          { text: 'Waking up in the night or checking my phone at 4:44', detail: 'predictable circadian glance', score: 'clock' },
+          { text: 'In moments of acute panic, fear, or self-doubt', detail: 'seeking an emotional lifeline', score: 'stress_moment' },
+          { text: 'On receipts, invoices, or financial accounts', detail: 'tied to material security and money', score: 'financial' },
+          { text: 'On vehicle license plates and street signage', detail: 'everyday transit and commuting', score: 'transit' },
+          { text: 'Completely at random throughout the day', detail: 'no single recurring setting', score: 'random' }
+        ]
+      },
+      {
+        id: 'vulnerability_level',
+        q: 'How emotionally vulnerable or destabilized have you felt recently?',
+        hint: 'High vulnerability primes the brain to search for safety cues.',
+        options: [
+          { text: 'Severely overwhelmed — feeling unsafe or desperate for help', detail: 'acute emotional or financial dread', score: 2 },
+          { text: 'Noticeably anxious — worried about the future or my foundations', detail: 'frequent background tension', score: 1 },
+          { text: 'Mildly unsettled — navigating some changes but functional', detail: 'manageable stress', score: 0 },
+          { text: 'Mostly grounded — feeling steady in my daily routines', detail: 'resilient and capable', score: -1 },
+          { text: 'Completely secure — calm, anchored, and confident', detail: 'deep internal stability', score: -2 }
+        ]
+      },
+      {
+        id: 'attribution_style',
+        q: 'When 444 appears, what thought immediately flashes in your mind?',
+        hint: 'Notice whether you assign the meaning to external magic or internal reflection.',
+        options: [
+          { text: '“Guardian angels are actively watching and protecting me”', detail: 'literal supernatural shield', score: 2 },
+          { text: '“The universe is reassuring me that everything will work out”', detail: 'comforting spiritual message', score: 1 },
+          { text: '“A helpful reminder to take a deep breath and stay grounded”', detail: 'reflective somatic anchor', score: 0 },
+          { text: '“My brain is primed to notice repeating fours”', detail: 'cognitive recognition of visual salience', score: -1 },
+          { text: '“Pure coincidence — I ignore the numbers I don’t track”', detail: 'statistical and random reality', score: -2 }
+        ]
+      },
+      {
+        id: 'practical_action',
+        q: 'How much real-world action have you taken to reinforce your foundations?',
+        hint: 'Are you building real stability or relying on signs to fix things?',
+        options: [
+          { text: 'None — I am waiting for signs or divine intervention to clear the way', detail: 'passive spiritual bypassing', score: 2 },
+          { text: 'Very little — I feel too paralyzed or exhausted to take steps', detail: 'overwhelmed avoidance', score: 1 },
+          { text: 'Some initial steps, but I struggle to stay consistent', detail: 'patching leaks as they arise', score: 0 },
+          { text: 'Active practical building — budgeting, boundary-setting, or skill-building', detail: 'taking responsibility for security', score: -1 },
+          { text: 'Rigorous structural discipline — solid plan executed daily', detail: 'complete practical ownership', score: -2 }
+        ]
+      },
+      {
+        id: 'checking_fixation',
+        q: 'How much mental focus do you spend watching for 444 or other numbers?',
+        hint: 'Fixation indicates cognitive monitoring load.',
+        options: [
+          { text: 'Compulsively checking clocks or feeling uneasy if I don’t see it', detail: 'superstitious hyper-vigilance', score: 2 },
+          { text: 'Frequently looking for it when I need reassurance', detail: 'intentional reassurance-seeking', score: 1 },
+          { text: 'I notice it when it pops up, but don’t actively hunt for it', detail: 'casual passive awareness', score: 0 },
+          { text: 'Rarely think about it outside of the exact moment I see it', detail: 'fleeting observation', score: -1 },
+          { text: 'Never seek it out — it has zero grip on my behavior', detail: 'zero cognitive load', score: -2 }
+        ]
+      },
+      {
+        id: 'primary_need',
+        q: 'If you are honest with yourself, what do you most need right now?',
+        hint: 'Your answer points directly to your next grounded step.',
+        options: [
+          { text: 'Deep emotional reassurance that I am safe and not alone', detail: 'nervous system soothing', score: 'reassurance' },
+          { text: 'A clear practical plan to fix my finances, career, or home', detail: 'structural life audit', score: 'practical_plan' },
+          { text: 'Proof that supernatural beings are orchestrating my life', detail: 'external spiritual validation', score: 'external_proof' },
+          { text: 'An outside perspective on where my life foundations are weak', detail: 'objective diagnostic feedback', score: 'objective_feedback' },
+          { text: 'To stop feeling anxious and learn to trust my own competence', detail: 'reclaiming self-reliance', score: 'self_reliance' }
+        ]
+      },
+      {
+        id: 'preferred_support',
+        q: 'If you chose to seek guidance, what kind of help would feel most honorable?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A structured, reflective reading on my stability and boundaries', detail: 'grounded tarot inquiry', score: 'tarot' },
+          { text: 'An intuitive read on my energetic blocks and blind spots', detail: 'conversational psychic session', score: 'psychic' },
+          { text: 'Practical financial, career, or executive coaching', detail: 'concrete actionable mentoring', score: 'coaching' },
+          { text: 'Evidence-based therapy for anxiety or hyper-vigilant thinking', detail: 'licensed clinical support', score: 'therapy' },
+          { text: 'Free self-inquiry tools and personal journaling', detail: 'self-directed inner work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.vulnerability_level || 0) + (a.attribution_style || 0) + (a.practical_action || 0) + (a.checking_fixation || 0);
+      if (a.practical_action >= 1 && a.attribution_style === 2) {
+        return 'passive_protection';
+      }
+      if (s >= 4 && (a.vulnerability_level >= 1 || a.primary_need === 'reassurance')) {
+        return 'anxiety_reassurance';
+      }
+      if (a.attribution_style <= 0 && a.practical_action <= 0) {
+        return 'grounding_anchor';
+      }
+      if (a.life_context === 'media' || a.checking_fixation <= -1) {
+        return 'attentional_salience';
+      }
+      return 'unsettled_seeking';
+    },
+
+    results: {
+      'grounding_anchor': {
+        title: 'Grounding Anchor',
+        summary: 'Using 444 as a mindful trigger to breathe, stabilize, and reinforce real foundations.',
+        whatAnswersSuggest: [
+          'You hold a healthy, grounded relationship with 444. You appreciate the archetype of the four — stability, structure, boundary-setting, and endurance — without treating digital clocks as magical talismans.',
+          'When the number catches your eye, it functions as an internal punctuation mark: an invitation to check in with your physical body, evaluate your practical boundaries, and take steady, deliberate action in your career and home life.'
+        ],
+        whatItCannotProve: 'That unseen forces are managing your physical security for you, or that challenges will never disrupt your plans.',
+        whatToWatchNext: [
+          'Identify one concrete foundation in your life (emergency savings, sleep hygiene, or relationship boundaries) that needs maintenance this week.',
+          'Continue treating numbers as reflective mirrors of your own integrity rather than commands from the cosmos.'
+        ]
+      },
+      'anxiety_reassurance': {
+        title: 'Anxiety Reassurance',
+        summary: 'Reaching for 444 as a lifeline when the nervous system feels ungrounded and vulnerable.',
+        whatAnswersSuggest: [
+          'Your recurring sightings of 444 are closely tethered to acute stress, loneliness, or emotional precarity. When perceived control is low, human pattern recognition naturally spikes in an effort to find safety cues in the surrounding environment.',
+          'Finding 444 provides a momentary burst of relief (“I am protected”), but the underlying anxiety quickly returns because the root practical or emotional vulnerability remains unaddressed.'
+        ],
+        whatItCannotProve: 'That your anxiety can be cured by waiting for more numerical signs or that you are helpless without external reassurance.',
+        whatToWatchNext: [
+          'Shift your focus from seeking signs of protection to taking one somatic grounding action: slow diaphragmatic breathing, feet flat on the ground, and physical rest.',
+          'Notice if reassurance-seeking is keeping you from addressing a hard reality in your budget, living situation, or partnerships.'
+        ]
+      },
+      'attentional_salience': {
+        title: 'Attentional Salience',
+        summary: 'Visual priming and pattern recognition operating without deep emotional desperation.',
+        whatAnswersSuggest: [
+          'Your sightings of 444 are largely the result of normal human cognitive mechanics: high visual contrast, circadian waking habits (checking your phone at 4:44), and attentional priming amplified by social media algorithms.',
+          'You notice 444 because four identical parallel strokes stand out against everyday noise, and your brain has flagged the sequence as interesting. You do not suffer from superstitious dread, but you are genuinely curious why it happens so consistently.'
+        ],
+        whatItCannotProve: 'That the universe is transmitting personal numerical codes or that you are on an orchestrated spiritual escalation timeline.',
+        whatToWatchNext: [
+          'Enjoy the pleasant synchronicity without over-interpreting it. Let it serve as a lighthearted reminder to be present in your physical surroundings.',
+          'Notice how many non-repeating numbers (like 3:18 or 7:42) you glance at each day without giving them a second thought.'
+        ]
+      },
+      'passive_protection': {
+        title: 'Passive Protection Trap',
+        summary: 'Waiting for angelic intervention while neglecting practical responsibility and planning.',
+        whatAnswersSuggest: [
+          'There is a tendency to use the belief that “angels are protecting me” as a reason to avoid having difficult conversations, balancing your budget, or updating a lagging career strategy.',
+          'Spiritual bypassing occurs when comforting esoteric concepts are substituted for uncomfortable real-world effort. True foundation-building (the essence of the number 4) requires sweat, discipline, and clear boundaries.'
+        ],
+        whatItCannotProve: 'That spiritual protection excuses negligence, or that positive thinking alone will safeguard your material security.',
+        whatToWatchNext: [
+          'Audit where you have been postponing practical responsibility under the guise of “surrendering to divine timing.”',
+          'Choose one specific task you have been avoiding and finish it today. That is how real foundations are built.'
+        ]
+      },
+      'unsettled_seeking': {
+        title: 'Unsettled Seeking',
+        summary: 'Searching for meaning in recurring numbers without knowing what clarity is actually needed.',
+        whatAnswersSuggest: [
+          'You find yourself noticing 444 repeatedly, but you feel ambiguous about what it means or what to do with the experience. You are caught between curiosity and skepticism.',
+          'This usually happens during life transitions where you sense that an old phase is closing, but a clear new path has not yet emerged. The mind catches repeating patterns because it is searching for an orienting compass.'
+        ],
+        whatItCannotProve: 'That an external source will hand you a pre-packaged roadmap without your active exploration and experimentation.',
+        whatToWatchNext: [
+          'Sit with a journal and ask: “If 444 were asking me what kind of stability I want to build over the next five years, what would I write?”',
+          'Give yourself permission to not have every answer immediately. Clarity comes through action, not passive contemplation.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'anxiety_reassurance' || a.vulnerability_level >= 1) {
+        return {
+          key: 'fear_of_instability',
+          label: 'The terror of feeling unprotected in an uncertain world',
+          text: 'When life feels unstable, the human heart aches for a guardian. Craving protection is a tender, completely natural human impulse. Honor that vulnerability by building real, compassionate human support rather than relying on digital clocks to keep you safe.'
+        };
+      }
+      if (p === 'passive_protection' || a.practical_action >= 1) {
+        return {
+          key: 'fear_of_agency',
+          label: 'The desire to be rescued from adult responsibility',
+          text: 'Making decisions and bearing their consequences is heavy. Believing unseen guides have everything handled is a comforting escape hatch from the weight of adult agency. Reclaiming your power means accepting that you are the builder of your life.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'stability, grounding, and life foundations', cluster: 'angel-numbers' }),
+
+    matchPractice: function (a) {
+      if (a.preferred_support === 'tarot' || a.primary_need === 'practical_plan') {
+        return 'tarot_decision';
+      }
+      if (a.preferred_support === 'psychic' || a.primary_need === 'objective_feedback') {
+        return 'psychic';
+      }
+      if (a.preferred_support === 'therapy') {
+        return 'closure';
+      }
+      if (a.preferred_support === 'free_tools' || a.attribution_style <= 0) {
+        return 'free_first';
+      }
+      return 'general';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '444-meaning', {
+        negativePatternTip: {
+          pattern: 'passive_protection',
+          text: 'when a psychic tells you 444 means you don’t need to worry about money or boundaries because angels have you covered, they are feeding an avoidance trap. Real stability comes from your own disciplined stewardship.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     53. 333 MEANING — Synthesis, Expression & Crossroads
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  '333-meaning': {
+    id: '333-meaning',
+    title: 'Why Is 333 on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are navigating a decision crossroads, experiencing creative friction, resolving cognitive dissonance, or caught in attentional priming.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 333 sightings — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'life_context',
+        q: 'What major theme was active in your life when 333 became noticeable?',
+        hint: 'The life stage provides the archetypal tension.',
+        options: [
+          { text: 'A difficult decision between two divergent life paths', detail: 'crossroads in career, relationship, or location', score: 'crossroads' },
+          { text: 'A creative urge or desire to express my authentic voice', detail: 'writing, art, or speaking up', score: 'creative' },
+          { text: 'Waking up frequently around 3:33 AM with racing thoughts', detail: 'nocturnal awakenings and sleep disruption', score: 'sleep' },
+          { text: 'Feeling internal conflict between what I think and what I do', detail: 'cognitive dissonance and misalignment', score: 'dissonance' },
+          { text: 'Just general curiosity from seeing repeating numbers online', detail: 'casual spiritual exploration', score: 'casual' }
+        ]
+      },
+      {
+        id: 'trigger_setting',
+        q: 'Where does 333 capture your conscious focus most strongly?',
+        hint: 'Context distinguishes circadian biology from emotional projection.',
+        options: [
+          { text: 'Digital clocks and timers during midday work or study', detail: 'frequent desk or phone checks', score: 'day_clock' },
+          { text: 'Middle-of-the-night phone checks when waking up', detail: 'nocturnal REM transition window', score: 'night_clock' },
+          { text: 'Receipt totals, license plates, and transactional numbers', detail: 'spontaneous commercial sightings', score: 'transaction' },
+          { text: 'Social media timestamps, view counts, or comment feeds', detail: 'digital algorithm engagement', score: 'social' },
+          { text: 'Right when I am ruminating over a specific relationship or choice', detail: 'emotional synchronicity anchor', score: 'ruminating' }
+        ]
+      },
+      {
+        id: 'decision_tension',
+        q: 'How intensely are you currently experiencing indecision or inner conflict?',
+        hint: 'Cognitive dissonance drives the mind to search for tie-breaking signs.',
+        options: [
+          { text: 'Paralyzed by indecision — agonizing between choices for weeks', detail: 'intense analysis paralysis', score: 2 },
+          { text: 'Noticeably torn — head says one thing, heart says another', detail: 'frequent internal friction', score: 1 },
+          { text: 'Weighing practical pros and cons with moderate clarity', detail: 'deliberate consideration', score: 0 },
+          { text: 'Mostly decided — just building the courage to execute', detail: 'clear direction, minor hesitation', score: -1 },
+          { text: 'Completely unified — clear mind, open heart, decisive action', detail: 'zero cognitive dissonance', score: -2 }
+        ]
+      },
+      {
+        id: 'creative_voice',
+        q: 'How freely are you expressing your authentic thoughts and creative energy?',
+        hint: 'The triad archetype is fundamentally linked to truth and self-expression.',
+        options: [
+          { text: 'Heavily suppressed — keeping quiet to avoid conflict or judgment', detail: 'swallowing your voice', score: 2 },
+          { text: 'Stifled — creative projects stalled by self-criticism or perfectionism', detail: 'blocked creative flow', score: 1 },
+          { text: 'Expressing myself in some areas, holding back in others', detail: 'partial authenticity', score: 0 },
+          { text: 'Speaking my mind honestly and engaging in regular creative work', detail: 'active, healthy expression', score: -1 },
+          { text: 'Fully aligned and vocal — zero fear of authentic self-expression', detail: 'uninhibited creative vitality', score: -2 }
+        ]
+      },
+      {
+        id: 'attribution_style',
+        q: 'How do you interpret the significance of 333 when it appears?',
+        hint: 'Distinguishes external guru worship from internal synthesis.',
+        options: [
+          { text: '“Ascended masters are giving me a direct sign to follow”', detail: 'mythological external authority', score: 2 },
+          { text: '“The universe is telling me that my path is cosmically blessed”', detail: 'external confirmation seeking', score: 1 },
+          { text: '“A reminder to align my intellect, heart, and actions”', detail: 'reflective triad archetype', score: 0 },
+          { text: '“Cognitive Rule of Three — my brain is simply highlighting threes”', detail: 'heuristic pattern detection', score: -1 },
+          { text: '“Everyday random coincidence with zero mystical meaning”', detail: 'strict rational baseline', score: -2 }
+        ]
+      },
+      {
+        id: 'action_ownership',
+        q: 'What are you doing to resolve your current crossroads or creative block?',
+        hint: 'Agency turns symbolic insights into tangible life progress.',
+        options: [
+          { text: 'Waiting for 333 to appear more times so I know for sure what to do', detail: 'outsourcing decisions to signs', score: 2 },
+          { text: 'Over-researching numerology and horoscopes instead of choosing', detail: 'intellectual avoidance', score: 1 },
+          { text: 'Journaling and listing pros/cons, but postponing the leap', detail: 'processing without execution', score: 0 },
+          { text: 'Taking concrete small steps to test each option directly', detail: 'empirical experimentation', score: -1 },
+          { text: 'Setting a firm deadline and taking full ownership of the outcome', detail: 'radical personal agency', score: -2 }
+        ]
+      },
+      {
+        id: 'core_longing',
+        q: 'What would bring you the greatest sense of peace right now?',
+        hint: 'Reveals the underlying motivation behind your search.',
+        options: [
+          { text: 'An authoritative answer telling me which choice is guaranteed to succeed', detail: 'risk elimination fantasy', score: 'guarantee' },
+          { text: 'The courage to share my creative work or speak my honest truth', detail: 'creative liberation', score: 'liberation' },
+          { text: 'Unbroken, deep sleep without waking at 3:33 AM with anxiety', detail: 'physiological rest', score: 'sleep_rest' },
+          { text: 'Grounded clarity on how to bridge my head and my heart', detail: 'integrated alignment', score: 'alignment' },
+          { text: 'Knowing that I am capable of handling the consequences of my choice', detail: 'self-trust', score: 'self_trust' }
+        ]
+      },
+      {
+        id: 'guidance_fit',
+        q: 'If you consulted an outside advisor, what approach would you respect most?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A reflective tarot spread comparing the trajectories of my options', detail: 'decision-focused tarot', score: 'tarot' },
+          { text: 'An intuitive psychic session to surface unspoken dynamics', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'An executive or creative coach to overcome analysis paralysis', detail: 'action-oriented coaching', score: 'coaching' },
+          { text: 'Cognitive behavioral support for insomnia or chronic worry', detail: 'evidence-based clinical support', score: 'therapy' },
+          { text: 'Quiet solitary journaling with structured self-inquiry prompts', detail: 'self-reliant contemplation', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.decision_tension || 0) + (a.creative_voice || 0) + (a.attribution_style || 0) + (a.action_ownership || 0);
+      if (a.attribution_style === 2 && a.action_ownership >= 1) {
+        return 'ascended_master_fixation';
+      }
+      if (a.decision_tension >= 1 && a.action_ownership >= 1) {
+        return 'dissonance_escape';
+      }
+      if (a.creative_voice >= 1 || a.core_longing === 'liberation') {
+        return 'creative_alignment';
+      }
+      if (s <= -1 && a.attribution_style <= 0) {
+        return 'crossroads_catalyst';
+      }
+      return 'attentional_priming';
+    },
+
+    results: {
+      'crossroads_catalyst': {
+        title: 'Crossroads Catalyst',
+        summary: 'Using 333 as an empowering trigger to synthesize head, heart, and decisive action.',
+        whatAnswersSuggest: [
+          'You hold a mature, constructive relationship with the 333 archetype. Rather than demanding that spirits make your choices, you recognize the number as an invitation to synthesize your intellect and your emotions.',
+          'You understand that lingering in analysis paralysis is more costly than making an imperfect choice. Sighting 333 acts as a catalyst to end hesitation, communicate your boundaries, and step forward with conviction.'
+        ],
+        whatItCannotProve: 'Which specific choice holds zero risk, or that every outcome will be universally applauded by others.',
+        whatToWatchNext: [
+          'Set a clear date and time by which your decision will be made, and commit to honoring whatever you choose.',
+          'Bring your actions into direct alignment with your core principles today.'
+        ]
+      },
+      'creative_alignment': {
+        title: 'Creative Alignment Need',
+        summary: 'A subconscious call to release perfectionism, unblock your authentic voice, and create.',
+        whatAnswersSuggest: [
+          'Your sightings of 333 correlate strongly with suppressed self-expression or unexpressed creative vitality. The archetype of the three across world mythology is tied to fertility, imagination, and truth-telling.',
+          'You may be holding back an important perspective in your relationship, or stalling on an artistic project out of fear of criticism. 333 is functioning as an internal alarm telling you that silence has become too expensive.'
+        ],
+        whatItCannotProve: 'That your art or perspective will become an effortless viral sensation without hard editing and vulnerability.',
+        whatToWatchNext: [
+          'Dedicate 30 uninterrupted minutes today to writing, speaking, or building without judging the preliminary output.',
+          'Identify where in your relationships you are being agreeable at the expense of your authentic integrity.'
+        ]
+      },
+      'dissonance_escape': {
+        title: 'Dissonance Escape',
+        summary: 'Searching for external signs to resolve painful internal conflict without having to choose.',
+        whatAnswersSuggest: [
+          'You are experiencing profound cognitive dissonance — your mind wants one path, but your emotions or fears pull toward another. Because carrying this friction is uncomfortable, your brain is hunting for an external sign to break the tie.',
+          'Fixating on 333 gives you a temporary sense that a cosmic force will intervene, allowing you to delay the painful responsibility of cutting off one option to pursue the other.'
+        ],
+        whatItCannotProve: 'That a number can eliminate the grief or risk involved in choosing between two incompatible paths.',
+        whatToWatchNext: [
+          'Acknowledge that every real choice involves sacrificing something. Name the sacrifice you are trying to avoid making.',
+          'Stop asking “what is the sign telling me?” and ask “which path allows me to respect myself more ten years from now?”'
+        ]
+      },
+      'ascended_master_fixation': {
+        title: 'Ascended Master Fixation',
+        summary: 'Projecting authority onto mythological spiritual figures to escape personal accountability.',
+        whatAnswersSuggest: [
+          'You have absorbed new age literature that frames 333 as direct contact from “ascended masters.” While archetypes of wisdom are deeply inspiring, outsourcing your discernment to invisible authorities disempowers you.',
+          'If you believe masters are orchestrating your schedule, you risk ignoring rational red flags in business, relationships, or health because “the signs told me to do it.”'
+        ],
+        whatItCannotProve: 'That historical spiritual figures are micromanaging your digital clock or relieving you of critical thinking.',
+        whatToWatchNext: [
+          'Reclaim your authority. Even if you appreciate spiritual teachers, remember that the purpose of real wisdom is to teach you how to stand on your own two feet.',
+          'Evaluate your current crossroads using evidence, ethics, and practical feasibility rather than esoteric commands.'
+        ]
+      },
+      'attentional_priming': {
+        title: 'Attentional Priming',
+        summary: 'Heuristic Rule of Three pattern recognition amplified by everyday curiosity and digital habits.',
+        whatAnswersSuggest: [
+          'You notice 333 primarily because of the cognitive Rule of Three: three occurrences of any stimulus form the baseline threshold for human pattern detection. Add digital clocks, timers, and social media, and sightings multiply naturally.',
+          'Your experience is grounded and relatively calm. You are not experiencing acute crises; your pattern-detection system is simply operating as evolution intended.'
+        ],
+        whatItCannotProve: 'That repeating digits are cosmic Morse code meant only for you.',
+        whatToWatchNext: [
+          'Enjoy the fun of noticing patterns without letting esoteric rabbit holes consume your productive daily time.',
+          'Use sightings as a gentle mindful prompt to drink a glass of water and stretch.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'dissonance_escape' || a.decision_tension >= 1) {
+        return {
+          key: 'fear_of_regret',
+          label: 'The agony of having to choose and mourning the unchosen path',
+          text: 'Every major decision closes a door. We agonize over signs because we want a guarantee that we won’t feel regret. True maturity is accepting that every meaningful choice carries a seed of loss, and trusting yourself to build a good life on the road you pick.'
+        };
+      }
+      if (p === 'creative_alignment' || a.creative_voice >= 1) {
+        return {
+          key: 'fear_of_visibility',
+          label: 'The vulnerability of being seen in your authentic truth',
+          text: 'Staying quiet feels safe; expressing your genuine creative truth exposes you to judgment. Craving alignment is your soul’s rebellion against hiding. Stepping into visibility requires tolerating the discomfort of being seen imperfectly.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'decision crossroads, creative synthesis, and alignment', cluster: 'angel-numbers' }),
+
+    matchPractice: function (a) {
+      if (a.guidance_fit === 'tarot' || a.life_context === 'crossroads') {
+        return 'tarot_decision';
+      }
+      if (a.guidance_fit === 'psychic' || a.life_context === 'creative') {
+        return 'tarot_deep';
+      }
+      if (a.guidance_fit === 'therapy' || a.life_context === 'sleep') {
+        return 'closure';
+      }
+      if (a.guidance_fit === 'free_tools' || a.attribution_style <= 0) {
+        return 'free_first';
+      }
+      return 'general';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '333-meaning', {
+        negativePatternTip: {
+          pattern: 'ascended_master_fixation',
+          text: 'when a reader tells you that an ascended master gave them a secret command for your life, they are replacing your judgment with their agenda. A wise advisor helps you find your own voice.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     54. 777 MEANING — Wisdom, Culmination & Jackpot Fallacy
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  '777-meaning': {
+    id: '777-meaning',
+    title: 'Why Is 777 on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are cultivating introspective wisdom, caught in the jackpot fallacy, seeking validation for a gamble, or navigating attentional priming.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 777 sightings — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'life_context',
+        q: 'What situation in your life coincided with 777 drawing your attention?',
+        hint: 'Sets the emotional foundation for why 777 feels charged.',
+        options: [
+          { text: 'Exhaustion after a long season of struggle or sacrifice', detail: 'hoping that relief or reward is finally near', score: 'exhaustion' },
+          { text: 'Contemplating a high-stakes financial, career, or personal risk', detail: 'weighing a gamble or speculative leap', score: 'gamble' },
+          { text: 'Immersed in solitary study, meditation, or spiritual reflection', detail: 'deep philosophical or mystical inquiry', score: 'study' },
+          { text: 'Seeing 777 repeatedly on receipts, prices, or gas pumps', detail: 'transactional and commercial encounters', score: 'receipts' },
+          { text: 'Engaging with social media posts about luck, miracles, or twin flames', detail: 'online algorithm immersion', score: 'social' }
+        ]
+      },
+      {
+        id: 'sighting_moment',
+        q: 'What were you thinking right before you noticed 777?',
+        hint: 'Identifies the thought pattern being projected onto the symbol.',
+        options: [
+          { text: '“When is it finally my turn to get lucky?”', detail: 'longing for sudden external rescue', score: 'lucky_turn' },
+          { text: '“Is this business/investment risk the right move?”', detail: 'seeking validation for speculative risk', score: 'risk_check' },
+          { text: '“I need to pull back and think quietly about what I’ve learned”', detail: 'contemplative pause', score: 'reflection' },
+          { text: '“I hope this confirms that my prayers were answered”', detail: 'faith confirmation seeking', score: 'prayer' },
+          { text: 'Nothing special — just noticed the three sevens lined up', detail: 'neutral observational glance', score: 'neutral' }
+        ]
+      },
+      {
+        id: 'jackpot_mindset',
+        q: 'How much are you relying on a sudden stroke of luck or miracle to resolve your problems?',
+        hint: 'High reliance on luck signals the Jackpot Fallacy.',
+        options: [
+          { text: 'Completely — I need a miracle, lottery win, or windfall to survive', detail: 'acute desperation for rescue', score: 2 },
+          { text: 'Significantly — hoping a sudden breakthrough saves me from grinding', detail: 'escapist longing', score: 1 },
+          { text: 'Somewhat — I work hard, but keep wishing for a lucky break', detail: 'moderate hopefulness', score: 0 },
+          { text: 'Minimally — I believe luck is just preparation meeting opportunity', detail: 'grounded realism', score: -1 },
+          { text: 'Not at all — my progress is built strictly on competence and discipline', detail: 'complete internal locus of control', score: -2 }
+        ]
+      },
+      {
+        id: 'risk_behavior',
+        q: 'Have you used sightings of 777 to justify speculative spending, bets, or uncalculated risks?',
+        hint: 'Examines magical thinking in financial or personal decision-making.',
+        options: [
+          { text: 'Yes — bought tickets, made risky trades, or made purchases believing 777 was a green light', detail: 'active magical risk-taking', score: 2 },
+          { text: 'Tempted to — felt an urge to gamble on the assumption that luck was on my side', detail: 'near-miss impulse', score: 1 },
+          { text: 'Hesitated — wondered if 777 meant I should take a chance, but held back', detail: 'curious hesitation', score: 0 },
+          { text: 'No — I evaluate risks strictly by their downside and mathematical odds', detail: 'disciplined risk management', score: -1 },
+          { text: 'Never — I never mix superstition with financial or contractual decisions', detail: 'strict rational boundary', score: -2 }
+        ]
+      },
+      {
+        id: 'wisdom_orientation',
+        q: 'How much are you using 777 as a prompt for solitary study, introspection, and patience?',
+        hint: 'In esoteric history, 7 represents the Hermit and philosophical study.',
+        options: [
+          { text: 'Not at all — I just want the good fortune and abundance promised online', detail: 'pure jackpot orientation', score: 2 },
+          { text: 'A little, but I am mostly focused on external results and outcomes', detail: 'outcome fixation', score: 1 },
+          { text: 'I reflect occasionally on what recent hard lessons have taught me', detail: 'moderate introspection', score: 0 },
+          { text: 'Very much — 777 reminds me to value quiet wisdom, study, and mastery', detail: 'deep contemplative practice', score: -1 },
+          { text: 'Exclusively — I view the 7 as the archetype of truth-seeking and inner peace', detail: 'complete philosophical alignment', score: -2 }
+        ]
+      },
+      {
+        id: 'cultural_conditioning',
+        q: 'When you see 777, how strongly does the image of a slot machine or jackpot pop into your head?',
+        hint: 'Measures commercial and pop-culture conditioning.',
+        options: [
+          { text: 'Instantly — 777 has always meant winning big and striking gold', detail: 'heavy commercial conditioning', score: 2 },
+          { text: 'Quite strongly — I naturally associate it with casinos or jackpots', detail: 'moderate commercial association', score: 1 },
+          { text: 'I recognize the casino link, but think of spiritual sevens too', detail: 'mixed awareness', score: 0 },
+          { text: 'Rarely — I think of ancient cycles, chakras, and contemplative study', detail: 'archetypal orientation', score: -1 },
+          { text: 'Never — I see it simply as three digits with high visual symmetry', detail: 'zero commercial conditioning', score: -2 }
+        ]
+      },
+      {
+        id: 'underlying_need',
+        q: 'What is the real underlying need fueling your interest in 777?',
+        hint: 'Points toward what actually brings resolution.',
+        options: [
+          { text: 'Relief from exhaustion — knowing my prolonged struggle wasn’t in vain', detail: 'exhaustion validation', score: 'exhaustion_relief' },
+          { text: 'A green light to make a risky investment or life gamble', detail: 'risk validation', score: 'risk_greenlight' },
+          { text: 'Deep spiritual clarity and alignment with my true path', detail: 'spiritual clarity', score: 'spiritual_path' },
+          { text: 'Practical financial stability so I can stop worrying about money', detail: 'financial stability', score: 'financial_security' },
+          { text: 'To understand why my brain is catching this specific number', detail: 'intellectual curiosity', score: 'cognitive_curiosity' }
+        ]
+      },
+      {
+        id: 'advisor_preference',
+        q: 'If you consulted an advisor about this, what kind of counsel would you value?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A tarot reading exploring the Seven of Pentacles (evaluating long-term harvest)', detail: 'strategic tarot', score: 'tarot' },
+          { text: 'An astrology reading examining Jupiter transits and cycles of expansion', detail: 'astrological cycles', score: 'astrology' },
+          { text: 'An intuitive psychic reading on current spiritual momentum', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'A financial planner or credit counselor to fix practical cash flow', detail: 'practical financial coaching', score: 'financial' },
+          { text: 'Solitary reflection tools and zero paid reading sales pitches', detail: 'independent self-work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.jackpot_mindset || 0) + (a.risk_behavior || 0) + (a.wisdom_orientation || 0) + (a.cultural_conditioning || 0);
+      if (a.risk_behavior >= 1 || a.jackpot_mindset === 2) {
+        return 'jackpot_magical_thinking';
+      }
+      if (a.cultural_conditioning >= 1 && a.wisdom_orientation >= 1) {
+        return 'cultural_conditioning';
+      }
+      if (a.underlying_need === 'risk_greenlight') {
+        return 'decision_validation_seeking';
+      }
+      if (s <= -1 && a.wisdom_orientation <= -1) {
+        return 'introspective_wisdom';
+      }
+      return 'attentional_clustering';
+    },
+
+    results: {
+      'introspective_wisdom': {
+        title: 'Introspective Wisdom',
+        summary: 'Approaching 777 as the sacred archetype of contemplation, study, and quiet discernment.',
+        whatAnswersSuggest: [
+          'You hold an honorable and mature connection with the number 7. Rather than chasing casino-style windfalls, you connect with the ancient esoteric meaning of the 7: the philosopher, the Hermit, and the patient student of life.',
+          'When 777 appears, it serves as an intuitive reminder to step back from crowd noise, honor the lessons you have earned through hardship, and cultivate quiet inner peace. You understand that real wealth is discernment.'
+        ],
+        whatItCannotProve: 'That your spiritual wisdom excuses you from practical financial planning or physical health maintenance.',
+        whatToWatchNext: [
+          'Carve out an afternoon for solitude, reading, or nature contemplation without screens or digital distractions.',
+          'Review the hardest trial you survived in recent years and write down the three core lessons it taught you.'
+        ]
+      },
+      'jackpot_magical_thinking': {
+        title: 'Jackpot Magical Thinking',
+        summary: 'Falling for the casino fallacy — hoping a miracle will rescue you from practical struggle.',
+        whatAnswersSuggest: [
+          'You are experiencing profound emotional or financial fatigue, which makes the promise of an effortless windfall deeply seductive. Pop culture has heavily commercialized 777 as the “jackpot,” and you are looking to the sky for rescue.',
+          'Using 777 to justify buying lottery tickets, entering speculative financial schemes, or putting off necessary budgeting is dangerous. Numbers appearing on receipts do not alter the mathematical laws of probability.'
+        ],
+        whatItCannotProve: 'That an unexpected check will arrive to solve your debt without active financial discipline.',
+        whatToWatchNext: [
+          'Immediately halt all speculative betting or magical purchases based on angel numbers.',
+          'Conduct an honest, grounded audit of your finances: face the numbers on your bank statement with courage.'
+        ]
+      },
+      'cultural_conditioning': {
+        title: 'Cultural Conditioning',
+        summary: 'Noticing 777 because commercial media, billboards, and games have pre-loaded its salience.',
+        whatAnswersSuggest: [
+          'Your recurring sightings of 777 are heavily influenced by the fact that our culture is saturated with lucky-seven imagery. From slot machine ads to gasoline pricing, 777 is everywhere.',
+          'Your brain’s pattern-detection network flags 777 because it carries high visual contrast and cultural baggage, not because a supernatural entity is flashing neon signs into your life.'
+        ],
+        whatItCannotProve: 'That commercialized lucky symbols carry objective cosmic power over your personal destiny.',
+        whatToWatchNext: [
+          'Notice how conditioned stimuli trigger automatic emotional responses, and practice observing numbers without projecting destiny onto them.',
+          'Focus on building real, earned advantages in your career rather than hoping for superstitious luck.'
+        ]
+      },
+      'decision_validation_seeking': {
+        title: 'Decision Validation Seeking',
+        summary: 'Searching for 777 to validate taking a gamble that your rational intellect questions.',
+        whatAnswersSuggest: [
+          'You are contemplating a major career, financial, or personal leap, but deep down, you know the foundation is shaky. You are hoping 777 appears to give you cosmic permission to jump.',
+          'Using a number sighting to bypass rigorous scenario planning is an abdication of discernment. If a business plan or investment fails without a miracle, the plan is fundamentally flawed.'
+        ],
+        whatItCannotProve: 'That a high-risk venture is guaranteed to succeed just because you saw three sevens.',
+        whatToWatchNext: [
+          'Stress-test your plan: what is the worst-case scenario if this venture fails? Do you have the cash reserves to survive it?',
+          'Make your decision based on data, risk tolerance, and ethics — not numerical omens.'
+        ]
+      },
+      'attentional_clustering': {
+        title: 'Attentional Clustering',
+        summary: 'Dopamine reward anticipation and selective memory creating the illusion of a numerical sequence.',
+        whatAnswersSuggest: [
+          'Every time you see 777, you experience a mild spike in dopamine because the number is coded as a positive reward cue. This makes you remember every sighting vividly while forgetting the thousands of ordinary numbers you see daily.',
+          'This clustering illusion is completely natural and harmless, provided it does not lead to reckless financial behavior or obsessive checking habits.'
+        ],
+        whatItCannotProve: 'That random occurrences in your day are coordinated by unseen beings.',
+        whatToWatchNext: [
+          'Take a deep breath and smile at the coincidence. Use the momentary pause to return your attention to whatever task is in front of you.',
+          'Direct your mental focus toward high-leverage habits that produce durable long-term results.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'jackpot_magical_thinking' || a.jackpot_mindset >= 1) {
+        return {
+          key: 'exhaustion_from_struggle',
+          label: 'The desperation of an exhausted nervous system craving rescue',
+          text: 'When you have worked hard for years with little to show for it, hoping for a magical windfall is a completely understandable human defense against despair. But real relief will not come from a jackpot; it comes from restructuring your life so that your daily labor actually nourishes you.'
+        };
+      }
+      if (p === 'decision_validation_seeking' || a.risk_behavior >= 1) {
+        return {
+          key: 'fear_of_failure',
+          label: 'Outsourcing the blame for a high-risk decision',
+          text: 'If you take a risky gamble and it fails, you bear the sting of regret. If you convince yourself “the universe gave me 777 so I had to do it,” you protect your ego from responsibility. Real power comes from owning both your risks and your outcomes.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'wisdom, life harvest, and long-term discernment', cluster: 'angel-numbers' }),
+
+    matchPractice: function (a) {
+      if (a.advisor_preference === 'tarot' || a.life_context === 'study') {
+        return 'tarot_deep';
+      }
+      if (a.advisor_preference === 'astrology') {
+        return 'tarot_decision';
+      }
+      if (a.advisor_preference === 'psychic') {
+        return 'psychic';
+      }
+      if (a.advisor_preference === 'financial' || a.jackpot_mindset >= 1) {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '777-meaning', {
+        negativePatternTip: {
+          pattern: 'jackpot_magical_thinking',
+          text: 'when a psychic tells you 777 means you will win the lottery if you buy their lucky candle or charm, they are running a classic scam. Put that money into your savings account instead.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     555 MEANING — Transition, Disruption & Adaptive Change
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  '555-meaning': {
+    id: '555-meaning',
+    title: 'Why Is 555 on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are in an active readiness phase, experiencing anticipatory anxiety, restless from stagnation, or caught in attentional priming.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 555 sightings — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'life_context',
+        q: 'What impending change or stagnation coincided with 555 catching your eye?',
+        hint: 'Sets the life stage for why transition symbolism feels poignant.',
+        options: [
+          { text: 'A job, career, or company that has become painfully suffocating', detail: 'feeling stuck in professional stagnation', score: 'career_stuck' },
+          { text: 'A relationship that feels like it has reached an unavoidable threshold', detail: 'evolve or end crossroad', score: 'relationship_threshold' },
+          { text: 'Desire to relocate, change lifestyles, or start completely over', detail: 'craving a radical clean slate', score: 'relocation' },
+          { text: 'General anxiety that an unpredictable disruption is about to hit me', detail: 'free-floating dread of upheaval', score: 'anxiety_dread' },
+          { text: 'Reading online posts claiming 555 means massive shifts are coming', detail: 'internet spiritual media engagement', score: 'media' }
+        ]
+      },
+      {
+        id: 'sighting_moment',
+        q: 'When does 555 usually appear to you?',
+        hint: 'Reveals whether the sighting is circadian habit or situational vigilance.',
+        options: [
+          { text: 'Glancing at my phone or computer clock at exactly 5:55', detail: 'end-of-workday circadian marker', score: 'clock_555' },
+          { text: 'During moments of deep restlessness, boredom, or frustration', detail: 'chafing against current boundaries', score: 'restless_moment' },
+          { text: 'Immediately after applying for a job, signing a lease, or sending a risky text', detail: 'action-threshold confirmation', score: 'action_moment' },
+          { text: 'On order receipts, license plates, or random flight monitors', detail: 'everyday transit and retail encounters', score: 'transit' },
+          { text: 'Completely at random with no recognizable pattern', detail: 'unpredictable spontaneous encounters', score: 'random' }
+        ]
+      },
+      {
+        id: 'transition_readiness',
+        q: 'How ready do you feel to leave your familiar comfort zone behind?',
+        hint: 'Evaluates whether you are embracing or resisting adaptation.',
+        options: [
+          { text: 'Terrified — desperately clinging to the familiar even though it hurts', detail: 'extreme status quo resistance', score: 2 },
+          { text: 'Anxious — I know change is needed, but fear the unknown deeply', detail: 'reluctant anticipation', score: 1 },
+          { text: 'Ambivalent — one foot in the old world, one foot testing the new', detail: 'threshold hesitation', score: 0 },
+          { text: 'Mostly ready — willing to tolerate discomfort to build something better', detail: 'proactive courage', score: -1 },
+          { text: 'Completely ready — excited and prepared for the next chapter', detail: 'full adaptive momentum', score: -2 }
+        ]
+      },
+      {
+        id: 'anticipatory_anxiety',
+        q: 'How much dread or fear of catastrophe do you feel when you read that 555 means “massive upheaval”?',
+        hint: 'Measures whether the symbol induces empowerment or panic.',
+        options: [
+          { text: 'Severe panic — constantly bracing for disaster, loss, or sudden catastrophe', detail: 'acute catastrophic thinking', score: 2 },
+          { text: 'Noticeable unease — worried that forces outside my control will upend my life', detail: 'fatalistic anxiety', score: 1 },
+          { text: 'Mild curiosity mixed with slight nervousness', detail: 'normal human caution', score: 0 },
+          { text: 'Empowered — I view disruption as a necessary clearing of dead weight', detail: 'resilient mindset', score: -1 },
+          { text: 'Zero dread — I know I am capable of adapting to whatever comes', detail: 'deep self-efficacy', score: -2 }
+        ]
+      },
+      {
+        id: 'practical_preparation',
+        q: 'What concrete preparations have you made for your anticipated transition?',
+        hint: 'Distinguishes grounded proactive coping from passive fatalism.',
+        options: [
+          { text: 'None — just waiting helplessly to see what happens to me', detail: 'complete passive fatalism', score: 2 },
+          { text: 'Very little — overthinking scenarios without taking practical steps', detail: 'mental wheel-spinning', score: 1 },
+          { text: 'A few preliminary inquiries or financial calculations', detail: 'initial scoping', score: 0 },
+          { text: 'Active groundwork — saving funds, updating credentials, or talking openly', detail: 'disciplined preparation', score: -1 },
+          { text: 'Comprehensive safety net and contingency plan fully in place', detail: 'exemplary proactive readiness', score: -2 }
+        ]
+      },
+      {
+        id: 'attribution_style',
+        q: 'How do you internally explain the appearance of 555?',
+        hint: 'Checks locus of control and agency.',
+        options: [
+          { text: '“The universe is dictating an inevitable upheaval for my destiny”', detail: 'external fatalism', score: 2 },
+          { text: '“A sign that spiritual guides are shaking up my life”', detail: 'external guidance belief', score: 1 },
+          { text: '“A reflection of my own subconscious restlessness and readiness to grow”', detail: 'psychological mirror', score: 0 },
+          { text: '“Attentional salience — 5:55 is the end of the workday, so I glance at it”', detail: 'circadian observation', score: -1 },
+          { text: '“Pure statistical coincidence that carries whatever meaning I give it”', detail: 'strict rational ownership', score: -2 }
+        ]
+      },
+      {
+        id: 'core_longing',
+        q: 'What is the primary relief you are seeking right now?',
+        hint: 'Identifies the core tension that needs resolving.',
+        options: [
+          { text: 'Reassurance that a coming change will not destroy my stability', detail: 'safety guarantee', score: 'safety_reassurance' },
+          { text: 'The courage to finally quit, break away, or make a bold jump', detail: 'courage validation', score: 'courage_jump' },
+          { text: 'A clear map showing what is waiting on the other side of the transition', detail: 'uncertainty elimination', score: 'clarity_map' },
+          { text: 'Practical guidance on how to manage the logistical chaos of change', detail: 'logistical strategy', score: 'logistical_strategy' },
+          { text: 'To stop feeling anxious and learn to tolerate ambiguity', detail: 'emotional resilience', score: 'emotional_resilience' }
+        ]
+      },
+      {
+        id: 'guidance_fit',
+        q: 'If you consulted an outside advisor, what approach would serve you best?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A tarot reading exploring the Wheel of Fortune or Death (cycles & release)', detail: 'transition tarot', score: 'tarot' },
+          { text: 'An astrology reading analyzing Uranus or Pluto transits for timing', detail: 'astrological timing', score: 'astrology' },
+          { text: 'An intuitive psychic session to explore current momentum and blind spots', detail: 'intuitive read', score: 'psychic' },
+          { text: 'A career coach or licensed counselor to navigate transition grief and planning', detail: 'practical coaching/therapy', score: 'coaching_therapy' },
+          { text: 'Zero paid consultations — I prefer structured journaling and self-reflection', detail: 'independent self-work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.transition_readiness || 0) + (a.anticipatory_anxiety || 0) + (a.practical_preparation || 0) + (a.attribution_style || 0);
+      if (a.anticipatory_anxiety >= 1 && a.practical_preparation >= 1) {
+        return 'anticipatory_anxiety';
+      }
+      if (a.attribution_style === 2 && a.practical_preparation >= 1) {
+        return 'change_fatalism';
+      }
+      if (a.life_context === 'career_stuck' || a.life_context === 'relationship_threshold') {
+        return 'readiness_mirror';
+      }
+      if (s <= -1 && a.transition_readiness <= -1) {
+        return 'readiness_mirror';
+      }
+      if (a.life_context === 'media' || a.attribution_style <= -1) {
+        return 'attentional_priming';
+      }
+      return 'restlessness_seeking';
+    },
+
+    results: {
+      'readiness_mirror': {
+        title: 'Readiness Mirror',
+        summary: '555 reflecting your own subconscious readiness to outgrow an expired life chapter.',
+        whatAnswersSuggest: [
+          'You are not the helpless victim of cosmic chaos. Sighting 555 is functioning as an honest mirror reflecting your internal dissatisfaction with the status quo.',
+          'You already sense that a job, a relationship dynamic, or an outdated belief has run its course. The number is catching your attention because your nervous system is ready for growth, even if part of you is nervous about stepping into the unknown.'
+        ],
+        whatItCannotProve: 'That your transition will happen without effort, or that external circumstances will change without you making a move.',
+        whatToWatchNext: [
+          'Identify what is currently expired in your routine and name one concrete step to begin phasing it out.',
+          'Focus on proactive preparation: build your financial runway, update your skills, and communicate your boundaries.'
+        ]
+      },
+      'anticipatory_anxiety': {
+        title: 'Anticipatory Anxiety',
+        summary: 'Bracing for catastrophic disruption and projecting worst-case fears onto a neutral number.',
+        whatAnswersSuggest: [
+          'Reading that 555 means “massive upheaval” has triggered your catastrophic thinking. Instead of feeling empowered, your nervous system is on high alert, bracing for sudden loss, disaster, or chaos.',
+          'This anticipatory anxiety exhausts your mental bandwidth. Remember that 555 has no magical power to harm your life; it is simply three digits that commercial spirituality has loaded with sensationalist drama.'
+        ],
+        whatItCannotProve: 'That an uncontrollable catastrophe is headed your way, or that you are powerless to protect yourself.',
+        whatToWatchNext: [
+          'Disconnect from fear-based angel number content on social media.',
+          'Practice grounding your nervous system: identify three things in your immediate physical environment that are safe, stable, and working right now.'
+        ]
+      },
+      'change_fatalism': {
+        title: 'Change Fatalism',
+        summary: 'Believing the universe is forcing upheaval upon you, abdicating your own choice and agency.',
+        whatAnswersSuggest: [
+          'You have adopted a fatalistic narrative where “the universe is shaking everything up and I just have to surrender.” While surrendering to what is truly outside your control is healthy, using it to excuse inaction is disempowering.',
+          'You always retain choice over how you react, what standards you hold, and how you prepare. Do not let esoteric fatalism convince you that you are a passive passenger in your own life.'
+        ],
+        whatItCannotProve: 'That your choices do not matter or that divine forces will clean up the mess if you neglect your responsibilities.',
+        whatToWatchNext: [
+          'Reclaim the steering wheel: make a list of what you CAN control in this situation and take ownership of those actions.',
+          'Refuse to let fear of the unknown paralyze your practical planning.'
+        ]
+      },
+      'restlessness_seeking': {
+        title: 'Restlessness Seeking',
+        summary: 'Chafing against current stagnation and searching for an external signal to break the boredom.',
+        whatAnswersSuggest: [
+          'You feel an itch — a lingering restlessness that tells you that your current lifestyle or career has become mundane. Sighting 555 is an external focal point for that internal desire for novelty and challenge.',
+          'Rather than waiting for an explosion, recognize that healthy adults introduce novelty consciously: learning a new discipline, traveling, or adopting creative hobbies.'
+        ],
+        whatItCannotProve: 'That you must blow up your entire life to feel inspired again.',
+        whatToWatchNext: [
+          'Channel this restless energy into constructive creative projects or physical training.',
+          'Differentiate between healthy desire for growth and impulsive self-sabotage.'
+        ]
+      },
+      'attentional_priming': {
+        title: 'Attentional Priming',
+        summary: 'Circadian clock habits and visual contrast making 555 stand out without existential crisis.',
+        whatAnswersSuggest: [
+          'You notice 555 largely because of the end-of-workday glance at your clock (5:55 PM) or normal visual pattern recognition. The number is eye-catching, and because you read about it online, your brain notes it.',
+          'You are not experiencing severe emotional turbulence. Your pattern detection is operating normally without requiring deep spiritual deconstruction.'
+        ],
+        whatItCannotProve: 'That everyday clock glances are mystical directives.',
+        whatToWatchNext: [
+          'Enjoy the pleasant synchronicity as a mindful reminder to log off work and enjoy your evening.',
+          'Keep your focus on tangible daily goals.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'anticipatory_anxiety' || a.anticipatory_anxiety >= 1) {
+        return {
+          key: 'fear_of_the_unknown',
+          label: 'The terror of stepping out of the familiar into ambiguity',
+          text: 'Humans are biologically wired to fear the unknown because predictability meant survival for our ancestors. Experiencing dread when facing transition is not a sign that the future is cursed; it is your ancient brain begging for certainty. Build that certainty through self-trust.'
+        };
+      }
+      if (p === 'readiness_mirror' || a.transition_readiness <= -1) {
+        return {
+          key: 'grief_of_outgrowing',
+          label: 'The quiet grief of leaving an old identity behind',
+          text: 'Even positive transitions require a funeral for your former self. When you outgrow a job or relationship, you must mourn the comfort of who you used to be. Allow yourself to feel that quiet grief without assuming it means you made a mistake.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'life transitions, career pivots, and adaptive change', cluster: 'angel-numbers' }),
+
+    matchPractice: function (a) {
+      if (a.guidance_fit === 'tarot' || a.life_context === 'relationship_threshold') {
+        return 'tarot_decision';
+      }
+      if (a.guidance_fit === 'astrology' || a.life_context === 'career_stuck') {
+        return 'tarot_deep';
+      }
+      if (a.guidance_fit === 'psychic') {
+        return 'psychic';
+      }
+      if (a.guidance_fit === 'coaching_therapy' || a.anticipatory_anxiety >= 1) {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '555-meaning', {
+        negativePatternTip: {
+          pattern: 'change_fatalism',
+          text: 'when a reader tells you that a disastrous upheaval is cosmically destined and you are powerless to stop it, walk away. They are weaponizing your fear to sell protection rituals.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     55. 888 MEANING — Reciprocity, Abundance & Karmic Stewardship
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  '888-meaning': {
+    id: '888-meaning',
+    title: 'Why Is 888 on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are conducting a reciprocity audit, experiencing a scarcity relief fantasy, falling for passive windfall expectations, or caught in attentional priming.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your 888 sightings — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'life_context',
+        q: 'What financial or professional circumstances coincided with 888 appearing?',
+        hint: 'Context clarifies whether it is economic stress or professional growth.',
+        options: [
+          { text: 'Heavy financial anxiety — debt, unpaid bills, or chronic scarcity', detail: 'intense pressure around material survival', score: 'scarcity' },
+          { text: 'Building a business, negotiating a raise, or expanding a career', detail: 'proactive professional value creation', score: 'building' },
+          { text: 'Feeling exhausted from giving too much energy to others with little return', detail: 'burnout and energetic depletion', score: 'depletion' },
+          { text: 'Seeing prices ending in .88 or phone numbers with 888', detail: 'commercial and retail environments', score: 'retail' },
+          { text: 'Engaging with prosperity gospel, money manifestation, or wealth posts online', detail: 'social media manifestation media', score: 'media' }
+        ]
+      },
+      {
+        id: 'sighting_moment',
+        q: 'What thought pattern was active right before 888 caught your attention?',
+        hint: 'Reveals the projection attached to the symbol.',
+        options: [
+          { text: '“I desperately need money to come from somewhere”', detail: 'scarcity relief longing', score: 'desperation' },
+          { text: '“Am I charging what I am truly worth in my craft?”', detail: 'value and pricing self-inquiry', score: 'worth_check' },
+          { text: '“Does this sign confirm that my hard work will finally pay off?”', detail: 'karmic harvest confirmation', score: 'harvest_check' },
+          { text: '“Maybe this means I can afford this luxury purchase right now”', detail: 'spending justification impulse', score: 'spending_justification' },
+          { text: 'Nothing special — just registered three eights on a license plate', detail: 'neutral visual observation', score: 'neutral' }
+        ]
+      },
+      {
+        id: 'financial_agency',
+        q: 'How proactive and disciplined is your current approach to money?',
+        hint: 'Distinguishes grounded stewardship from magical passivity.',
+        options: [
+          { text: 'Completely passive — avoiding looking at bank statements and hoping for a miracle', detail: 'financial avoidance', score: 2 },
+          { text: 'Inconsistent — I worry constantly, but struggle to budget or track spending', detail: 'scarcity wheel-spinning', score: 1 },
+          { text: 'Moderate — I know my basic numbers, but have noticeable leaks', detail: 'basic maintenance', score: 0 },
+          { text: 'Active and disciplined — clear budget, emergency fund tracking, and debt reduction', detail: 'practical stewardship', score: -1 },
+          { text: 'Masterful — strategic investing, clear pricing, and disciplined wealth building', detail: 'complete financial sovereignty', score: -2 }
+        ]
+      },
+      {
+        id: 'reciprocity_balance',
+        q: 'How balanced is the exchange between the energy you expend and what you receive?',
+        hint: 'The 8 represents the eternal loop of fair energetic exchange.',
+        options: [
+          { text: 'Grossly exploitative — giving 100% to clients or partners who give back scraps', detail: 'severe energy leak', score: 2 },
+          { text: 'Under-compensated — working hard but under-charging or under-earning', detail: 'chronic undervaluation', score: 1 },
+          { text: 'Fairly balanced with a few noticeable boundary leaks', detail: 'mostly functional reciprocity', score: 0 },
+          { text: 'Healthy and mutually beneficial in almost all my contracts and relationships', detail: 'clean reciprocity loop', score: -1 },
+          { text: 'Completely sovereign — I only engage in high-integrity, mutually rewarding exchanges', detail: 'masterful boundary alignment', score: -2 }
+        ]
+      },
+      {
+        id: 'magical_spending_risk',
+        q: 'Have you used 888 as a reason to spend money you do not actually have?',
+        hint: 'Examines magical thinking in personal finance.',
+        options: [
+          { text: 'Yes — made significant purchases or investments believing 888 guaranteed cash inflow', detail: 'active financial self-sabotage', score: 2 },
+          { text: 'Felt tempted to spend recklessly because “abundance is on the way”', detail: 'scarcity relief impulse', score: 1 },
+          { text: 'Hesitated, but decided to check my real bank balance first', detail: 'rational intervention', score: 0 },
+          { text: 'No — I never make financial commitments based on numerical signs', detail: 'strict financial boundary', score: -1 },
+          { text: 'Never — my spending is governed strictly by my budget and cash reserves', detail: 'complete financial realism', score: -2 }
+        ]
+      },
+      {
+        id: 'attribution_style',
+        q: 'How do you explain the meaning of 888 when it appears?',
+        hint: 'Checks whether the symbol is used for magic or for mastery.',
+        options: [
+          { text: '“A supernatural guarantee that wealth and windfalls are flowing to me”', detail: 'passive prosperity belief', score: 2 },
+          { text: '“A sign that the universe wants me to be rich”', detail: 'external favoritism', score: 1 },
+          { text: '“An audit of my reciprocity: cause, effect, value, and fair compensation”', detail: 'archetypal stewardship', score: 0 },
+          { text: '“Attentional salience triggered by cultural marketing and financial stress”', detail: 'cognitive scarcity bias', score: -1 },
+          { text: '“Pure coincidence — three symmetrical loops that pop into view”', detail: 'strict rational baseline', score: -2 }
+        ]
+      },
+      {
+        id: 'core_longing',
+        q: 'What is the deepest desire behind your fascination with 888?',
+        hint: 'Points toward the true emotional bottleneck.',
+        options: [
+          { text: 'An end to the exhausting terror of living paycheck to paycheck', detail: 'scarcity relief', score: 'scarcity_relief' },
+          { text: 'Validation that my years of hard work, mastery, and sacrifice have value', detail: 'karmic recognition', score: 'karmic_recognition' },
+          { text: 'The courage to raise my rates, ask for a raise, or demand fair treatment', detail: 'worth claiming', score: 'worth_claiming' },
+          { text: 'Practical, no-nonsense tools to build wealth and eliminate debt', detail: 'financial education', score: 'financial_education' },
+          { text: 'Understanding why my brain keeps latching onto repeating eights', detail: 'cognitive curiosity', score: 'cognitive_curiosity' }
+        ]
+      },
+      {
+        id: 'advisor_preference',
+        q: 'If you sought outside perspective on your career and wealth, what would you respect most?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A tarot reading exploring the Eight of Pentacles (mastery, craft, fair compensation)', detail: 'career-focused tarot', score: 'tarot' },
+          { text: 'An astrology reading analyzing my 2nd, 8th, and 10th Houses (wealth & career cycles)', detail: 'astrological vocational timing', score: 'astrology' },
+          { text: 'An intuitive psychic session to explore business momentum and energy leaks', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'A certified financial counselor or business coach to audit real cash flow', detail: 'practical financial coaching', score: 'financial_coach' },
+          { text: 'Free self-inquiry frameworks and zero paid sales pitches', detail: 'independent self-work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.financial_agency || 0) + (a.reciprocity_balance || 0) + (a.magical_spending_risk || 0) + (a.attribution_style || 0);
+      if (a.magical_spending_risk >= 1 || (a.attribution_style === 2 && a.financial_agency >= 1)) {
+        return 'passive_windfall_expectation';
+      }
+      if (a.life_context === 'scarcity' || a.financial_agency >= 1) {
+        return 'scarcity_relief_fantasy';
+      }
+      if (a.reciprocity_balance >= 1 || a.core_longing === 'worth_claiming') {
+        return 'reciprocity_audit';
+      }
+      if (s <= -1 && a.attribution_style <= 0) {
+        return 'reciprocity_audit';
+      }
+      if (a.life_context === 'media' || a.life_context === 'retail') {
+        return 'attentional_priming';
+      }
+      return 'karmic_overthinking';
+    },
+
+    results: {
+      'reciprocity_audit': {
+        title: 'Reciprocity Audit',
+        summary: 'Approaching 888 as a master audit of cause and effect, energetic exchange, and fair compensation.',
+        whatAnswersSuggest: [
+          'You hold a deeply grounded connection to the archetype of the eight. Rather than treating 888 as a magic lottery ticket, you recognize it as the universal symbol of the infinity loop: what you invest must yield a sustainable, honorable return.',
+          'You are being called to audit your balance sheet — not just your finances, but your energetic boundaries. Where are you over-giving and under-charging? Where are you allowing your skills to be exploited? 888 is your prompt to demand fair exchange.'
+        ],
+        whatItCannotProve: 'That employers or clients will automatically raise your pay without you negotiating directly.',
+        whatToWatchNext: [
+          'Calculate your true hourly rate or value contribution and identify one area where your pricing needs to increase.',
+          'Firmly plug one energetic or financial leak where you are giving value without fair reciprocity.'
+        ]
+      },
+      'scarcity_relief_fantasy': {
+        title: 'Scarcity Relief Fantasy',
+        summary: 'An overtaxed brain using 888 as an emotional safety valve to escape the terror of debt.',
+        whatAnswersSuggest: [
+          'Your recurring sightings of 888 are rooted in chronic economic stress or debt. As behavioral economics shows, poverty and financial precarity consume massive mental bandwidth, driving the subconscious to search for rescue signals.',
+          'Believing that 888 means “wealth is rushing in” brings a temporary chemical dopamine exhale, but it does not pay rent. Do not let comforting fantasies distract you from taking the hard, practical steps required to build financial security.'
+        ],
+        whatItCannotProve: 'That a windfall will clear your debt without budgeting, saving, and earning.',
+        whatToWatchNext: [
+          'Face your real numbers: write down all debts, minimum payments, and essential expenses on a single sheet of paper.',
+          'Contact a non-profit credit counseling agency if debt feels insurmountable. Real help exists in the physical world.'
+        ]
+      },
+      'passive_windfall_expectation': {
+        title: 'Passive Windfall Expectation',
+        summary: 'Falling into dangerous magical thinking and using 888 to justify irresponsible spending.',
+        whatAnswersSuggest: [
+          'You have absorbed harmful prosperity gospel advice telling you to “act like you are already rich when you see 888.” This mindset frequently leads vulnerable people into credit card debt or speculative gambles.',
+          'True material mastery (the essence of the number 8) is built on patient craftsmanship, living below your means, and compounding value. Stop waiting for unearned riches and start stewarding the resources you have.'
+        ],
+        whatItCannotProve: 'That spending money you don’t have will magically trigger wealth inflow.',
+        whatToWatchNext: [
+          'Freeze all discretionary spending for the next 7 days.',
+          'Audit your recent impulse purchases and recognize the emotional insecurity they were trying to soothe.'
+        ]
+      },
+      'karmic_overthinking': {
+        title: 'Karmic Overthinking',
+        summary: 'Obsessing over whether past actions have created “money blocks” or karmic debt.',
+        whatAnswersSuggest: [
+          'You are over-analyzing your financial struggles through an esoteric karmic lens, wondering if you have an ancestral curse or a “poverty frequency.”',
+          'Economic inequality and financial struggles are largely structural and behavioral — not karmic punishments. Stop shaming your spiritual state and start building practical, high-value vocational skills.'
+        ],
+        whatItCannotProve: 'That your soul has a “poverty contract” requiring paid spiritual cleansings.',
+        whatToWatchNext: [
+          'Discard all ideas of financial curses or ancestral money blocks.',
+          'Focus on learning one high-income skill (sales, coding, writing, negotiation) that the market genuinely rewards.'
+        ]
+      },
+      'attentional_priming': {
+        title: 'Attentional Priming',
+        summary: 'Commercial pricing (.88) and cultural conditioning highlighting eights on retail displays.',
+        whatAnswersSuggest: [
+          'You encounter 888 frequently because retail prices, gas stations, and Chinese cultural businesses heavily feature repeating eights. Your visual system flags the symmetrical loops naturally.',
+          'You are not experiencing an existential financial crisis; your brain is simply cataloging patterns in a consumer environment.'
+        ],
+        whatItCannotProve: 'That commercial price tags contain personalized messages about your net worth.',
+        whatToWatchNext: [
+          'Enjoy the satisfying symmetry of the number without needing to decode a supernatural fortune.',
+          'Stay focused on executing your daily professional responsibilities with excellence.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'scarcity_relief_fantasy' || a.life_context === 'scarcity') {
+        return {
+          key: 'terror_of_destitution',
+          label: 'The physical dread of poverty and running out of survival resources',
+          text: 'Living under constant financial scarcity creates chronic nervous system trauma. Wanting a miracle is a tender, completely understandable cry for safety. Honor that need by building real financial safety nets with self-compassion and realistic patience.'
+        };
+      }
+      if (p === 'reciprocity_audit' || a.reciprocity_balance >= 1) {
+        return {
+          key: 'fear_of_charging_worth',
+          label: 'The imposter fear of demanding fair compensation',
+          text: 'Many conscientious people feel deep guilt around charging money for their gifts. You over-give because you fear being labeled greedy or rejected. True spiritual maturity recognizes that fair compensation is not greed; it is the boundary that allows your work to endure.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'career mastery, fair exchange, and financial stewardship', cluster: 'angel-numbers' }),
+
+    matchPractice: function (a) {
+      if (a.advisor_preference === 'tarot' || a.life_context === 'building') {
+        return 'tarot_decision';
+      }
+      if (a.advisor_preference === 'astrology') {
+        return 'tarot_deep';
+      }
+      if (a.advisor_preference === 'psychic') {
+        return 'psychic';
+      }
+      if (a.advisor_preference === 'financial_coach' || a.life_context === 'scarcity') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, '888-meaning', {
+        negativePatternTip: {
+          pattern: 'passive_windfall_expectation',
+          text: 'when a reader tells you that 888 means you should spend your last dollars on an expensive wealth ceremony, they are preying on your vulnerability. Keep your money and pay your bills.'
+        }
+      });
+    }
+  },
+
+
+  /* ----------------------------------------------------------
+     56. TOWER CARD MEANING — Collapse, Illusions & Bedrock
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'tower-card-meaning': {
+    id: 'tower-card-meaning',
+    title: 'Why Is the Tower on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are navigating a necessary demolition, experiencing catastrophic dread, resisting the inevitable, or rebuilding from trauma aftermath.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your Tower card inquiry — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'crisis_context',
+        q: 'What situation in your life prompted you to look up the Tower card?',
+        hint: 'Context defines whether this is active crisis or anticipatory anxiety.',
+        options: [
+          { text: 'A sudden, shocking disruption — a breakup, firing, or betrayal', detail: 'sitting in the immediate rubble of an event', score: 'recent_shock' },
+          { text: 'Drawn the card in a personal reading and felt a wave of terror', detail: 'fear triggered by the card’s dramatic imagery', score: 'card_draw_fear' },
+          { text: 'A lingering sense that my current life arrangement is unsustainable', detail: 'anticipating an inevitable collapse', score: 'unsustainable' },
+          { text: 'Recovering from a major crisis that happened weeks or months ago', detail: 'evaluating the rebuilding process', score: 'recovery' },
+          { text: 'Studying tarot archetypes out of intellectual or creative curiosity', detail: 'general symbolic study', score: 'study' }
+        ]
+      },
+      {
+        id: 'reaction_feeling',
+        q: 'When you look at the Tower’s falling figures and lightning, what is your gut emotional reaction?',
+        hint: 'Your visceral reaction reveals your current emotional threshold.',
+        options: [
+          { text: 'Deep dread and panic — waiting for an unavoidable disaster', detail: 'acute catastrophic thinking', score: 'dread' },
+          { text: 'Anger and grief — mourning something I loved that broke apart', detail: 'acute grieving process', score: 'grief' },
+          { text: 'A quiet, strange sense of relief that the pretense is over', detail: 'liberation from denial', score: 'relief' },
+          { text: 'Defiance — determined to glue the pieces back together at all costs', detail: 'active resistance to ending', score: 'resistance' },
+          { text: 'Curiosity — wondering what bedrock remains underneath', detail: 'contemplative inquiry', score: 'curiosity' }
+        ]
+      },
+      {
+        id: 'denial_level',
+        q: 'Looking back with honest eyes, were there signs that this foundation was fragile?',
+        hint: 'The Tower rarely strikes without preexisting structural stress.',
+        options: [
+          { text: 'None — it felt like completely unprovoked, random cruelty', detail: 'total surprise', score: 2 },
+          { text: 'A few red flags, but I actively suppressed them to keep the peace', detail: 'deliberate avoidance', score: 1 },
+          { text: 'I knew it was shaky, but didn’t expect it to fall so fast', detail: 'moderate awareness', score: 0 },
+          { text: 'I saw the collapse coming for months — it was only a matter of time', detail: 'clear pre-existing recognition', score: -1 },
+          { text: 'I initiated the demolition myself because the foundation was rotten', detail: 'intentional voluntary disruption', score: -2 }
+        ]
+      },
+      {
+        id: 'catastrophic_thinking',
+        q: 'How much are you catastrophizing that your entire future is permanently ruined?',
+        hint: 'Measures cognitive distortion in crisis.',
+        options: [
+          { text: 'Completely — I feel my life is over and I will never recover', detail: 'acute hopelessness', score: 2 },
+          { text: 'Frequently — oscillating between despair and brief moments of calm', detail: 'high emotional turbulence', score: 1 },
+          { text: 'Occasionally — I know I will survive, but the disruption is exhausting', detail: 'normal human crisis fatigue', score: 0 },
+          { text: 'Rarely — I recognize this as a painful but necessary clearing of the slate', detail: 'grounded resilience', score: -1 },
+          { text: 'Not at all — I am already excited to build something authentic on bedrock', detail: 'exemplary post-traumatic growth', score: -2 }
+        ]
+      },
+      {
+        id: 'bargaining_behavior',
+        q: 'Are you expending energy trying to revive or patch up the collapsed situation?',
+        hint: 'Examines whether you are accepting reality or bargaining with rubble.',
+        options: [
+          { text: 'Desperately — pleading, begging, or working overtime to restore the past', detail: 'intense bargaining', score: 2 },
+          { text: 'Tempted to — struggling to let go of familiar comforts', detail: 'reluctant acceptance', score: 1 },
+          { text: 'Processing the loss, but holding a clear boundary against going back', detail: 'active boundary maintenance', score: 0 },
+          { text: 'Walking away cleanly — I know the old structure is completely dead', detail: 'sovereign departure', score: -1 },
+          { text: 'Actively clearing the rubble and laying new blueprints', detail: 'total forward focus', score: -2 }
+        ]
+      },
+      {
+        id: 'grounding_status',
+        q: 'What does your physical and emotional support system look like right now?',
+        hint: 'Bedrock determines recovery speed.',
+        options: [
+          { text: 'Completely isolated — feeling completely alone with zero support', detail: 'dangerous vulnerability', score: 2 },
+          { text: 'Fragile — a couple of acquaintances, but hesitant to be vulnerable', detail: 'limited connection', score: 1 },
+          { text: 'Adequate — one or two trusted friends who listen without judging', detail: 'basic social safety net', score: 0 },
+          { text: 'Solid — loving community, physical shelter, and professional help', detail: 'strong resilient safety net', score: -1 },
+          { text: 'Deeply anchored — unshakable spiritual, emotional, and practical foundation', detail: 'complete internal & external grounding', score: -2 }
+        ]
+      },
+      {
+        id: 'core_need',
+        q: 'What would bring you the greatest comfort or clarity right now?',
+        hint: 'Reveals the honest next step for your healing.',
+        options: [
+          { text: 'Reassurance that I am safe and this collapse will not kill me', detail: 'safety stabilization', score: 'safety' },
+          { text: 'Practical guidance on how to survive the logistical aftermath', detail: 'logistical strategy', score: 'logistics' },
+          { text: 'Understanding why this happened so I stop blaming myself', detail: 'cognitive meaning-making', score: 'meaning' },
+          { text: 'A clear blueprint for building a resilient, honest new life', detail: 'reconstruction roadmap', score: 'reconstruction' },
+          { text: 'Releasing the terror that tarot cards can curse my destiny', detail: 'superstition de-escalation', score: 'superstition_relief' }
+        ]
+      },
+      {
+        id: 'guidance_fit',
+        q: 'If you sought guidance, what format would honor your current state best?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A tarot reading exploring The Star (healing, hope, and renewal after collapse)', detail: 'healing tarot', score: 'tarot' },
+          { text: 'An astrology reading analyzing Uranus or Mars transits for timing', detail: 'astrological timing', score: 'astrology' },
+          { text: 'An intuitive psychic reading to explore unspoken dynamics', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'A licensed crisis counselor or therapist to process acute shock and grief', detail: 'clinical crisis support', score: 'therapy' },
+          { text: 'Quiet solitary journaling, physical rest, and zero paid readings', detail: 'self-directed restoration', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.denial_level || 0) + (a.catastrophic_thinking || 0) + (a.bargaining_behavior || 0) + (a.grounding_status || 0);
+      if (a.crisis_context === 'card_draw_fear' && a.catastrophic_thinking >= 1) {
+        return 'catastrophic_dread';
+      }
+      if (a.bargaining_behavior >= 1 || a.reaction_feeling === 'resistance') {
+        return 'resistance_to_inevitable';
+      }
+      if (a.grounding_status >= 1 && a.catastrophic_thinking >= 1) {
+        return 'trauma_aftermath';
+      }
+      if (s <= -1 && a.denial_level <= -1) {
+        return 'necessary_demolition';
+      }
+      return 'illusion_collapse';
+    },
+
+    results: {
+      'necessary_demolition': {
+        title: 'Necessary Demolition',
+        summary: 'Recognizing that an unsustainable, rotten structure had to fall to allow real life to begin.',
+        whatAnswersSuggest: [
+          'You hold a remarkably mature perspective on the Tower archetype. While the disruption was painful, you recognize that the structure that collapsed was built on compromise, denial, or artificial pretenses.',
+          'You understand that the lightning strike was not an act of cruelty, but an act of liberation. It broke open a prison you were afraid to leave voluntarily. You are ready to build on genuine bedrock.'
+        ],
+        whatItCannotProve: 'That the rebuilding process will happen overnight without hard emotional labor.',
+        whatToWatchNext: [
+          'Refuse to salvage rotten materials: do not invite back the habits, lies, or dynamic that caused the fragility.',
+          'Turn your gaze toward Major Arcana XVII (The Star): focus on gentle healing, quiet authenticity, and self-care.'
+        ]
+      },
+      'catastrophic_dread': {
+        title: 'Catastrophic Dread',
+        summary: 'Projecting visceral terror onto a dramatic tarot image rather than facing an actual disaster.',
+        whatAnswersSuggest: [
+          'Your anxiety has been triggered by the violent imagery of the Tower card. Pop culture and superstitious readers have convinced you that drawing this card causes illness, accidents, or cosmic punishment.',
+          'Tarot cards have no magical power to harm your physical life. A piece of printed cardboard cannot strike down your career. Breathe deeply, ground your body, and release superstitious panic.'
+        ],
+        whatItCannotProve: 'That your life is cursed or that an unavoidable physical disaster is destined to strike.',
+        whatToWatchNext: [
+          'Put the tarot deck away for 72 hours. Reconnect with physical reality: go for a walk, cook a nourishing meal, and stretch.',
+          'Notice how your mind generates worst-case scenarios when presented with ambiguous or dramatic symbols.'
+        ]
+      },
+      'resistance_to_inevitable': {
+        title: 'Resistance to the Inevitable',
+        summary: 'Clinging desperately to the rubble of an expired arrangement out of terror of the unknown.',
+        whatAnswersSuggest: [
+          'You are spending precious emotional energy trying to bargain, patch up, or resurrect a situation that has already broken beyond repair. You are sleeping in the rubble because the open air feels too vast.',
+          'Prolonging the inevitable only multiplies your suffering. The Tower fell because its time had come. Honoring reality with dignity allows the real healing to begin.'
+        ],
+        whatItCannotProve: 'That you can force another person or an expired job to return to how it was in the beginning.',
+        whatToWatchNext: [
+          'Stop calling, texting, or pleading. Drop your hands and let the pieces lie where they fell.',
+          'Acknowledge that letting go of a broken structure is not failure; it is the prerequisite for self-respect.'
+        ]
+      },
+      'trauma_aftermath': {
+        title: 'Trauma Aftermath',
+        summary: 'Navigating acute shock and isolation following a sudden, genuine life rupture.',
+        whatAnswersSuggest: [
+          'You are experiencing the genuine physiological shock of a major life betrayal, sudden ending, or financial blow. Your nervous system is flooded with adrenaline and grief, and your support system feels thin.',
+          'In this state, you do not need esoteric readings; you need physical safety, hydration, emotional warmth, and practical crisis support. Be extraordinarily gentle with yourself.'
+        ],
+        whatItCannotProve: 'That you are permanently broken or that you will never feel joyful and secure again.',
+        whatToWatchNext: [
+          'Reach out to one compassionate, grounded person or a licensed counselor. Do not carry acute shock in solitary silence.',
+          'Focus strictly on the next 24 hours: food, sleep, safety, and basic hygiene. Long-term planning can wait.'
+        ]
+      },
+      'illusion_collapse': {
+        title: 'Illusion Collapse',
+        summary: 'The painful but liberating moment where unvarnished truth shatters prolonged denial.',
+        whatAnswersSuggest: [
+          'A truth has been revealed that you can no longer pretend not to see. Whether it was discovering a secret, confronting a financial deficit, or admitting a relationship is hollow, the illusion is gone.',
+          'The pain you feel right now is not the pain of destruction; it is the friction of your illusions breaking against reality. Reality always wins, and in the end, reality is the only place worth living.'
+        ],
+        whatItCannotProve: 'That you were foolish for believing the illusion in the first place. You did the best with what you knew.',
+        whatToWatchNext: [
+          'Forgive yourself for not seeing the cracks sooner. Denial is a natural human protective mechanism.',
+          'Step forward into unvarnished honesty: communicate directly, face the metrics, and live in the light.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'resistance_to_inevitable' || a.bargaining_behavior >= 1) {
+        return {
+          key: 'fear_of_the_rubble',
+          label: 'The terror of standing empty-handed without an identity',
+          text: 'When our fortress falls, we feel naked and unmoored. We cling to broken pieces because even a painful, toxic identity feels safer than the terrifying void of starting over. Trust that the empty space is not a cemetery; it is an open construction site.'
+        };
+      }
+      if (p === 'trauma_aftermath' || a.grounding_status >= 1) {
+        return {
+          key: 'crisis_shock',
+          label: 'The profound disorientation of a shattered world-assumptions',
+          text: 'A true Tower event shatters your fundamental assumptions: “I thought I was safe,” “I thought they loved me,” “I thought hard work guaranteed security.” Grieving the loss of your worldview takes time. Rebuilding trust begins with trusting your own resilience.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'crisis recovery, structural transitions, and rebuilding', cluster: 'tarot' }),
+
+    matchPractice: function (a) {
+      if (a.guidance_fit === 'tarot' || a.reaction_feeling === 'relief') {
+        return 'tarot_deep';
+      }
+      if (a.guidance_fit === 'astrology') {
+        return 'tarot_decision';
+      }
+      if (a.guidance_fit === 'psychic') {
+        return 'psychic';
+      }
+      if (a.guidance_fit === 'therapy' || a.crisis_context === 'recent_shock') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'tower-card-meaning', {
+        negativePatternTip: {
+          pattern: 'catastrophic_dread',
+          text: 'when a reader gasps and tells you the Tower means you are cursed or that tragedy is guaranteed, they are using cheap carnival tactics. An ethical reader helps you find the bedrock underneath.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     57. LOVERS CARD MEANING — Choice, Values & Soulmate Fantasy
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'lovers-card-meaning': {
+    id: 'lovers-card-meaning',
+    title: 'Why Is the Lovers Card on Your Mind?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are navigating a conscious choice, caught in soulmate projection, facing a values dilemma, or at a threshold of authentic vulnerability.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your Lovers card inquiry — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'relational_context',
+        q: 'What relationship dynamic prompted you to look up the Lovers card?',
+        hint: 'Sets the emotional stage for the card’s archetypal inquiry.',
+        options: [
+          { text: 'A thrilling new romance or intense infatuation with a crush', detail: 'early-stage butterflies and attraction', score: 'infatuation' },
+          { text: 'A painful crossroads between two suitors or two different life paths', detail: 'genuine dilemma of choice', score: 'crossroads' },
+          { text: 'A committed relationship navigating values friction or growing distance', detail: 'evaluating long-term sustainability', score: 'long_term' },
+          { text: 'Longing for an ex and wondering if we are destined soulmates', detail: 'post-breakup reconciliation hope', score: 'ex_hope' },
+          { text: 'Single and wondering when my soulmate or twin flame will arrive', detail: 'seeking future romantic timing', score: 'solo' }
+        ]
+      },
+      {
+        id: 'projection_check',
+        q: 'How much of your feelings are based on who this person ACTUALLY is vs who you hope they become?',
+        hint: 'Distinguishes genuine love from projective fantasy.',
+        options: [
+          { text: 'Mostly fantasy — projecting an idealized vision and ignoring obvious flaws', detail: 'intense romantic projection', score: 2 },
+          { text: 'Somewhat idealized — hoping their potential will eventually shine through', detail: 'potential-attachment', score: 1 },
+          { text: 'A balanced mix — I see their flaws, but still feel strongly drawn', detail: 'realistic affection', score: 0 },
+          { text: 'Grounded reality — I know their true character, flaws, and habits thoroughly', detail: 'deep observational realism', score: -1 },
+          { text: 'Radical clarity — zero illusions; loving them exactly as they are right now', detail: 'mature consummate love', score: -2 }
+        ]
+      },
+      {
+        id: 'values_alignment',
+        q: 'How well do your core values, ethics, and long-term life visions align with this person?',
+        hint: 'The Lovers is fundamentally about values compatibility.',
+        options: [
+          { text: 'Completely incompatible — clashing on finances, ethics, family, or honesty', detail: 'severe structural values mismatch', score: 2 },
+          { text: 'Significant friction — major compromises required on non-negotiables', detail: 'uncomfortable friction', score: 1 },
+          { text: 'Moderately aligned — some differences, but shared core integrity', detail: 'workable compromise', score: 0 },
+          { text: 'Highly compatible — sharing identical life principles and mutual respect', detail: 'deep values synergy', score: -1 },
+          { text: 'Flawlessly united — complete shared vision, ethics, and mutual honor', detail: 'seamless alignment', score: -2 }
+        ]
+      },
+      {
+        id: 'vulnerability_exposure',
+        q: 'How safe do you feel showing up naked (raw, honest, and unarmored) with this person?',
+        hint: 'The Lovers stand naked before Raphael with zero masks.',
+        options: [
+          { text: 'Terrified — wearing a heavy mask to avoid being rejected or abandoned', detail: 'complete emotional self-protection', score: 2 },
+          { text: 'Guarded — sharing surface feelings while hiding my true needs and boundaries', detail: 'guarded compliance', score: 1 },
+          { text: 'Cautiously opening up as trust is earned over time', detail: 'healthy pacing', score: 0 },
+          { text: 'Very safe — able to express tears, anger, and boundaries without panic', detail: 'high relational security', score: -1 },
+          { text: 'Completely unarmored — radical mutual transparency and total acceptance', detail: 'consummate vulnerability', score: -2 }
+        ]
+      },
+      {
+        id: 'reciprocity_balance',
+        q: 'Is this connection an active mutual choice, or a one-sided chase?',
+        hint: 'True Lovers energy requires two people consciously choosing each other.',
+        options: [
+          { text: 'Completely one-sided — I am doing 100% of the emotional labor and chasing', detail: 'unrequited pursuit', score: 2 },
+          { text: 'Inconsistent — they pull close when lonely, then vanish into silence', detail: 'hot-and-cold ambivalence', score: 1 },
+          { text: 'Mostly balanced, though one of us initiates slightly more', detail: 'functional everyday balance', score: 0 },
+          { text: 'Equally chosen — both of us invest effort, time, and care consistently', detail: 'mutual active commitment', score: -1 },
+          { text: 'Unshakably reciprocal — a sovereign partnership of equal devotion', detail: 'exemplary mutual dedication', score: -2 }
+        ]
+      },
+      {
+        id: 'fate_vs_agency',
+        q: 'When you think of the Lovers card, what do you believe it promises?',
+        hint: 'Checks locus of control and romantic fatalism.',
+        options: [
+          { text: '“Cosmic destiny guarantees we belong together regardless of behavior”', detail: 'toxic romantic fatalism', score: 2 },
+          { text: '“A sign that our souls have an unbreakable spiritual contract”', detail: 'soul contract projection', score: 1 },
+          { text: '“An invitation to choose commitment with full awareness of trade-offs”', detail: 'archetypal moral choice', score: 0 },
+          { text: '“A call to align my actions with my highest personal values”', detail: 'self-sovereign ethics', score: -1 },
+          { text: '“A psychological mirror reflecting my own capacity to love honestly”', detail: 'internal depth integration', score: -2 }
+        ]
+      },
+      {
+        id: 'core_need',
+        q: 'What is the real underlying resolution you are seeking from this card?',
+        hint: 'Points toward what actually brings resolution.',
+        options: [
+          { text: 'Proof that this person is my soulmate so I can stop feeling insecure', detail: 'destiny validation', score: 'soulmate_proof' },
+          { text: 'Clarity on which path or suitor aligns with my long-term integrity', detail: 'crossroads decision', score: 'crossroads_choice' },
+          { text: 'The courage to be completely honest about my boundaries and needs', detail: 'vulnerability courage', score: 'vulnerability_courage' },
+          { text: 'Understanding whether staying in this relationship is healthy for me', detail: 'viability audit', score: 'viability_audit' },
+          { text: 'How to cultivate deep self-worth before entering dating', detail: 'self-love integration', score: 'self_love' }
+        ]
+      },
+      {
+        id: 'preferred_support',
+        q: 'If you sought outside counsel, what format would serve your integrity best?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A relationship tarot spread comparing mutual expectations and values', detail: 'values tarot', score: 'tarot' },
+          { text: 'A synastry astrology reading examining Venus and Saturn relational cycles', detail: 'astrological compatibility', score: 'astrology' },
+          { text: 'An intuitive psychic reading on unspoken interpersonal dynamics', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'Couples therapy or individual attachment counseling with a licensed therapist', detail: 'clinical relationship therapy', score: 'therapy' },
+          { text: 'Quiet reflection, honest journaling, and direct conversation with my partner', detail: 'independent communication', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.projection_check || 0) + (a.values_alignment || 0) + (a.vulnerability_exposure || 0) + (a.reciprocity_balance || 0);
+      if (a.reciprocity_balance === 2 || (a.relational_context === 'ex_hope' && a.projection_check >= 1)) {
+        return 'unrequited_idealization';
+      }
+      if (a.projection_check >= 1 && a.fate_vs_agency >= 1) {
+        return 'soulmate_projection';
+      }
+      if (a.values_alignment >= 1 || a.relational_context === 'crossroads') {
+        return 'values_dilemma';
+      }
+      if (a.vulnerability_exposure >= 1) {
+        return 'vulnerability_threshold';
+      }
+      return 'conscious_choice';
+    },
+
+    results: {
+      'conscious_choice': {
+        title: 'Conscious Choice',
+        summary: 'Approaching the Lovers as a deliberate, mature decision to commit with open eyes.',
+        whatAnswersSuggest: [
+          'You understand the true esoteric core of the Lovers (The Choice). Rather than floating in teenage soulmate fantasies, you recognize that enduring love is a daily practice of moral commitment, mutual respect, and shared values.',
+          'You see your partner clearly — including their flaws — and choose them not because a deck of cards forced you, but because your principles align and you build each other up in the real world.'
+        ],
+        whatItCannotProve: 'That your relationship will never face painful challenges or that conflict is impossible.',
+        whatToWatchNext: [
+          'Continue nurturing open, transparent communication: remember that the angel Raphael is the patron of honest dialogue.',
+          'Celebrate the quiet, ordinary moments of partnership over dramatic emotional fireworks.'
+        ]
+      },
+      'soulmate_projection': {
+        title: 'Soulmate Projection',
+        summary: 'Projecting an idealized romantic fantasy onto a person whose real behavior doesn’t match.',
+        whatAnswersSuggest: [
+          'You are deeply intoxicated by the romance of the Lovers card, using concepts like “soulmates” or “twin flames” to explain intense chemistry. In doing so, you are in danger of falling in love with a fantasy rather than the actual human being.',
+          'When you project your ideal partner onto someone, you ignore red flags, excuse emotional inconsistency, and set both of you up for bitter disappointment when reality inevitably intrudes.'
+        ],
+        whatItCannotProve: 'That intense romantic chemistry equals long-term character compatibility.',
+        whatToWatchNext: [
+          'List this person’s real-world behaviors over the past three months: do their actions match their poetic words?',
+          'Stop asking if they are your soulmate. Ask: “Does this person treat me with consistent kindness, respect, and emotional safety?”'
+        ]
+      },
+      'values_dilemma': {
+        title: 'Values Dilemma',
+        summary: 'Standing at a critical crossroads where passionate attraction clashes with personal integrity.',
+        whatAnswersSuggest: [
+          'You are experiencing the classical dilemma of the Lovers card: a choice between two paths, or between your romantic desires and your fundamental moral values. Chemistry is pulling you forward, but your conscience is waving a warning flag.',
+          'Passionate attraction cannot survive a fundamental divergence on core life values (finances, honesty, family, ethics). Choosing partnership requires aligning your actions with your deepest integrity.'
+        ],
+        whatItCannotProve: 'Which choice holds zero emotional grief. Every real decision closes a door.',
+        whatToWatchNext: [
+          'Name the non-negotiable value that is currently being compromised or tested in this connection.',
+          'Refuse to compromise your fundamental self-respect to keep someone else comfortable.'
+        ]
+      },
+      'vulnerability_threshold': {
+        title: 'Vulnerability Threshold',
+        summary: 'Standing before real intimacy, wrestling with the terror of shedding your defensive armor.',
+        whatAnswersSuggest: [
+          'The Lovers stand completely naked in the Garden of Eden. Your primary challenge right now is the terror of emotional exposure: you crave deep intimacy, but fear that if you show your authentic, imperfect self, you will be rejected.',
+          'You are hiding behind agreeable masks, people-pleasing, or emotional distance. Real intimacy cannot begin until you have the courage to show up without your armor.'
+        ],
+        whatItCannotProve: 'That being vulnerable guarantees the other person will treat you with total tenderness.',
+        whatToWatchNext: [
+          'Take one small, courageous risk in vulnerability: share an honest boundary, a secret fear, or a genuine desire.',
+          'Notice that authentic love loves you for your imperfect humanity, not your polished facade.'
+        ]
+      },
+      'unrequited_idealization': {
+        title: 'Unrequited Idealization',
+        summary: 'Clinging to the Lovers card to justify chasing someone who is emotionally unavailable or uncommitted.',
+        whatAnswersSuggest: [
+          'You are doing 100% of the emotional heavy lifting in this dynamic, using the hope that “we pulled the Lovers, so we are destined” to endure hot-and-cold treatment, breadcrumbing, or unfaithfulness.',
+          'The Lovers represents a mutual union of equals standing together &mdash; not a hostage negotiation where one person begs for crumbs. Staying in an unreciprocated chase is self-abandonment.'
+        ],
+        whatItCannotProve: 'That an uncommitted ex or partner will suddenly change their character because of a tarot draw.',
+        whatToWatchNext: [
+          'Drop the rope. Stop initiating, stop chasing, and observe what happens when you hold your ground.',
+          'Choose yourself. The highest expression of the Lovers is choosing your own self-respect over an addictive fantasy.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'soulmate_projection' || a.projection_check >= 1) {
+        return {
+          key: 'longing_for_completion',
+          label: 'The ache to be completed and saved by another person',
+          text: 'We project soulmate status onto people because we want someone to rescue us from the loneliness of existence. But no human being can complete you; expecting a partner to carry the weight of your spiritual wholeness crushes the relationship. Love begins when two whole beings choose to walk together.'
+        };
+      }
+      if (p === 'unrequited_idealization' || a.reciprocity_balance >= 1) {
+        return {
+          key: 'worth_linked_to_chase',
+          label: 'Conflating the anxiety of chasing with the depth of love',
+          text: 'When childhood love was conditional or unpredictable, our nervous system confuses intermittent reinforcement and anxiety with “passionate romance.” True love feels calm, steady, and reciprocal. Healing means learning to tolerate the peace of being loved without a fight.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'relationship choices, values alignment, and partnership', cluster: 'tarot' }),
+
+    matchPractice: function (a) {
+      if (a.preferred_support === 'tarot' || a.relational_context === 'crossroads') {
+        return 'tarot_relationship';
+      }
+      if (a.preferred_support === 'astrology') {
+        return 'tarot_deep';
+      }
+      if (a.preferred_support === 'psychic') {
+        return 'psychic';
+      }
+      if (a.preferred_support === 'therapy' || a.reciprocity_balance >= 1) {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'lovers-card-meaning', {
+        negativePatternTip: {
+          pattern: 'unrequited_idealization',
+          text: 'when a reader tells you that the Lovers card proves an emotionally distant ex is your twin flame and you must wait for them indefinitely, walk away. They are keeping you trapped in heartache to sell follow-up readings.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     58. TAROT YES OR NO — Binary Collapse & Decision Sovereignty
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'tarot-yes-or-no': {
+    id: 'tarot-yes-or-no',
+    title: 'What Is Your Yes/No Question Actually Pointing At?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are seeking decision empowerment, caught in ambiguity panic, asking for permission, or avoiding accountability.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your yes/no tarot inquiry — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'decision_topic',
+        q: 'What life domain is your yes/no question focused on?',
+        hint: 'Context clarifies where the pressure is concentrating.',
+        options: [
+          { text: 'A romantic relationship — reconciliation, fidelity, or breakup', detail: 'high emotional vulnerability', score: 'love' },
+          { text: 'Career, job offer, or major financial investment', detail: 'practical security and trajectory', score: 'career_finance' },
+          { text: 'Relocation, home purchase, or moving to a new city', detail: 'physical living foundations', score: 'relocation' },
+          { text: 'A health, legal, or medical question', detail: 'critical high-stakes domain', score: 'medical_legal' },
+          { text: 'Everyday curiosity or testing whether tarot really works', detail: 'casual or skeptical exploration', score: 'curiosity' }
+        ]
+      },
+      {
+        id: 'urgency_level',
+        q: 'How urgently do you feel you need an immediate answer?',
+        hint: 'High urgency usually signals acute ambiguity panic.',
+        options: [
+          { text: 'Desperate — feeling completely overwhelmed and unable to function without an answer', detail: 'acute panic', score: 'desperate' },
+          { text: 'Pressing — a deadline is approaching and I feel paralyzed', detail: 'approaching deadline', score: 'deadline' },
+          { text: 'Moderate — I am weighing choices, but have a few days to reflect', detail: 'manageable timeline', score: 'moderate' },
+          { text: 'Low — exploring my options thoughtfully before making a move', detail: 'spacious timeline', score: 'low' },
+          { text: 'None — just playing with cards and curious about possibilities', detail: 'zero urgency', score: 'none' }
+        ]
+      },
+      {
+        id: 'ambiguity_tolerance',
+        q: 'How comfortable are you holding space for uncertainty and gray areas?',
+        hint: 'Low ambiguity tolerance forces complex issues into false binaries.',
+        options: [
+          { text: 'Completely unbearable — I would rather have a painful “No” than stay in ambiguity', detail: 'extreme ambiguity intolerance', score: 2 },
+          { text: 'Very uncomfortable — overthinking constantly and unable to relax', detail: 'high rumination', score: 1 },
+          { text: 'Somewhat uneasy, but able to sit with questions for a while', detail: 'moderate tolerance', score: 0 },
+          { text: 'Comfortable — I know most important life decisions involve trade-offs', detail: 'mature nuance tolerance', score: -1 },
+          { text: 'Completely at peace — I embrace ambiguity as the fertile ground of life', detail: 'masterful emotional resilience', score: -2 }
+        ]
+      },
+      {
+        id: 'permission_seeking',
+        q: 'Are you using the tarot deck to give you permission to do something you already want to do?',
+        hint: 'Examines whether the cards are being used as a shield against guilt.',
+        options: [
+          { text: 'Yes — I know what I want, but need an external sign so I don’t feel guilty', detail: 'conscious permission-seeking', score: 2 },
+          { text: 'Probably — hoping the cards say “Yes” so I have an excuse to take the leap', detail: 'subconscious validation-seeking', score: 1 },
+          { text: 'Partially — I have a slight preference, but genuinely unsure of the risks', detail: 'balanced exploration', score: 0 },
+          { text: 'No — I am completely neutral and seeking an objective look at both paths', detail: 'impartial inquiry', score: -1 },
+          { text: 'Never — I make my own choices and own the full responsibility for them', detail: 'complete internal authority', score: -2 }
+        ]
+      },
+      {
+        id: 'card_pulling_habits',
+        q: 'How do you react when a card gives you an answer you didn’t want?',
+        hint: 'Compulsive re-pulling indicates anxiety regulation loops.',
+        options: [
+          { text: 'Reshuffle immediately and keep pulling until I get a “Yes”', detail: 'compulsive confirmation loop', score: 2 },
+          { text: 'Feel sick, consult multiple online yes/no cheat sheets, and ask friends', detail: 'reassurance-seeking spiral', score: 1 },
+          { text: 'Feel disappointed, but pause to reflect on why that outcome stung', detail: 'self-reflective pause', score: 0 },
+          { text: 'Examine what conditions or trade-offs the card is pointing out', detail: 'constructive narrative engagement', score: -1 },
+          { text: 'I don’t do yes/no draws — I always lay out comparative multi-card spreads', detail: 'sophisticated decision spread practice', score: -2 }
+        ]
+      },
+      {
+        id: 'agency_ownership',
+        q: 'If the outcome goes poorly, who will you hold responsible for the decision?',
+        hint: 'Distinguishes sovereign adulthood from fatalistic outsourcing.',
+        options: [
+          { text: 'The cards or the psychic — “the reading told me to do it!”', detail: 'complete external blame', score: 2 },
+          { text: 'Fate or bad luck — feeling like a victim of cosmic circumstances', detail: 'passive fatalism', score: 1 },
+          { text: 'A shared mix of circumstance and my own imperfect judgment', detail: 'shared responsibility', score: 0 },
+          { text: 'Myself — I gathered input, but the final choice was 100% mine', detail: 'sovereign ownership', score: -1 },
+          { text: 'Myself completely — I embrace both the rewards and the failures of my agency', detail: 'uncompromising self-leadership', score: -2 }
+        ]
+      },
+      {
+        id: 'real_longing',
+        q: 'What is the true underlying need fueling your desire for a yes or no?',
+        hint: 'Points toward what actually brings resolution.',
+        options: [
+          { text: 'An end to the agonizing anxiety of second-guessing myself', detail: 'anxiety relief', score: 'anxiety_relief' },
+          { text: 'Permission to leave a situation that drains my vitality', detail: 'permission_leave', score: 'permission_leave' },
+          { text: 'A risk guarantee so I know I won’t look foolish or fail', detail: 'failure insurance', score: 'failure_insurance' },
+          { text: 'A comparative framework to evaluate Option A vs Option B side by side', detail: 'comparative framework', score: 'comparative_analysis' },
+          { text: 'To understand the deeper psychological reasons behind my hesitation', detail: 'self-inquiry', score: 'self_inquiry' }
+        ]
+      },
+      {
+        id: 'advisory_fit',
+        q: 'If you consulted a reader about this choice, what standard would you insist on?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A structured Two-Path Decision Spread mapping both options side by side', detail: 'comparative decision spread', score: 'tarot' },
+          { text: 'An astrological transit check to identify timing and momentum windows', detail: 'astrological timing', score: 'astrology' },
+          { text: 'An intuitive psychic session to explore unspoken emotional undercurrents', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'An executive coach or licensed therapist to overcome decision paralysis', detail: 'clinical decision coaching', score: 'therapy' },
+          { text: 'Free self-inquiry writing prompts with zero external consultation', detail: 'independent self-work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.ambiguity_tolerance || 0) + (a.permission_seeking || 0) + (a.card_pulling_habits || 0) + (a.agency_ownership || 0);
+      if (a.ambiguity_tolerance >= 1 && (a.urgency_level === 'desperate' || a.real_longing === 'anxiety_relief')) {
+        return 'ambiguity_panic';
+      }
+      if (a.permission_seeking >= 1 || a.real_longing === 'permission_leave') {
+        return 'permission_seeking';
+      }
+      if (a.agency_ownership >= 1) {
+        return 'outcome_evasion';
+      }
+      if (a.card_pulling_habits >= 1) {
+        return 'binary_trap';
+      }
+      return 'decision_empowerment';
+    },
+
+    results: {
+      'decision_empowerment': {
+        title: 'Decision Empowerment',
+        summary: 'Using tarot as an empowering mirror to evaluate trade-offs, conditions, and trajectories.',
+        whatAnswersSuggest: [
+          'You hold a healthy, sophisticated understanding of tarot. Rather than treating 78 complex archetypes like a cheap plastic coin-flip, you use the cards to illuminate the trade-offs and hidden costs of both options.',
+          'You understand that adult decision-making is not about finding an option with zero friction; it is about choosing which set of challenges you are willing to embrace with full personal responsibility.'
+        ],
+        whatItCannotProve: 'Which choice holds a 100% guarantee of success or zero sorrow.',
+        whatToWatchNext: [
+          'Lay out a structured Two-Path Spread: draw three cards for Option A and three for Option B.',
+          'Focus on comparing the conditions required to succeed in each path rather than looking for a binary verdict.'
+        ]
+      },
+      'ambiguity_panic': {
+        title: 'Ambiguity Panic',
+        summary: 'Demanding a yes/no verdict to extinguish the acute physical pain of prolonged uncertainty.',
+        whatAnswersSuggest: [
+          'Your urge to get an immediate yes/no answer is driven by acute anxiety rather than rational planning. Your nervous system is flooded, and holding the discomfort of an unsettled crossroads feels unbearable.',
+          'Demanding a binary answer from a deck of cards is a desperate attempt to stop the panic. But a false sense of certainty will only collapse later. Learn to regulate your nervous system first; decisions made in panic rarely hold.'
+        ],
+        whatItCannotProve: 'That forcing a quick choice right now will protect you from future regret.',
+        whatToWatchNext: [
+          'Stop pulling cards for 24 hours. Practice somatic grounding: cold water on your wrists, deep breathing, and physical rest.',
+          'Separate the emotional discomfort of ambiguity from an actual emergency. Most choices can wait two days.'
+        ]
+      },
+      'permission_seeking': {
+        title: 'Permission Seeking',
+        summary: 'Asking cards to grant you permission to do what you already know in your gut you need to do.',
+        whatAnswersSuggest: [
+          'Deep down, you already know the answer. You want to leave the relationship, quit the job, or take the leap &mdash; but you fear the guilt, criticism, or consequences that come with owning the choice.',
+          'You are hoping the tarot deck will say “Yes, leave!” so you can point to the cards and say “the universe made me do it.” Reclaim your sovereignty: you do not need permission from cardboard to live an authentic life.'
+        ],
+        whatItCannotProve: 'That having external permission will exempt you from the uncomfortable emotions of setting boundaries.',
+        whatToWatchNext: [
+          'Say out loud: “I am an adult. I have the right to choose what is healthy for me without cosmic justification.”',
+          'Notice how much lighter you feel when you own your desire rather than hiding behind signs.'
+        ]
+      },
+      'binary_trap': {
+        title: 'The Binary Bias Trap',
+        summary: 'Forcing complex, multi-dimensional life realities into rigid black-and-white caricatures.',
+        whatAnswersSuggest: [
+          'You have fallen into the cognitive trap of the Binary Bias: assuming that an outcome is either 100% good or 100% bad, a total success or an utter failure. Yes/no tarot reinforces this black-and-white thinking.',
+          'Reality is almost always nuanced and conditional. A job offer might be a “Yes for income, but a No for work-life balance.” A relationship might be a “Yes for attraction, but a No for shared values.” Look for the conditions.'
+        ],
+        whatItCannotProve: 'That any major life choice can be cleanly categorized as purely good or purely bad.',
+        whatToWatchNext: [
+          'Identify the “If/Then” conditions: under what specific circumstances does this choice become a Yes?',
+          'Replace “Will it work?” with “What skills, boundaries, and resources do I need to bring to make it work?”'
+        ]
+      },
+      'outcome_evasion': {
+        title: 'Outcome Evasion',
+        summary: 'Outsourcing the responsibility of adult choice to avoid bearing the sting of potential failure.',
+        whatAnswersSuggest: [
+          'Asking the cards to decide for you is a subtle psychological defense mechanism against accountability. If you choose on your own and fail, you must face your own regret; if you follow a card draw, you can blame fate.',
+          'True personal power requires embracing the possibility of failure. Living boldly means making choices with imperfect information, bearing the consequences with dignity, and trusting yourself to adapt.'
+        ],
+        whatItCannotProve: 'That avoiding responsibility protects your self-esteem in the long run.',
+        whatToWatchNext: [
+          'Own your choice completely. Make a decision, write it in your journal, and date it.',
+          'Remember that making an imperfect decision and learning from it builds more wisdom than waiting for signs.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'ambiguity_panic' || a.ambiguity_tolerance >= 1) {
+        return {
+          key: 'terror_of_the_in_between',
+          label: 'The visceral panic of living without a map',
+          text: 'Living in the gap between what was and what will be is one of the most agonizing human states. We crave a binary verdict because we want to know what ground we stand on. Cultivating ambiguity tolerance is the ultimate spiritual practice: learning to breathe while the clay is still being shaped.'
+        };
+      }
+      if (p === 'permission_seeking' || a.permission_seeking >= 1) {
+        return {
+          key: 'fear_of_being_the_villain',
+          label: 'The fear of being judged for choosing your own happiness',
+          text: 'Many conscientious people were raised to believe that choosing their own needs makes them selfish or cruel. You seek a “Yes” from tarot because you want an angelic absolution for disappointing others. An authentic life requires tolerating being the villain in someone else’s story.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'decision clarity, comparative options, and choice ownership', cluster: 'tarot' }),
+
+    matchPractice: function (a) {
+      if (a.advisory_fit === 'tarot' || a.decision_topic === 'career_finance') {
+        return 'tarot_decision';
+      }
+      if (a.advisory_fit === 'astrology') {
+        return 'tarot_deep';
+      }
+      if (a.advisory_fit === 'psychic') {
+        return 'psychic';
+      }
+      if (a.advisory_fit === 'therapy' || a.decision_topic === 'medical_legal') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'tarot-yes-or-no', {
+        negativePatternTip: {
+          pattern: 'ambiguity_panic',
+          text: 'when a reader offers to answer 10 yes/no questions in 5 minutes, they are running a slot machine on your anxiety. A wise advisor refuses binary coin-flips and helps you explore conditions.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     59. DREAM ABOUT BEING CHASED — Avoidance & Threat Simulation
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'dream-about-being-chased': {
+    id: 'dream-about-being-chased',
+    title: 'Why Did You Dream About Being Chased?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are navigating daytime avoidance, acute stress activation, trauma residue, sleep physiology, or shadow integration.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your chase dream — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'pursuer_identity',
+        q: 'Who or what was pursuing you in the dream?',
+        hint: 'The mask of the pursuer reveals the nature of the avoided waking issue.',
+        options: [
+          { text: 'An unknown shadowy figure, monster, or faceless presence', detail: 'unintegrated shadow or suppressed emotion', score: 'shadow' },
+          { text: 'A wild predatory animal (wolf, bear, snake, tiger)', detail: 'primal survival threat or somatic burnout', score: 'animal' },
+          { text: 'An authority figure (police, boss, teacher, parent)', detail: 'guilt, imposter syndrome, or perfectionism', score: 'authority' },
+          { text: 'An ex-partner, estranged family member, or known acquaintance', detail: 'unresolved relational boundary violation', score: 'known_person' },
+          { text: 'A generalized invisible force or shapeless panic', detail: 'diffuse free-floating anxiety', score: 'invisible' }
+        ]
+      },
+      {
+        id: 'body_sensation',
+        q: 'What physical sensation dominated your body during the dream chase?',
+        hint: 'Distinguishes sleep physiology (REM atonia) from psychological panic.',
+        options: [
+          { text: 'Heavy slow motion — legs felt like lead, running through mud or water', detail: 'classic REM muscle atonia', score: 'slow_motion' },
+          { text: 'Paralyzed voice — trying desperately to scream or call for help, but muted', detail: 'vocal cord atonia', score: 'muted_voice' },
+          { text: 'High-speed frantic running — heart racing, dodging obstacles in terror', detail: 'pure sympathetic nervous activation', score: 'frantic_speed' },
+          { text: 'Hiding in a small confined space (closet, under bed) holding my breath', detail: 'experiential avoidance strategy', score: 'hiding' },
+          { text: 'Turned around to fight, confront, or speak to the pursuer', detail: 'active shadow confrontation', score: 'confrontation' }
+        ]
+      },
+      {
+        id: 'daytime_avoidance',
+        q: 'What major responsibility, uncomfortable truth, or difficult conversation are you avoiding while awake?',
+        hint: 'Dreams simulate what the conscious mind evades during daylight.',
+        options: [
+          { text: 'A critical life issue — relationship breakup, financial debt, or job exit', detail: 'severe existential avoidance', score: 2 },
+          { text: 'An uncomfortable conversation or boundary I keep postponing', detail: 'moderate interpersonal avoidance', score: 1 },
+          { text: 'A few nagging errands or administrative deadlines', detail: 'minor routine procrastination', score: 0 },
+          { text: 'Very little — I address conflicts and responsibilities directly as they arise', detail: 'proactive engagement', score: -1 },
+          { text: 'Nothing — my conscience is clear and all major boundaries are communicated', detail: 'complete waking congruence', score: -2 }
+        ]
+      },
+      {
+        id: 'stress_arousal',
+        q: 'How overwhelmed or chronically stressed has your nervous system felt recently?',
+        hint: 'Chronic daytime cortisol triggers nocturnal amygdala hyperactivity.',
+        options: [
+          { text: 'Incapacitating burnout — panic attacks, insomnia, or physical exhaustion', detail: 'severe nervous system hyper-arousal', score: 2 },
+          { text: 'High baseline stress — constant rushing, deadlines, or emotional friction', detail: 'frequent sympathetic activation', score: 1 },
+          { text: 'Moderate stress — standard workday pressure, but functional', detail: 'normal modern baseline', score: 0 },
+          { text: 'Mostly calm — balanced routine with adequate rest and leisure', detail: 'well-regulated parasympathetic state', score: -1 },
+          { text: 'Completely serene — relaxed body, peaceful sleep, and minimal tension', detail: 'deep somatic equilibrium', score: -2 }
+        ]
+      },
+      {
+        id: 'recurrence_frequency',
+        q: 'How often do you experience chase dreams or intense nightmares?',
+        hint: 'Frequency indicates whether this is acute situational triage or chronic distress.',
+        options: [
+          { text: 'Multiple nights a week — waking up terrified and exhausted repeatedly', detail: 'chronic nightmare syndrome / possible PTSD', score: 2 },
+          { text: 'A few times a month — usually coinciding with major stress spikes', detail: 'episodic stress response', score: 1 },
+          { text: 'Once or twice a year — rare and isolated', detail: 'occasional memory triage', score: 0 },
+          { text: 'This was the first chase dream I’ve had in years', detail: 'spontaneous isolated simulation', score: -1 },
+          { text: 'Never had one before this — completely novel experience', detail: 'acute novel trigger', score: -2 }
+        ]
+      },
+      {
+        id: 'sleep_hygiene_factors',
+        q: 'Were any physiological sleep disruptors present before you went to bed?',
+        hint: 'Physical triggers frequently simulate nightmare panic.',
+        options: [
+          { text: 'Alcohol, heavy late-night meal, spicy food, or intense late-night screens', detail: 'high biological nightmare priming', score: 2 },
+          { text: 'Room was overheated, noisy, or physically uncomfortable', detail: 'environmental sleep disturbance', score: 1 },
+          { text: 'Mild fatigue or irregular bedtime schedule', detail: 'minor circadian disruption', score: 0 },
+          { text: 'Clean sleep hygiene — dark, cool, quiet room, zero late screens', detail: 'optimal sleep architecture', score: -1 },
+          { text: 'Perfect sleep environment with wind-down meditation', detail: 'exemplary physiological hygiene', score: -2 }
+        ]
+      },
+      {
+        id: 'core_longing',
+        q: 'What is the deepest relief you are seeking after this dream?',
+        hint: 'Reveals what will actually soothe your nervous system.',
+        options: [
+          { text: 'Reassurance that I am not in real physical danger or spiritually attacked', detail: 'safety normalization', score: 'safety' },
+          { text: 'The courage to finally confront the waking situation I am fleeing', detail: 'confrontation courage', score: 'courage' },
+          { text: 'Practical techniques to stop recurring nightmares and sleep peacefully', detail: 'sleep therapy tools', score: 'sleep_tools' },
+          { text: 'Understanding the symbolic psychological meaning of the pursuer', detail: 'archetypal analysis', score: 'symbolic_meaning' },
+          { text: 'To stop feeling exhausted and ungrounded during my waking day', detail: 'somatic regulation', score: 'somatic_regulation' }
+        ]
+      },
+      {
+        id: 'guidance_fit',
+        q: 'If you sought outside perspective on this dream, what approach would you value most?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A depth tarot reading exploring the Nine of Swords or Strength (shadow integration)', detail: 'shadow tarot', score: 'tarot' },
+          { text: 'An astrology reading analyzing Moon and 12th House transits for timing', detail: 'astrological psychology', score: 'astrology' },
+          { text: 'An intuitive psychic reading on subconscious emotional blocks', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'A sleep specialist or licensed therapist specializing in nightmare therapy (IRT)', detail: 'evidence-based dream therapy', score: 'therapy' },
+          { text: 'Independent journaling, nightmare rescripting, and zero paid readings', detail: 'independent self-work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.daytime_avoidance || 0) + (a.stress_arousal || 0) + (a.recurrence_frequency || 0) + (a.sleep_hygiene_factors || 0);
+      if (a.body_sensation === 'slow_motion' && a.sleep_hygiene_factors >= 1) {
+        return 'physiological_wake_rush';
+      }
+      if (a.recurrence_frequency === 2 || a.stress_arousal === 2) {
+        return 'acute_stress_activation';
+      }
+      if (a.body_sensation === 'confrontation' || a.pursuer_identity === 'shadow') {
+        return 'shadow_integration';
+      }
+      if (a.daytime_avoidance >= 1) {
+        return 'avoidance_confrontation';
+      }
+      return 'trauma_residue';
+    },
+
+    results: {
+      'avoidance_confrontation': {
+        title: 'Avoidance Confrontation',
+        summary: 'Your dream is holding up a mirror: what you flee in daylight pursues you at night.',
+        whatAnswersSuggest: [
+          'According to Threat Simulation Theory, your dream is not an omen of external danger; it is a primal simulation of your waking avoidance. You are putting off a difficult conversation, an overdue boundary, or a hard life choice.',
+          'The pursuer represents the emotional consequence of that postponed reality. The longer you run from the truth during the day, the faster the pursuer sprints in your dreams. The only way to stop the chase is to turn around.'
+        ],
+        whatItCannotProve: 'That an outside person is actively plotting against you in physical reality.',
+        whatToWatchNext: [
+          'Identify the one conversation or task you have been delaying and commit to addressing it within 48 hours.',
+          'Notice how confronting daytime challenges immediately softens nighttime nightmare intensity.'
+        ]
+      },
+      'physiological_wake_rush': {
+        title: 'Physiological Wake Rush',
+        summary: 'Normal REM sleep muscle atonia combined with physical sleep disruption.',
+        whatAnswersSuggest: [
+          'Your sensation of running in slow motion or having heavy lead legs was caused by normal REM sleep muscle atonia &mdash; your brainstem disconnecting motor signals so you don’t leap out of bed.',
+          'Combined with a late meal, alcohol, room overheating, or mild sleep apnea, your brain registered physical immobility as terrifying paralysis within the dream narrative. This is pure biological wiring, not a spiritual curse.'
+        ],
+        whatItCannotProve: 'That your spiritual energy is blocked or that you are paralyzed in waking life.',
+        whatToWatchNext: [
+          'Cool down your bedroom (optimal sleep temperature is 65°F / 18°C), avoid alcohol within 3 hours of bed, and sleep on your side.',
+          'Remind yourself upon waking that heavy legs in dreams are proof that your biological safety mechanisms worked.'
+        ]
+      },
+      'acute_stress_activation': {
+        title: 'Acute Stress Activation',
+        summary: 'Chronic daytime stress and burnout overflowing into nighttime emotional memory processing.',
+        whatAnswersSuggest: [
+          'Your nervous system is in a state of sympathetic hyper-arousal. When daytime deadlines, financial strain, or interpersonal conflict keep your cortisol elevated, your amygdala stays hyperactive during REM sleep.',
+          'The chase dream is simply your brain’s exhausted effort to vent excess adrenaline. You do not need to decode a mystical message; you need deep, restorative rest and nervous system regulation.'
+        ],
+        whatItCannotProve: 'That you are doomed to stay exhausted or that an external disaster is pending.',
+        whatToWatchNext: [
+          'Institute a strict digital curfew 60 minutes before sleep: zero news, zero work email, zero stressful media.',
+          'Practice slow, extended-exhale breathing (4 seconds in, 7 seconds out) before bed to activate the parasympathetic brake.'
+        ]
+      },
+      'shadow_integration': {
+        title: 'Shadow Integration',
+        summary: 'A call from depth psychology to embrace suppressed emotions, vitality, and power.',
+        whatAnswersSuggest: [
+          'In Jungian dreamwork, the monster or shadowy pursuer often carries the gold of your disowned self: healthy anger, ambition, sexual desire, or boundaries that you repress to stay “nice.”',
+          'The shadow pursues you not to destroy you, but to be integrated into your conscious life. When you stop running, turn around, and ask the pursuer what it wants, it frequently transforms into an ally.'
+        ],
+        whatItCannotProve: 'That your dark thoughts make you a bad or dangerous person.',
+        whatToWatchNext: [
+          'Write down the three scariest qualities of your dream pursuer and ask: “Where in my life do I need a little more of that assertiveness, fierceness, or power?”',
+          'Reclaim your right to take up space and express healthy, protective anger.'
+        ]
+      },
+      'trauma_residue': {
+        title: 'Trauma Residue',
+        summary: 'Past boundary violations or traumatic experiences echoing in subconscious defense alarms.',
+        whatAnswersSuggest: [
+          'Your chase dream reflects historical alarm bells: past relationships, childhood volatility, or betrayal trauma that trained your nervous system to stay permanently vigilant.',
+          'When current life triggers old vulnerabilities, the brain re-runs familiar threat simulations to make sure you won’t be caught off guard again. Healing requires gently teaching your body that the past is over and you are safe now.'
+        ],
+        whatItCannotProve: 'That your current environment is as dangerous as your past was.',
+        whatToWatchNext: [
+          'Practice somatic orienting: open your eyes, look around your current room, name 5 blue objects, and feel the solid mattress supporting your weight.',
+          'Consider working with a trauma-informed therapist using EMDR or Somatic Experiencing if nightmares are persistent.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'avoidance_confrontation' || a.daytime_avoidance >= 1) {
+        return {
+          key: 'fear_of_conflict',
+          label: 'The dread of disappointing others by standing in your truth',
+          text: 'Many people run in dreams because in waking life, they are terrified of confrontation. You swallow your words and smile while churning inside. The nightmare pursuer is your own suppressed voice demanding that you stop being agreeable at the expense of your soul.'
+        };
+      }
+      if (p === 'acute_stress_activation' || a.stress_arousal >= 1) {
+        return {
+          key: 'survival_terror',
+          label: 'The physical dread of chronic exhaustion and collapse',
+          text: 'When you work without rest, your body perceives modern life as a predator hunting you to death. The chase dream is your biology screaming: “Slow down or we will collapse.” Honoring your body’s need for rest is an act of survival.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'dream exploration, fear integration, and stress management', cluster: 'dreams' }),
+
+    matchPractice: function (a) {
+      if (a.guidance_fit === 'tarot' || a.body_sensation === 'confrontation') {
+        return 'tarot_deep';
+      }
+      if (a.guidance_fit === 'astrology') {
+        return 'tarot_decision';
+      }
+      if (a.guidance_fit === 'psychic') {
+        return 'psychic';
+      }
+      if (a.guidance_fit === 'therapy' || a.recurrence_frequency === 2) {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dream-about-being-chased', {
+        negativePatternTip: {
+          pattern: 'acute_stress_activation',
+          text: 'when a reader tells you that a chase dream means an astral entity is feeding on your aura, they are exploiting normal sleep biology to sell you expensive cleansings. Cool your bedroom and reduce daytime caffeine.'
+        }
+      });
+    }
+  },
+
+  /* ----------------------------------------------------------
+     60. DREAM ABOUT YOUR EX — Memory Triage & Attachment Closure
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'dream-about-your-ex': {
+    id: 'dream-about-your-ex',
+    title: 'Why Did You Dream About Your Ex?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether your dream is serving memory consolidation, wish-fulfillment fantasy, unresolved resentment, comparison with your current partner, or an anniversary cue.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your ex dream — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'breakup_timeline',
+        q: 'How long has it been since you and this ex separated?',
+        hint: 'Time elapsed contextualizes memory consolidation vs acute grief.',
+        options: [
+          { text: 'Very recent — within the last few weeks or months', detail: 'acute withdrawal and active grief phase', score: 'recent' },
+          { text: 'Six months to two years ago — mostly moved on, but lingering residue', detail: 'secondary integration phase', score: 'mid_term' },
+          { text: 'Several years ago (3 to 7+ years) — rarely think about them while awake', detail: 'deep historical memory storage', score: 'long_term' },
+          { text: 'A first love or childhood romance from long ago', detail: 'formative developmental archetype', score: 'first_love' },
+          { text: 'On-and-off dynamic with ongoing contact or boundary blur', detail: 'active unresolved attachment loop', score: 'on_off' }
+        ]
+      },
+      {
+        id: 'dream_scenario',
+        q: 'What actually happened between you and your ex in the dream?',
+        hint: 'The scenario reveals the emotional schema being processed.',
+        options: [
+          { text: 'We reconciled, embraced, kissed, or felt deeply loving and safe', detail: 'wish-fulfillment and intimacy recall', score: 'reconciliation' },
+          { text: 'We fought, argued, or they betrayed/rejected me all over again', detail: 'trauma processing and anger venting', score: 'conflict' },
+          { text: 'They ignored me, walked away, or were happily with someone else', detail: 'rejection and inadequacy schema', score: 'ignored' },
+          { text: 'We had a calm, peaceful conversation or mutually said goodbye', detail: 'integrative closure schema', score: 'peaceful_closure' },
+          { text: 'Bizarre, random everyday situation with zero romantic charge', detail: 'neutral memory fragment sorting', score: 'mundane' }
+        ]
+      },
+      {
+        id: 'current_relationship_status',
+        q: 'What is your current romantic status while waking?',
+        hint: 'Reveals whether the dream is comparison or solitary processing.',
+        options: [
+          { text: 'Happily partnered or married — felt intense guilt waking up from the dream', detail: 'partnered with guilt', score: 2 },
+          { text: 'Dating someone new, but feeling ambivalent or hesitant', detail: 'comparison threshold', score: 1 },
+          { text: 'Completely single and actively longing for connection or affection', detail: 'loneliness longing', score: 0 },
+          { text: 'Single and content — focusing on my own healing and goals', detail: 'sovereign independence', score: -1 },
+          { text: 'Currently communicating or texting with this ex in waking life', detail: 'active energetic entanglement', score: -2 }
+        ]
+      },
+      {
+        id: 'waking_attachment',
+        q: 'How much do you find yourself thinking about or checking up on this ex during the day?',
+        hint: 'Measures conscious vs subconscious preoccupation.',
+        options: [
+          { text: 'Constantly — checking their social media, mutual friends, or ruminating daily', detail: 'active obsessive attachment', score: 2 },
+          { text: 'Frequently — feeling occasional waves of curiosity or longing', detail: 'moderate nostalgia', score: 1 },
+          { text: 'Occasionally — they cross my mind when triggered by a song or memory', detail: 'spontaneous passive recall', score: 0 },
+          { text: 'Almost never — I had completely forgotten about them until this dream', detail: 'subconscious surprise recall', score: -1 },
+          { text: 'Zero — total indifference; no emotional charge whatsoever', detail: 'complete emotional neutrality', score: -2 }
+        ]
+      },
+      {
+        id: 'telepathic_projection',
+        q: 'How strongly do you believe this dream means your ex is thinking of you or calling you back?',
+        hint: 'Checks magical projection vs cognitive reality.',
+        options: [
+          { text: 'Certain — I feel in my bones that they miss me and want to reconcile', detail: 'telepathic conviction', score: 2 },
+          { text: 'Hoping so — wondering if this is a cosmic sign to break No-Contact', detail: 'tempted outreach impulse', score: 1 },
+          { text: 'Confused — curious if there is any spiritual link, but skeptical', detail: 'open skepticism', score: 0 },
+          { text: 'Doubtful — I recognize dreams are generated inside my own head', detail: 'cognitive self-awareness', score: -1 },
+          { text: 'Not at all — this is my brain sorting emotional files; it has nothing to do with them', detail: 'pure neuroscience clarity', score: -2 }
+        ]
+      },
+      {
+        id: 'anniversary_trigger',
+        q: 'Did a sensory, seasonal, or calendar trigger recently occur?',
+        hint: 'Sensory cues naturally activate hippocampal memory retrieval.',
+        options: [
+          { text: 'Yes — an anniversary, their birthday, our old vacation spot, or a familiar song', detail: 'conscious sensory/calendar cue', score: 2 },
+          { text: 'A mutual friend mentioned them, or saw an old photo recently', detail: 'social media / peer prompt', score: 1 },
+          { text: 'Seasonal shift — weather or holiday that felt reminiscent of our time', detail: 'seasonal mood memory', score: 0 },
+          { text: 'No conscious triggers that I can identify', detail: 'isolated subconscious activation', score: -1 },
+          { text: 'Nothing whatsoever — completely out of the blue', detail: 'random memory triage', score: -2 }
+        ]
+      },
+      {
+        id: 'core_longing',
+        q: 'What is the deepest emotional ache this dream stirred up in you?',
+        hint: 'Points toward what your soul is actually asking for.',
+        options: [
+          { text: 'The desire to be held, loved, and known deeply by someone again', detail: 'intimacy hunger', score: 'intimacy_hunger' },
+          { text: 'The need for an apology or acknowledgment of the pain they caused me', detail: 'vindication closure', score: 'vindication_closure' },
+          { text: 'The fantasy of undoing the breakup and getting a second chance', detail: 'reconciliation fantasy', score: 'reconciliation_fantasy' },
+          { text: 'Relief from guilt that I am somehow betraying my current partner', detail: 'guilt relief', score: 'guilt_relief' },
+          { text: 'Confirmation that I have truly healed and can let them go forever', detail: 'peaceful release', score: 'peaceful_release' }
+        ]
+      },
+      {
+        id: 'guidance_fit',
+        q: 'If you sought outside perspective on this dream, what standard would you value most?',
+        hint: 'Matches your situation to the right tool.',
+        options: [
+          { text: 'A closure tarot spread exploring the Eight of Cups (walking away cleanly)', detail: 'closure tarot', score: 'tarot' },
+          { text: 'An astrology reading analyzing Venus transits and karmic relationship cycles', detail: 'astrological relationship timing', score: 'astrology' },
+          { text: 'An intuitive psychic reading to explore my energetic boundaries', detail: 'intuitive perspective', score: 'psychic' },
+          { text: 'A licensed relationship counselor to address lingering attachment wounds', detail: 'clinical attachment therapy', score: 'therapy' },
+          { text: 'Zero paid consultations — I will journal, hold my boundaries, and let it pass', detail: 'independent self-work', score: 'free_tools' }
+        ]
+      }
+    ],
+
+    resolve: function (a) {
+      var s = (a.telepathic_projection || 0) + (a.waking_attachment || 0) + (a.current_relationship_status || 0) + (a.anniversary_trigger || 0);
+      if (a.telepathic_projection >= 1 && a.dream_scenario === 'reconciliation') {
+        return 'reconciliation_wish_fantasy';
+      }
+      if (a.current_relationship_status === 2) {
+        return 'current_relationship_comparison';
+      }
+      if (a.dream_scenario === 'conflict' || a.core_longing === 'vindication_closure') {
+        return 'unresolved_resentment';
+      }
+      if (a.anniversary_trigger >= 1) {
+        return 'anniversary_cue';
+      }
+      return 'memory_consolidation';
+    },
+
+    results: {
+      'memory_consolidation': {
+        title: 'Memory Consolidation',
+        summary: 'Your brain’s offline filing system processing emotional memories during REM sleep.',
+        whatAnswersSuggest: [
+          'According to cognitive neuroscience, your dream is not an omen, a psychic signal, or a sign to text your ex. It is your brain doing its nightly emotional memory triage: stripping visceral pain from past experiences so the factual wisdom can be safely archived.',
+          'Your ex appears not as their current physical self, but as an avatar representing a specific developmental chapter of your life. The dream simply means your mind was organizing old files. Do not disrupt your waking peace over nighttime filing.'
+        ],
+        whatItCannotProve: 'That your ex is thinking about you or that getting back together is viable.',
+        whatToWatchNext: [
+          'Acknowledge the dream without judgment, take a shower, and focus your attention on your current daily goals.',
+          'Notice that you can remember someone with tenderness without needing to invite them back into your physical life.'
+        ]
+      },
+      'reconciliation_wish_fantasy': {
+        title: 'Reconciliation Wish Fantasy',
+        summary: 'Longing for an undo button on painful grief and romanticizing past intimacy.',
+        whatAnswersSuggest: [
+          'You are experiencing profound emotional withdrawal or loneliness, which has led your subconscious to stage a comforting reconciliation fantasy. Dreams have a dangerous habit of editing out the incompatibility, lies, or coldness that caused the breakup.',
+          'Believing this dream is a “cosmic sign to reach out” is an emotional trap. If you break No-Contact based on a dream, you risk reopening healed wounds for an ex whose real-world character has not changed.'
+        ],
+        whatItCannotProve: 'That your ex has changed their flaws, misses you, or desires reconciliation.',
+        whatToWatchNext: [
+          'Write down the five biggest, most painful reasons you broke up. Read them before you even consider picking up your phone.',
+          'Recognize that you are missing the sensation of intimacy and warmth &mdash; not necessarily this specific flawed human.'
+        ]
+      },
+      'current_relationship_comparison': {
+        title: 'Current Relationship Comparison',
+        summary: 'Your subconscious comparing past vulnerability with present safety &mdash; not emotional betrayal.',
+        whatAnswersSuggest: [
+          'Dreaming of an ex while in a happy relationship can trigger intense, unnecessary guilt. You worry: “Does this mean I secretly still love my ex? Am I betraying my partner?”',
+          'The answer is an emphatic no. The human brain constantly evaluates current relational safety against historical benchmarks. Your current partner may have touched a deep vulnerability that naturally reactivated old attachment memories. Release the guilt.'
+        ],
+        whatItCannotProve: 'That your current relationship is flawed or that you married/dated the wrong person.',
+        whatToWatchNext: [
+          'Give your current partner a warm hug today. Notice the safety, reliability, and respect they offer.',
+          'Recognize that dreams are involuntary subconscious phenomena; you are only responsible for your conscious waking choices.'
+        ]
+      },
+      'unresolved_resentment': {
+        title: 'Unresolved Resentment & Closure Need',
+        summary: 'Your psyche attempting to resolve betrayal trauma and give itself the apology you never received.',
+        whatAnswersSuggest: [
+          'Your dream was filled with fighting, betrayal, or a staged apology. This occurs because the relationship ended ambiguously, leaving you with an acute Need for Cognitive Closure.',
+          'Because your ex never took responsibility in real life, your subconscious staged the drama to vent unexpressed rage or provide self-vindication. Accept the closure from your own mind: you do not need them to apologize to be free.'
+        ],
+        whatItCannotProve: 'That confronting your ex in real life will result in an honest or satisfying conversation.',
+        whatToWatchNext: [
+          'Write a raw, uncensored letter detailing every single betrayal and boundary violation. Do not send it &mdash; burn it safely.',
+          'Reclaim your power: true closure is an internal decision to stop waiting for an apology that will never arrive.'
+        ]
+      },
+      'anniversary_cue': {
+        title: 'Anniversary & Sensory Cue',
+        summary: 'A seasonal, calendar, or sensory trigger activating associative memory pathways.',
+        whatAnswersSuggest: [
+          'Your dream was sparked by associative memory conditioning: a change in season, an anniversary, their birthday, a familiar song, or a scent triggered your hippocampus to retrieve associated memories.',
+          'This is a completely normal biological phenomenon. The brain organizes memories associatively; when a sensory cue fires, the old file opens. It does not carry mystical significance; it is simply how memory works.'
+        ],
+        whatItCannotProve: 'That the universe is aligning your paths again.',
+        whatToWatchNext: [
+          'Acknowledge the calendar anniversary: “Yes, we used to celebrate this week. That chapter is finished, and today is a new day.”',
+          'Create a new, positive sensory association in your present environment.'
+        ]
+      }
+    },
+
+    underneath: function (a, p) {
+      if (p === 'reconciliation_wish_fantasy' || a.telepathic_projection >= 1) {
+        return {
+          key: 'grief_of_unrealized_future',
+          label: 'Mourning the ghost of the future you planned together',
+          text: 'The hardest part of a breakup is not just losing the person; it is burying the imagined future you designed with them. When you dream of reconciliation, you are longing for that lost future. Healing requires having the courage to build an even better future on your own.'
+        };
+      }
+      if (p === 'unresolved_resentment' || a.core_longing === 'vindication_closure') {
+        return {
+          key: 'wound_of_unseen_injustice',
+          label: 'The agony of being misunderstood and mistreated without remorse',
+          text: 'It burns to be lied to or discarded by someone you trusted, while they walk away seemingly unaffected. But waiting for an ex to validate your pain keeps you bound to them. Your vindication is living an honorable, joyful, and beautiful life.'
+        };
+      }
+      return null;
+    },
+
+    practice: window.topicPracticeSet({ topic: 'breakup closure, emotional memory integration, and boundary healing', cluster: 'dreams' }),
+
+    matchPractice: function (a) {
+      if (a.guidance_fit === 'tarot' || a.core_longing === 'vindication_closure') {
+        return 'closure';
+      }
+      if (a.guidance_fit === 'astrology') {
+        return 'tarot_deep';
+      }
+      if (a.guidance_fit === 'psychic') {
+        return 'psychic';
+      }
+      if (a.guidance_fit === 'therapy' || a.breakup_timeline === 'on_off') {
+        return 'closure';
+      }
+      return 'free_first';
+    },
+
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dream-about-your-ex', {
+        negativePatternTip: {
+          pattern: 'reconciliation_wish_fantasy',
+          text: 'when a reader tells you that dreaming about your ex proves they are telepathically calling you and you should break No-Contact, run. They are playing on your vulnerability to sell reconciliation readings.'
+        }
+      });
+    }
+  },
+
+
+  /* ----------------------------------------------------------
+     61. DREAM ABOUT SOMEONE DYING — Transition, Loss & Shadow
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'dream-about-someone-dying': {
+    id: 'dream-about-someone-dying',
+    title: 'Why Did You Dream Someone Died?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether your dream reflects a relational transition, acute separation anxiety, suppressed friction, or catastrophic premonition panic.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your death dream — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'who_died',
+        q: 'Who was the person who died in your dream?',
+        hint: 'The identity points directly to the relational or symbolic domain.',
+        options: [
+          { text: 'A parent or older authority figure who raised me', detail: 'anchors of identity and safety', score: 'parent' },
+          { text: 'My romantic partner or spouse', detail: 'primary attachment and intimacy bond', score: 'partner' },
+          { text: 'My child or someone I am responsible for protecting', detail: 'vulnerability and caregiving focus', score: 'child' },
+          { text: 'A close friend, sibling, or peer', detail: 'equality, companionship, or social identity', score: 'friend' },
+          { text: 'An acquaintance, celebrity, or a stranger', detail: 'symbolic projection of an inner trait', score: 'symbolic' }
+        ]
+      },
+      {
+        id: 'dream_emotion',
+        q: 'What was your primary emotional experience inside the dream itself?',
+        hint: 'The felt emotion inside sleep reveals the autonomic processing taking place.',
+        options: [
+          { text: 'Frantic, screaming panic — desperately trying to save them', detail: 'acute separation distress', score: 'panic' },
+          { text: 'Quiet, solemn sorrow — a deep ache but an acceptance of finality', detail: 'integrative grief processing', score: 'acceptance' },
+          { text: 'Shock followed by a strange, guilty sense of emotional relief or space', detail: 'boundary fatigue or suppressed friction', score: 'relief' },
+          { text: 'Confusion and detachment — watching like an observer in a movie', detail: 'dissociative cognitive buffering', score: 'detachment' },
+          { text: 'Horror at a premonition — convinced I was seeing future reality', detail: 'catastrophic omen interpretation', score: 'omen' }
+        ]
+      },
+      {
+        id: 'relational_shift',
+        q: 'Is your real-world relationship with this person undergoing a significant transition?',
+        hint: 'Death in dreams is the brain’s shorthand for the end of an era.',
+        options: [
+          { text: 'A massive change — someone moved, graduated, retired, or changed roles', detail: 'objective structural milestone', score: 2 },
+          { text: 'We are gradually drifting apart as our adult lives evolve', detail: 'natural developmental drift', score: 1 },
+          { text: 'No major change, our day-to-day dynamic has been fairly constant', detail: 'stable baseline', score: 0 },
+          { text: 'We have been growing closer and more emotionally interdependent', detail: 'deepening intimacy and attachment', score: -1 },
+          { text: 'I rarely see or speak to them; they belong mostly to my past', detail: 'historical or symbolic archetype', score: -2 }
+        ]
+      },
+      {
+        id: 'anxiety_load',
+        q: 'How intense is your baseline waking anxiety about loss, health, or vulnerability?',
+        hint: 'Measures sympathetic nervous system threat simulation.',
+        options: [
+          { text: 'Severe — I am hyper-vigilant and constantly terrified of losing loved ones', detail: 'chronic attachment terror', score: 2 },
+          { text: 'Elevated — recent health scares or family aging have heightened my worry', detail: 'situational vulnerability', score: 1 },
+          { text: 'Moderate — normal human concern for family, but manageable', detail: 'average anxiety baseline', score: 0 },
+          { text: 'Low — I generally accept that life has natural beginnings and endings', detail: 'high existential resilience', score: -1 },
+          { text: 'Very low — I rarely worry about death or physical harm', detail: 'stoic or compartmentalized baseline', score: -2 }
+        ]
+      },
+      {
+        id: 'unspoken_conflict',
+        q: 'Is there unexpressed resentment, boundary fatigue, or suppressed friction between you?',
+        hint: 'Shadow death dreams dramatize a desire for emotional space.',
+        options: [
+          { text: 'Yes — their demands or presence feel suffocating, but I cannot say it', detail: 'severe boundary suffocation', score: 2 },
+          { text: 'A quiet, simmering frustration over unspoken differences', detail: 'mild unaddressed tension', score: 1 },
+          { text: 'Minor normal disagreements, but our communication is honest', detail: 'clean relational hygiene', score: 0 },
+          { text: 'Zero friction — our relationship is warm, loving, and supportive', detail: 'unambiguous positive bond', score: -1 },
+          { text: 'Not applicable — they represent an internal idea rather than an active person', detail: 'pure symbolic projection', score: -2 }
+        ]
+      },
+      {
+        id: 'premonition_dread',
+        q: 'How much are you obsessing that this dream is an actual psychic death warning?',
+        hint: 'Distinguishes grounded reflection from superstitious panic.',
+        options: [
+          { text: 'Paralyzed by it — terrified that my thoughts or dreams will cause them harm', detail: 'severe magical thinking & dread', score: 2 },
+          { text: 'Worried enough that I felt a strong urge to call and check their safety', detail: 'hyper-vigilant reassurance seeking', score: 1 },
+          { text: 'Briefly unnerved, but I know dreams are symbolic, not telepathic', detail: 'grounded reality testing', score: 0 },
+          { text: 'Completely unconcerned about physical harm; focused on what it means inside', detail: 'mature psychological reflection', score: -1 },
+          { text: 'I view dreams purely as random neurological noise during REM sleep', detail: 'strictly reductionist perspective', score: -2 }
+        ]
+      },
+      {
+        id: 'what_needed',
+        q: 'What kind of emotional reassurance or resolution would help you most right now?',
+        hint: 'Intent clarifies the immediate next step.',
+        options: [
+          { text: 'Certainty that they are safe and this dream was not a premonition', detail: 'reassurance & cognitive grounding', score: 'safety_reassurance' },
+          { text: 'Clarity on how to evolve our relationship boundaries as we both change', detail: 'relational maturation', score: 'boundary_maturation' },
+          { text: 'Relief from chronic caregiver burnout or hyper-vigilant anxiety', detail: 'nervous system recovery', score: 'burnout_relief' },
+          { text: 'A way to address unexpressed feelings or apologies before it’s too late', detail: 'direct communication', score: 'honest_dialogue' },
+          { text: 'Understanding what part of my own identity or habits is ready to transform', detail: 'internal individuation', score: 'internal_transformation' }
+        ]
+      },
+      {
+        id: 'next_step_focus',
+        q: 'How do you want to handle this dream as you move through your week?',
+        hint: 'Identifies the appropriate integration container.',
+        options: [
+          { text: 'Reach out with love without mentioning the scary nightmare', detail: 'warm, non-alarmist connection', score: 'warm_outreach' },
+          { text: 'Schedule a calm, honest conversation to reset a strained boundary', detail: 'boundary recalibration', score: 'boundary_reset' },
+          { text: 'Work on calming my nervous system and challenging catastrophic loops', detail: 'cognitive & somatic grounding', score: 'somatic_grounding' },
+          { text: 'Reflect through journaling or a symbolic lens on my own growth', detail: 'structured reflective inquiry', score: 'journaling' },
+          { text: 'Let the dream go completely and return to my daily schedule', detail: 'natural settling', score: 'letting_go' }
+        ]
+      }
+    ],
+
+    results: {
+      relational_transition: {
+        name: 'Relational Transition & Role Evolution',
+        summary: 'The dream marks the natural death of an old dynamic, not a person.',
+        description: 'Your answers indicate that your relationship with this person is undergoing a significant life-stage shift. As roles evolve — whether through aging, physical distance, career changes, or emotional independence — the old version of how you related must pass away. Your subconscious dramatizes this closing chapter as a death so that an updated, mature connection can take its place.',
+        supports: 'Acknowledging that relationships must change form to survive; grieving the past version while actively shaping the new dynamic.',
+        cannotSettle: 'Whether the other person is ready to evolve at the same pace as you, or how long the transition will take.',
+        watchNext: 'Notice where you are still treating this person like an earlier version of themselves. Allow them the space to be who they are today.',
+        whatYourAnswersSuggest: 'The passing in your dream was a ceremonial farewell to an outdated role. Honor what that dynamic gave you, and welcome the adult terms of your connection now.'
+      },
+      separation_anxiety: {
+        name: 'Acute Separation & Caregiver Vulnerability',
+        summary: 'The dream reflects deep love coupled with autonomic terror of loss.',
+        description: 'Your dream was an intense manifestation of threat simulation (Revonsuo, 2000). When you care deeply for someone and feel vulnerable to life’s uncertainties, your sleeping mind runs catastrophic drills to process the terrifying weight of attachment. Waking up in tears or panic is proof of your profound investment, exacerbated by fatigue, stress, or caregiver exhaustion.',
+        supports: 'Validating how deeply you love this person while regulating your over-activated nervous system.',
+        cannotSettle: 'Absolute guarantees about life’s longevity; trying to control uncertainty through compulsive checking.',
+        watchNext: 'Watch for hyper-vigilant checking behaviors or hovering that smother the relationship. Practice somatic self-soothing when loss anxiety spikes.',
+        whatYourAnswersSuggest: 'Your mind ran a worst-case scenario because your emotional stakes are so high. Treat the nightmare as a prompt for tender gratitude today, not an omen of doom.'
+      },
+      suppressed_conflict: {
+        name: 'Suppressed Friction & Shadow Boundaries',
+        summary: 'The dream represents an urgent subconscious wish for space or boundaries.',
+        description: 'In dream psychology, dreaming of someone’s death often occurs when their presence, expectations, or demands are suffocating you in waking life. Because conscious guilt prevents you from acknowledging resentment or asking for space, your dreaming mind uses the total finality of death to dramatize the boundary you are afraid to set. It is not a death wish; it is a boundary wish.',
+        supports: 'Recognizing that unexpressed anger is eroding your peace; planning an honest waking conversation to establish healthy emotional space.',
+        cannotSettle: 'Whether the other person will like your new boundary, or whether they will react defensively.',
+        watchNext: 'Notice moments of silent resentment during your next interaction with them. Practice communicating small preferences directly before resentment builds.',
+        whatYourAnswersSuggest: 'Do not feel ashamed of your dream. Your psyche is signaling that an unsustainable dynamic must end. Set the boundary in waking life so your subconscious no longer has to stage it.'
+      },
+      symbolic_self: {
+        name: 'Symbolic Ego-Death & Metamorphosis',
+        summary: 'The person in your dream was a mirror for an aspect of your own psyche.',
+        description: 'In depth psychology, people in dreams frequently serve as archetypal projections of the dreamer’s own traits. If you dreamed of an ambitious, disciplined, carefree, or vulnerable person dying, your subconscious is processing the shedding of an old persona, habit, or defense mechanism within yourself. You are outgrowing who you used to be.',
+        supports: 'Embracing personal transformation; intentionally releasing outdated habits or self-protective personas that no longer serve you.',
+        cannotSettle: 'What your new identity will look like in complete detail before you have lived it.',
+        watchNext: 'Look at the three most prominent character traits of the person who died in your dream. Which of those traits are you actively changing in yourself?',
+        whatYourAnswersSuggest: 'This dream was an internal graduation ceremony. Clear away the old self-concept to make room for your authentic emergence.'
+      },
+      premonition_panic: {
+        name: 'Premonition Panic & Apophenic Dread',
+        summary: 'You are caught in superstitious terror, mistaking a cognitive simulation for a prophecy.',
+        description: 'Your answers indicate that the primary issue is not the dream itself, but the catastrophic meaning your waking mind has attached to it. Believing that a nightmare has telepathic power or acts as an omen creates acute paralysis and guilt. Cognitive science confirms that across billions of nightly dreams, random coincidences occur, but dreams possess zero precognitive authority.',
+        supports: 'Immediate cognitive reality testing; disengaging from fear-based forums; practicing physical grounding in the present moment.',
+        cannotSettle: 'Unfalsifiable supernatural claims designed to create panic or extract money for curse removals.',
+        watchNext: 'Interrupt the thought loop whenever your brain whispers "what if it was a sign?" Say aloud: "It was a dream, not a prophecy."',
+        whatYourAnswersSuggest: 'Your mind is tired and vulnerable. Refuse to give superstitious terror a foothold. Anchor yourself in the reality of your day.'
+      }
+    },
+
+    practice: window.topicPracticeSet({ topic: 'dreams', cluster: 'general' }),
+
+    resolve: function(answers) {
+      if (answers.premonition_dread === 2) return 'premonition_panic';
+      if (answers.unspoken_conflict >= 1 || answers.dream_emotion === 'relief') return 'suppressed_conflict';
+      if (answers.anxiety_load >= 1 || answers.dream_emotion === 'panic') return 'separation_anxiety';
+      if (answers.who_died === 'symbolic' || answers.relational_shift === -2) return 'symbolic_self';
+      return 'relational_transition';
+    },
+
+    underneath: function(answers) {
+      return 'Underneath the visceral horror of a death dream is the raw terror of vulnerability. Loving deeply means accepting that we cannot control the universe or keep the people we love frozen in time. Your dream held up a mirror to how deeply you care, or how urgently an old dynamic must transform.';
+    },
+
+    matchPractice: function(answers) {
+      if (answers.premonition_dread >= 1) return 'free_first';
+      if (answers.unspoken_conflict >= 1) return 'tarot_decision';
+      if (answers.anxiety_load >= 1) return 'closure';
+      if (answers.relational_shift >= 1) return 'tarot_relationship';
+      return 'general';
+    },
+
+    customResult: function(pKey, rKey, answers) {
+      return null;
+    }
+  },
+
+  /* ----------------------------------------------------------
+     62. WHAT IS MY MOON SIGN — Somatics, Instincts & Blueprint
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'what-is-my-moon-sign': {
+    id: 'what-is-my-moon-sign',
+    title: 'What Does Your Moon Sign Inquiry Reveal?',
+    launchSub: 'Eight questions, about two minutes. Surfaces your somatic self-soothing style, Sun-Moon internal dissonance, birth time precision, and healthy symbolic reflection.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your Moon sign inquiry — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'birth_data',
+        q: 'How accurate is the birth time you have available for your chart?',
+        hint: 'The Moon moves 13° per day; time precision determines the sign.',
+        options: [
+          { text: 'Exact minute from an official birth certificate or hospital record', detail: '100% astronomical precision', score: 'exact' },
+          { text: 'Approximate time remembered by parents within an hour window', detail: 'moderate certainty', score: 'approx' },
+          { text: 'Only know the time of day (morning, afternoon, or night)', detail: 'requires day-range check', score: 'window' },
+          { text: 'Completely unknown — have only the date and location', detail: 'needs 12:01 AM vs 11:59 PM check', score: 'unknown' },
+          { text: 'I already know my Moon sign, but want to understand what it means', detail: 'interpretive focus', score: 'known' }
+        ]
+      },
+      {
+        id: 'inquiry_reason',
+        q: 'What prompted you to search for your Moon sign today?',
+        hint: 'Context defines the psychological driver behind the inquiry.',
+        options: [
+          { text: 'My Sun sign describes my goals, but feels nothing like my private feelings', detail: 'internal dissonance', score: 'dissonance' },
+          { text: 'Struggling with stress and trying to understand how to soothe myself', detail: 'emotional regulation needs', score: 'regulation' },
+          { text: 'Relationship friction — my partner and I process emotions completely differently', detail: 'relational understanding', score: 'relationship' },
+          { text: 'General astrological curiosity to complete my Big Three profile', detail: 'symbolic exploration', score: 'curiosity' },
+          { text: 'Someone told me my Moon sign is cursed or incompatible with someone', detail: 'superstitious fear', score: 'fear' }
+        ]
+      },
+      {
+        id: 'sun_moon_split',
+        q: 'How stark is the contrast between your outward social persona and private emotional state?',
+        hint: 'Measures ego-persona vs somatic lunar divergence.',
+        options: [
+          { text: 'Radical divide — people think I am confident/breezy, but inside I am intensely sensitive', detail: 'deep internal polarization', score: 2 },
+          { text: 'Noticeable difference — I filter my feelings heavily around acquaintances', detail: 'healthy selective vulnerability', score: 1 },
+          { text: 'Moderate congruence — what you see is mostly what you get', detail: 'integrated self-expression', score: 0 },
+          { text: 'Strong alignment — my emotional reactions directly mirror my outward behavior', detail: 'high behavioral transparency', score: -1 },
+          { text: 'I have never felt any contradiction between my public and private self', detail: 'unpolarized expression', score: -2 }
+        ]
+      },
+      {
+        id: 'stress_coping',
+        q: 'When you are emotionally overwhelmed, what does your nervous system instinctively crave?',
+        hint: 'Points toward Earth/Water somatic retreat vs Fire/Air verbalization.',
+        options: [
+          { text: 'Total quiet, physical isolation, sensory dimming, and tactile comfort', detail: 'somatic containment (Earth/Water)', score: 2 },
+          { text: 'A deep emotional release through tears, music, or heartfelt journaling', detail: 'emotional catharsis (Water)', score: 1 },
+          { text: 'Vocalizing — talking it out with a trusted friend until thoughts settle', detail: 'cognitive dialogue (Air)', score: -1 },
+          { text: 'Physical action, rapid problem-solving, or blowing off steam through movement', detail: 'expressive ventilation (Fire)', score: -2 },
+          { text: 'Analyzing the problem objectively from 30,000 feet to find logic', detail: 'intellectual detachment (Air)', score: 0 }
+        ]
+      },
+      {
+        id: 'astro_attachment',
+        q: 'How much do you lean on astrology to justify emotional outbursts or relationship choices?',
+        hint: 'Distinguishes self-compassion from fatalistic excuses.',
+        options: [
+          { text: 'Heavily — I often say "I can’t help being harsh/cold, it’s my Moon sign"', detail: 'astrological excuse trap', score: 2 },
+          { text: 'Sometimes I use it to explain why certain relationships feel impossible', detail: 'mild fatalistic attribution', score: 1 },
+          { text: 'I use it as a fun, poetic framework for introspection, not an excuse', detail: 'healthy reflective use', score: 0 },
+          { text: 'Very little — I believe personal character and communication matter far more', detail: 'grounded agency', score: -1 },
+          { text: 'Zero — I am skeptical of astrology and only looking at this out of curiosity', detail: 'critical detachment', score: -2 }
+        ]
+      },
+      {
+        id: 'uncertainty_tolerance',
+        q: 'If your birth time leaves your Moon on the cusp of two signs, how does that sit with you?',
+        hint: 'Measures method anxiety vs lived experiential awareness.',
+        options: [
+          { text: 'Extremely frustrating — I need an exact technical verdict to know who I am', detail: 'high method anxiety', score: 2 },
+          { text: 'A bit annoying, but I am willing to read both and see which fits', detail: 'mild perfectionism', score: 1 },
+          { text: 'Fine — I understand that archetypes are lenses, not birthmarks', detail: 'comfortable ambiguity', score: 0 },
+          { text: 'I don’t mind at all; my actual lived behavior tells me what I need to know', detail: 'high experiential grounding', score: -1 },
+          { text: 'My birth time is verified to the exact minute, so this is not an issue', detail: 'unambiguous technical baseline', score: -2 }
+        ]
+      },
+      {
+        id: 'support_desired',
+        q: 'What would you most like your Moon sign to help you understand about yourself?',
+        hint: 'Intent clarifies the psychological goal.',
+        options: [
+          { text: 'Why I feel so deeply vulnerable and how to self-soothe effectively', detail: 'somatic regulation', score: 'self_soothing' },
+          { text: 'How to reconcile my private emotional needs with my public ambition', detail: 'persona integration', score: 'persona_integration' },
+          { text: 'How to communicate my needs to a partner who doesn’t understand me', detail: 'relational empathy', score: 'relational_communication' },
+          { text: 'Confirmation of my intuitive strengths and emotional intelligence', detail: 'validation of sensitivity', score: 'validation' },
+          { text: 'Just the technical calculation and its historical symbolic meaning', detail: 'factual knowledge', score: 'factual' }
+        ]
+      },
+      {
+        id: 'practical_goal',
+        q: 'How do you plan to use this astrological placement moving forward?',
+        hint: 'Identifies the real-world application.',
+        options: [
+          { text: 'Design realistic daily boundaries and self-care rituals that fit my temperament', detail: 'practical lifestyle design', score: 'lifestyle_design' },
+          { text: 'Practice greater self-compassion when my emotional reactions differ from others', detail: 'self-compassion', score: 'self_compassion' },
+          { text: 'Explore a detailed natal birth chart reading with an ethical astrologer', detail: 'professional synthesis', score: 'natal_reading' },
+          { text: 'Use it as journaling prompts for personal reflection and shadow work', detail: 'journaling', score: 'journaling' },
+          { text: 'Read it as an interesting curiosity, then get back to real life', detail: 'light engagement', score: 'light' }
+        ]
+      }
+    ],
+
+    results: {
+      somatic_containment: {
+        name: 'Somatic Containment & Grounded Recovery',
+        summary: 'Your emotional nervous system requires physical sanctuary and quiet to reset.',
+        description: 'Your answers indicate that your primary emotional regulation style relies on containment, sensory reduction, and physiological grounding. When stress strikes, intellectualizing or over-talking will not soothe you; your body demands physical safety, predictable environments, and restorative quiet. Recognizing this prevents you from feeling guilty when you need to pull back from social stimulation.',
+        supports: 'Building non-negotiable quiet time into your calendar; honoring your body’s sensory signals; practicing restorative boundaries.',
+        cannotSettle: 'Whether others in your life will understand your need for retreat without taking it personally.',
+        watchNext: 'Watch for the line where restorative solitude curdles into avoidant isolation. Communicate your need for quiet clearly before disappearing.',
+        whatYourAnswersSuggest: 'Your Moon placement speaks the language of the body. Give yourself permission to power down your nervous system without apologizing.'
+      },
+      expressive_processing: {
+        name: 'Cognitive Externalization & Dialogue',
+        summary: 'Your emotional equilibrium requires verbalization, movement, and expression.',
+        description: 'You cannot metabolize intense emotions in silent isolation. Your answers reveal an emotional temperament that requires dialogue, creative release, rapid ideation, or physical action to process tension. Keeping feelings bottled up creates internal agitation, insomnia, or physical restlessness.',
+        supports: 'Seeking trusted sounding boards; journaling rapidly without editing; using creative or physical outlets to discharge emotional energy.',
+        cannotSettle: 'Expecting one single person to listen to every unedited thought; finding immediate logical answers to pure feelings.',
+        watchNext: 'Notice whether your desire to talk through a problem is overwhelming a partner who needs quiet time to process. Respect different emotional speeds.',
+        whatYourAnswersSuggest: 'Expression is your medicine. Find constructive containers — writing, therapy, movement, or trusted friendships — to let your inner feelings speak.'
+      },
+      persona_divide: {
+        name: 'The Public Persona vs Private Self Divide',
+        summary: 'A significant gap between your Sun persona and Moon vulnerability creates fatigue.',
+        description: 'Your answers highlight a classic tension in psychological astrology: your Sun sign presents a capable, independent, or charismatic face to the world, while your Moon sign harbors private vulnerabilities, tender sensitivities, or exhaustion that you rarely show. Maintaining this divide consumes immense psychological energy and can lead to imposter syndrome.',
+        supports: 'Accepting both sides of yourself as entirely legitimate; letting a few safe people see your unpolished, vulnerable interior.',
+        cannotSettle: 'A magical life where you never feel tired or where you can be 100% transparent with everyone at work.',
+        watchNext: 'Notice the moment you put on your "armor" before leaving the house. Acknowledge that the armor protects you, but you can take it off at home.',
+        whatYourAnswersSuggest: 'You do not have to choose between your strength and your softness. Your Sun is your external vessel; your Moon is the water it holds.'
+      },
+      astro_excuse: {
+        name: 'The Astrological Fatalism Trap',
+        summary: 'You are risking using astrological archetypes as an excuse for poor boundaries or behavior.',
+        description: 'Your answers reveal a tendency to lean on astrological placements to justify emotional reactivity, relationship anxiety, or communication breakdowns. While understanding your Moon sign fosters self-compassion, weaponizing it as an unchangeable identity label disempowers your personal agency and damages relationships.',
+        supports: 'Shifting from "my Moon sign makes me do this" to "this is my instinctive tendency, and I am responsible for how I handle it."',
+        cannotSettle: 'Using zodiac compatibility to decide whether to stay in a relationship or break up.',
+        watchNext: 'Catch yourself the next time you use an astrological placement to deflect an apology or excuse emotional carelessness.',
+        whatYourAnswersSuggest: 'The stars impel; they do not compel. Use the archetype as a mirror for conscious responsibility, not a shield against accountability.'
+      },
+      missing_time: {
+        name: 'The Birth Time Discrepancy Impasse',
+        summary: 'You are caught in technical perfectionism over an uncertain birth minute.',
+        description: 'Your answers indicate frustration over not possessing an exact birth time, leaving your Moon potentially on the cusp between two adjacent signs. Astrological algorithms require precision, but psychological self-knowledge does not. Obsessing over whether your Moon is at 29° Taurus or 0° Gemini is less useful than examining how you actually cope under stress.',
+        supports: 'Reading both candidate archetypes and testing which emotional regulation style matches your lived experience.',
+        cannotSettle: 'An infallible astronomical degree without an official hospital birth certificate.',
+        watchNext: 'Notice which sign description makes you feel truly seen in your private life, not just how you wish you were seen.',
+        whatYourAnswersSuggest: 'You are more than a mathematical point in an ephemeris. Trust your lived reality over an elusive birth record.'
+      }
+    },
+
+    practice: window.topicPracticeSet({ topic: 'astrology', cluster: 'general' }),
+
+    resolve: function(answers) {
+      if (answers.astro_attachment === 2) return 'astro_excuse';
+      if (answers.birth_data === 'unknown' && answers.uncertainty_tolerance >= 1) return 'missing_time';
+      if (answers.sun_moon_split >= 1) return 'persona_divide';
+      if (answers.stress_coping >= 1) return 'somatic_containment';
+      return 'expressive_processing';
+    },
+
+    underneath: function(answers) {
+      return 'Underneath the technical search for your Moon sign is a simple human longing: the desire for permission to have your specific emotional needs. In a culture that demands constant composure, discovering your Moon archetype reassures you that your inner sensitivity has an ancient, legitimate logic.';
+    },
+
+    matchPractice: function(answers) {
+      if (answers.astro_attachment >= 1) return 'general';
+      if (answers.sun_moon_split >= 1) return 'tarot_decision';
+      if (answers.stress_coping >= 1) return 'free_first';
+      if (answers.inquiry_reason === 'relationship') return 'tarot_relationship';
+      return 'psychic';
+    },
+
+    customResult: function(pKey, rKey, answers) {
+      return null;
+    }
+  },
+
+  /* ----------------------------------------------------------
+     63. WHAT IS MY SATURN RETURN — Maturation, Audit & Bedrock
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'what-is-my-saturn-return': {
+    id: 'what-is-my-saturn-return',
+    title: 'Where Do You Stand in Your Saturn Return?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are in a voluntary life audit, experiencing involuntary upheaval, facing heavy commitment, or paralyzed by transit dread.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your Saturn Return transit — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'age_bracket',
+        q: 'What is your current age relative to the major 29.5-year developmental thresholds?',
+        hint: 'Saturn Return occurs around ages 27.5–30.5 and ages 57–60.',
+        options: [
+          { text: 'Ages 27 to 28 — entering the initial threshold and feeling pressure', detail: 'first return: entry phase', score: 'entry_27' },
+          { text: 'Ages 29 to 30 — directly in the peak exact transit', detail: 'first return: peak exact', score: 'peak_29' },
+          { text: 'Ages 31 to 33 — integrating the aftermath and laying new foundations', detail: 'first return: integration', score: 'exit_31' },
+          { text: 'Ages 56 to 60 — approaching or navigating the second Saturn Return', detail: 'second return: elderhood', score: 'second_58' },
+          { text: 'Under 26 — researching ahead of time out of curiosity or anxiety', detail: 'preparatory research', score: 'under_26' }
+        ]
+      },
+      {
+        id: 'crisis_arena',
+        q: 'Which area of your life is generating the most intense pressure or friction right now?',
+        hint: 'Saturn concentrates structural pressure on one or two key domains.',
+        options: [
+          { text: 'Career and vocation — feeling like I climbed the completely wrong ladder', detail: 'professional structural crisis', score: 'career' },
+          { text: 'Primary relationship — questioning long-term marriage or enduring a breakup', detail: 'relational commitment audit', score: 'relationship' },
+          { text: 'Identity and boundaries — realizing my life was built to please parents/peers', detail: 'individuation crisis', score: 'identity' },
+          { text: 'Heavy new responsibility — parenthood, homeownership, or leadership role', detail: 'constructive adult weight', score: 'commitment' },
+          { text: 'General existential dread — everything feels heavy, serious, and urgent', detail: 'pervasive transit pressure', score: 'existential' }
+        ]
+      },
+      {
+        id: 'structural_audit',
+        q: 'Are you voluntarily auditing what is broken in your life, or resisting necessary changes?',
+        hint: 'Voluntary accountability softens the impact of structural maturation.',
+        options: [
+          { text: 'Voluntarily pruning — making hard choices to cut dead weight and false paths', detail: 'active conscious audit', score: 2 },
+          { text: 'Aware of what needs to change, but dragging my feet out of fear', detail: 'hesitant awareness', score: 1 },
+          { text: 'Paralyzed — terrified to make a move in case I destroy what security I have', detail: 'fear-based stagnation', score: 0 },
+          { text: 'Resisting fiercely — trying to force an unsustainable job or partner to work', detail: 'active denial & resistance', score: -1 },
+          { text: 'Involuntary collapse — a sudden firing, breakup, or crisis forced my hand', detail: 'external structural demolition', score: -2 }
+        ]
+      },
+      {
+        id: 'provisional_grief',
+        q: 'How difficult has it been to say goodbye to the carefree experimentation of your twenties?',
+        hint: 'Levinson’s research notes grief for lost potential as the core emotional obstacle.',
+        options: [
+          { text: 'Deeply painful — mourning the fantasy of having unlimited paths and time', detail: 'acute developmental grief', score: 2 },
+          { text: 'Bittersweet — I miss the freedom, but I crave real stability and depth', detail: 'healthy maturation balance', score: 1 },
+          { text: 'Neutral — I was ready for adult responsibility and welcomed the clarity', detail: 'smooth developmental transition', score: 0 },
+          { text: 'Relieved — my twenties were chaotic and exhausting; I love the certainty', detail: 'relief from early-twenties instability', score: -1 },
+          { text: 'Not applicable — I am facing the second return (auditing late-life legacy)', detail: 'second return perspective', score: -2 }
+        ]
+      },
+      {
+        id: 'responsibility_stance',
+        q: 'When things go wrong in your life today, where does your accountability sit?',
+        hint: 'Saturn demands radical personal ownership.',
+        options: [
+          { text: 'Fully on me — I recognize my choices created my current circumstances', detail: 'high adult sovereignty', score: 2 },
+          { text: 'Mostly on me, though external economic or familial burdens are real', detail: 'balanced sober realism', score: 1 },
+          { text: 'Split — I still feel like a victim of bad luck or other people’s whims', detail: 'emerging accountability', score: 0 },
+          { text: 'External — I feel completely at the mercy of unfair circumstances', detail: 'victimhood trap', score: -1 },
+          { text: 'Cosmic — I blame Saturn or my horoscope for punishing me', detail: 'superstitious fatalism', score: -2 }
+        ]
+      },
+      {
+        id: 'superstition_level',
+        q: 'How much do you view your Saturn Return as an unavoidable cosmic curse or punishment?',
+        hint: 'Distinguishes psychological maturation from astrological terror.',
+        options: [
+          { text: 'Terrified — I believe the universe is targeting me for catastrophe', detail: 'severe transit panic', score: 2 },
+          { text: 'A bit superstitious — I get anxious reading scary astrological predictions', detail: 'mild pop-astrology dread', score: 1 },
+          { text: 'Grounded — I see it as a symbolic framework for natural adult development', detail: 'mature symbolic lens', score: 0 },
+          { text: 'Completely secular — I view it purely through developmental psychology', detail: 'strictly psychological view', score: -1 },
+          { text: 'I have never heard of Saturn Return being described as a curse', detail: 'unbiased baseline', score: -2 }
+        ]
+      },
+      {
+        id: 'transition_goal',
+        q: 'What structural change would bring the greatest integrity to your life right now?',
+        hint: 'Intent clarifies the immediate adult objective.',
+        options: [
+          { text: 'Leaving an unfulfilling career track to pursue authentic work', detail: 'vocation realignment', score: 'career_pivot' },
+          { text: 'Ending a mismatched relationship or setting firm boundaries with family', detail: 'relational honesty', score: 'relationship_boundary' },
+          { text: 'Committing deeply to a long-term goal: home, marriage, or craft mastery', detail: 'permanent commitment', score: 'deep_commitment' },
+          { text: 'Restoring my physical health and establishing sustainable daily routines', detail: 'somatic foundation', score: 'health_routines' },
+          { text: 'Gaining perspective on my legacy and what truly matters at this age', detail: 'legacy & wisdom', score: 'legacy_wisdom' }
+        ]
+      },
+      {
+        id: 'support_preference',
+        q: 'What kind of support or structure would help you navigate this threshold best?',
+        hint: 'Identifies the appropriate decision container.',
+        options: [
+          { text: 'Practical mentorship from seasoned adults who have already crossed this river', detail: 'practical mentorship', score: 'mentorship' },
+          { text: 'A skilled therapist to help untangle family-of-origin expectations', detail: 'clinical psychotherapy', score: 'therapy' },
+          { text: 'An in-depth, grounded astrological transit reading focused on timing', detail: 'ethical astrological synthesis', score: 'transit_reading' },
+          { text: 'A financial and lifestyle plan to prepare for a realistic career pivot', detail: 'practical financial planning', score: 'financial_plan' },
+          { text: 'Solitude and journaling to clarify my personal moral code', detail: 'contemplative self-inquiry', score: 'journaling' }
+        ]
+      }
+    ],
+
+    results: {
+      voluntary_audit: {
+        name: 'The Voluntary Structural Pruning',
+        summary: 'You are consciously shedding provisional life structures to build an authentic foundation.',
+        description: 'Your answers indicate that you are engaging with your Saturn Return in the most constructive manner possible: voluntary accountability. You recognize that certain careers, relationships, or habits that suited your early twenties no longer align with your adult values. Rather than waiting for a crisis to force your hand, you are doing the difficult, mature work of making deliberate cuts.',
+        supports: 'Trusting the clarity you have earned; taking decisive, phased steps to exit dead ends; building durable daily routines.',
+        cannotSettle: 'Whether the transition will be entirely painless; growth always entails a period of friction.',
+        watchNext: 'Do not second-guess your pruning. Trees only bear rich fruit when dead wood is cut away. Stay focused on your long-term bedrock.',
+        whatYourAnswersSuggest: 'You are stepping fully into adult sovereignty. Treat this season not as a loss, but as the moment your real life begins.'
+      },
+      heavy_commitment: {
+        name: 'The Heavy Anchor & Real Commitment',
+        summary: 'Your Saturn Return is bringing permanent adult weight: marriage, home, or leadership.',
+        description: 'Rather than experiencing collapse, your Saturn Return is demanding that you anchor down and commit. You are stepping into major life milestones — marriage, buying a home, having children, or taking on serious professional leadership. Saturn is the god of stone, structure, and permanence; you are laying down foundations meant to last decades.',
+        supports: 'Embracing the weight of responsibility; developing steady discipline; letting go of the illusion that options must remain perpetually open.',
+        cannotSettle: 'A completely stress-free experience; heavy commitments require sacrificing carefree impulse.',
+        watchNext: 'Watch for exhaustion. Balance your heavy commitments with regular physical maintenance and honest boundary management.',
+        whatYourAnswersSuggest: 'This is the noble face of Saturn: authority, enduring craft, and respected community standing. Carry the weight with pride.'
+      },
+      involuntary_crisis: {
+        name: 'Denial & Involuntary Structural Collapse',
+        summary: 'Resisting necessary maturation has resulted in external crisis or sudden breakdown.',
+        description: 'Your answers reveal that you held onto an unsustainable job, relationship, or lifestyle long past its expiration date out of fear of uncertainty. Reality has now intervened through an abrupt layoff, breakup, or burnout. While this shock feels devastating, Saturn’s demolition is purposeful: it destroys what was built on sand so you can finally build on bedrock truth.',
+        supports: 'Stopping the fight against reality; accepting the end as a liberating reset; seeking compassionate therapeutic and practical support.',
+        cannotSettle: 'Resurrecting an arrangement that was fundamentally compromised from the start.',
+        watchNext: 'Do not rush to reconstruct the exact same fragile structure with someone or somewhere else. Sit in the rubble until you understand what went wrong.',
+        whatYourAnswersSuggest: 'The crisis was not malicious; it was an eviction notice from a house that was already collapsing. Grieve the ending, then begin building your true adult foundation.'
+      },
+      premature_panic: {
+        name: 'The Anticipatory Transit Panic',
+        summary: 'You are paralyzed by pop-astrology dread before the transit has even arrived.',
+        description: 'You are under age 27 or caught in catastrophic social media loops, waiting in hyper-vigilant terror for Saturn to "ruin your life." Popular astrology sensationalizes this cycle to generate viral anxiety. In developmental reality, Saturn only tests what is already weak; if you live with integrity, work hard, and treat people fairly, the transit brings clarity, not doom.',
+        supports: 'Disengaging from sensationalist astrology content; focusing on practical skill acquisition, savings, and emotional maturity today.',
+        cannotSettle: 'Guaranteeing that life will never present unexpected challenges.',
+        watchNext: 'Catch yourself catastrophizing. Replace "Saturn is going to punish me" with "I am learning how to be a responsible, sovereign adult."',
+        whatYourAnswersSuggest: 'Turn down the volume on external panic. The best preparation for your late twenties is simply doing honest, decent work today.'
+      },
+      second_return: {
+        name: 'The Second Return: Elderhood & Legacy',
+        summary: 'Approaching age 58–60, you are transitioning from external conquest to enduring legacy.',
+        description: 'Your answers reflect the second great Saturn milestone (ages 57–60). While the first return asks "How do I build my adult life?", the second return asks "What did my life stand for, and what wisdom will I leave behind?" This is the threshold of elderhood, retirement, facing bodily aging, and mentoring the next generation.',
+        supports: 'Auditing your life with compassion; letting go of status games; investing energy in mentorship, creative legacy, and peace.',
+        cannotSettle: 'Reliving your thirties or clinging to roles that belong to the first half of life.',
+        watchNext: 'Celebrate the wisdom you have earned across six decades. Step gracefully into the role of respected guide and mentor.',
+        whatYourAnswersSuggest: 'This is the harvest season of your life. Gather what is sweet, let go of past regrets, and focus on what truly endures.'
+      }
+    },
+
+    practice: window.topicPracticeSet({ topic: 'astrology', cluster: 'general' }),
+
+    resolve: function(answers) {
+      if (answers.superstition_level === 2) return 'premature_panic';
+      if (answers.age_bracket === 'second_58') return 'second_return';
+      if (answers.structural_audit === -2 || answers.structural_audit === -1) return 'involuntary_crisis';
+      if (answers.crisis_arena === 'commitment' || answers.transition_goal === 'deep_commitment') return 'heavy_commitment';
+      return 'voluntary_audit';
+    },
+
+    underneath: function(answers) {
+      return 'Underneath the anxiety about the Saturn Return is the profound grief of closing the door on infinite potential. In youth, you can pretend you could become anything; entering true adulthood means accepting that your time and choices are finite. Sacrificing the fantasy is painful, but it is the only way to build an authentic life.';
+    },
+
+    matchPractice: function(answers) {
+      if (answers.structural_audit === -2) return 'closure';
+      if (answers.crisis_arena === 'career') return 'tarot_decision';
+      if (answers.superstition_level >= 1) return 'free_first';
+      if (answers.crisis_arena === 'relationship') return 'tarot_relationship';
+      return 'tarot_deep';
+    },
+
+    customResult: function(pKey, rKey, answers) {
+      return null;
+    }
+  },
+
+  /* ----------------------------------------------------------
+     64. FEELING LOST IN LIFE — Liminality, Meaning & Action
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'feeling-lost-in-life': {
+    id: 'feeling-lost-in-life',
+    title: 'What Kind of Lost Are You?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether you are in a healthy liminal void, suffering physical burnout, facing an achievement hangover, or trapped in destiny paralysis.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your disorientation — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'trigger_event',
+        q: 'What triggered this acute feeling of being unmoored or directionless?',
+        hint: 'Context defines whether this is a transition, depletion, or disillusionment.',
+        options: [
+          { text: 'A major life milestone ended — graduated, divorced, moved, or left a career', detail: 'post-transition void', score: 'milestone_end' },
+          { text: 'Achieved my long-term goals, but felt completely hollow once I got there', detail: 'achievement hangover', score: 'achievement_void' },
+          { text: 'Chronic, grinding exhaustion that finally broke my ability to care', detail: 'burnout collapse', score: 'burnout' },
+          { text: 'Realized I built my entire life around parental or social expectations', detail: 'discarded script', score: 'inherited_script' },
+          { text: 'No single trigger — I have felt aimless and stuck for as long as I can recall', detail: 'chronic existential drift', score: 'chronic_drift' }
+        ]
+      },
+      {
+        id: 'daily_energy',
+        q: 'How would you describe your baseline physical, nervous system, and emotional energy?',
+        hint: 'Distinguishes clinical exhaustion from directional aimlessness.',
+        options: [
+          { text: 'Severely depleted — waking exhausted, struggling with basic chores or hygiene', detail: 'clinical exhaustion / depression', score: 'severe_depletion' },
+          { text: 'Low and fluctuating — some days fine, other days heavy and sluggish', detail: 'moderate stress fatigue', score: 'low_fluctuating' },
+          { text: 'Physical energy is okay, but my mind is foggy and lacks a focal point', detail: 'cognitive lack of focus', score: 'mental_fog' },
+          { text: 'High restlessness — lots of nervous energy with nowhere meaningful to put it', detail: 'frustrated agency', score: 'restless' },
+          { text: 'Normal physical health — I just genuinely don’t know what to do next', detail: 'pure directional uncertainty', score: 'normal_energy' }
+        ]
+      },
+      {
+        id: 'map_authenticity',
+        q: 'Looking at the life you have lived so far, whose desires were you actually fulfilling?',
+        hint: 'Feeling lost happens when you stop following someone else’s map.',
+        options: [
+          { text: 'Almost entirely external — pleasing parents, chasing prestige, or avoiding poverty', detail: 'pure externalized compliance', score: 2 },
+          { text: 'Mostly external, though a few choices were genuinely mine', detail: 'partial authenticity', score: 1 },
+          { text: 'An equal mix of practical compromise and personal curiosity', detail: 'balanced pragmatism', score: 0 },
+          { text: 'Mostly mine, but my interests have fundamentally changed', detail: 'natural values evolution', score: -1 },
+          { text: '100% mine — I followed my passion, and it simply didn’t pan out as expected', detail: 'creative disillusionment', score: -2 }
+        ]
+      },
+      {
+        id: 'ambiguity_comfort',
+        q: 'How terrifying is it for you to sit in uncertainty without an immediate answer?',
+        hint: 'Measures capacity to tolerate the liminal corridor.',
+        options: [
+          { text: 'Unbearable — I panic and want to latch onto any random job or relationship', detail: 'acute void intolerance', score: 2 },
+          { text: 'Very uncomfortable — I spend hours every day desperately researching answers', detail: 'analytical hyper-vigilance', score: 1 },
+          { text: 'Uncomfortable, but I can manage day-to-day routines while I wait', detail: 'moderate ambiguity tolerance', score: 0 },
+          { text: 'I accept that this is a fallow season and am learning to sit with it', detail: 'healthy liminal acceptance', score: -1 },
+          { text: 'I actually enjoy the open horizon, even if the lack of structure is strange', detail: 'high ambiguity tolerance', score: -2 }
+        ]
+      },
+      {
+        id: 'action_vs_rumination',
+        q: 'How much of your week is spent actively testing small experiments vs lying in bed thinking?',
+        hint: 'Action precedes clarity; rumination deepens the fog.',
+        options: [
+          { text: '100% rumination — paralyzed by analysis, taking zero real-world action', detail: 'severe analysis paralysis', score: 2 },
+          { text: 'Mostly thinking, with an occasional frantic burst of job applications', detail: 'sporadic unfocused action', score: 1 },
+          { text: 'Keeping my daily life moving, but not testing new paths yet', detail: 'stable maintenance holding', score: 0 },
+          { text: 'Trying a few small micro-experiments (reading, classes, volunteering)', detail: 'active low-stakes exploration', score: -1 },
+          { text: 'Taking consistent, deliberate steps every single week to explore options', detail: 'high experimental momentum', score: -2 }
+        ]
+      },
+      {
+        id: 'destiny_expectation',
+        q: 'How much are you waiting for an external sign, psychic revelation, or sudden epiphany?',
+        hint: 'Distinguishes active meaning-building from passive destiny traps.',
+        options: [
+          { text: 'Completely — I feel I cannot move until the universe gives me a definitive sign', detail: 'magical destiny trap', score: 2 },
+          { text: 'Hoping for a sudden flash of clarity that will make everything obvious', detail: 'passive epiphany longing', score: 1 },
+          { text: 'A balance — looking for alignment while knowing I have to make the choice', detail: 'grounded discernment', score: 0 },
+          { text: 'Skeptical of signs — I recognize purpose is something I must build myself', detail: 'existential responsibility', score: -1 },
+          { text: 'Zero expectation — I believe life has no intrinsic meaning except what I create', detail: 'existentialist sovereignty', score: -2 }
+        ]
+      },
+      {
+        id: 'relief_priority',
+        q: 'What would bring you the greatest sense of emotional relief right now?',
+        hint: 'Intent clarifies the immediate healing focus.',
+        options: [
+          { text: 'Permission to rest and stop feeling like an embarrassing failure', detail: 'self-compassion & rest', score: 'permission_rest' },
+          { text: 'A clear, step-by-step framework to identify my core adult values', detail: 'values clarification', score: 'values_clarification' },
+          { text: 'Physical restoration from deep burnout and chronic exhaustion', detail: 'nervous system repair', score: 'somatic_recovery' },
+          { text: 'One small, practical experiment to test a new career or creative avenue', detail: 'micro-experimentation', score: 'micro_action' },
+          { text: 'Professional clinical support to evaluate underlying depression', detail: 'clinical assessment', score: 'clinical_support' }
+        ]
+      },
+      {
+        id: 'next_step_style',
+        q: 'How do you want to start building momentum out of this fog?',
+        hint: 'Identifies the appropriate integration vehicle.',
+        options: [
+          { text: 'Shrink my horizon to the next 24 hours: sleep, walk, eat, and breathe', detail: 'immediate 24h grounding', score: 'grounding_24h' },
+          { text: 'Conduct an honest audit of what I actually care about vs what others wanted', detail: 'values inventory', score: 'values_audit' },
+          { text: 'Book an appointment with a licensed therapist or physician', detail: 'medical / clinical care', score: 'therapy' },
+          { text: 'Engage in a reflective reading or journaling practice to explore blind spots', detail: 'structured reflective inquiry', score: 'journaling' },
+          { text: 'Reach out to someone doing work I admire for an informal 15-minute chat', detail: 'informational connection', score: 'informational_chat' }
+        ]
+      }
+    ],
+
+    results: {
+      liminal_reset: {
+        name: 'The Healthy Liminal Reset',
+        summary: 'You are in the natural threshold between an old chapter and an unwritten one.',
+        description: 'Your answers indicate that you are experiencing classic liminality (Victor Turner, 1969). You have successfully closed an old life stage, but the next structure has not yet solidified. This disorientation is not a sign of failure; it is the natural, necessary pause of fallow ground in winter. Rushing to fill the void with random commitments will only recreate your past unhappiness.',
+        supports: 'Granting yourself permission to pause; resting in the unknown; observing what natural curiosities begin to sprout when pressure is removed.',
+        cannotSettle: 'What your complete life will look like five years from now; clarity emerges only through lived experience.',
+        watchNext: 'Watch the urge to frantically latch onto the first job or partner that appears out of panic. Tolerate the quiet space.',
+        whatYourAnswersSuggest: 'You are in the hallway between rooms. The old door closed; the new door has not yet opened. Breathe and trust the space.'
+      },
+      achievement_void: {
+        name: 'The Achievement Hangover',
+        summary: 'You reached the summit of an inherited mountain, only to find the view empty.',
+        description: 'You did everything you were supposed to do — earned the degree, secured the job, or hit the societal milestones — but the promised fulfillment never arrived. This is the classic "arrival fallacy." Your disorientation is proof that extrinsic goals (prestige, parental approval, status) cannot satisfy intrinsic human needs for autonomy, creative mastery, and connection.',
+        supports: 'Conducting an honest values audit; shifting from external performance to internal meaning; redefining what success looks like on your own terms.',
+        cannotSettle: 'Instant gratitude for a life arrangement that fundamentally violates your values.',
+        watchNext: 'Notice moments when you make decisions based on how they will look to other people on LinkedIn or social media. Choose what feels genuine instead.',
+        whatYourAnswersSuggest: 'The ladder was leaning against the wrong wall. Coming down from that wall is not failure; it is the beginning of wisdom.'
+      },
+      burnout_fog: {
+        name: 'Nervous System Depletion & Freeze',
+        summary: 'Your feeling of being lost is actually severe physical and emotional exhaustion.',
+        description: 'Your answers reveal that your primary crisis is not directional; it is physiological. When your nervous system is in chronic sympathetic overload or dorsal vagal shutdown, your prefrontal cortex loses the neurochemical capacity to imagine inspiring futures. You cannot solve a biological deficit of rest with more existential thinking.',
+        supports: 'Prioritizing biological recovery: sleep, nutrition, therapeutic support, medical checkups, and ruthless reduction of non-essential demands.',
+        cannotSettle: 'Making permanent life-demolishing decisions while your body is clinically depleted.',
+        watchNext: 'Stop agonizing over your "10-year life purpose." Focus exclusively on restoring your physical baseline for the next 30 days.',
+        whatYourAnswersSuggest: 'You are not broken, and you have not ruined your life. You are simply exhausted. Rest your body before you demand that your mind navigate.'
+      },
+      discarded_script: {
+        name: 'The Discarded Inherited Script',
+        summary: 'You have outgrown a life chosen to appease parents, mentors, or societal norms.',
+        description: 'You feel lost because the script you followed for decades has finally expired. You were living out someone else’s definition of a successful life, and your soul has staged an honest rebellion. Stepping off the paved highway leaves you feeling disoriented, but this is the precise moment your authentic individuation begins.',
+        supports: 'Celebrating the courage it takes to admit an inherited life does not fit; beginning the patient, rewarding task of discovering your own authentic values.',
+        cannotSettle: 'Immediate approval from the family or mentors whose expectations you are leaving behind.',
+        watchNext: 'Notice the voice of guilt whenever you consider what you actually want. Separate healthy adult ethics from childhood people-pleasing.',
+        whatYourAnswersSuggest: 'You are not lost; you are finally free. Begin writing your own script, one small choice at a time.'
+      },
+      destiny_paralysis: {
+        name: 'The Magical Destiny Paralysis',
+        summary: 'You are stuck waiting for a mystical sign or certainty rather than taking action.',
+        description: 'Your answers indicate that you are trapped in the "destiny myth" — the belief that purpose is a pre-packaged assignment waiting to be discovered, or that you must not move until a psychic or sign gives you 100% guarantees. In existential psychology, clarity never precedes action; clarity is the byproduct of taking small, imperfect steps in the real world.',
+        supports: 'Giving up the illusion of certainty; launching low-stakes micro-experiments; taking responsibility for choosing a direction and testing it.',
+        cannotSettle: 'Waiting for an external guru or sign to relieve you of the vulnerability of choosing.',
+        watchNext: 'Catch yourself saying "I need to figure it all out before I start." Replace it with "I will take one small step today and see what happens."',
+        whatYourAnswersSuggest: 'No cosmic messenger is coming to hand you a sealed envelope with your life purpose. Pick up the pen and write the first sentence yourself.'
+      }
+    },
+
+    practice: window.topicPracticeSet({ topic: 'life-direction', cluster: 'general' }),
+
+    resolve: function(answers) {
+      if (answers.destiny_expectation === 2) return 'destiny_paralysis';
+      if (answers.daily_energy === 'severe_depletion' || answers.trigger_event === 'burnout') return 'burnout_fog';
+      if (answers.trigger_event === 'achievement_void') return 'achievement_void';
+      if (answers.map_authenticity >= 1 || answers.trigger_event === 'inherited_script') return 'discarded_script';
+      return 'liminal_reset';
+    },
+
+    underneath: function(answers) {
+      return 'Underneath the ache of feeling lost is what existential philosophy calls the anxiety of freedom. As long as you are following someone else’s rules, you are protected from responsibility. Feeling lost is simply the vertigo that comes with realizing you are standing on open ground with the freedom to walk in any direction you choose.';
+    },
+
+    matchPractice: function(answers) {
+      if (answers.daily_energy === 'severe_depletion') return 'free_first';
+      if (answers.action_vs_rumination >= 1) return 'tarot_decision';
+      if (answers.destiny_expectation >= 1) return 'general';
+      if (answers.trigger_event === 'milestone_end') return 'closure';
+      return 'psychic';
+    },
+
+    customResult: function(pKey, rKey, answers) {
+      return null;
+    }
+  },
+
+  /* ----------------------------------------------------------
+     65. AM I IN THE RIGHT CAREER — Burnout, Anchors & Alignment
+     8 questions (2 context, 4 signal [-2..+2], 2 intent).
+     ---------------------------------------------------------- */
+  'am-i-in-the-right-career': {
+    id: 'am-i-in-the-right-career',
+    title: 'Career Check: Burnout, Stagnation, or Misalignment?',
+    launchSub: 'Eight questions, about two minutes. Surfaces whether your career dissatisfaction is organizational burnout, structural values mismatch, a growth plateau, or the passion fantasy.',
+    subtitle: 'Eight questions, about two minutes. A personalized read of your career alignment — what it suggests, what it doesn’t, and what to watch next. No score, no verdict, no signup.',
+
+    questions: [
+      {
+        id: 'career_tenure',
+        q: 'How long have you been working in your current profession or industry?',
+        hint: 'Tenure distinguishes early-career friction from seasoned misalignment.',
+        options: [
+          { text: 'Less than two years — early in the learning curve', detail: 'early exploration / adjustment', score: 'early' },
+          { text: 'Three to five years — established, fully competent in core tasks', detail: 'established competence', score: 'established' },
+          { text: 'Six to ten years — mid-career, on track for leadership or seniority', detail: 'mid-career threshold', score: 'mid_career' },
+          { text: 'Over ten years — deeply seasoned with significant sunk cost', detail: 'senior veteran', score: 'veteran' },
+          { text: 'Recently pivoted into this field and having immediate buyer’s remorse', detail: 'post-pivot doubt', score: 'remorse' }
+        ]
+      },
+      {
+        id: 'primary_complaint',
+        q: 'What is the single most draining or toxic part of your workday?',
+        hint: 'Isolates task mismatch from organizational culture.',
+        options: [
+          { text: 'The core tasks themselves — I hate the actual day-to-day work', detail: 'task values misalignment', score: 'tasks' },
+          { text: 'The company culture — impossible workload, toxic leadership, or no boundaries', detail: 'workplace burnout', score: 'culture' },
+          { text: 'Total boredom — the work is easy, unchallenging, and monotonous', detail: 'growth plateau', score: 'boredom' },
+          { text: 'The ethical mission — the industry creates outcomes I morally dislike', detail: 'ethical values crisis', score: 'ethics' },
+          { text: 'Financial compensation — work is okay, but pay doesn’t match living costs', detail: 'economic deficit', score: 'compensation' }
+        ]
+      },
+      {
+        id: 'task_vs_culture',
+        q: 'If your salary was 30% higher and your boss was great, would you enjoy the core work?',
+        hint: 'The definitive test separating employer problems from career problems.',
+        options: [
+          { text: 'No — even under perfect conditions, I would still despise doing these tasks', detail: 'unambiguous career misalignment', score: 2 },
+          { text: 'Probably not — the intellectual spark and curiosity are completely dead', detail: 'deep task disengagement', score: 1 },
+          { text: 'Unsure — hard to tell because current exhaustion colors everything', detail: 'burnout interference', score: 0 },
+          { text: 'Yes, likely — I find the underlying subject matter genuinely interesting', detail: 'employer / context problem', score: -1 },
+          { text: 'Definitely yes — I love the craft itself; it’s the toxic environment killing me', detail: 'pure organizational burnout', score: -2 }
+        ]
+      },
+      {
+        id: 'boss_test',
+        q: 'Look at the leaders two levels above you. Do you want their daily life in five years?',
+        hint: 'Never climb a ladder if you don’t want to stand on the roof.',
+        options: [
+          { text: 'Absolutely not — their schedule, stress, and lifestyle look like prison', detail: 'wrong mountain entirely', score: 2 },
+          { text: 'No — I respect them, but I have zero desire for their specific responsibilities', detail: 'functional role misalignment', score: 1 },
+          { text: 'Mixed — parts of their job seem interesting, but other parts look miserable', detail: 'nuanced trade-offs', score: 0 },
+          { text: 'Yes, mostly — with a few adjustments to protect personal boundaries', detail: 'viable directional alignment', score: -1 },
+          { text: 'Definitely — that is the exact role and impact I am working toward', detail: 'clear career north star', score: -2 }
+        ]
+      },
+      {
+        id: 'career_anchor_alignment',
+        q: 'How well does this career satisfy your primary Edgar Schein Career Anchor?',
+        hint: 'Anchors: Autonomy, Technical Mastery, Security, Service, Creativity, Leadership.',
+        options: [
+          { text: 'Violently clashing — my core need (e.g. autonomy) is completely crushed here', detail: 'severe anchor violation', score: 2 },
+          { text: 'Poorly — I have to suppress what I care about to survive here', detail: 'chronic compromise', score: 1 },
+          { text: 'Moderately — meets some practical needs while leaving others hungry', detail: 'pragmatic trade-off', score: 0 },
+          { text: 'Well — the role gives me what matters most, with normal friction', detail: 'solid anchor fit', score: -1 },
+          { text: 'Extremely well — the work directly expresses my natural gifts and values', detail: 'high vocational harmony', score: -2 }
+        ]
+      },
+      {
+        id: 'runway_readiness',
+        q: 'What does your realistic financial cushion and transferable skill bridge look like?',
+        hint: 'Pragmatic leverage determines transition strategy.',
+        options: [
+          { text: 'Zero savings, living paycheck to paycheck — cannot afford an immediate leap', detail: 'financial survival constraint', score: 2 },
+          { text: '1 to 2 months of expenses — would need to secure a job before giving notice', detail: 'cautious bridge required', score: 1 },
+          { text: '3 to 6 months of living expenses saved — have a modest runway', detail: 'viable transition cushion', score: 0 },
+          { text: 'Substantial savings or a partner who can support a transition period', detail: 'high financial runway', score: -1 },
+          { text: 'Already have viable freelance clients or job offers in another field', detail: 'active transition momentum', score: -2 }
+        ]
+      },
+      {
+        id: 'ideal_shift',
+        q: 'If you could change one structural element of your working life tomorrow, what would it be?',
+        hint: 'Intent clarifies the true remedy needed.',
+        options: [
+          { text: 'A completely different profession that aligns with my genuine values', detail: 'career pivot', score: 'total_pivot' },
+          { text: 'A healthy company culture with humane hours and respectful leadership', detail: 'employer change', score: 'culture_change' },
+          { text: 'More challenging, high-visibility projects to pull me out of boredom', detail: 'growth advancement', score: 'growth_challenge' },
+          { text: 'A three-month sabbatical to fully sleep, recover, and reset my nervous system', detail: 'burnout sabbatical', score: 'sabbatical_rest' },
+          { text: 'Decoupling my identity from work so I don’t care so much about prestige', detail: 'internal boundary reframe', score: 'decouple_identity' }
+        ]
+      },
+      {
+        id: 'decision_horizon',
+        q: 'What is your timeline for making a decisive, strategic move regarding your career?',
+        hint: 'Identifies the appropriate action window.',
+        options: [
+          { text: 'Immediate — I am at a breaking point and need an exit strategy this week', detail: 'acute crisis intervention', score: 'immediate' },
+          { text: 'Next 3 to 6 months — quietly building skills, savings, and applications', detail: 'structured strategic pivot', score: 'phased_pivot' },
+          { text: 'Next 12 months — setting boundaries at work while exploring side projects', detail: 'deliberate exploration', score: 'exploration' },
+          { text: 'No rush — just want an objective check on where my dissatisfaction sits', detail: 'reflective audit', score: 'reflective_audit' },
+          { text: 'Staying put — committed to job crafting and improving the role I have', detail: 'job crafting commitment', score: 'job_crafting' }
+        ]
+      }
+    ],
+
+    results: {
+      values_misalignment: {
+        name: 'Structural Values Misalignment (Wrong Mountain)',
+        summary: 'The core daily tasks and industry model violate your intrinsic values.',
+        description: 'Your answers indicate that your dissatisfaction is not a temporary rough patch; it is structural misalignment. Even under ideal management and high pay, the fundamental nature of the work clashes with your Edgar Schein Career Anchor and personal conscience. Getting promoted in this field would only deepen your misery because you do not want your boss’s life.',
+        supports: 'Accepting that this profession is finished for you; designing a structured, phased career pivot; mapping your transferable skills to an aligned field.',
+        cannotSettle: 'Quitting tomorrow with zero savings; smart transitions require building the bridge before you cross.',
+        watchNext: 'Do not succumb to the sunk cost fallacy. The years you spent studying or working here gave you valuable discipline; now take those skills to the right mountain.',
+        whatYourAnswersSuggest: 'You are climbing a ladder leaned against the wrong building. Step down calmly and deliberately. Your authentic vocation awaits.'
+      },
+      workplace_burnout: {
+        name: 'Acute Workplace Burnout (Right Work, Bad Context)',
+        summary: 'You enjoy the underlying craft, but an unsustainable culture has crushed you.',
+        description: 'Your answers reveal that your career itself is sound, but your current workplace is toxic, exhausting, or structurally broken. Under Christina Maslach’s framework, your issues center on Workload, Control, or Fairness, not Values. Quitting your entire profession would be a mistake; what you need is nervous system recovery and a change of employer.',
+        supports: 'Establishing strict workplace boundaries immediately; taking medical leave or PTO; updating your resume to interview at healthy competing companies.',
+        cannotSettle: 'Fixing a toxic boss or broken company culture through your individual extra effort.',
+        watchNext: 'Notice the urge to burn everything down when you are exhausted. Treat your fatigue first; make major career decisions only when well-rested.',
+        whatYourAnswersSuggest: 'The car is fine, but the road is full of nails. Don’t sell the car; change the road. Find an employer that respects your talent and humanity.'
+      },
+      growth_plateau: {
+        name: 'The Growth Plateau (Outgrown the Container)',
+        summary: 'The work is safe and easy, but your mind is restless and atrophying from boredom.',
+        description: 'You are experiencing the "golden cage" of mastery. You have conquered the learning curve, your tasks have become routine, and the lack of challenge is causing chronic procrastination and low-grade depression. You don’t need to abandon your industry; you need higher stakes, fresh learning curves, or lateral leadership.',
+        supports: 'Practicing active job crafting; pitching a new ambitious initiative; seeking advanced certifications or lateral departmental transfers.',
+        cannotSettle: 'Waiting for management to magically notice your boredom and hand you an exciting project.',
+        watchNext: 'Do not mistake comfortable safety for long-term security. Stagnating for years diminishes your market value. Step into healthy discomfort.',
+        whatYourAnswersSuggest: 'You have outgrown your fishbowl. It is time to swim into deeper water, whether through a promotion, a new project, or a bolder role.'
+      },
+      passion_fantasy: {
+        name: 'The Passion Fantasy Trap',
+        summary: 'Expecting work to be an effortless paradise of pure joy creates chronic dissatisfaction.',
+        description: 'Your answers indicate that your friction stems from unrealistic romanticization of professional labor. Every field — whether creative arts, medicine, software, or entrepreneurship — contains at least 30% tedious administration, difficult clients, and repetitive grind. Fleeing a career at the first sign of routine prevents you from achieving the mastery that generates true career passion.',
+        supports: 'Reframing professional expectations; separating work identity from existential salvation; accepting that work is a contract of valuable effort.',
+        cannotSettle: 'Finding a magical career where hard deadlines, bureaucracy, and routine never exist.',
+        watchNext: 'Catch yourself daydreaming about idyllic alternative careers without researching their unglamorous daily realities.',
+        whatYourAnswersSuggest: 'Passion follows mastery, not the other way around. Commit to developing rare and valuable skills, and deep career satisfaction will follow.'
+      },
+      golden_handcuffs: {
+        name: 'The Golden Handcuffs Impasse',
+        summary: 'Lifestyle inflation and financial security are trapping you in an unfulfilling role.',
+        description: 'You are fully aware that your career is unsatisfying, but your salary, stock options, status, or debt load have created an intense fear of stepping away. You feel like a hostage to your own compensation. The problem is not a mystery of direction; it is a question of lifestyle design and economic freedom.',
+        supports: 'Conducting a rigorous financial audit; calculating your true "freedom number"; creating a 12-month savings and debt-reduction plan to buy your autonomy.',
+        cannotSettle: 'Leaving a high-paying career without first aligning your family and lifestyle overhead.',
+        watchNext: 'Ask yourself: "What is my freedom and mental peace worth?" Trimming 15% of lifestyle overhead often unlocks complete vocational mobility.',
+        whatYourAnswersSuggest: 'The cage door is not locked from the outside; it is locked from the inside. Build your financial runway, and the door will open.'
+      }
+    },
+
+    practice: window.topicPracticeSet({ topic: 'career-work', cluster: 'general' }),
+
+    resolve: function(answers) {
+      if (answers.task_vs_culture === 2 || answers.primary_complaint === 'ethics') return 'values_misalignment';
+      if (answers.task_vs_culture <= -1 || answers.primary_complaint === 'culture') return 'workplace_burnout';
+      if (answers.primary_complaint === 'boredom') return 'growth_plateau';
+      if (answers.runway_readiness === 2 && answers.career_tenure === 'veteran') return 'golden_handcuffs';
+      return 'passion_fantasy';
+    },
+
+    underneath: function(answers) {
+      return 'Underneath the agony of career doubt is a confrontation with identity and mortality. We spend the majority of our adult lives working; realizing that your daily effort does not serve what you value feels like a betrayal of your finite time. Decoupling your worth as a human being from your job title is the first step toward genuine sovereignty.';
+    },
+
+    matchPractice: function(answers) {
+      if (answers.task_vs_culture === 2) return 'tarot_decision';
+      if (answers.task_vs_culture <= -1) return 'free_first';
+      if (answers.runway_readiness === 2) return 'closure';
+      if (answers.primary_complaint === 'ethics') return 'tarot_deep';
+      return 'general';
+    },
+
+    customResult: function(pKey, rKey, answers) {
+      return null;
+    }
+  },
+
 };
