@@ -1200,7 +1200,7 @@
   {
    "url": "/questions/angel-numbers/333-meaning",
    "kind": "question",
-   "title": "333 Meaning: 4-Signal Decision Crossroads Screener",
+   "title": "333 Meaning: A Decision Crossroads Check",
    "h1": "What does 333 mean?",
    "description": "Is 333 urging you to make a choice? Audit your decision friction with the 4-Signal Decision Crossroads Screener (free, client-side, 5 archetypes).",
    "headings": [
@@ -1243,7 +1243,7 @@
   {
    "url": "/questions/angel-numbers/444-meaning",
    "kind": "question",
-   "title": "444 Meaning: 4-Signal Autonomic Grounding Screener",
+   "title": "444 Meaning: An Autonomic Grounding Check",
    "h1": "What does 444 mean?",
    "description": "Why do you see 444 everywhere? Audit your stress response with the 4-Signal Autonomic Grounding Screener (free, client-side, 5 archetypes) and cognitive guide.",
    "headings": [
@@ -1286,7 +1286,7 @@
   {
    "url": "/questions/angel-numbers/555-meaning",
    "kind": "question",
-   "title": "555 Meaning: 4-Signal Life Transition Screener",
+   "title": "555 Meaning: A Life Transition Check",
    "h1": "What does 555 mean?",
    "description": "Are massive changes coming, or are you in transition anxiety? Audit your adaptability with the 4-Signal Life Transition Screener (free, client-side, 5 archetypes).",
    "headings": [
@@ -1329,7 +1329,7 @@
   {
    "url": "/questions/angel-numbers/777-meaning",
    "kind": "question",
-   "title": "777 Meaning: 4-Signal Introspection Diagnostic",
+   "title": "777 Meaning: An Introspection Check",
    "h1": "What does 777 mean?",
    "description": "Is 777 a lucky jackpot or a call to deeper wisdom? Audit your cognitive state with the 4-Signal Introspection Diagnostic (free, client-side, 5 archetypes).",
    "headings": [
@@ -1372,7 +1372,7 @@
   {
    "url": "/questions/angel-numbers/888-meaning",
    "kind": "question",
-   "title": "888 Meaning: 4-Signal Reciprocity Audit Diagnostic",
+   "title": "888 Meaning: A Reciprocity Audit",
    "h1": "What does 888 mean?",
    "description": "Is financial abundance manifesting, or is energy unbalanced? Audit your exchange with the 4-Signal Reciprocity Diagnostic (free, client-side, 5 archetypes).",
    "headings": [
@@ -1581,12 +1581,13 @@
   {
    "url": "/questions/astrology/what-is-my-moon-sign",
    "kind": "question",
-   "title": "What Is My Moon Sign? 4-Signal Somatic Regulation Screener",
+   "title": "What Is My Moon Sign? Finding It Accurately",
    "h1": "What is my Moon sign?",
    "description": "Calculate your Moon sign accurately and audit your emotional nervous system with the 4-Signal Somatic Regulation Screener (free, client-side, 5 archetypes).",
    "headings": [
     "What “what is my Moon sign” is actually asking",
     "The emotional processing matrix: Sun vs Moon",
+    "At a glance: what your Moon-sign inquiry shows, and what it doesn’t settle",
     "The psychological science of emotional archetypes",
     "1. Attachment Theory & Internal Working Models — John Bowlby (1969)",
     "2. The Fallacy of Personal Validation (Barnum Effect) — Bertram Forer (1949)",
@@ -1604,11 +1605,10 @@
     "Pattern E: The Missing Birth Time Impasse",
     "What is underneath the question",
     "How to calculate your Moon sign accurately",
-    "Frequently asked questions",
-    "MysticDo’s editorial approach to astrology",
-    "Related astrology & reflective guides",
-    "What Is My Rising Sign?",
-    "Zodiac Compatibility"
+    "What Does Your Moon Sign Inquiry Reveal?",
+    "What this pattern check looks at",
+    "If you still want outside perspective",
+    "Which practice fits your question?"
    ],
    "faqQuestions": [
     "Why is birth time strictly necessary to find my Moon sign?",
@@ -1665,12 +1665,13 @@
   {
    "url": "/questions/astrology/what-is-my-saturn-return",
    "kind": "question",
-   "title": "What Is My Saturn Return? 4-Signal Maturation Screener",
+   "title": "What Is My Saturn Return? Timing & Meaning",
    "h1": "What is my Saturn Return?",
    "description": "Facing your late twenties crisis? Audit your life structure with the 4-Signal Saturn Return Maturation Screener (free, client-side, 5 archetypes).",
    "headings": [
     "What “what is my Saturn Return” is actually asking",
     "The Saturn Return navigation matrix",
+    "At a glance: what your Saturn-Return pressure shows, and what it doesn’t settle",
     "The developmental psychology behind the Saturn Return",
     "1. The “Age Thirty Transition” — Daniel Levinson (1978)",
     "2. The Quarter-Life Crisis Research — Dr. Oliver Robinson (2015)",
@@ -1688,11 +1689,10 @@
     "Pattern E: The Second Return Reckoning (Ages 56–60)",
     "What is underneath the question",
     "Practical steps to navigate your Saturn Return",
-    "Frequently asked questions",
-    "MysticDo’s editorial approach to planetary transits",
-    "Related astrology & life transition guides",
-    "What Is My Rising Sign?",
-    "What Is My Life Purpose?"
+    "Where Do You Stand in Your Saturn Return?",
+    "What this pattern check looks at",
+    "If you still want outside perspective",
+    "Which practice fits your question?"
    ],
    "faqQuestions": [
     "What exact age does the Saturn Return happen?",
@@ -1749,12 +1749,13 @@
   {
    "url": "/questions/career-work/am-i-in-the-right-career",
    "kind": "question",
-   "title": "Am I in the Right Career? 4-Signal Burnout & Values Diagnostic",
+   "title": "Am I in the Right Career? Burnout & Values",
    "h1": "Am I in the right career?",
    "description": "Separate workplace burnout from structural values misalignment. Take the 4-Signal Career Diagnostic (free, client-side, 5 archetypes) and decision guide.",
    "headings": [
     "What “am I in the right career” is actually asking",
     "The career alignment diagnostic matrix",
+    "At a glance: what your career dissatisfaction shows, and what it doesn’t settle",
     "The occupational science of career satisfaction",
     "1. The Maslach Burnout Inventory (MBI) — Christina Maslach & Michael Leiter (2016)",
     "2. Career Anchors Theory — Edgar Schein (1990)",
@@ -1772,11 +1773,10 @@
     "Pattern E: The Golden Handcuffs Impasse",
     "What is underneath the question",
     "How to execute a grounded career pivot",
-    "Frequently asked questions",
-    "MysticDo’s editorial approach to career guidance",
-    "Related career & life transition guides",
-    "Should I Quit My Job?",
-    "Will I Get the Job?"
+    "Career Check: Burnout, Stagnation, or Misalignment?",
+    "What this pattern check looks at",
+    "If you still want outside perspective",
+    "Which practice fits your question?"
    ],
    "faqQuestions": [
     "How do I know if I should quit my career or just switch companies?",
@@ -1904,7 +1904,7 @@
   {
    "url": "/questions/dreams/dream-about-being-chased",
    "kind": "question",
-   "title": "Dream About Being Chased: 4-Signal Avoidance Screener",
+   "title": "Dream About Being Chased: What It Means",
    "h1": "What does a dream about being chased mean?",
    "description": "What are you running from in waking life? Audit your flight response with the 4-Signal Avoidance Screener (free, client-side, 5 archetypes) and dream guide.",
    "headings": [
@@ -1989,12 +1989,13 @@
   {
    "url": "/questions/dreams/dream-about-someone-dying",
    "kind": "question",
-   "title": "Dream About Someone Dying: 4-Signal Transition Screener",
+   "title": "Dream About Someone Dying: What It Means",
    "h1": "What does dreaming about someone dying mean?",
    "description": "It’s not a premonition—it’s emotional transition. Audit your death dream with the 4-Signal Relational Transition Screener (free, client-side, 5 archetypes).",
    "headings": [
     "What “dreaming about someone dying” is actually asking",
     "The death dream interpretation matrix",
+    "At a glance: what your death dream shows, and what it doesn’t settle",
     "The neuroscience and psychology of death dreams",
     "1. Threat Simulation Theory (TST) — Antti Revonsuo (2000)",
     "2. Emotional Schema Updating — Rosalind Cartwright (2010)",
@@ -2012,11 +2013,10 @@
     "Pattern E: Premonition Panic & Apophenic Hyper-Fixation",
     "What is underneath the question",
     "When to seek support vs when to let it settle",
-    "Frequently asked questions",
-    "MysticDo’s editorial approach to dream interpretation",
-    "Related dream & reflective guides",
-    "Dream About Being Chased",
-    "Dream About Your Ex"
+    "Why Did You Dream Someone Died?",
+    "What this pattern check looks at",
+    "If you still want outside perspective",
+    "Which practice fits your question?"
    ],
    "faqQuestions": [
     "Is dreaming about someone dying a psychic premonition?",
@@ -2073,7 +2073,7 @@
   {
    "url": "/questions/dreams/dream-about-your-ex",
    "kind": "question",
-   "title": "Dream About Your Ex: 4-Signal Attachment Diagnostic",
+   "title": "Dream About Your Ex: What It Means",
    "h1": "What does dreaming about your ex mean?",
    "description": "Is it telepathy or memory reconsolidation? Audit your ex dream with the 4-Signal Attachment Closure Diagnostic (free, client-side, 5 archetypes).",
    "headings": [
@@ -2146,12 +2146,13 @@
   {
    "url": "/questions/life-direction/feeling-lost-in-life",
    "kind": "question",
-   "title": "Feeling Lost in Life: 4-Signal Liminal Void Diagnostic",
+   "title": "Feeling Lost in Life: A Direction Check",
    "h1": "Why do I feel so lost in life?",
    "description": "Lost is a transition, not a failure. Audit your life stage with the 4-Signal Liminal Void Diagnostic (free, client-side, 5 archetypes) and psychology guide.",
    "headings": [
     "What “feeling lost in life” is actually asking",
     "The feeling lost diagnostic matrix",
+    "At a glance: what your disorientation shows, and what it doesn’t settle",
     "The psychological science of feeling lost",
     "1. Liminality & The Void — Victor Turner (1969)",
     "2. Logotherapy & The Will to Meaning — Viktor Frankl (1959)",
@@ -2169,11 +2170,10 @@
     "Pattern E: The Magical Destiny Paralysis",
     "What is underneath the question",
     "Five concrete actions to take when you are lost",
-    "Frequently asked questions",
-    "MysticDo’s editorial approach to life direction",
-    "Related life direction & transition guides",
-    "What Is My Life Purpose?",
-    "Should I Quit My Job?"
+    "What Kind of Lost Are You?",
+    "What this pattern check looks at",
+    "If you still want outside perspective",
+    "Which practice fits your question?"
    ],
    "faqQuestions": [
     "Why do I feel lost even when my life looks great on paper?",
@@ -2256,7 +2256,7 @@
   {
    "url": "/questions/loss-closure/dream-about-deceased-loved-one",
    "kind": "question",
-   "title": "Dream About Deceased Loved One: 4-Signal Dream Diagnostic",
+   "title": "Dream About a Deceased Loved One: Meaning",
    "h1": "Dream About a Deceased Loved One: Visitation or Grief Processing?",
    "description": "Was your dream a visitation or grief processing? Audit your REM sleep with the 4-Signal Bereavement Dream Diagnostic (free, client-side, 5 archetypes).",
    "headings": [
@@ -2325,7 +2325,7 @@
   {
    "url": "/questions/loss-closure/is-my-loved-one-watching-over-me",
    "kind": "question",
-   "title": "Is My Loved One Watching Over Me? 4-Signal Alignment Screener",
+   "title": "Is My Loved One Watching Over Me?",
    "h1": "Is My Loved One Watching Over Me? Grief, Reassurance, and What You Need",
    "description": "Is wonder bringing comfort or decision paralysis? Audit your grief connection with the 4-Signal Continuing Bonds Screener (free, client-side, 5 archetypes).",
    "headings": [
@@ -2367,7 +2367,7 @@
   {
    "url": "/questions/loss-closure/signs-from-deceased-loved-ones",
    "kind": "question",
-   "title": "Signs From Deceased Loved Ones: 4-Signal Diagnostic & Meaning",
+   "title": "Signs From Deceased Loved Ones: What They Mean",
    "h1": "Signs From Deceased Loved Ones: What Are You Actually Seeing?",
    "description": "Distinguish continuing bonds from hypervigilance. Audit your experience with the 4-Signal Bereavement Diagnostic (free, client-side, 5 archetypes) and guide.",
    "headings": [
@@ -3164,7 +3164,7 @@
   {
    "url": "/questions/money-wealth/why-am-i-always-broke",
    "kind": "question",
-   "title": "Why Am I Always Broke? 4-Signal Scarcity Diagnostic",
+   "title": "Why Am I Always Broke? A Scarcity Check",
    "h1": "Why Am I Always Broke? Money Scripts, Scarcity Loops, and What Fits",
    "description": "Discover which unconscious money script drains your cash flow. Take the 4-Signal Scarcity Bandwidth Diagnostic (free, client-side, 5 archetypes) and reality guide.",
    "headings": [
@@ -3206,7 +3206,7 @@
   {
    "url": "/questions/money-wealth/will-i-be-rich",
    "kind": "question",
-   "title": "Will I Be Rich? 4-Signal Financial Reality Diagnostic",
+   "title": "Will I Be Rich? A Financial Reality Check",
    "h1": "Will I Be Rich? What Financial Anxiety Asks and What Timing Can Tell You",
    "description": "Break free from magical manifestation thinking. Audit your wealth trajectory with the 4-Signal Financial Reality Screener (free, client-side, 5 archetypes).",
    "headings": [
@@ -3603,7 +3603,7 @@
   {
    "url": "/questions/tarot/lovers-card-meaning",
    "kind": "question",
-   "title": "Lovers Tarot Card Meaning: 4-Signal Values Alignment Screener",
+   "title": "Lovers Tarot Card Meaning: A Values Check",
    "h1": "What does the Lovers card mean?",
    "description": "Is it soulmate destiny or a moral values crossroad? Audit your spread with the 4-Signal Values Alignment Screener (free, client-side, 5 archetypes).",
    "headings": [
@@ -3646,7 +3646,7 @@
   {
    "url": "/questions/tarot/tarot-yes-or-no",
    "kind": "question",
-   "title": "Tarot Yes or No: 4-Signal Decision Conflict Diagnostic",
+   "title": "Tarot Yes or No: What It Can Decide",
    "h1": "Can tarot give a yes or no answer?",
    "description": "Why does yes-or-no tarot cause anxiety? Audit your choice with the 4-Signal Decision Conflict Diagnostic (free, client-side, 5 archetypes) and guide.",
    "headings": [
@@ -3689,7 +3689,7 @@
   {
    "url": "/questions/tarot/tower-card-meaning",
    "kind": "question",
-   "title": "Tower Tarot Card Meaning: 4-Signal Crisis Diagnostic",
+   "title": "Tower Tarot Card Meaning: A Crisis Check",
    "h1": "What does the Tower card mean?",
    "description": "Did you pull the Tower? Audit your structural collapse or liberation with the 4-Signal Structural Crisis Diagnostic (free, client-side, 5 archetypes).",
    "headings": [

@@ -45,18 +45,30 @@ const ok = (name, cond, extra = '') => {
 };
 
 // ── 收集样本页 ────────────────────────────────────────────────────────────
+// 2026-09-22: this used to collect only `index.html`, so the coverage line
+// claimed "全站 18 页" while the site actually ships 111 pages — the 20 new
+// intent articles were never exercised. Collect every published page.
+const SKIP_DIRS = new Set([
+  '_design-check', 'logo-drafts', 'email-templates', 'scripts',
+  'worker', 'functions', 'node_modules', '.git', '.workbuddy', '.vscode', 'scratch',
+]);
+const SKIP_FILES = new Set(['404.html']);   // noindex, no markdown twin promised
 function collect(dir, out = []) {
   for (const f of readdirSync(dir)) {
     const p = join(dir, f);
     const st = statSync(p);
-    if (st.isDirectory()) collect(p, out);
-    else if (f === 'index.html') out.push({ p, size: st.size });
+    if (st.isDirectory()) {
+      if (!SKIP_DIRS.has(f)) collect(p, out);
+    } else if (f.endsWith('.html') && !SKIP_FILES.has(f)) {
+      out.push({ p, size: st.size });
+    }
   }
   return out;
 }
 const all = collect(DIST).sort((a, b) => a.size - b.size);
-if (!all.length) { console.error(`${DIST} 里没有 index.html 页面`); process.exit(2); }
-const urlOf = (rel) => 'https://mysticdo.com/' + rel.replace(/index\.html$/, '');
+if (!all.length) { console.error(`${DIST} 里没有页面`); process.exit(2); }
+/* Clean-URL form: /dir/index.html -> /dir/ · /dir/page.html -> /dir/page */
+const urlOf = (rel) => 'https://mysticdo.com/' + rel.replace(/index\.html$/, '').replace(/\.html$/, '');
 const relOf = (p) => relative(DIST, p).replace(/\\/g, '/');
 
 // 抽 12 个样本：覆盖小/中/大与顶层页面
@@ -105,17 +117,27 @@ function makeNext(original) {
   return async (req) => {
     const u = new URL((req || original).url);
     let p = u.pathname;
-    if (p.endsWith('/')) p += 'index.html';
-    const file = join(DIST, p.replace(/^\//, ''));
-    try {
-      const body = readFileSync(file);
-      return new Response(body, {
-        status: 200,
-        headers: { 'Content-Type': p.endsWith('.html') ? 'text/html; charset=utf-8' : 'application/octet-stream' },
-      });
-    } catch {
-      return new Response('not found', { status: 404, headers: { 'Content-Type': 'text/plain' } });
+    /* Mirror the static host's clean-URL behaviour: /dir/ -> /dir/index.html,
+       /dir/page -> /dir/page.html. Without the second rule the harness 404s on
+       every extensionless article URL, which made the negotiation tests only
+       ever pass for directory-index pages. */
+    const candidates = [];
+    if (p.endsWith('/')) candidates.push(p + 'index.html');
+    else {
+      candidates.push(p);
+      if (!/\.[a-z0-9]+$/i.test(p)) candidates.push(p + '.html');
     }
+    for (const cand of candidates) {
+      const file = join(DIST, cand.replace(/^\//, ''));
+      try {
+        const body = readFileSync(file);
+        return new Response(body, {
+          status: 200,
+          headers: { 'Content-Type': cand.endsWith('.html') ? 'text/html; charset=utf-8' : 'application/octet-stream' },
+        });
+      } catch { /* try the next candidate */ }
+    }
+    return new Response('not found', { status: 404, headers: { 'Content-Type': 'text/plain' } });
   };
 }
 async function call(url, headers = {}) {

@@ -179,14 +179,20 @@ NODE="C:\Users\samja\.workbuddy\binaries\node\versions\22.22.2-3\node.exe"
 # Quiz 逻辑测试：复制 scripts/test-love-quiz.mjs → scripts/test-<slug>-quiz.mjs，
 # 改 slug、pattern/practice 期望数、underneath 场景；跑通后加入 package.json 的 test 链
 "$NODE" scripts/test-<slug>-quiz.mjs
-"$PY" seo_inject.py            # 重注入 + sitemap
-"$PY" validate_seo.py          # 必须 0 errors
+"$PY" seo_inject.py            # 重注入 + sitemap（脚本在仓库根，不在 scripts/）
+"$PY" validate_seo.py          # 必须 0 errors（同样在仓库根）
 "$PY" scripts/build-content-index.py
+"$NODE" scripts/build-llms-full.mjs
 # 全量回归（不要用 npm —— 本机 npm 包装层触发 wsl 沙箱拦截；逐脚本直跑）：
 "$NODE" scripts/test-worker-agent-routes.mjs && "$NODE" scripts/test-email-api.mjs && \
 "$NODE" scripts/test-webmcp.mjs && "$NODE" scripts/test-markdown-for-agents.mjs --dist=. && \
-"$NODE" scripts/test-love-quiz.mjs && "$NODE" scripts/test-<slug>-quiz.mjs
+"$NODE" scripts/test-love-quiz.mjs && "$NODE" scripts/test-<slug>-quiz.mjs && \
+"$NODE" scripts/test-quiz-render.mjs        # ← 结果渲染门禁，缺失就会重复 2026-09-22 事故
+"$PY" scripts/seo_geo_deep_audit.py         # 必须 0 errors（有 error 会非零退出）
 ```
+
+> ⚠️ **`scripts/test-quiz-render.mjs` 是强制门禁，不是可选项。** 2026-09-22 上线前审计发现：20 篇新文章中 15 篇的 quiz 在结果页直接失效（10 个抛 `r.suggest is not a function`，5 个仍是旧签名 `customResult(pKey, rKey, answers) { return null; }`），而当时 `npm test` 全绿——因为 `test-batch*-quizzes.mjs` 只断言静态结构（8 题 / 5-6 patterns / 7 practice keys / resolve + matchPractice），**从不调用渲染器**。写 quiz 时凡是 `results[pattern]` 的键名或 `customResult` 签名不标准，都会被这道门禁拦下。契约见 §7；渲染器只认 `path / summary / suggest(a) / dontTell / watchIntro / watch(a)`（渲染器内置了对 `title·name`、`whatAnswersSuggest`、`whatItCannotProve·cannotSettle`、`whatToWatchNext·watchNext·supports` 的兼容映射，但**不要依赖它**——按契约写）。
+> ⚠️ `underneath` 必须返回 `{ key, label, text }`；返回裸字符串会被渲染成字面 "undefined"。
 
 验证点：新页 JSON-LD 有 `Article` + `BreadcrumbList` + `FAQPage`（FAQ 数 = 可见 details 数）；`og:type=article`；`dateModified ≥ datePublished`；sitemap 包含新 URL；content-index < 150KB。
 
@@ -208,7 +214,10 @@ NODE="C:\Users\samja\.workbuddy\binaries\node\versions\22.22.2-3\node.exe"
 - [ ] 证据层 ≤3 条全部来自引用池或当轮核实并已回写引用池
 - [ ] 无幻觉引用、无分数/判决、无 somatic 处方、无硬编码价格
 - [ ] Quiz 逻辑测试：信号组合全遍历 → 全部 pattern 可达；意图组合 → 全部 practice 可达；渲染 sweep 零抛错、三固定块恒在；付费结果有 choose 行、免费结果没有
-- [ ] `node --check` 两 JS 文件通过；seo_inject / validate_seo(0 errors) / content-index 全跑过
+- [ ] **`node scripts/test-quiz-render.mjs` ALL GREEN**（CRASH 0 / BLANK 0 / 无字面 undefined 漏出）——静态结构测试不能替代它
+- [ ] `customResult` 用 `function (ctx) { window.mysticdoPatternResult(ctx, '<slug>', { resultV2: true }); }`；`results[pattern]` 用契约键名；`underneath` 返回 `{ key, label, text }`
+- [ ] `node --check` 两 JS 文件通过；seo_inject / validate_seo(0 errors) / content-index / build-llms-full 全跑过
+- [ ] **`python scripts/seo_geo_deep_audit.py` 0 errors**（标题 ≤65 字符，全站门禁；它已非零退出）
 - [ ] 全量测试链 ALL GREEN；390px 审计 overflow=0 clipped=0
 - [ ] JSON-LD 三类齐全、日期一致、FAQ 数一致
 - [ ] 汇报：列出改动文件清单 + 测试摘要 + 提醒用户 push（agent 无推送能力）

@@ -94,7 +94,7 @@ const AHA_SCENARIOS = {
 };
 
 /* v2 quizzes render the new layers; v1 quizzes keep the classic blocks. */
-const V2_SLUGS = new Set(['does-he-love-me']);
+const V2_SLUGS = new Set(SLUGS);
 
 let totalFail = 0;
 let totalChecks = 0;

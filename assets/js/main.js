@@ -655,6 +655,7 @@
 
     function closeModal(viaPop) {
       if (!modalOpen) return;
+      cancelCalculating();
       modalOpen = false;
       overlay.classList.remove('open');
       overlay.classList.add('closing');
@@ -798,8 +799,21 @@
           + ' Back</button>'
         : '<span></span>';
 
+      var stageEyebrow = '';
+      if (total >= 7) {
+        var sNum = idx < 2 ? 1 : (idx < 5 ? 2 : (idx < 7 ? 3 : 4));
+        var sTitles = [
+          'Stage 1 · Current Dynamic & Setting',
+          'Stage 2 · Observable Behavioral Patterns',
+          'Stage 3 · Emotional Friction & Tension',
+          'Stage 4 · Core Intent & Next Step'
+        ];
+        stageEyebrow = '<div class="quiz-stage-eyebrow">' + sTitles[sNum - 1] + '</div>';
+      }
+
       stepEl.innerHTML =
-        '<div class="quiz-question">' + step.q + '</div>'
+        stageEyebrow
+        + '<div class="quiz-question">' + step.q + '</div>'
         + (step.hint ? '<div class="quiz-hint">' + step.hint + '</div>' : '')
         + '<div class="quiz-options">' + opts + '</div>'
         + '<div class="quiz-nav">'
@@ -855,6 +869,59 @@
       setTimeout(function () { el.classList.remove('leaving'); }, 220);
     }
 
+    /* The "Analyzing your pattern" ceremony runs on timers. They must be
+       cancellable: closing the overlay or restarting the check mid-ceremony
+       used to leave the old timer alive, so the previous session's result
+       was written into the new one and `phase` was corrupted. */
+    var calcTimers = [];
+    function cancelCalculating() {
+      for (var i = 0; i < calcTimers.length; i++) clearTimeout(calcTimers[i]);
+      calcTimers = [];
+    }
+
+    function showCalculatingCeremony(doneCb) {
+      cancelCalculating();
+      phase = 'calculating';
+      if (modalMode) setCardPhase('calculating');
+      var body = getBody();
+      body.innerHTML =
+        '<div class="quiz-calc-wrap">'
+        + '<div class="quiz-calc-orb">'
+        +   '<div class="quiz-calc-pulse"></div>'
+        +   '<div class="quiz-calc-ring"></div>'
+        +   '<div class="quiz-calc-icon">' + glyphStar() + '</div>'
+        + '</div>'
+        + '<h3 class="quiz-calc-title">Analyzing Your Pattern</h3>'
+        + '<p class="quiz-calc-status" id="quiz-calc-status">Aligning situation coordinates &amp; timeline...</p>'
+        + '<div class="quiz-calc-bar-track"><div class="quiz-calc-bar" id="quiz-calc-bar"></div></div>'
+        + '<div class="quiz-calc-meta"><span id="quiz-calc-pct">28%</span><span>Structured Diagnostic</span></div>'
+        + '</div>';
+
+      var statusEl = body.querySelector('#quiz-calc-status');
+      var barEl = body.querySelector('#quiz-calc-bar');
+      var pctEl = body.querySelector('#quiz-calc-pct');
+
+      var phases = [
+        { at: 0, pct: '28%', text: 'Aligning situation coordinates &amp; timeline...' },
+        { at: 750, pct: '62%', text: 'Detecting cognitive tension &amp; behavioral gaps...' },
+        { at: 1600, pct: '88%', text: 'Synthesizing situation profile &amp; blockage patterns...' },
+        { at: 2400, pct: '100%', text: 'Finalizing personalized diagnosis &amp; specialist matching...' }
+      ];
+
+      phases.forEach(function (p) {
+        calcTimers.push(setTimeout(function () {
+          if (statusEl) statusEl.innerHTML = p.text;
+          if (barEl) barEl.style.width = p.pct;
+          if (pctEl) pctEl.textContent = p.pct;
+        }, p.at));
+      });
+
+      calcTimers.push(setTimeout(function () {
+        calcTimers = [];
+        doneCb();
+      }, 3000));
+    }
+
     function nextStep(idx) {
       leaveStep(idx);
       if (idx + 1 < total) {
@@ -863,7 +930,9 @@
         renderStep(current, 'forward');
         if (modalMode && modalBody) { modalBody.scrollTop = 0; focusStepQuestion(); }
       } else {
-        renderResult();
+        showCalculatingCeremony(function () {
+          renderResult();
+        });
       }
       keepShellInView();
     }
@@ -887,13 +956,43 @@
          renderer needs, so quiz code never touches engine internals. */
       var body = getBody();
       if (typeof Q.customResult === 'function') {
-        Q.customResult({
-          answers: answers,
-          body: body,
-          emailFormHTML: emailFormHTML,
-          bindEmailForms: bindEmailForms,
-          restart: startQuiz
-        });
+        /* The custom renderer writes into `body`. Two failure modes must
+           never leave the user stranded on the "Analyzing your pattern"
+           screen: (1) it throws (a malformed results shape), (2) it
+           returns without writing anything (a legacy no-op signature).
+           Detect both and show an honest failure state with a way out. */
+        var beforeHTML = body.innerHTML;
+        var rendered = false;
+        try {
+          Q.customResult({
+            answers: answers,
+            body: body,
+            emailFormHTML: emailFormHTML,
+            bindEmailForms: bindEmailForms,
+            restart: startQuiz
+          });
+          rendered = body.innerHTML !== beforeHTML;
+        } catch (err) {
+          try {
+            if (window.console && console.error) {
+              console.error('[quiz] result render failed for "' + key + '"', err);
+            }
+          } catch (e2) {}
+        }
+        if (!rendered) {
+          body.innerHTML =
+            '<div class="quiz-result">'
+            + '<div class="love-result-head">'
+            + '<div class="result-path-badge">' + glyphStar() + ' Something went wrong</div>'
+            + '<h2>We could not build your result page</h2>'
+            + '<p class="love-summary">Your answers were not sent anywhere. Start the check again, or read the framework further up this page.</p>'
+            + '</div>'
+            + '<p class="text-center" style="margin-top:var(--s6)">'
+            + '<button type="button" class="btn btn-ghost btn-sm" data-love-retake>Start over</button></p>'
+            + '</div>';
+          var retakeEl = body.querySelector('[data-love-retake]');
+          if (retakeEl) retakeEl.addEventListener('click', function () { startQuiz(); });
+        }
         if (modalMode) {
           if (modalBody) modalBody.scrollTop = 0;
         } else {
@@ -984,6 +1083,7 @@
 
     /* Init — extracted so a custom result page can offer a retake */
     function startQuiz() {
+      cancelCalculating();
       answers = {};
       current = 0;
       phase = 'running';

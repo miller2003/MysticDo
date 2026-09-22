@@ -1736,9 +1736,175 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
   padding: 0 var(--s4) var(--s3);
 }
 .quiz-modal-progress .quiz-progress-row { margin-bottom: 0; }
-.quiz-modal-card[data-phase="result"] .quiz-modal-progress { display: none; }
-.quiz-modal-card[data-phase="result"] .quiz-modal-topbar {
+.quiz-modal-card[data-phase="result"] .quiz-modal-progress,
+.quiz-modal-card[data-phase="calculating"] .quiz-modal-progress { display: none; }
+.quiz-modal-card[data-phase="result"] .quiz-modal-topbar,
+.quiz-modal-card[data-phase="calculating"] .quiz-modal-topbar {
   border-bottom: 1px solid var(--hairline);
+}
+
+/* stage eyebrow */
+.quiz-stage-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-600);
+  background: rgba(184, 134, 11, 0.08);
+  border: 1px solid rgba(184, 134, 11, 0.2);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-top: var(--s2);
+  margin-bottom: var(--s2);
+}
+
+/* calculating ceremony */
+.quiz-calc-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--s5) var(--s3);
+  min-height: 280px;
+  animation: fadeIn 0.3s ease-out;
+}
+.quiz-calc-orb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--s4);
+}
+.quiz-calc-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.3) 0%, rgba(197, 160, 89, 0) 70%);
+  animation: calcPulse 2s infinite ease-in-out;
+}
+.quiz-calc-ring {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 2px dashed var(--gold-500);
+  opacity: 0.6;
+  animation: calcSpin 8s infinite linear;
+}
+.quiz-calc-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--gold-600);
+  position: relative;
+  z-index: 1;
+}
+@keyframes calcSpin {
+  100% { transform: rotate(360deg); }
+}
+@keyframes calcPulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.4; }
+  50% { transform: scale(1.2); opacity: 0.9; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.quiz-calc-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ink-900);
+  margin-bottom: var(--s2);
+}
+.quiz-calc-status {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  min-height: 1.5em;
+  margin-bottom: var(--s4);
+  transition: opacity 0.2s ease;
+}
+.quiz-calc-bar-track {
+  width: 100%;
+  max-width: 280px;
+  height: 6px;
+  background: rgba(58, 44, 14, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: var(--s2);
+}
+.quiz-calc-bar {
+  width: 28%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-400));
+  border-radius: 999px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.quiz-calc-meta {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 280px;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* echo chamber situation synthesis block in result */
+.love-echo-chamber {
+  background: linear-gradient(135deg, rgba(252, 250, 245, 0.95), rgba(247, 243, 233, 0.95));
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  border-left: 4px solid var(--gold-500);
+  border-radius: var(--radius-md);
+  padding: var(--s4);
+  margin: var(--s4) 0;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(58, 44, 14, 0.04);
+}
+.love-echo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+  margin-bottom: var(--s2);
+}
+.love-echo-badge svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+.love-echo-narrative {
+  font-size: 0.98rem;
+  line-height: 1.68;
+  color: var(--text);
+  margin: 0;
+}
+.love-echo-narrative strong {
+  color: var(--ink-900);
+}
+.love-echo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--s2);
+  margin-top: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px dashed rgba(197, 160, 89, 0.25);
+}
+.love-echo-pill {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.love-echo-pill strong {
+  display: block;
+  font-weight: 600;
+  color: var(--ink-900);
+  font-size: 0.84rem;
 }
 
 /* body — the scrollable surface the engine renders into */

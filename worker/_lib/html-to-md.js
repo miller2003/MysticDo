@@ -53,6 +53,18 @@ const ENTITIES = {
   // 符号
   trade: '™', reg: '®', copy: '©', deg: '°', times: '×', divide: '÷',
   plusmn: '±', infin: '∞', micro: 'µ', oelig: 'œ',
+  // 括号与减号（本站 red-flags 文案用 [占位] 与负相关系数 −0.43）
+  lsqb: '[', rsqb: ']', minus: '\u2212',
+  // Latin-1 字母（英文借词常带：cliché, naïve, façade）
+  agrave: 'à', aacute: 'á', acirc: 'â', atilde: 'ã', auml: 'ä', aring: 'å', aelig: 'æ',
+  ccedil: 'ç', eth: 'ð',
+  egrave: 'è', eacute: 'é', ecirc: 'ê', euml: 'ë',
+  igrave: 'ì', iacute: 'í', icirc: 'î', iuml: 'ï',
+  ntilde: 'ñ',
+  ograve: 'ò', oacute: 'ó', ocirc: 'ô', otilde: 'õ', ouml: 'ö', oslash: 'ø',
+  thorn: 'þ', szlig: 'ß',
+  ugrave: 'ù', uacute: 'ú', ucirc: 'û', uuml: 'ü',
+  yacute: 'ý', yuml: 'ÿ',
   // 货币
   euro: '€', pound: '£', yen: '¥', cent: '¢', curren: '¤',
   // 分数与上标

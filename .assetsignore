@@ -28,6 +28,12 @@ package-lock.json
 *.md
 logo-drafts
 _design-check
+scratch
+scratch/**
+
+# ── Python 编译缓存（.pyc 不被 *.py 覆盖）──
+__pycache__
+*.pyc
 
 # ── 邮件模板（给 MailerLite 用的 HTML，不是网站页面）──
 email-templates

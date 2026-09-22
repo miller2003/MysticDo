@@ -154,7 +154,7 @@ window.MYSTICDO_PARTNERS = [
 
 /* Renders the partner-offer block (engine layer 3.6). Returns '' when
    no partners are configured so the result page degrades cleanly. */
-window.mysticdoPartnerOffersHTML = function () {
+window.mysticdoPartnerOffersHTML = function (patternName) {
   var partners = window.MYSTICDO_PARTNERS || [];
   if (!partners.length) return '';
   function esc(s) {
@@ -180,11 +180,14 @@ window.mysticdoPartnerOffersHTML = function () {
       + '</div>'
       + '</div>';
   }).join('');
+  var sub = patternName
+    ? 'A quiz can map your dynamic \u2014 it can\u2019t sit with the private nuances of your story. A verified advisor can. Both platforms below specialize in \u201C' + esc(patternName) + '\u201D situations, answer around the clock, and offer a free way to test the connection before committing.'
+    : 'A quiz can map your pattern \u2014 it can\u2019t sit with the details of your story. A live advisor can. Both services below specialize in love and relationships, answer around the clock, and give new clients a free way to begin through our links.';
   return '<div class="love-offers">'
     + '<div class="love-offers-head">'
-    + '<span class="love-offers-kicker">From pattern to person</span>'
+    + '<span class="love-offers-kicker">Verified Specialists &middot; Direct Insight</span>'
     + '<h3>A gifted advisor can take it from here</h3>'
-    + '<p class="love-offers-sub">A quiz can map your pattern \u2014 it can\u2019t sit with the details of your story. A live advisor can. Both services below specialize in love and relationships, answer around the clock, and give new clients a free way to begin through our links.</p>'
+    + '<p class="love-offers-sub">' + sub + '</p>'
     + '</div>'
     + '<div class="love-offer-grid">' + cards + '</div>'
     + '<p class="love-offers-trust"><strong>Why these two:</strong> both vet their advisors, publish unedited client reviews, and let you choose exactly who you talk to \u2014 the free minutes and credit exist so you can test the connection before committing.</p>'
@@ -215,7 +218,51 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
   var a = ctx.answers;
   var patternKey = QZ.resolve(a);
   var r = QZ.results[patternKey];
+
+  /* Schema normalization (2026-09-22 pre-launch audit). Two v2-batch
+     families stored results in alternate shapes instead of the canonical
+     { path, summary, suggest(a), dontTell, watchIntro, watch(a) } — the
+     shared renderer would crash on r.suggest(a) for both. Normalize in
+     place; canonical fields always win when both shapes are present.
+       Shape A: { title, summary, whatAnswersSuggest[], whatItCannotProve, whatToWatchNext[] }
+       Shape B: { name, summary, description, supports, cannotSettle, watchNext, whatYourAnswersSuggest } */
+  if (r && typeof r.suggest !== 'function') {
+    if (!r.path && r.title) r.path = r.title;
+    if (!r.path && r.name) r.path = r.name;
+
+    /* suggest: canonical fn > shape-A paragraph array > shape-B strings */
+    if (Array.isArray(r.whatAnswersSuggest)) {
+      var mdSuggestParas = r.whatAnswersSuggest;
+      r.suggest = function () { return mdSuggestParas.join(' '); };
+    } else if (typeof r.description === 'string' || typeof r.whatYourAnswersSuggest === 'string') {
+      var mdSuggestBody = [r.description, r.whatYourAnswersSuggest].filter(Boolean).join(' ');
+      r.suggest = function () { return mdSuggestBody; };
+    }
+
+    /* dontTell: whatItCannotProve (A) / cannotSettle (B) */
+    if (!r.dontTell && typeof r.whatItCannotProve === 'string') r.dontTell = r.whatItCannotProve;
+    if (!r.dontTell && typeof r.cannotSettle === 'string') r.dontTell = r.cannotSettle;
+
+    /* watch: whatToWatchNext[] (A) / watchNext + supports (B) */
+    if (Array.isArray(r.whatToWatchNext)) {
+      var mdWatchItems = r.whatToWatchNext;
+      if (!r.watchIntro) r.watchIntro = 'What to look at next:';
+      r.watch = function () { return mdWatchItems; };
+    } else if (typeof r.watchNext === 'string') {
+      var mdWatchBuilt = [r.watchNext, r.supports].filter(Boolean);
+      if (!r.watchIntro) r.watchIntro = 'What to look at next:';
+      r.watch = function () { return mdWatchBuilt; };
+    }
+  }
+
   var under = QZ.underneath(a, patternKey);
+  /* underneath shape normalization: the shape-B family returns a plain
+     string instead of { key, label, text }. Wrap it with the standard
+     block heading so the renderer's label/text access stays safe. */
+  if (typeof under === 'string') {
+    var mdUnderText = under;
+    under = { key: null, label: 'What may be underneath', text: mdUnderText };
+  }
   var practiceKey = QZ.matchPractice(a);
   var p = QZ.practice[practiceKey];
   if (!p) { practiceKey = 'general'; p = QZ.practice[practiceKey]; }
@@ -276,6 +323,51 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
     + '<p class="love-summary">' + esc(r.summary) + '</p>'
     + '</div>';
 
+  /* Dynamic situation echo chamber (mirroring inputs) */
+  var bullets = [];
+  var statusText = '';
+  var triggerText = '';
+  var wantText = '';
+
+  if (QZ && QZ.questions) {
+    for (var qi = 0; qi < QZ.questions.length; qi++) {
+      var qObj = QZ.questions[qi];
+      var qval = a[qObj.id];
+      if (!qval) continue;
+      var qtxt = optionText(qObj.id, qval);
+      if (!qtxt) continue;
+
+      if (qi === 0) {
+        statusText = qtxt;
+        bullets.push('<strong>Current context:</strong> ' + esc(qtxt));
+      } else if (qi === 1) {
+        triggerText = qtxt;
+        bullets.push('<strong>Primary focus:</strong> ' + esc(qtxt));
+      } else if (qObj.id === 'want' || qi === QZ.questions.length - 2) {
+        wantText = qtxt;
+        bullets.push('<strong>Core question:</strong> ' + esc(qtxt));
+      } else if (qObj.id === 'help' || qi === QZ.questions.length - 1) {
+        bullets.push('<strong>Desired resolution:</strong> ' + esc(qtxt));
+      } else if (bullets.length < 4 && (qObj.id === 'alignment' || qObj.id === 'effort' || qObj.id === 'communication' || qObj.id === 'space' || qObj.id === 'use' || qObj.id === 'avoidance')) {
+        bullets.push('<strong>Observed dynamic:</strong> ' + esc(qtxt));
+      }
+    }
+  }
+
+  if (bullets.length > 0) {
+    html += '<div class="love-echo-chamber">'
+      + '<div class="love-echo-badge">' + star() + ' Situation Synthesis &amp; Inputs</div>'
+      + '<p class="love-echo-narrative">'
+      + 'You are navigating <strong>' + esc(statusText || 'an evolving personal situation') + '</strong>'
+      + (triggerText ? ', brought into focus by <strong>' + esc(triggerText.toLowerCase()) + '</strong>' : '')
+      + '. Your answers reflect a distinct, observable pattern: <strong>' + esc(r.path) + '</strong>.'
+      + '</p>'
+      + '<div class="love-echo-grid">'
+      + bullets.slice(0, 4).map(function (b) { return '<div class="love-echo-pill">' + b + '</div>'; }).join('')
+      + '</div>'
+      + '</div>';
+  }
+
   /* Block 1 — what your answers suggest */
   html += '<div class="love-block">'
     + '<h3>What your answers suggest</h3>'
@@ -303,7 +395,7 @@ window.mysticdoPatternResult = function (ctx, slug, opts) {
      the ask lands while the insight is warm (§3.6). Data comes from
      MYSTICDO_PARTNERS; absent config renders nothing. */
   if (v2 && typeof window.mysticdoPartnerOffersHTML === 'function') {
-    html += window.mysticdoPartnerOffersHTML();
+    html += window.mysticdoPartnerOffersHTML(r.path);
   }
 
   /* Block 3 — the information gap. v2 renders the two-sided "honest
@@ -1876,8 +1968,46 @@ window.MYSTICDO_QUIZZES = {
     },
     practice: window.lovePracticeSet('does-he-think-about-me'),
     matchPractice: window.loveMatchPractice,
+    matchAha: function (a, pattern) {
+      if (a.want === 'wait') return 'choice_friction';
+      if ((a.status === 'exes' || a.status === 'separated') &&
+          (a.trigger === 'distant' || a.trigger === 'changed' || a.trigger === 'conflict' || a.want === 'still')) {
+        return 'sudden_loss';
+      }
+      if (pattern === 'one-sided') return 'boundary_invasion';
+      if (a.status === 'complicated' && (pattern === 'gap-dependent' || pattern === 'contextually-connected')) {
+        return 'toxic_loop';
+      }
+      if (pattern === 'unclear') return 'illusion_fixation';
+      if (a.trigger === 'unknown' && (pattern === 'actively-reaching' || pattern === 'contextually-connected')) {
+        return 'scarcity_panic';
+      }
+      if (a.want === 'beneath' || a.trigger === 'unknown') return 'illusion_fixation';
+      return 'scarcity_panic';
+    },
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'does-he-think-about-me', {
+        resultV2: true,
+        canTell: [
+          'Which kind of mental presence is observable across gaps \u2014 unprompted recall, reactive warmth, or one-sided effort',
+          'Whether your uncertainty is driven by changed behavior or your own internal attachment loop',
+          'Which type of guidance actually resolves what you are carrying'
+        ],
+        edgeBridge: 'A quiz can organize your observations \u2014 it can\u2019t determine what another person privately thinks when they are alone at night. That takes either direct conversation, or a deeper reading focused on your specific situation.',
+        ctaText: {
+          'feelings:psychic': 'Get personal insight into his feelings',
+          'why:psychic': 'Get insight into what changed',
+          'still:closure': 'Get a reading focused on closure',
+          'wait:tarot_decision': 'Get guidance on your next step',
+          'going:tarot_relationship': 'Get a reading on where this is heading',
+          'beneath:tarot_deep': 'Get a deeper read on the connection',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on where this is heading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
         negativePatternTip: {
           pattern: 'one-sided',
           text: 'when the reaching is this one-sided, a reading about what he\u2019s thinking can quietly become a more expensive way of holding the connection together. If you book one, frame it on the dynamic between you \u2014 not on his mind.'
@@ -2086,8 +2216,44 @@ window.MYSTICDO_QUIZZES = {
     },
     practice: window.lovePracticeSet('does-my-crush-like-me-back'),
     matchPractice: window.loveMatchPractice,
+    matchAha: function (a, pattern) {
+      if (a.want === 'wait') return 'choice_friction';
+      if ((a.status === 'exes' || a.status === 'separated') &&
+          (a.trigger === 'distant' || a.trigger === 'changed' || a.trigger === 'conflict' || a.want === 'still')) {
+        return 'sudden_loss';
+      }
+      if (pattern === 'friendly-no-direction') return 'boundary_invasion';
+      if (a.status === 'complicated') return 'toxic_loop';
+      if (pattern === 'not-enough-data') return 'illusion_fixation';
+      if (a.trigger === 'unknown' && (pattern === 'clear-mutual' || pattern === 'promising-unconfirmed')) {
+        return 'scarcity_panic';
+      }
+      if (a.want === 'beneath' || a.trigger === 'unknown') return 'illusion_fixation';
+      return 'scarcity_panic';
+    },
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'does-my-crush-like-me-back', {
+        resultV2: true,
+        canTell: [
+          'Whether the early signals show genuine mutual curiosity or merely polite responsiveness',
+          'Which pattern of initiative is shaping the connection right now',
+          'Which practical move tests interest without risking unnecessary vulnerability'
+        ],
+        edgeBridge: 'A quiz can map the signals visible so far \u2014 it can\u2019t verify what he feels behind his guard. That part takes a real-world opening, or an outside perspective on his side of the dynamic.',
+        ctaText: {
+          'feelings:psychic': 'Get personal insight into his feelings',
+          'why:psychic': 'Get insight into what changed',
+          'still:closure': 'Get a reading focused on closure',
+          'wait:tarot_decision': 'Get guidance on your next step',
+          'going:tarot_relationship': 'Get a reading on where this is heading',
+          'beneath:tarot_deep': 'Get a deeper read on the connection',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on where this is heading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
         negativePatternTip: {
           pattern: 'unclear-direction',
           text: 'when signals are this conflicting, a reading about whether he likes you can quietly become a more expensive way of staying in the uncertainty. If you book one, frame it on your own clarity \u2014 not on his feelings.'
@@ -2296,8 +2462,44 @@ window.MYSTICDO_QUIZZES = {
     },
     practice: window.lovePracticeSet('is-he-the-one'),
     matchPractice: window.loveMatchPractice,
+    matchAha: function (a, pattern) {
+      if (a.want === 'wait') return 'choice_friction';
+      if ((a.status === 'exes' || a.status === 'separated') &&
+          (a.trigger === 'distant' || a.trigger === 'changed' || a.trigger === 'conflict' || a.want === 'still')) {
+        return 'sudden_loss';
+      }
+      if (pattern === 'identity-hesitation') return 'identity_crisis';
+      if (a.status === 'complicated') return 'toxic_loop';
+      if (pattern === 'not-enough-evidence') return 'illusion_fixation';
+      if (a.trigger === 'unknown' && (pattern === 'strong-foundation' || pattern === 'genuine-open-questions')) {
+        return 'scarcity_panic';
+      }
+      if (a.want === 'beneath' || a.trigger === 'unknown') return 'illusion_fixation';
+      return 'scarcity_panic';
+    },
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'is-he-the-one', {
+        resultV2: true,
+        canTell: [
+          'Whether your doubts come from real character misalignment or fear of commitment',
+          'How consistent his investment and future planning actually are across time',
+          'Which kind of reflection helps you decide whether to build or step back'
+        ],
+        edgeBridge: 'A quiz can evaluate foundation and alignment \u2014 it cannot declare someone your soulmate or hand you certainty about a shared future. That decision remains grounded in real-world compatibility and choice.',
+        ctaText: {
+          'feelings:psychic': 'Get personal insight into his feelings',
+          'why:psychic': 'Get insight into what changed',
+          'still:closure': 'Get a reading focused on closure',
+          'wait:tarot_decision': 'Get guidance on your next step',
+          'going:tarot_relationship': 'Get a reading on where this is heading',
+          'beneath:tarot_deep': 'Get a deeper read on the connection',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on where this is heading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
         negativePatternTip: {
           pattern: 'identity-hesitation',
           text: 'when the hesitation runs this deep, a reading about whether he\u2019s \u201Cthe one\u201D can quietly become a way of outsourcing a decision that belongs to you. If you book one, frame it on your own clarity \u2014 not on a verdict about him.'
@@ -2507,8 +2709,44 @@ window.MYSTICDO_QUIZZES = {
     },
     practice: window.lovePracticeSet('does-he-miss-me'),
     matchPractice: window.loveMatchPractice,
+    matchAha: function (a, pattern) {
+      if (a.want === 'wait') return 'choice_friction';
+      if ((a.status === 'exes' || a.status === 'separated') &&
+          (a.trigger === 'distant' || a.trigger === 'changed' || a.trigger === 'conflict' || a.want === 'still')) {
+        return 'sudden_loss';
+      }
+      if (pattern === 'suppressed-avoidant') return 'boundary_invasion';
+      if (a.status === 'complicated') return 'toxic_loop';
+      if (pattern === 'not-enough-evidence') return 'illusion_fixation';
+      if (a.trigger === 'unknown' && (pattern === 'actively-reaching-back' || pattern === 'connection-continuity')) {
+        return 'scarcity_panic';
+      }
+      if (a.want === 'beneath' || a.trigger === 'unknown') return 'illusion_fixation';
+      return 'scarcity_panic';
+    },
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'does-he-miss-me', {
+        resultV2: true,
+        canTell: [
+          'Whether his silence is protective space, emotional detachment, or avoidant pull-back',
+          'Whether the urge to know is about him or about your own grief process',
+          'Which step helps you find emotional grounding rather than waiting in limbo'
+        ],
+        edgeBridge: 'A quiz can evaluate how silence and gaps behave \u2014 it cannot verify private longing in another person\u2019s heart. That requires either his honest admission, or an intuitive reading focused on the connection.',
+        ctaText: {
+          'feelings:psychic': 'Get personal insight into his feelings',
+          'why:psychic': 'Get insight into what changed',
+          'still:closure': 'Get a reading focused on closure',
+          'wait:tarot_decision': 'Get guidance on your next step',
+          'going:tarot_relationship': 'Get a reading on where this is heading',
+          'beneath:tarot_deep': 'Get a deeper read on the connection',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on where this is heading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
         negativePatternTip: {
           pattern: 'suppressed-avoidant',
           text: 'when the reaching has thinned this much, a reading about whether he misses you can quietly become a more expensive way of staying attached to someone who isn\u2019t reaching back. If you book one, frame it on your own situation \u2014 not on his feelings.'
@@ -2718,8 +2956,45 @@ window.MYSTICDO_QUIZZES = {
     },
     practice: window.lovePracticeSet('is-he-serious-about-me'),
     matchPractice: window.loveMatchPractice,
+    matchAha: function (a, pattern) {
+      if (a.want === 'wait') return 'choice_friction';
+      if ((a.status === 'exes' || a.status === 'separated') &&
+          (a.trigger === 'distant' || a.trigger === 'changed' || a.trigger === 'conflict' || a.want === 'still')) {
+        return 'sudden_loss';
+      }
+      if (pattern === 'comfortable-holding') return 'stagnation_void';
+      if (pattern === 'avoidant-uncertainty') return 'boundary_invasion';
+      if (a.status === 'complicated') return 'toxic_loop';
+      if (pattern === 'not-enough-time') return 'illusion_fixation';
+      if (a.trigger === 'unknown' && (pattern === 'clear-intention' || pattern === 'building-undefined')) {
+        return 'scarcity_panic';
+      }
+      if (a.want === 'beneath' || a.trigger === 'unknown') return 'illusion_fixation';
+      return 'scarcity_panic';
+    },
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'is-he-serious-about-me', {
+        resultV2: true,
+        canTell: [
+          'Whether his behavior represents a genuine building intention or comfortable stagnation',
+          'Where the word-action gap lives in his promises versus tangible effort',
+          'Which practice helps you clarify your timeline before investing more emotional capital'
+        ],
+        edgeBridge: 'A quiz can reveal whether his actions build toward commitment or protect comfortable ambiguity \u2014 it cannot make the commitment for him. A direct conversation or a situation reading is the honest next step.',
+        ctaText: {
+          'feelings:psychic': 'Get personal insight into his feelings',
+          'why:psychic': 'Get insight into what changed',
+          'still:closure': 'Get a reading focused on closure',
+          'wait:tarot_decision': 'Get guidance on your next step',
+          'going:tarot_relationship': 'Get a reading on where this is heading',
+          'beneath:tarot_deep': 'Get a deeper read on the connection',
+          '*:psychic': 'Get a reading for this question',
+          '*:tarot_relationship': 'Get a reading on where this is heading',
+          '*:tarot_decision': 'Get guidance on your next step',
+          '*:tarot_deep': 'Get a deeper read on the connection',
+          '*:closure': 'Get a reading focused on closure'
+        },
         negativePatternTip: {
           pattern: 'avoidant-uncertainty',
           text: 'when the engagement thins this much under depth, a reading about whether he\u2019s \u201Cserious\u201D can quietly become a more expensive way of staying in a relationship that isn\u2019t building. If you book one, frame it on your own direction \u2014 not on his intention.'
@@ -8167,10 +8442,10 @@ window.MYSTICDO_QUIZZES = {
     matchAha: function (a, pattern) {
       if (pattern === 'magical-thinking') return 'illusion_fixation';
       if (pattern === 'scarcity-self-blame') return 'scarcity_panic';
-      if (pattern === 'avoidance-driven') return 'avoidance_loop';
+      if (pattern === 'avoidance-driven') return 'stagnation_void';
       if (a.want === 'outcome') return 'illusion_fixation';
       if (a.want === 'beliefs') return 'scarcity_panic';
-      return 'mechanism_honesty';
+      return 'illusion_fixation';
     },
 
     customResult: function (ctx) {
@@ -15803,8 +16078,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'signs-from-deceased-loved-ones', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'hyper-vigilant',
           text: 'when scanning for signs becomes a daily compulsion, a reading promising \u201Cproof\u201D only deepens the dependency. Giving yourself permission to rest and mourn in quiet reality brings far more peace than chasing external omens.'
@@ -16124,8 +16402,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'dream-about-deceased-loved-one', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'trauma-replay',
           text: 'when dreams replay painful hospice or medical scenes, beware of psychics claiming the spirit is \u201Crestless.\u201D That is a scam capitalizing on your pain. The distress is in your nervous system, and trauma counseling brings real relief.'
@@ -16440,8 +16721,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'is-my-loved-one-watching-over-me', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'decision-paralysis',
           text: 'when fear of disappointing someone who died stops you from living your own life, seeking more readings keeps you trapped. True love wants you to flourish; give yourself permission to choose your own path.'
@@ -16721,8 +17005,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'why-am-i-always-broke', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'systemic-income-squeeze',
           text: 'when your expenses exceed income, paying a psychic for \u201Cabundance clearing\u201D only deepens the deficit. Focus every dollar on physical shelter and income strategy; math cannot be manifested away.'
@@ -16984,8 +17271,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'will-i-be-rich', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'burnout-escape-fantasy',
           text: 'when a psychic promises you millions to relieve the dread of your job, they are selling you an expensive daydream. Real relief comes from setting boundaries, cutting living costs, and planning a vocational transition today.'
@@ -17225,8 +17515,11 @@ window.MYSTICDO_QUIZZES = {
       return 'general';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, '444-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'passive_protection',
           text: 'when a psychic tells you 444 means you don’t need to worry about money or boundaries because angels have you covered, they are feeding an avoidance trap. Real stability comes from your own disciplined stewardship.'
@@ -17465,8 +17758,11 @@ window.MYSTICDO_QUIZZES = {
       return 'general';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, '333-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'ascended_master_fixation',
           text: 'when a reader tells you that an ascended master gave them a secret command for your life, they are replacing your judgment with their agenda. A wise advisor helps you find your own voice.'
@@ -17705,8 +18001,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, '777-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'jackpot_magical_thinking',
           text: 'when a psychic tells you 777 means you will win the lottery if you buy their lucky candle or charm, they are running a classic scam. Put that money into your savings account instead.'
@@ -17948,8 +18247,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, '555-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'change_fatalism',
           text: 'when a reader tells you that a disastrous upheaval is cosmically destined and you are powerless to stop it, walk away. They are weaponizing your fear to sell protection rituals.'
@@ -18191,8 +18493,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, '888-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'passive_windfall_expectation',
           text: 'when a reader tells you that 888 means you should spend your last dollars on an expensive wealth ceremony, they are preying on your vulnerability. Keep your money and pay your bills.'
@@ -18432,8 +18737,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'tower-card-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'catastrophic_dread',
           text: 'when a reader gasps and tells you the Tower means you are cursed or that tragedy is guaranteed, they are using cheap carnival tactics. An ethical reader helps you find the bedrock underneath.'
@@ -18626,7 +18934,7 @@ window.MYSTICDO_QUIZZES = {
         summary: 'Clinging to the Lovers card to justify chasing someone who is emotionally unavailable or uncommitted.',
         whatAnswersSuggest: [
           'You are doing 100% of the emotional heavy lifting in this dynamic, using the hope that “we pulled the Lovers, so we are destined” to endure hot-and-cold treatment, breadcrumbing, or unfaithfulness.',
-          'The Lovers represents a mutual union of equals standing together &mdash; not a hostage negotiation where one person begs for crumbs. Staying in an unreciprocated chase is self-abandonment.'
+          'The Lovers represents a mutual union of equals standing together \u2014 not a hostage negotiation where one person begs for crumbs. Staying in an unreciprocated chase is self-abandonment.'
         ],
         whatItCannotProve: 'That an uncommitted ex or partner will suddenly change their character because of a tarot draw.',
         whatToWatchNext: [
@@ -18672,8 +18980,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'lovers-card-meaning', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'unrequited_idealization',
           text: 'when a reader tells you that the Lovers card proves an emotionally distant ex is your twin flame and you must wait for them indefinitely, walk away. They are keeping you trapped in heartache to sell follow-up readings.'
@@ -18839,7 +19150,7 @@ window.MYSTICDO_QUIZZES = {
         title: 'Permission Seeking',
         summary: 'Asking cards to grant you permission to do what you already know in your gut you need to do.',
         whatAnswersSuggest: [
-          'Deep down, you already know the answer. You want to leave the relationship, quit the job, or take the leap &mdash; but you fear the guilt, criticism, or consequences that come with owning the choice.',
+          'Deep down, you already know the answer. You want to leave the relationship, quit the job, or take the leap \u2014 but you fear the guilt, criticism, or consequences that come with owning the choice.',
           'You are hoping the tarot deck will say “Yes, leave!” so you can point to the cards and say “the universe made me do it.” Reclaim your sovereignty: you do not need permission from cardboard to live an authentic life.'
         ],
         whatItCannotProve: 'That having external permission will exempt you from the uncomfortable emotions of setting boundaries.',
@@ -18912,8 +19223,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'tarot-yes-or-no', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'ambiguity_panic',
           text: 'when a reader offers to answer 10 yes/no questions in 5 minutes, they are running a slot machine on your anxiety. A wise advisor refuses binary coin-flips and helps you explore conditions.'
@@ -19066,7 +19380,7 @@ window.MYSTICDO_QUIZZES = {
         title: 'Physiological Wake Rush',
         summary: 'Normal REM sleep muscle atonia combined with physical sleep disruption.',
         whatAnswersSuggest: [
-          'Your sensation of running in slow motion or having heavy lead legs was caused by normal REM sleep muscle atonia &mdash; your brainstem disconnecting motor signals so you don’t leap out of bed.',
+          'Your sensation of running in slow motion or having heavy lead legs was caused by normal REM sleep muscle atonia \u2014 your brainstem disconnecting motor signals so you don’t leap out of bed.',
           'Combined with a late meal, alcohol, room overheating, or mild sleep apnea, your brain registered physical immobility as terrifying paralysis within the dream narrative. This is pure biological wiring, not a spiritual curse.'
         ],
         whatItCannotProve: 'That your spiritual energy is blocked or that you are paralyzed in waking life.',
@@ -19152,8 +19466,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'dream-about-being-chased', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'acute_stress_activation',
           text: 'when a reader tells you that a chase dream means an astral entity is feeding on your aura, they are exploiting normal sleep biology to sell you expensive cleansings. Cool your bedroom and reduce daytime caffeine.'
@@ -19312,12 +19629,12 @@ window.MYSTICDO_QUIZZES = {
         whatItCannotProve: 'That your ex has changed their flaws, misses you, or desires reconciliation.',
         whatToWatchNext: [
           'Write down the five biggest, most painful reasons you broke up. Read them before you even consider picking up your phone.',
-          'Recognize that you are missing the sensation of intimacy and warmth &mdash; not necessarily this specific flawed human.'
+          'Recognize that you are missing the sensation of intimacy and warmth \u2014 not necessarily this specific flawed human.'
         ]
       },
       'current_relationship_comparison': {
         title: 'Current Relationship Comparison',
-        summary: 'Your subconscious comparing past vulnerability with present safety &mdash; not emotional betrayal.',
+        summary: 'Your subconscious comparing past vulnerability with present safety \u2014 not emotional betrayal.',
         whatAnswersSuggest: [
           'Dreaming of an ex while in a happy relationship can trigger intense, unnecessary guilt. You worry: “Does this mean I secretly still love my ex? Am I betraying my partner?”',
           'The answer is an emphatic no. The human brain constantly evaluates current relational safety against historical benchmarks. Your current partner may have touched a deep vulnerability that naturally reactivated old attachment memories. Release the guilt.'
@@ -19337,7 +19654,7 @@ window.MYSTICDO_QUIZZES = {
         ],
         whatItCannotProve: 'That confronting your ex in real life will result in an honest or satisfying conversation.',
         whatToWatchNext: [
-          'Write a raw, uncensored letter detailing every single betrayal and boundary violation. Do not send it &mdash; burn it safely.',
+          'Write a raw, uncensored letter detailing every single betrayal and boundary violation. Do not send it \u2014 burn it safely.',
           'Reclaim your power: true closure is an internal decision to stop waiting for an apology that will never arrive.'
         ]
       },
@@ -19392,8 +19709,11 @@ window.MYSTICDO_QUIZZES = {
       return 'free_first';
     },
 
+    matchAha: window.topicMatchAha,
+
     customResult: function (ctx) {
       window.mysticdoPatternResult(ctx, 'dream-about-your-ex', {
+        resultV2: true,
         negativePatternTip: {
           pattern: 'reconciliation_wish_fantasy',
           text: 'when a reader tells you that dreaming about your ex proves they are telepathically calling you and you should break No-Contact, run. They are playing on your vulnerability to sell reconciliation readings.'
@@ -19560,7 +19880,7 @@ window.MYSTICDO_QUIZZES = {
       }
     },
 
-    practice: window.topicPracticeSet({ topic: 'dreams', cluster: 'general' }),
+    practice: window.topicPracticeSet({ topic: 'your death-dream question', cluster: 'dreams' }),
 
     resolve: function(answers) {
       if (answers.premonition_dread === 2) return 'premonition_panic';
@@ -19582,8 +19902,8 @@ window.MYSTICDO_QUIZZES = {
       return 'general';
     },
 
-    customResult: function(pKey, rKey, answers) {
-      return null;
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'dream-about-someone-dying', { resultV2: true });
     }
   },
 
@@ -19744,7 +20064,7 @@ window.MYSTICDO_QUIZZES = {
       }
     },
 
-    practice: window.topicPracticeSet({ topic: 'astrology', cluster: 'general' }),
+    practice: window.topicPracticeSet({ topic: 'your moon-sign question', cluster: 'astrology' }),
 
     resolve: function(answers) {
       if (answers.astro_attachment === 2) return 'astro_excuse';
@@ -19766,8 +20086,8 @@ window.MYSTICDO_QUIZZES = {
       return 'psychic';
     },
 
-    customResult: function(pKey, rKey, answers) {
-      return null;
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-my-moon-sign', { resultV2: true });
     }
   },
 
@@ -19928,7 +20248,7 @@ window.MYSTICDO_QUIZZES = {
       }
     },
 
-    practice: window.topicPracticeSet({ topic: 'astrology', cluster: 'general' }),
+    practice: window.topicPracticeSet({ topic: 'your Saturn Return question', cluster: 'astrology' }),
 
     resolve: function(answers) {
       if (answers.superstition_level === 2) return 'premature_panic';
@@ -19950,8 +20270,8 @@ window.MYSTICDO_QUIZZES = {
       return 'tarot_deep';
     },
 
-    customResult: function(pKey, rKey, answers) {
-      return null;
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'what-is-my-saturn-return', { resultV2: true });
     }
   },
 
@@ -20112,7 +20432,7 @@ window.MYSTICDO_QUIZZES = {
       }
     },
 
-    practice: window.topicPracticeSet({ topic: 'life-direction', cluster: 'general' }),
+    practice: window.topicPracticeSet({ topic: 'your feeling-lost question', cluster: 'life-direction' }),
 
     resolve: function(answers) {
       if (answers.destiny_expectation === 2) return 'destiny_paralysis';
@@ -20134,8 +20454,8 @@ window.MYSTICDO_QUIZZES = {
       return 'psychic';
     },
 
-    customResult: function(pKey, rKey, answers) {
-      return null;
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'feeling-lost-in-life', { resultV2: true });
     }
   },
 
@@ -20296,7 +20616,7 @@ window.MYSTICDO_QUIZZES = {
       }
     },
 
-    practice: window.topicPracticeSet({ topic: 'career-work', cluster: 'general' }),
+    practice: window.topicPracticeSet({ topic: 'your career-fit question', cluster: 'career-work' }),
 
     resolve: function(answers) {
       if (answers.task_vs_culture === 2 || answers.primary_complaint === 'ethics') return 'values_misalignment';
@@ -20318,8 +20638,8 @@ window.MYSTICDO_QUIZZES = {
       return 'general';
     },
 
-    customResult: function(pKey, rKey, answers) {
-      return null;
+    customResult: function (ctx) {
+      window.mysticdoPatternResult(ctx, 'am-i-in-the-right-career', { resultV2: true });
     }
   },
 

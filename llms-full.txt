@@ -3058,7 +3058,7 @@ The tarot question maps differently depending on whether you’re looking for a 
 
 A professional reading is a perspective from an experienced reader — at its best on what the cards surface about your question. It cannot deliver a prediction; anyone confirming that the cards “show” a specific future is offering a projection dressed as divination. The decision about what to do with the reflection stays yours — and a reader who guarantees a prediction, claims dire outcomes, or offers ongoing readings to “track” a forecast is selling a certainty nobody possesses.
 
-**Red flags before you book:** “The cards show &lsqb;specific future&rsqb; — I can track it across several sessions.” · “A dire card appeared — I need to clear the negativity across monthly sessions.” · prediction guarantees or negativity-clearing services. These are sales patterns wearing the language of tarot — particularly common because the evocative imagery makes predictions feel evidential.
+**Red flags before you book:** “The cards show [specific future] — I can track it across several sessions.” · “A dire card appeared — I need to clear the negativity across monthly sessions.” · prediction guarantees or negativity-clearing services. These are sales patterns wearing the language of tarot — particularly common because the evocative imagery makes predictions feel evidential.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -4609,7 +4609,7 @@ If you decide to book something
 
 A reading is a perspective on what the chakra framework surfaces — at its best on the reflection it prompts. It cannot diagnose a chakra blockage; anyone confirming a specific blockage is offering a projection dressed as diagnosis. The decision about how to use the framework stays yours — and a reader who guarantees a blockage diagnosis, claims your chakras are “blocked,” or offers ongoing “energy clearing” is selling a certainty nobody possesses — particularly costly if it delays clinical response.
 
-**Red flags before you book:** “Your root chakra is blocked — that’s why you have &lsqb;health issue&rsqb; — I can clear it across several sessions.” · “Your chakras are misaligned — come back monthly for balancing.” · blockage diagnoses or energy-clearing services, especially framed as health treatment. These are sales patterns wearing the language of energy work — particularly dangerous when they delay clinical care.
+**Red flags before you book:** “Your root chakra is blocked — that’s why you have [health issue] — I can clear it across several sessions.” · “Your chakras are misaligned — come back monthly for balancing.” · blockage diagnoses or energy-clearing services, especially framed as health treatment. These are sales patterns wearing the language of energy work — particularly dangerous when they delay clinical care.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -6555,7 +6555,7 @@ The 222 question maps differently depending on whether you’re looking for a re
 
 A reading is a perspective on the noticing pattern — at its best on what it’s surfacing in your life. It cannot decode a supernatural message; anyone confirming that 222 is “a message from your guides about…” is offering a projection dressed as decoding. The decision about what to do with the pattern stays yours — and a reader who guarantees a decoded message, claims the sightings are supernatural signals, or offers ongoing “decoding” sessions is selling a certainty nobody possesses.
 
-**Red flags before you book:** “222 is a message from your guides about &lsqb;specific claim&rsqb; — I can decode it across several sessions.” · “The sightings confirm your manifestation is working — come back monthly to track the numbers.” · decoded-message guarantees or multi-session decoding services. These are sales patterns wearing the language of decoding — particularly common because the wish for a message is large and the attentional-priming explanation is less compelling.
+**Red flags before you book:** “222 is a message from your guides about [specific claim] — I can decode it across several sessions.” · “The sightings confirm your manifestation is working — come back monthly to track the numbers.” · decoded-message guarantees or multi-session decoding services. These are sales patterns wearing the language of decoding — particularly common because the wish for a message is large and the attentional-priming explanation is less compelling.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -8214,7 +8214,7 @@ The angel numbers question maps differently depending on whether you’re lookin
 
 A reading is a perspective on the noticing pattern — at its best on what it’s surfacing in your life. It cannot decode a supernatural message; anyone confirming that a number is “a message about…” is offering a projection dressed as decoding. The decision about what to do with the pattern stays yours — and a reader who guarantees a decoded message, claims the sightings are supernatural signals, or offers ongoing “decoding” sessions is selling a certainty nobody possesses.
 
-**Red flags before you book:** “Your number is a message from your guides about &lsqb;specific claim&rsqb; — I can decode it across several sessions.” · “The sightings confirm your manifestation is working — come back monthly to track the numbers.” · decoded-message guarantees or multi-session decoding services. These are sales patterns wearing the language of decoding — particularly common because the wish for a message is large.
+**Red flags before you book:** “Your number is a message from your guides about [specific claim] — I can decode it across several sessions.” · “The sightings confirm your manifestation is working — come back monthly to track the numbers.” · decoded-message guarantees or multi-session decoding services. These are sales patterns wearing the language of decoding — particularly common because the wish for a message is large.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -8489,7 +8489,7 @@ The “what is my angel number” question maps differently depending on whether
 
 A reading is a perspective on what your number surfaces — at its best on the reflection it prompts. It cannot certify your “true” angel number; anyone confirming a specific number as supernaturally yours is offering a projection dressed as certification. The decision about how to use the number stays yours — and a reader who guarantees an assignment, claims a number is “blocked,” or offers ongoing decoding is selling a certainty nobody possesses.
 
-**Red flags before you book:** “Your true angel number is &lsqb;specific claim&rsqb; — but there’s a blockage I need to clear across several sessions.” · “Your number confirms you’re a &lsqb;identity claim&rsqb; — come back monthly for deeper decoding.” · certified assignments or identity-anchoring services. These are sales patterns wearing the language of decoding — particularly common because the wish for a number to mean something about you is genuine.
+**Red flags before you book:** “Your true angel number is [specific claim] — but there’s a blockage I need to clear across several sessions.” · “Your number confirms you’re a [identity claim] — come back monthly for deeper decoding.” · certified assignments or identity-anchoring services. These are sales patterns wearing the language of decoding — particularly common because the wish for a number to mean something about you is genuine.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -8971,6 +8971,16 @@ To understand the difference between conscious persona and subconscious processi
 | **Self-soothing mechanism** | Predictable domestic environment, physical rest, nature, solitude | Talking through problems, creative release, social connection, humor | Aligning external calendar with internal capacity for engagement | Passive waiting for transits to change rather than taking action |
 | **Constructive reflection** | Honor your need for downtime without slipping into chronic isolation | Channel expressive energy constructively without overwhelming others | Integrate your outward goals with your bodily need for restorative rest | Practice active emotional regulation and clear accountability |
 
+## At a glance: what your Moon-sign inquiry shows, and what it doesn’t settle
+
+| What you’re noticing | Grounded psychological interpretation | Alternative perspective to weigh | What it cannot prove |
+| --- | --- | --- | --- |
+| Needing solitude to recover from socializing | High sensory-processing sensitivity; an introverted nervous system that down-regulates alone | A Water Moon (Cancer/Scorpio/Pisces) leaning toward private emotional processing | That your specific birth Moon is in any one zodiac sign |
+| Reacting emotionally before you can think | Limbic-first response with a slower prefrontal brake; attachment-shaped affect regulation | A Fire Moon (Aries/Leo/Sag) framing of quick expressive ignition | That Moon-sign element dictates the fate of a relationship |
+| Feeling like two selves — the work you and the private you | Persona/private-self split: social masking versus authentic interior | A Gemini/Aquarius Moon tendency toward cognitive compartmentalization | That incompatible Moon signs will “ruin” a partnership |
+| Using your Moon sign to explain your coping habits | Barnum/Forer effect: the label lends narrative coherence to felt experience | Genuine archetypal resonance with a symbol system your culture handed you | That your Moon placement causes your behavior or caps your growth |
+| Stuck because you can’t find your exact birth time | Real astronomical ambiguity — the Moon moves ~13° per day | An invitation to read the lived behavioral truth over the technical minute | That no reading is possible at all; a day-range read still informs |
+
 ## The psychological science of emotional archetypes
 
 While mainstream empirical science does not support celestial gravitation altering human personality traits, cognitive psychology thoroughly illuminates why exploring your Moon sign feels so resonant and useful:
@@ -9056,7 +9066,79 @@ To calculate your Moon sign, follow these practical steps:
 1. **Use an accurate ephemeris tool:** Any standard astronomical birth chart calculator that incorporates Swiss Ephemeris data will compute the exact degree and sign of your Moon.
 1. **If time is unknown:** Run two chart calculations — one for 12:01 AM and one for 11:59 PM on your birth date. If the Moon stayed in the same sign all day, your Moon sign is certain. If it changed signs midday, read both archetypes to see which mirrors your authentic emotional regulation style.
 
-[Launch the 2-Minute Pattern Check](#pattern-check)
+Apply the framework to your situation
+## What Does Your Moon Sign Inquiry Reveal?
+
+Eight questions, about two minutes. It surfaces your somatic self-soothing style, Sun-Moon internal dissonance, birth-time precision, and whether your symbolic reflection is doing diagnostic or fatalistic work.
+
+### What this pattern check looks at
+
+- **Context:** Your birth-data precision and the reason the question is on your mind.
+- **Four signals:** Sun-Moon internal friction, somatic self-soothing style, astrological-attachment intensity, and reflective-versus-deterministic lens.
+- **Intent:** what you most want to know, and where that points you next.
+
+Your answers produce one of five patterns — Somatic Containment & Grounded Recovery, Cognitive Externalization & Dialogue, The Public Persona vs Private Self Divide, The Astrological Fatalism Trap, or The Birth Time Discrepancy Impasse. It ends with the pattern, the read it cannot make, and the next step that fits yours.
+
+[Take the 2-minute pattern check →](#pattern-check)
+When reflection runs out
+## If you still want outside perspective
+
+The framework above is what self-reflection and attachment psychology can honestly reach. Wanting another lens — a symbolic mirror that names what you sense but can’t articulate — is legitimate, not a failure of nerve.
+
+A natal astrology reading can map the Sun-Moon tension you live inside; a tarot pull can surface the pattern your reflective mind is avoiding at night; a psychic reading offers an outside read on a relational dynamic. Each answers a different facet — none replaces the conversation with yourself, and none certifies which sign you “really” are.
+
+[Run the pattern check →](#pattern-check)
+If you decide to book something
+## Which practice fits your question?
+
+The Moon-sign question maps differently depending on whether your real bottleneck is symbolic vocabulary, a Sun-Moon internal conflict, or a clinical mood pattern the chart can’t treat.
+
+| Your actual core situation | Recommended starting point | What it can honestly offer |
+| --- | --- | --- |
+| You want symbolic language for your emotional regulation style | Natal astrology (Moon & aspects) | A vocabulary for why you self-soothe the way you do — never a behavior cause |
+| You’re working a Sun-Moon internal conflict and want a mirror | Tarot (relationship or decision spread) | A structured reflection on the tension — not a verdict on your wiring |
+| You want an outside read on a relational dynamic | Psychic reading | A fresh perspective on your blind spots — never a soulmate verdict |
+| The real issue is persistent low mood, trauma, or chronic dysregulation | Licensed therapist | Evidence-based treatment — astrology is not a substitute for clinical care |
+| Unsure what kind of support you actually need | Do What Fits | Seven questions that route your situation to the right tool |
+
+### How to use a reading well
+
+Bring the tension, not the verdict request: *“My Sun is in Leo and my Moon in Capricorn — how do I stop performing confidence while privately shutting down?”* Avoid *“which Moon sign is my soulmate?”* — no chart settles a partnership, and any reader who promises one is selling.
+
+**Red flags before you book:** Readers who tell you your Moon sign “curses” your relationships · Anyone selling “Moon-sign remedies,” gems, or paid rituals to “balance” a placement · Astrologers who use your chart to predict specific romantic-commitment dates.
+
+**Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
+
+Before you spend anything
+## Before you book a reading
+
+Decided a reading fits your question? Four things to check first — from an independent guide that doesn’t sell readings.
+
+1
+### Read this first
+
+[Before Paying for a Reading](https://mysticdo.com/guides/before-paying-psychic-reading) — the vetting framework and the red flags.
+
+2
+### Separate symbolic from clinical
+
+If it comes with numbness, sleep loss, or anhedonia, a licensed therapist is the more honest match — see [Psychic vs Tarot](https://mysticdo.com/guides/psychic-vs-tarot).
+
+3
+### Name the real question
+
+Pin down what you actually want to know before you pay — the framework above helps. See [reading costs](https://mysticdo.com/guides/psychic-reading-cost).
+
+4
+### Use the free first steps
+
+Run the pattern check on this page, try the [Daily Tarot Card](https://mysticdo.com/tools/daily-card), and write one honest paragraph about what is pulling at you.
+
+### When to wait instead
+
+If you can’t locate your birth time, don’t pay for a “definitive” natal reading until you’ve checked the hospital record or a parent’s written note. A chart built on a guessed minute is a guessed chart — the ambiguity is real, and worth resolving before you spend.
+
+[Take the 2-minute pattern check →](#pattern-check)
 ## Frequently asked questions
 
 **Why is birth time strictly necessary to find my Moon sign?
@@ -9297,7 +9379,7 @@ The rising-sign question maps differently depending on whether you’re looking 
 
 A reading is a perspective on what your chart surfaces — at its best as a reflective lens on persona and how you meet the world. It cannot certify predictions; anyone confirming that your rising sign “means” specific traits or forecasts your life path is offering a projection dressed as decoding. The decision about how to use the framework stays yours — and a reader who guarantees predictions, claims the chart determines your fate, or offers ongoing “chart work” to unlock predictions is selling a certainty nobody possesses.
 
-**Red flags before you book:** “Your rising sign means you’ll &lsqb;specific prediction&rsqb; — I can decode it across several sessions.” · “Your chart is blocked — I need to clear it to unlock your rising-sign potential.” · prediction guarantees or chart-unlocking services. These are sales patterns wearing the language of astrology — particularly common because the calculation’s rigor gives the predictions an unwarranted air of authority.
+**Red flags before you book:** “Your rising sign means you’ll [specific prediction] — I can decode it across several sessions.” · “Your chart is blocked — I need to clear it to unlock your rising-sign potential.” · prediction guarantees or chart-unlocking services. These are sales patterns wearing the language of astrology — particularly common because the calculation’s rigor gives the predictions an unwarranted air of authority.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -9457,6 +9539,16 @@ How you navigate your Saturn Return depends entirely on whether you engage in co
 | **Typical life event** | Voluntary career pivot, amicable breakup of mismatched bond, buying home | Sudden involuntary layoff, dramatic relationship blowup, physical burnout | Job-hopping without skill mastery, casual dating without criteria | Spending thousands on emergency readings, amulets, or cord-cuttings |
 | **Optimal next step** | Build sustainable daily habits; establish firm boundaries; seek mentorship | Face the truth you are avoiding; grieve what is no longer viable | Recognize that provisional youth has completed its developmental task | Log off superstitious social media; practice pragmatic life management |
 
+## At a glance: what your Saturn-Return pressure shows, and what it doesn’t settle
+
+| What you’re noticing | Grounded psychological interpretation | Alternative perspective to weigh | What it cannot prove |
+| --- | --- | --- | --- |
+| Approaching 29 and feeling structural pressure to commit | Normative adult-identity consolidation — the closing of open-ended possibility | A genuine maturational threshold most cultures marked ritually | That the transit itself forces any specific decision |
+| A long relationship, career, or identity suddenly fracturing | Involuntary collapse of a foundation that no longer fit | The transit surfacing what was already structurally unsound | That the universe singled you out for punishment |
+| Dread and paralysis about a return still years away | Anticipatory anxiety; intolerance of uncertainty before the crossing | A real psychological response to a culturally loaded milestone | That you are doomed to crisis on a fixed calendar date |
+| An urge to prune commitments, simplify, get serious | Healthy voluntary structural pruning — closing doors in order to build | The constructive face of a maturational passage | That seriousness equals self-denial |
+| Reading your Saturn placement to predict exactly when crisis hits | Astrological determinism; apophenia layered onto transits | A symbolic frame that gives shape to felt pressure | That the chart foretells a specific bad event on a specific day |
+
 ## The developmental psychology behind the Saturn Return
 
 Astrologers have mapped the 29.5-year cycle for millennia, but 20th-century developmental psychology independently discovered the exact same phenomenon using empirical observation:
@@ -9542,7 +9634,79 @@ If you are currently in your late twenties, follow these grounded principles:
 - **Learn to say no:** Your twenties were about saying yes to gather experience. Your thirties are about ruthless editing. If an opportunity is not a full-hearted “yes,” let it be a polite, firm “no.”
 - **Seek seasoned elders:** Do not ask for advice from people who are equally panicked at age 28. Talk to mentors in their forties and fifties who have already crossed this river; their perspective will normalize your turmoil.
 
-[Launch the 2-Minute Pattern Check](#pattern-check)
+Apply the framework to your situation
+## Where Do You Stand in Your Saturn Return?
+
+Eight questions, about two minutes. It surfaces whether you are in a voluntary life audit, experiencing involuntary upheaval, facing heavy commitment, or paralyzed by transit dread.
+
+### What this pattern check looks at
+
+- **Context:** Your age relative to the ~29.5-year thresholds and what is fracturing.
+- **Four signals:** Structural-pruning direction, involuntary-upheaval load, commitment readiness, and transit-dread intensity.
+- **Intent:** what you most want to know, and where that points you next.
+
+Your answers produce one of five patterns — The Voluntary Structural Pruning, The Heavy Anchor & Real Commitment, Denial & Involuntary Structural Collapse, The Anticipatory Transit Panic, or The Second Return: Elderhood & Legacy. It ends with the pattern, the read it cannot make, and the next step that fits yours.
+
+[Take the 2-minute pattern check →](#pattern-check)
+When reflection runs out
+## If you still want outside perspective
+
+The maturational lens above is what developmental psychology and honest self-reflection can reach. Wanting a symbolic frame for a threshold this large is legitimate — most cultures marked these crossings ritually for good reason.
+
+A transit astrology reading can name which structure the Saturn cycle is pressing on; a tarot pull can surface what your reflective mind is bracing against; a psychic reading offers an outside read on a relational or professional threshold. Each answers a different facet — none predicts a specific catastrophe, and none substitutes for the slow work of building.
+
+[Run the pattern check →](#pattern-check)
+If you decide to book something
+## Which practice fits your question?
+
+The Saturn Return reads differently depending on whether your real bottleneck is voluntary pruning, an involuntary collapse, a heavy commitment forming, or anticipatory dread.
+
+| Your actual core situation | Recommended starting point | What it can honestly offer |
+| --- | --- | --- |
+| You want a symbolic frame for a maturational threshold | Transit astrology (Saturn cycle) | Names the structure under pressure — never a dated catastrophe |
+| You’re bracing against a specific fear the transit surfaced | Tarot (Tower or Devil reflection) | A structured mirror for the dread — not a verdict on whether it happens |
+| You want an outside read on a professional or relational threshold | Psychic reading | A fresh perspective on a transition you’re too close to |
+| The real issue is depression, grief, or trauma triggered by the crossing | Licensed therapist | Evidence-based processing — astrology can’t treat clinical collapse |
+| Unsure what kind of support you actually need | Do What Fits | Seven questions that route your situation to the right tool |
+
+### How to use a reading well
+
+Ask about the structure, not the date: *“Saturn is crossing my fourth house — what foundation is being rebuilt, and what is mine to do?”* Avoid *“when exactly will the bad thing happen?”* — a transit names a pressure, not a calendar event, and a reader who gives you a catastrophe date is selling.
+
+**Red flags before you book:** Astrologers who promise a specific crisis or windfall date · Anyone selling paid “Saturn remedies,” gems, or rituals to “survive” the transit · Readers who use the transit to scare you into an expensive cleansing.
+
+**Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
+
+Before you spend anything
+## Before you book a reading
+
+Decided a reading fits your question? Four things to check first — from an independent guide that doesn’t sell readings.
+
+1
+### Read this first
+
+[Before Paying for a Reading](https://mysticdo.com/guides/before-paying-psychic-reading) — the vetting framework and the red flags.
+
+2
+### Separate symbolic from clinical
+
+If it comes with numbness, sleep loss, or anhedonia, a licensed therapist is the more honest match — see [Psychic vs Tarot](https://mysticdo.com/guides/psychic-vs-tarot).
+
+3
+### Name the real question
+
+Pin down what you actually want to know before you pay — the framework above helps. See [reading costs](https://mysticdo.com/guides/psychic-reading-cost).
+
+4
+### Use the free first steps
+
+Run the pattern check on this page, try the [Daily Tarot Card](https://mysticdo.com/tools/daily-card), and write one honest paragraph about what is pulling at you.
+
+### When to wait instead
+
+If you’re in the first weeks of an actual involuntary collapse — a sudden loss, a firing, a fracture — don’t book a reading yet. Stabilize first: sleep, eat, let the parasympathetic system recover. A reading done from raw shock reads dread into everything.
+
+[Take the 2-minute pattern check →](#pattern-check)
 ## Frequently asked questions
 
 **What exact age does the Saturn Return happen?
@@ -10056,6 +10220,16 @@ Evaluate your current professional reality against these four distinct workplace
 | **Primary root cause** | Your intrinsic career anchor (e.g., creativity or service) is violently at odds with the industry model | Systemic organizational dysfunction, unmanageable workload, lack of psychological safety | You have conquered the learning curve and outgrown the scope of your current role | Believing that passion precedes discipline, rather than understanding mastery creates passion |
 | **Constructive next step** | Design a structured, phased career pivot; identify transferable skills and retrain | Set ruthless boundary limits; take medical leave or change teams/employers within the field | Ask for higher-stakes projects, seek lateral moves, or pursue advanced certifications | Accept the necessary trade-offs of professional labor; decouple identity from a single job |
 
+## At a glance: what your career dissatisfaction shows, and what it doesn’t settle
+
+| What you’re noticing | Grounded psychological interpretation | Alternative perspective to weigh | What it cannot prove |
+| --- | --- | --- | --- |
+| Exhausted by Monday morning before the week starts | Acute workplace burnout — the container depletes you faster than it restores | A burnout signal where the work may be right but the context is wrong | That the career field itself is the problem |
+| Bored and coasting on autopilot, skills going dull | A growth plateau — you have outgrown the container | A genuine signal the role no longer stretches you | That you must leave the field entirely |
+| The work pays but it isn’t ‘you’ | Structural values misalignment — climbing a mountain you don’t want to summit | A values-level signal distinct from burnout | That your values are objectively right and the company is wrong |
+| Daydreaming about a ‘passion’ career with no plan | The passion fantasy — escaping current friction via an idealized alt path | A real longing worth honoring — and a real risk of romanticizing | That following your passion guarantees fulfillment |
+| You can’t quit because of the pay or lifestyle | The golden-handcuffs impasse — a binding trade that isn’t freely chosen | A legitimate structural constraint, not a moral failing | That you are trapped forever with no renegotiation possible |
+
 ## The occupational science of career satisfaction
 
 Rather than relying on vague motivational quotes, organizational psychology provides rigorous, empirically verified frameworks for evaluating work:
@@ -10142,7 +10316,79 @@ If you have determined that your career is truly misaligned, execute this phased
 1. **Build a 6-month financial runway:** Financial security is emotional leverage. When you have money in the bank, you can negotiate from strength and say no to bad transition opportunities.
 1. **Resist the urge to burn the bridge:** Maintain professional excellence and warm relationships in your current job right up to your final day. Professional networks cross industries in unexpected ways.
 
-[Launch the 2-Minute Pattern Check](#pattern-check)
+Apply the framework to your situation
+## Career Check: Burnout, Stagnation, or Misalignment?
+
+Eight questions, about two minutes. It surfaces whether your career dissatisfaction is organizational burnout, structural values mismatch, a growth plateau, or the passion fantasy.
+
+### What this pattern check looks at
+
+- **Context:** Your career stage and what is pulling at you most right now.
+- **Four signals:** Burnout-versus-mismatch separation, autonomy level, values-anchor alignment, and passion-fantasy fixation.
+- **Intent:** what you most want to know, and where that points you next.
+
+Your answers produce one of five patterns — Structural Values Misalignment (Wrong Mountain), Acute Workplace Burnout (Right Work, Bad Context), The Growth Plateau (Outgrown the Container), The Passion Fantasy Trap, or The Golden Handcuffs Impasse. It ends with the pattern, the read it cannot make, and the next step that fits yours.
+
+[Take the 2-minute pattern check →](#pattern-check)
+When reflection runs out
+## If you still want outside perspective
+
+The framework above is what occupational science and honest self-audit can reach. Wanting an outside read on a decision this consequential is legitimate — a career resists being solved from inside the same mind that is tired.
+
+A tarot decision spread can surface what your conscious planning keeps avoiding; a psychic reading offers a fresh angle on a workplace dynamic you can’t see past; an astrology reading can frame the timing of a pivot. Each answers a different facet — none tells you which job to take, and none replaces the slow work of values clarification.
+
+[Run the pattern check →](#pattern-check)
+If you decide to book something
+## Which practice fits your question?
+
+The career question maps differently depending on whether your real bottleneck is burnout (context), values misalignment (mountain), a plateau (container), or a passion fantasy (escape).
+
+| Your actual core situation | Recommended starting point | What it can honestly offer |
+| --- | --- | --- |
+| You’re burned out but the work itself fits | A break + a context audit (manager, workload) | The container is the problem — not necessarily the field |
+| You want a structured mirror for a pivot decision | Tarot (decision or Two of Wands spread) | Surfaces the trade you’re avoiding — doesn’t pick for you |
+| You want an outside read on a workplace dynamic | Psychic reading | A fresh angle on a blind spot — never a ‘should I quit’ verdict |
+| The real issue is anxiety, depression, or trauma impairing work | Licensed therapist | Evidence-based treatment — burnout and depression share symptoms and a reading can’t distinguish them |
+| Unsure what kind of support you need | Do What Fits | Seven questions that route your situation to the right tool |
+
+### How to use a reading well
+
+Ask about the pattern, not the verdict: *“I’m in my mid-30s, well-paid, and bored — what am I actually avoiding by not deciding?”* Avoid *“should I quit my job?”* — no reader has your financial, familial, or professional context, and one who answers yes is overreaching.
+
+**Red flags before you book:** Readers who tell you a specific job title to pursue · Anyone who claims to predict a “rich” outcome from your chart or cards · Practitioners who advise quitting before you have spoken to a therapist about possible depression.
+
+**Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
+
+Before you spend anything
+## Before you book a reading
+
+Decided a reading fits your question? Four things to check first — from an independent guide that doesn’t sell readings.
+
+1
+### Read this first
+
+[Before Paying for a Reading](https://mysticdo.com/guides/before-paying-psychic-reading) — the vetting framework and the red flags.
+
+2
+### Separate symbolic from clinical
+
+If it comes with numbness, sleep loss, or anhedonia, a licensed therapist is the more honest match — see [Psychic vs Tarot](https://mysticdo.com/guides/psychic-vs-tarot).
+
+3
+### Name the real question
+
+Pin down what you actually want to know before you pay — the framework above helps. See [reading costs](https://mysticdo.com/guides/psychic-reading-cost).
+
+4
+### Use the free first steps
+
+Run the pattern check on this page, try the [Daily Tarot Card](https://mysticdo.com/tools/daily-card), and write one honest paragraph about what is pulling at you.
+
+### When to wait instead
+
+If you’re three months into a genuinely toxic job or a genuine reorganization, don’t book a reading to decide whether to leave. Stabilize your nervous system, gather the facts, talk to a mentor or therapist. A reading done from burnout reads ‘leave’ into everything.
+
+[Take the 2-minute pattern check →](#pattern-check)
 ## Frequently asked questions
 
 **How do I know if I should quit my career or just switch companies?
@@ -10178,7 +10424,7 @@ Distinguishing between acute workplace burnout (exhaustion from company environm
 How we approached this
 ## MysticDo’s editorial approach to career guidance
 
-- **We reject “follow your passion” clich&eacute;s:** We provide grounded, evidence-based frameworks that account for real-world financial constraints and labor markets.
+- **We reject “follow your passion” clichés:** We provide grounded, evidence-based frameworks that account for real-world financial constraints and labor markets.
 - **We ground advice in organizational psychology:** We utilize the peer-reviewed research of Maslach, Schein, Wrzesniewski, and Ibarra to evaluate work satisfaction.
 - **We honor whole-person balance:** Work is a vital part of life, but it is not your entire soul. We prioritize human dignity, mental health, and healthy boundaries.
 - **We maintain strict independence:** We sell no corporate recruiting packages, career coaching upsells, or resume templates. Read our complete [methodology](https://mysticdo.com/methodology).
@@ -11304,7 +11550,7 @@ The snake-dream question maps differently depending on whether you’re looking 
 
 A reading is a perspective on what the dream surfaces about your waking life — at its best on the emotional theme it might be processing. It cannot decode a fixed symbolic meaning; anyone confirming that the snake “means” a specific thing is offering a projection dressed as decoding. The decision about what to do with the dream stays yours — and a reader who guarantees a decoded meaning, claims the dream is a premonition, or offers ongoing “dream interpretation” sessions is selling a certainty nobody possesses.
 
-**Red flags before you book:** “The snake in your dream means &lsqb;specific claim&rsqb; — I can decode it across several sessions.” · “Your dream is a premonition of &lsqb;specific event&rsqb; — come back monthly to track it.” · decoded-meaning guarantees or premonition claims. These are sales patterns wearing the language of dream interpretation — particularly common because the wish for the dream to mean something specific is genuine.
+**Red flags before you book:** “The snake in your dream means [specific claim] — I can decode it across several sessions.” · “Your dream is a premonition of [specific event] — come back monthly to track it.” · decoded-meaning guarantees or premonition claims. These are sales patterns wearing the language of dream interpretation — particularly common because the wish for the dream to mean something specific is genuine.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -11464,6 +11710,16 @@ Not all death dreams originate from the same psychological trigger. To understan
 | **Waking day-residue** | Reflective realization that you or they are changing and growing apart | Compulsive urge to text, call, or monitor their physical safety | Lingering guilt, defensive irritability, or awkwardness around them | Terror of jinxing them, scouring forums for warnings or hexes |
 | **Healthy next action** | Acknowledge that your relationship is entering a mature, new chapter | Regulate your nervous system; address root attachment insecurity | Initiate a calm waking conversation to set honest relational boundaries | Practice cognitive reality testing; disengage from doom-laden spiritual forums |
 
+## At a glance: what your death dream shows, and what it doesn’t settle
+
+| What you’re noticing | Grounded psychological interpretation | Alternative perspective to weigh | What it cannot prove |
+| --- | --- | --- | --- |
+| Dreaming a loved one died who is alive and well | Continuity of attachment — the mind rehearses a feared loss of a real bond | A genuine expression of how much the person matters | That the dream predicts their actual death |
+| Dreaming your own death | Symbolic ego-death — an old identity structure ending | A healthy metamorphic signal that a self-version is closing | That you are in physical danger |
+| A recurring death dream of someone you’re in conflict with | Suppressed relational friction seeking resolution | An honest signal the relationship needs direct addressing | That the person is ‘wishing you away’ or cursed |
+| A vivid death dream after a real recent loss | Grief processing in REM — the brain integrating an actual ending | A normal and necessary mourning function | That the deceased is ‘trapped’ or needs your intervention |
+| Panicking that the dream is a premonition | Apophenia and threat-appraisal bias on a vivid memory | A real anxiety worth naming — not a forecast | That you can prevent a death by performing a ritual |
+
 ## The neuroscience and psychology of death dreams
 
 Modern cognitive science provides a rigorous, grounding explanation for why the brain stages death scenes during sleep:
@@ -11549,7 +11805,79 @@ Use this simple guideline to determine whether your death dream requires action:
 - **Seek clinical counseling if:** Recurring death nightmares cause persistent insomnia, trigger daytime panic attacks, or are tied to unresolved traumatic bereavement or PTSD.
 - **Consult an ethical reflective practitioner if:** You want a structured, symbolic lens (such as a reflective tarot spread or Jungian dream analysis) to explore what emotional role this relationship plays in your ongoing personal growth.
 
-[Launch the 2-Minute Pattern Check](#pattern-check)
+Apply the framework to your situation
+## Why Did You Dream Someone Died?
+
+Eight questions, about two minutes. It surfaces whether your dream reflects a relational transition, acute separation anxiety, suppressed friction, or catastrophic premonition panic.
+
+### What this pattern check looks at
+
+- **Context:** Who died in the dream and what is happening in that relationship.
+- **Four signals:** Relational-transition load, separation-anxiety intensity, suppressed-friction level, and premonition-panic versus symbolic read.
+- **Intent:** what you most want to know, and where that points you next.
+
+Your answers produce one of five patterns — Relational Transition & Role Evolution, Acute Separation & Caregiver Vulnerability, Suppressed Friction & Shadow Boundaries, Symbolic Ego-Death & Metamorphosis, or Premonition Panic & Apophenic Dread. It ends with the pattern, the read it cannot make, and the next step that fits yours.
+
+[Take the 2-minute pattern check →](#pattern-check)
+When reflection runs out
+## If you still want outside perspective
+
+The framework above is what grief psychology and dream science can reach. Wanting a symbolic or spiritual lens on a dream this vivid is legitimate — death imagery deserves more than a dictionary gloss.
+
+A medium reading can offer a sense of continuing bond with someone who has actually passed; a tarot pull can surface what the dream is asking you to face; a psychic reading offers an outside read on a relational dynamic the dream may be processing. Each answers a different facet — none predicts an actual death, and none replaces grief work if the loss is real.
+
+[Run the pattern check →](#pattern-check)
+If you decide to book something
+## Which practice fits your question?
+
+The death-dream question maps differently depending on whether your real bottleneck is a relational transition, suppressed conflict, an identity metamorphosis, or premonition panic.
+
+| Your actual core situation | Recommended starting point | What it can honestly offer |
+| --- | --- | --- |
+| The person who died in the dream has actually passed | Medium reading | A sense of continuing bond and closure — never a ‘message from beyond’ guarantee |
+| You want to surface what the dream is asking you to face | Tarot (Death card or shadow spread) | A structured mirror for the transition — not a literal omen |
+| You want an outside read on the relationship the dream is processing | Psychic reading | A fresh angle on a dynamic — never a death verdict |
+| The real issue is traumatic grief, panic disorder, or PTSD from a loss | Licensed grief therapist | Evidence-based grief and trauma processing — a reading can’t substitute |
+| Unsure what you need | Do What Fits | Seven questions that route your situation to the right tool |
+
+### How to use a reading well
+
+Ask about the meaning, not the omen: *“I dreamed my mother died and we’re estranged — what is this dream asking me to face?”* Avoid *“is this a warning she will die?”* — no dream is a forecast, and a reader who treats it as one is exploiting fear.
+
+**Red flags before you book:** Mediums who promise to relay a “warning” about an imminent death · Readers who tell you a death dream means you’re cursed · Anyone who charges extra to “lift” a dream’s omen.
+
+**Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
+
+Before you spend anything
+## Before you book a reading
+
+Decided a reading fits your question? Four things to check first — from an independent guide that doesn’t sell readings.
+
+1
+### Read this first
+
+[Before Paying for a Reading](https://mysticdo.com/guides/before-paying-psychic-reading) — the vetting framework and the red flags.
+
+2
+### Separate symbolic from clinical
+
+If it comes with numbness, sleep loss, or anhedonia, a licensed therapist is the more honest match — see [Psychic vs Tarot](https://mysticdo.com/guides/psychic-vs-tarot).
+
+3
+### Name the real question
+
+Pin down what you actually want to know before you pay — the framework above helps. See [reading costs](https://mysticdo.com/guides/psychic-reading-cost).
+
+4
+### Use the free first steps
+
+Run the pattern check on this page, try the [Daily Tarot Card](https://mysticdo.com/tools/daily-card), and write one honest paragraph about what is pulling at you.
+
+### When to wait instead
+
+If you woke from the dream within the last hour and your heart is still racing, don’t book a reading. Drink water, turn on warm light, let the arousal settle. A reading done from raw fear reads premonition into ordinary grief.
+
+[Take the 2-minute pattern check →](#pattern-check)
 ## Frequently asked questions
 
 **Is dreaming about someone dying a psychic premonition?
@@ -11794,7 +12122,7 @@ The teeth-dream question maps differently depending on whether you’re looking 
 
 A reading is a perspective on what the dream surfaces about your waking life. It cannot decode a fixed symbolic meaning; anyone confirming that the teeth dream “means” a specific thing is offering a projection dressed as decoding. The decision about what to do with the dream stays yours — and a reader who guarantees a decoded meaning, claims the dream is a premonition, or offers ongoing interpretation sessions is selling a certainty nobody possesses.
 
-**Red flags before you book:** “The teeth dream means &lsqb;specific claim&rsqb; — I can decode it across several sessions.” · “Your dream is a premonition of &lsqb;specific loss&rsqb; — come back monthly to track it.” · decoded-meaning guarantees or premonition claims. These are sales patterns wearing the language of dream interpretation.
+**Red flags before you book:** “The teeth dream means [specific claim] — I can decode it across several sessions.” · “Your dream is a premonition of [specific loss] — come back monthly to track it.” · decoded-meaning guarantees or premonition claims. These are sales patterns wearing the language of dream interpretation.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -12341,6 +12669,16 @@ To understand what is driving your current disorientation, compare how your expe
 | **Root cause** | Outgrowing an old identity before the new one has arrived | Chronic unmanaged stress, sleep deprivation, or chemical depression | Living out an inherited script designed by parents, peers, or society | Fear of personal accountability and the vulnerability of choosing |
 | **Healthy next step** | Grant yourself permission to rest in the unknown; test small experiments | Prioritize medical and therapeutic recovery; restore physical baseline | Conduct a rigorous values audit; realign daily actions with what matters | Accept that clarity comes from movement; take imperfect action today |
 
+## At a glance: what your disorientation shows, and what it doesn’t settle
+
+| What you’re noticing | Grounded psychological interpretation | Alternative perspective to weigh | What it cannot prove |
+| --- | --- | --- | --- |
+| Disoriented without a clear next step after a transition | A healthy liminal void — the old map is gone, the new one isn’t drawn | A normal developmental passage, not pathology | That being lost means you’re broken |
+| Numb, foggy, can’t summon effort | Nervous-system depletion and freeze — burnout masquerading as ‘lost’ | A clinical signal distinct from existential drift | That the answer is to ‘find your purpose’ faster |
+| Empty after achieving the thing you wanted | The achievement hangover — the goal was the structure, not the meaning | A real reorientation signal, not ingratitude | That success was a mistake |
+| You were following someone else’s script and it stopped working | A discarded inherited script — the values weren’t yours | A healthy if painful re-owning of direction | That you must reject everyone who shaped you |
+| Paralyzed waiting for a ‘destiny’ to reveal itself | Magical destiny paralysis — passivity dressed as spiritual waiting | An honest stuckness worth naming | That a reading will name your purpose for you |
+
 ## The psychological science of feeling lost
 
 Contemporary cognitive and developmental psychology provides clear, reassuring frameworks for understanding why human beings inevitably feel lost:
@@ -12427,7 +12765,79 @@ If you feel completely unmoored today, stop analyzing and take these five practi
 1. **Build physical anchors:** When your mind is wandering, your body needs structure. Wake up at the same time, take a morning walk in natural light, lift heavy weights, and cook nourishing food.
 1. **Seek grounded sounding boards:** Talk to a therapist, a seasoned mentor, or take an honest reflective assessment. Avoid people who offer toxic positivity or try to sell you quick magical fixes.
 
-[Launch the 2-Minute Pattern Check](#pattern-check)
+Apply the framework to your situation
+## What Kind of Lost Are You?
+
+Eight questions, about two minutes. It surfaces whether you are in a healthy liminal void, suffering physical burnout, facing an achievement hangover, or trapped in destiny paralysis.
+
+### What this pattern check looks at
+
+- **Context:** Where you are in life and what ‘lost’ feels like for you.
+- **Four signals:** Agency reserves, temporal orientation, somatic vitality, and identity flexibility.
+- **Intent:** what you most want to know, and where that points you next.
+
+Your answers produce one of five patterns — The Healthy Liminal Reset, The Achievement Hangover, Nervous System Depletion & Freeze, The Discarded Inherited Script, or The Magical Destiny Paralysis. It ends with the pattern, the read it cannot make, and the next step that fits yours.
+
+[Take the 2-minute pattern check →](#pattern-check)
+When reflection runs out
+## If you still want outside perspective
+
+The framework above is what existential psychology and self-reflection can reach. Wanting a symbolic read on a passage this disorienting is legitimate — ‘lost’ resists being solved by the same mind that is disoriented.
+
+An astrology reading can frame the timing of a life-direction chapter; a tarot pull can surface what your planning mind keeps circling; a psychic reading offers an outside angle on a pattern you can’t see from inside it. Each answers a different facet — none hands you a pre-formed purpose, and none substitutes for the slow work of choosing.
+
+[Run the pattern check →](#pattern-check)
+If you decide to book something
+## Which practice fits your question?
+
+The ‘lost’ question maps differently depending on whether your real bottleneck is a healthy liminal passage, nervous-system depletion, an achievement hangover, or magical destiny paralysis.
+
+| Your actual core situation | Recommended starting point | What it can honestly offer |
+| --- | --- | --- |
+| You’re in a genuine transition between chapters | Reflection + intentional structure | A liminal void is a passage, not a problem to ‘fix’ |
+| You want a structured mirror for what’s pulling | Tarot (Hermit or Fool spread) | Surfaces the direction you keep avoiding — doesn’t hand you a purpose |
+| You want an outside read on a long-standing pattern | Psychic reading | A fresh angle on a loop — never a ‘destiny’ verdict |
+| The real issue is depression, burnout, or trauma presenting as ‘lost’ | Licensed therapist | Evidence-based treatment — ‘lost’ is sometimes a clinical word |
+| Unsure what you need | Do What Fits | Seven questions that route your situation to the right tool |
+
+### How to use a reading well
+
+Ask about the pattern, not the purpose: *“I’m 34 and nothing feels like mine — what am I actually circling around?”* Avoid *“what is my life purpose?”* — no reader can hand you a purpose, and one who does is substituting their agenda for your work.
+
+**Red flags before you book:** Readers who name a specific ‘destiny’ or ‘soul mission’ for you · Anyone selling a program to ‘unlock’ your purpose for a high fee · Practitioners who tell you not to see a therapist when ‘lost’ comes with numbness, anhedonia, or sleep loss.
+
+**Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
+
+Before you spend anything
+## Before you book a reading
+
+Decided a reading fits your question? Four things to check first — from an independent guide that doesn’t sell readings.
+
+1
+### Read this first
+
+[Before Paying for a Reading](https://mysticdo.com/guides/before-paying-psychic-reading) — the vetting framework and the red flags.
+
+2
+### Separate symbolic from clinical
+
+If it comes with numbness, sleep loss, or anhedonia, a licensed therapist is the more honest match — see [Psychic vs Tarot](https://mysticdo.com/guides/psychic-vs-tarot).
+
+3
+### Name the real question
+
+Pin down what you actually want to know before you pay — the framework above helps. See [reading costs](https://mysticdo.com/guides/psychic-reading-cost).
+
+4
+### Use the free first steps
+
+Run the pattern check on this page, try the [Daily Tarot Card](https://mysticdo.com/tools/daily-card), and write one honest paragraph about what is pulling at you.
+
+### When to wait instead
+
+If ‘lost’ has arrived with persistent low mood, sleep loss, or an inability to feel pleasure, don’t book a reading yet. Those are depression’s language, and a reading can’t distinguish ‘existential drift’ from a treatable condition. See a licensed professional first.
+
+[Take the 2-minute pattern check →](#pattern-check)
 ## Frequently asked questions
 
 **Why do I feel lost even when my life looks great on paper?
@@ -12666,7 +13076,7 @@ The purpose question maps differently depending on whether you’re looking for 
 
 A reading is a perspective on what already engages you and the long-arc patterns of your life — at its best on the raw material purpose is built from. It cannot deliver a pre-formed purpose; anyone naming your singular destiny with certainty is offering a projection dressed as foresight. The decision about what to engage with stays yours — and a reader who guarantees a purpose, names a fated path, or claims your direction is “blocked” and needs clearing is selling a certainty nobody possesses.
 
-**Red flags before you book:** “Your true purpose is to &lsqb;specific claim&rsqb; — but there’s a blockage I need to clear across several sessions.” · “You’ve missed your calling — but I can recover it through monthly sessions.” · guaranteed purpose-identification or fated-path claims. These are sales patterns wearing the language of foresight — particularly common around this question because the wish for a singular answer is large.
+**Red flags before you book:** “Your true purpose is to [specific claim] — but there’s a blockage I need to clear across several sessions.” · “You’ve missed your calling — but I can recover it through monthly sessions.” · guaranteed purpose-identification or fated-path claims. These are sales patterns wearing the language of foresight — particularly common around this question because the wish for a singular answer is large.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -16373,7 +16783,7 @@ This table separates what behavior can honestly show about seriousness from what
 
 The most directly applicable research for this question comes from the Investment Model — a body of work on what predicts commitment in relationships — and it offers a useful frame, along with a clear limit.
 
-- **Commitment is driven by three measurable factors: satisfaction, investment, and alternatives.** The 2019 meta-analysis by Tran, Judge, & Kashima, pooling 202 independent samples and over 50,000 participants, found that satisfaction was the strongest predictor of commitment (r = 0.65), followed by investment (r = 0.53), with quality of alternatives working in the opposite direction (r = &minus;0.43). This matters for your question: a man who is highly satisfied and highly invested in a relationship is, statistically, more likely to commit — but these are population-level correlations, not readings of any individual.
+- **Commitment is driven by three measurable factors: satisfaction, investment, and alternatives.** The 2019 meta-analysis by Tran, Judge, & Kashima, pooling 202 independent samples and over 50,000 participants, found that satisfaction was the strongest predictor of commitment (r = 0.65), followed by investment (r = 0.53), with quality of alternatives working in the opposite direction (r = −0.43). This matters for your question: a man who is highly satisfied and highly invested in a relationship is, statistically, more likely to commit — but these are population-level correlations, not readings of any individual.
 - **Investment is visible in behavior in ways that satisfaction is not.** What he has put into the relationship — time, emotional energy, shared experiences, adjustments to his life — is more observable than how satisfied he feels. Watching investment over time is probably the most practically useful thing behavioral observation can offer for this question.
 - **Stated intentions are better predictors than behavioral observations alone.** The most reliable source of information about his intentions is, honestly, his direct answer to a direct question. Behavioral inference is the next-best option when a direct conversation isn’t available — not a substitute for it.
 
@@ -19473,7 +19883,7 @@ The owl-encounter question maps differently depending on whether you’re lookin
 
 A reading is a perspective on what the encounter surfaces — at its best on the reflection it prompts. It cannot decode a supernatural message; anyone confirming that the owl “means” a specific thing is offering a projection. The decision about how to use the encounter stays yours — and a reader who guarantees a decoded message, claims the owl is a supernatural messenger, or offers ongoing “sign reading” is selling a certainty nobody possesses.
 
-**Red flags before you book:** “The owl is a message from beyond about &lsqb;specific claim&rsqb; — I can decode it across several sessions.” · “The owl is a death omen — I can clear the warning across monthly sessions.” · decoded-message guarantees or omen-clearing services. These are sales patterns wearing the language of sign-reading.
+**Red flags before you book:** “The owl is a message from beyond about [specific claim] — I can decode it across several sessions.” · “The owl is a death omen — I can clear the warning across monthly sessions.” · decoded-message guarantees or omen-clearing services. These are sales patterns wearing the language of sign-reading.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -20731,7 +21141,7 @@ The past-life question maps differently depending on whether you’re looking fo
 
 A reading is a perspective on the narrative’s themes — at its best on what the imagery and story are surfacing in your present life. It cannot verify the narrative as a recovered historical fact; anyone confirming a specific past identity with certainty is offering a projection dressed as recovered history. The decision about how to use the material stays yours — and a reader who guarantees a specific past life, names past-life “blockages” requiring clearing, or frames present distress as karmic debt requiring ongoing sessions is selling a certainty nobody possesses.
 
-**Red flags before you book:** “You were &lsqb;specific identity&rsqb; in a past life — I can see it — but there’s karmic trauma I need to clear across several sessions.” · “Your current pain is past-life debt — come back monthly for karmic release.” · verified past-identity claims or karmic-blockage diagnoses. These are sales patterns wearing the language of recovered history — particularly common in this domain because the wish for a specific past identity is large and the verification isn’t available.
+**Red flags before you book:** “You were [specific identity] in a past life — I can see it — but there’s karmic trauma I need to clear across several sessions.” · “Your current pain is past-life debt — come back monthly for karmic release.” · verified past-identity claims or karmic-blockage diagnoses. These are sales patterns wearing the language of recovered history — particularly common in this domain because the wish for a specific past identity is large and the verification isn’t available.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -20996,7 +21406,7 @@ If you decide to book something
 
 A reading is a perspective on what your spirit animal surfaces — at its best on the reflection it prompts. It cannot assign an animal supernaturally; anyone confirming your “true” spirit animal is offering a projection. The decision about how to use the symbol stays yours — and a reader who guarantees an assignment, claims a specific animal is supernaturally yours, or offers ongoing “animal decoding” is selling a certainty nobody possesses.
 
-**Red flags before you book:** “Your true spirit animal is the &lsqb;specific animal&rsqb; — I can decode it across several sessions.” · “Your animal is blocked — I need to clear it to unlock its power.” · assignment guarantees or animal-decoding services. These are sales patterns wearing the language of totemic practice.
+**Red flags before you book:** “Your true spirit animal is the [specific animal] — I can decode it across several sessions.” · “Your animal is blocked — I need to clear it to unlock its power.” · assignment guarantees or animal-decoding services. These are sales patterns wearing the language of totemic practice.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
@@ -21307,7 +21717,7 @@ The Death-card question maps differently depending on whether you’re looking f
 
 A reading is a perspective on the transformation the card surfaces — at its best on what’s ending and what it might make room for. It cannot confirm an omen; anyone confirming that Death “predicts” a specific event — including a literal death — is offering a projection dressed as divination. The decision about how to engage the transformation stays yours — and a reader who guarantees a prediction, claims the card foretells doom, or offers ongoing “clearing” to avert the foretold event is selling a certainty nobody possesses.
 
-**Red flags before you book:** “The Death card foretells &lsqb;specific event&rsqb; — I can clear it across several sessions.” · “The card is a warning of doom — come back monthly for protection.” · omen confirmations or doom-aversion services. These are sales patterns wearing the language of tarot — particularly common because the card’s frightening name makes predictions feel evidential.
+**Red flags before you book:** “The Death card foretells [specific event] — I can clear it across several sessions.” · “The card is a warning of doom — come back monthly for protection.” · omen confirmations or doom-aversion services. These are sales patterns wearing the language of tarot — particularly common because the card’s frightening name makes predictions feel evidential.
 
 **Not sure which question you’re actually asking?** Take [Do What Fits](https://mysticdo.com/do-what-fits) — the seven-question matcher.
 
