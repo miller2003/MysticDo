@@ -39,4 +39,7 @@ __pycache__
 email-templates
 
 # ── 旧版备份 ──
-assets/css/style.v3.cupertino.bak.css
+*.bak
+*.bak.*
+*.old
+*.orig

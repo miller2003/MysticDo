@@ -1,8 +1,0 @@
-﻿<div class="quiz-result love-result"><div class="love-result-head"><div class="result-path-badge"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg> Your pattern</div><h2>Uneven investment</h2><p class="love-summary">The connection runs on your effort.</p></div><div class="love-block"><h3>What your answers suggest</h3><p>Much of the visible effort in this connection appears to come from your side. You鈥檙e the one holding the thread. That doesn鈥檛 reveal how he feels. What it does reveal is some
-
-ALL GREEN
-love-quiz exit=0
-    15KB    1.03 ms  OK
-  瑕嗙洊鑼冨洿锛氬叏绔?13 椤典腑 13 椤典細杞?markdown锛?00.0%锛?
-鉁?鍏ㄩ儴閫氳繃
-markdown exit=0

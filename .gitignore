@@ -23,3 +23,25 @@ Thumbs.db
 
 # agent workspace data (session memory & logs — local only)
 .workbuddy/
+
+# ── 临时脚本与生成产物（永不提交）──
+# 约定：一次性的检查/迁移/审计脚本一律写进 scratch/，不要落在仓库根目录。
+# 这些路径已同时写入 .assetsignore，不会进 CDN。
+scratch/
+_design-check/
+logo-drafts/
+tmp/
+temp/
+
+# ── 备份 / 编辑器 / 归档残留 ──
+*.bak
+*.bak.*
+*.old
+*.orig
+*.rej
+*.tmp
+*.log
+*.swp
+*.swo
+*~
+desktop.ini

@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "node scripts/dev-server.mjs",
     "start": "node scripts/dev-server.mjs",
-    "test": "node scripts/test-worker-agent-routes.mjs && node scripts/test-email-api.mjs && node scripts/test-webmcp.mjs && node scripts/test-markdown-for-agents.mjs --dist=. && node scripts/test-love-quiz.mjs && node scripts/test-is-he-cheating-quiz.mjs && node scripts/test-twin-flame-separation-quiz.mjs && node scripts/test-will-he-come-back-quiz.mjs && node scripts/test-am-i-cursed-quiz.mjs && node scripts/test-will-i-get-the-job-quiz.mjs && node scripts/test-love-quizzes.mjs && node scripts/test-batch1-quizzes.mjs && node scripts/test-batch2-quizzes.mjs && node scripts/test-batch3-quizzes.mjs && node scripts/test-batch4-quizzes.mjs && node scripts/test-quiz-render.mjs && node scripts/test-intent-conventions.mjs && python scripts/seo_geo_deep_audit.py && python validate_seo.py",
+    "test": "node scripts/test-no-junk.mjs && node scripts/test-worker-agent-routes.mjs && node scripts/test-email-api.mjs && node scripts/test-webmcp.mjs && node scripts/test-markdown-for-agents.mjs --dist=. && node scripts/test-love-quiz.mjs && node scripts/test-is-he-cheating-quiz.mjs && node scripts/test-twin-flame-separation-quiz.mjs && node scripts/test-will-he-come-back-quiz.mjs && node scripts/test-am-i-cursed-quiz.mjs && node scripts/test-will-i-get-the-job-quiz.mjs && node scripts/test-love-quizzes.mjs && node scripts/test-batch1-quizzes.mjs && node scripts/test-batch2-quizzes.mjs && node scripts/test-batch3-quizzes.mjs && node scripts/test-batch4-quizzes.mjs && node scripts/test-quiz-render.mjs && node scripts/test-intent-conventions.mjs && python scripts/seo_geo_deep_audit.py && python validate_seo.py",
     "test:intent": "node scripts/test-intent-conventions.mjs",
+    "test:hygiene": "node scripts/test-no-junk.mjs",
     "test:quiz": "node scripts/test-quiz-render.mjs",
     "test:seo": "python scripts/seo_geo_deep_audit.py && python validate_seo.py",
     "test:agents": "node scripts/test-worker-agent-routes.mjs",
