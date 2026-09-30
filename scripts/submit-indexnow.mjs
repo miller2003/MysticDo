@@ -14,7 +14,7 @@
  * key 文件：根目录 `<key>.txt`（内容 = key 本体）。改 key 时必须同步改名该文件。
  */
 import { readFileSync } from 'node:fs';
-import { execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 
 const HOST = 'mysticdo.com';
 const ORIGIN = `https://${HOST}`;
@@ -33,8 +33,14 @@ function collectUrls() {
   if (args[0] === '--changed') {
     const ref = args[1];
     if (!ref) { console.error('--changed 需要 git 基准 ref，如 --changed HEAD~1'); process.exit(1); }
-    const out = execSync(`git diff --name-only ${ref}..HEAD`, { encoding: 'utf8' });
-    return out.split('\n').filter(f => f.endsWith('.html'))
+    const r = spawnSync('git', ['diff', '--name-only', `${ref}..HEAD`], { encoding: 'utf8' });
+    if (r.error || r.status !== 0) {
+      console.error(`[indexnow] 无法运行 git diff（${r.error ? r.error.code : 'exit ' + r.status}）。`);
+      console.error('  手动方式：把改动页列表传给 --urls，或在本机 shell 直接跑：');
+      console.error(`    git diff --name-only ${ref}..HEAD | grep '\\.html$'`);
+      process.exit(4);
+    }
+    return r.stdout.split('\n').filter(f => f.endsWith('.html'))
       .map(f => `${ORIGIN}/${f.replace(/\.html$/, '')}`);
   }
   // 默认：sitemap.xml 全量
