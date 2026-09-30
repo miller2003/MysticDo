@@ -20,6 +20,14 @@ const SKILLS = [
     summary:
       'Map a described life situation to the spiritual practice that actually fits it ' +
       '(psychic, tarot, astrology or medium) — and say when the honest answer is none of them.',
+    // ARD representativeQueries — task-phrased so registries can match a user's
+    // need to THIS skill rather than to the site generically.
+    queries: [
+      'which kind of reading fits a question about whether my ex will contact me',
+      'should I see a psychic or a tarot reader about my career',
+      'can astrology tell me when something will happen',
+      'I lost my father and want to reach him — what kind of reading is that',
+    ],
     body: `---
 name: match-reading-type
 description: Decide which kind of spiritual reading fits a person's situation. Use when a user asks which reading to book, whether they need a psychic or tarot or astrology or medium reading, or describes a problem and wants to know where to take it. Covers love, career, money, life direction, grief and spiritual growth.
@@ -107,6 +115,12 @@ Do all four of these, or the answer is not useful:
     summary:
       'Pre-payment vetting procedure for a psychic, tarot, astrology or medium reader: ' +
       'behavioural signals, the five classic scams, and a five-minute cold-reading test.',
+    queries: [
+      'how do I tell if an online psychic is legit before I pay',
+      'a medium told me I have a curse and it costs money to remove — is that a scam',
+      'what should I check before booking a tarot reader',
+      'how do I spot a cold reading in the first five minutes',
+    ],
     body: `---
 name: vet-a-reader
 description: Decide whether a psychic, tarot, astrology or medium reader is trustworthy before any money is spent. Use when a user asks if a reader or platform is legit or a scam, wants a checklist before booking, or reports fear-based pressure such as a curse, an attachment, or a demand for more sessions.
@@ -196,6 +210,12 @@ no one to escalate to.
     summary:
       'Real price tiers for psychic, tarot, astrology and medium readings, the budgets that ' +
       'work, the ones that end in regret, and the drift mechanism that inflates per-minute spend.',
+    queries: [
+      'how much does a psychic reading cost',
+      'what is a sensible budget for a first tarot reading',
+      'is a $5 psychic reading any good',
+      'why did my per-minute reading cost more than the advertised rate',
+    ],
     body: `---
 name: budget-a-reading
 description: Estimate what a psychic, tarot, astrology or medium reading should cost and set a spend limit. Use when a user asks how much a reading costs, whether a price is normal or too high, how much to budget for a first reading, or whether a cheap reading can be good.
@@ -267,6 +287,11 @@ When asked to budget a reading, return: practice → tier → realistic total ra
     summary:
       'How to search and retrieve MysticDo content programmatically: the content index, ' +
       'markdown content negotiation, section listings, and when to use each.',
+    queries: [
+      'fetch a mysticdo.com guide as markdown',
+      'search mysticdo.com for guidance on astrology readings',
+      'give me the content index for mysticdo.com',
+    ],
     body: `---
 name: find-mysticdo-content
 description: Retrieve decision content from mysticdo.com. Use when an agent needs to read, cite or summarise any MysticDo page, search the site for guidance on psychic, tarot, astrology or medium readings, or fetch a page in Markdown instead of HTML.
@@ -359,6 +384,11 @@ Pages carry an "Updated: <Month Year>" line, and guide pages expose
     summary:
       'Call the MysticDo MCP server: endpoint, protocol version, the four tools, their ' +
       'input schemas, and worked request/response examples.',
+    queries: [
+      'what MCP tools does mysticdo.com expose',
+      'call search_mysticdo on the mysticdo MCP server',
+      'what is the mysticdo.com MCP endpoint and protocol version',
+    ],
     body: `---
 name: use-mysticdo-mcp
 description: Call the MysticDo MCP server tools. Use when an agent runtime needs the MCP endpoint URL, the tool list, input schemas, or a worked example of searching and retrieving MysticDo content over JSON-RPC.
@@ -435,6 +465,13 @@ the order of days, not seconds.
 ];
 
 export const SKILL_NAMES = SKILLS.map((s) => s.name);
+
+/**
+ * Skill metadata for other documents (ARD manifest). Name + summary + queries
+ * only — the artifact bodies stay in this file so the discovery layer never
+ * accidentally inlines them.
+ */
+export const SKILL_META = SKILLS.map(({ name, summary, queries }) => ({ name, summary, queries }));
 
 /** Look up one artifact. Returns null when the name is unknown. */
 export function findSkill(name) {

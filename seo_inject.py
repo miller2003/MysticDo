@@ -40,27 +40,40 @@ PUBLISHED_DEFAULT = "2026-09-17"
 # Staggered so the sitemap and JSON-LD reflect a natural multi-day rollout
 # rather than 40 pages appearing on one day.
 PUBLISH_DATES = {
+    "questions/angel-numbers/111-meaning.html": "2026-09-29",
     "questions/angel-numbers/1111-meaning.html": "2026-09-18",
+    "questions/angel-numbers/1212-meaning.html": "2026-09-29",
     "questions/angel-numbers/222-meaning.html": "2026-09-18",
     "questions/angel-numbers/333-meaning.html": "2026-09-20",
     "questions/angel-numbers/444-meaning.html": "2026-09-20",
     "questions/angel-numbers/555-meaning.html": "2026-09-21",
     "questions/angel-numbers/777-meaning.html": "2026-09-21",
     "questions/angel-numbers/888-meaning.html": "2026-09-22",
+    "questions/angel-numbers/999-meaning.html": "2026-09-29",
+    "questions/angel-numbers/1010-meaning.html": "2026-09-29",
     "questions/angel-numbers/angel-numbers-meaning.html": "2026-09-18",
+    "questions/angel-numbers/life-path-number.html": "2026-09-29",
     "questions/angel-numbers/what-is-my-angel-number.html": "2026-09-20",
     "questions/astrology/mercury-retrograde-meaning.html": "2026-09-19",
+    "questions/astrology/what-is-a-stellium.html": "2026-09-29",
+    "questions/astrology/what-is-my-big-three.html": "2026-09-29",
+    "questions/astrology/what-is-my-chiron.html": "2026-09-29",
     "questions/astrology/what-is-my-moon-sign.html": "2026-09-22",
+    "questions/astrology/what-is-my-north-node.html": "2026-09-29",
     "questions/astrology/what-is-my-rising-sign.html": "2026-09-19",
     "questions/astrology/what-is-my-saturn-return.html": "2026-09-22",
+    "questions/astrology/what-is-my-venus-sign.html": "2026-09-29",
     "questions/astrology/zodiac-compatibility.html": "2026-09-20",
     "questions/career-work/am-i-in-the-right-career.html": "2026-09-22",
     "questions/career-work/should-i-quit-my-job.html": "2026-09-18",
     "questions/career-work/will-i-get-the-job.html": "2026-09-18",
     "questions/dreams/dream-about-being-chased.html": "2026-09-22",
     "questions/dreams/dream-about-snakes.html": "2026-09-20",
+    "questions/dreams/dream-about-someone.html": "2026-09-29",
     "questions/dreams/dream-about-someone-dying.html": "2026-09-22",
+    "questions/dreams/dream-about-spiders.html": "2026-09-29",
     "questions/dreams/dream-about-teeth-falling-out.html": "2026-09-19",
+    "questions/dreams/dream-about-water.html": "2026-09-29",
     "questions/dreams/dream-about-your-ex.html": "2026-09-22",
     "questions/life-direction/feeling-lost-in-life.html": "2026-09-22",
     "questions/life-direction/what-is-my-life-purpose.html": "2026-09-20",
@@ -73,32 +86,59 @@ PUBLISH_DATES = {
     "questions/tarot/tarot-yes-or-no.html": "2026-09-22",
     "questions/tarot/tower-card-meaning.html": "2026-09-22",
     "questions/love-relationships/am-i-in-love.html": "2026-09-19",
+    "questions/love-relationships/am-i-in-a-karmic-relationship.html": "2026-09-29",
     "questions/love-relationships/does-he-like-me.html": "2026-09-19",
     "questions/love-relationships/how-to-get-over-someone.html": "2026-09-18",
     "questions/love-relationships/is-he-cheating.html": "2026-09-20",
+    "questions/love-relationships/is-he-my-twin-flame.html": "2026-09-29",
     "questions/love-relationships/should-i-break-up.html": "2026-09-20",
     "questions/love-relationships/should-i-text-him.html": "2026-09-20",
     "questions/love-relationships/twin-flame-separation.html": "2026-09-19",
+    "questions/love-relationships/twin-flame-stages.html": "2026-09-29",
+    "questions/love-relationships/twin-flame-vs-soulmate.html": "2026-09-29",
     "questions/love-relationships/when-will-i-meet-my-soulmate.html": "2026-09-19",
     "questions/love-relationships/who-is-my-soulmate.html": "2026-09-19",
+    "questions/love-relationships/who-will-i-marry.html": "2026-09-29",
+    "questions/love-relationships/when-will-i-get-married.html": "2026-09-29",
     "questions/love-relationships/will-he-come-back.html": "2026-09-20",
+    "questions/love-relationships/will-i-ever-find-love.html": "2026-09-29",
+    "questions/love-relationships/why-did-he-ghost-me.html": "2026-09-29",
+    "questions/signs/cardinal-meaning.html": "2026-09-29",
     "questions/signs/owl-meaning.html": "2026-09-20",
     "questions/spiritual-growth/am-i-an-empath.html": "2026-09-20",
     "questions/spiritual-growth/am-i-cursed.html": "2026-09-19",
     "questions/spiritual-growth/am-i-psychic.html": "2026-09-19",
     "questions/spiritual-growth/how-to-know-your-past-life.html": "2026-09-20",
+    "questions/spiritual-growth/waking-up-at-3am-meaning.html": "2026-09-29",
+    "questions/spiritual-growth/signs-of-spiritual-awakening.html": "2026-09-29",
+    "questions/spiritual-growth/spiritual-awakening-symptoms.html": "2026-09-29",
+    "questions/spiritual-growth/what-is-my-aura-color.html": "2026-09-29",
     "questions/spiritual-growth/what-is-my-spirit-animal.html": "2026-09-20",
+    "questions/spiritual-growth/what-is-my-spiritual-gift.html": "2026-09-29",
     "questions/tarot/death-card-meaning.html": "2026-09-18",
+    "guides/369-manifestation-method.html": "2026-09-29",
+    "guides/crystals-for-protection.html": "2026-09-29",
     "guides/dark-night-of-the-soul.html": "2026-09-18",
     "guides/evil-eye-meaning.html": "2026-09-20",
     "guides/full-moon-ritual.html": "2026-09-20",
+    "guides/how-to-cleanse-negative-energy.html": "2026-09-29",
+    "guides/how-to-manifest-a-specific-person.html": "2026-09-29",
+    "guides/how-to-manifest-love.html": "2026-09-29",
     "guides/how-to-manifest-money.html": "2026-09-18",
     "guides/how-to-manifest.html": "2026-09-18",
     "guides/how-to-open-your-third-eye.html": "2026-09-18",
     "guides/how-to-read-tarot.html": "2026-09-19",
+    "guides/law-of-assumption.html": "2026-09-29",
+    "guides/scripting-manifestation.html": "2026-09-29",
+    "guides/how-to-raise-your-vibration.html": "2026-09-29",
+    "guides/how-to-do-shadow-work.html": "2026-09-29",
+    "guides/past-life-regression.html": "2026-09-29",
+    "guides/which-chakra-is-blocked.html": "2026-09-29",
     "guides/new-moon-ritual.html": "2026-09-19",
     "guides/what-are-chakras.html": "2026-09-19",
     "guides/what-are-synchronicities.html": "2026-09-18",
+    "guides/what-is-karma.html": "2026-09-29",
+    "guides/what-is-reiki.html": "2026-09-29",
     "guides/what-is-shadow-work.html": "2026-09-18",
 }
 
@@ -400,6 +440,46 @@ QUIZ_TOOL_PAGES = {
             "engaging a self-blame pattern — and return a personalized read of the pattern and the next step that fits. "
             "It never issues a verdict; runs in your browser and never stores or sends anything."),
     },
+    "questions/love-relationships/who-will-i-marry.html": {
+        "name": "Who Will I Marry Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions surface what your own readiness "
+            "already tracks — whether you are checking against a specific person, testing whether you are ready to "
+            "meet someone, reading your own relationship pattern, or seeking a certainty the marriage question cannot "
+            "give — and return a personalized read of the pattern and the next step that fits. It never names a partner "
+            "or issues a verdict; runs in your browser and never stores or sends anything."),
+    },
+    "questions/love-relationships/when-will-i-get-married.html": {
+        "name": "When Will I Get Married Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions surface what your own clock "
+            "already tracks — whether you fear a closing window, are running on an outside clock, are doing genuine "
+            "readiness work, or are seeking a date the question cannot give — and return a personalized read of the "
+            "pattern and the next step that fits. It never names a wedding year or issues a verdict; runs in your "
+            "browser and never stores or sends anything."),
+    },
+    "questions/love-relationships/will-i-ever-find-love.html": {
+        "name": "Will I Ever Find Love Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions surface what the fear is actually "
+            "made of — whether it is about being unseen, about mattering, about a repeating pattern, about a borrowed "
+            "timeline, or whether the fear itself is changing how you act — and return a personalized read of the "
+            "pattern and the next step that fits. It never promises love or issues a verdict; runs in your browser "
+            "and never stores or sends anything."),
+    },
+    "questions/love-relationships/twin-flame-vs-soulmate.html": {
+        "name": "Twin Flame vs Soulmate Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read which dynamic your answers "
+            "actually describe — the mirror loop, the framework protecting a harmful dynamic, a label kept on an "
+            "ended connection, or workable ease being second-guessed — and return a personalized read of the pattern "
+            "and the next step that fits. It never certifies either label or predicts reunion; runs in your browser "
+            "and never stores or sends anything."),
+    },
+    "questions/love-relationships/twin-flame-stages.html": {
+        "name": "Twin Flame Stages Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read which stage your situation "
+            "actually resembles — the runner-chaser loop, a map overriding lived information, a genuine surrender "
+            "phase, or the opening chapters — and return a personalized read of the pattern and the next step that "
+            "fits. It never certifies a stage number or dates a reunion; runs in your browser and never stores or "
+            "sends anything."),
+    },
     "questions/spiritual-growth/am-i-an-empath.html": {
         "name": "Am I an Empath Pattern Check",
         "description": ("A free, interactive two-minute self-check. Eight questions surface what your own experience "
@@ -505,6 +585,30 @@ QUIZ_TOOL_PAGES = {
         "name": "Owl Meaning Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — whether you are using the encounter as meaning-making, whether message-seeking is doing work the encounter can’t support, and whether omen-attribution is extending anxiety — and return a personalized read and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
     },
+    "questions/spiritual-growth/waking-up-at-3am-meaning.html": {
+        "name": "Waking Up at 3am Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read how you are actually "
+            "meeting the 3am waking — an hour fought as an enemy, avoided material surfacing on schedule, an "
+            "omen being decoded from the clock, or an hour used receptively — and return a personalized read "
+            "of the pattern and the next step that fits. It never decodes a clock into a message about you; "
+            "runs in your browser and never stores or sends anything."),
+    },
+    "questions/spiritual-growth/signs-of-spiritual-awakening.html": {
+        "name": "Signs of Spiritual Awakening Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read how you are actually "
+            "meeting the process — the flattering list read at face value, a deep dissolution of beliefs and "
+            "meaning, a restructuring in progress, a state that needs professional care first, or not enough "
+            "evidence yet — and return a personalized read of the pattern and the next step that fits. It never "
+            "certifies an awakening or grades your progress; runs in your browser and never stores or sends anything."),
+    },
+    "questions/spiritual-growth/what-is-my-aura-color.html": {
+        "name": "Aura Color Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read how you are actually "
+            "using the aura color — a snapshot readout of the moment, a brightening practice, an identity "
+            "label doing identity work, a fit-everything description read as proof, or not enough evidence "
+            "yet — and return a personalized read of the pattern and the next step that fits. It never names "
+            "your color or certifies the field; runs in your browser and never stores or sends anything."),
+    },
     "questions/spiritual-growth/what-is-my-spirit-animal.html": {
         "name": "What Is My Spirit Animal Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own relationship with your spirit animal already tracks — whether you are using it as personal-symbol reflection, whether supernatural attribution is doing work the framework can’t support, and whether identity-anchoring is operating — and return a personalized read and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
@@ -516,6 +620,24 @@ QUIZ_TOOL_PAGES = {
     "guides/full-moon-ritual.html": {
         "name": "Full Moon Ritual Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own practice already tracks — whether you are using the ritual as structured reflection, whether energy attribution is doing work the practice can’t support, and whether manifestation-confirmation is operating — and return a personalized read and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
+    },
+    "guides/how-to-manifest-love.html": {
+        "name": "How to Manifest Love Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read how your love "
+            "manifestation practice is actually running — assumption work with real behavioral change, a "
+            "visualization loop with an unchanged life, a practice fixed on one specific person, an exhaustion "
+            "exit after months of waiting, or not enough evidence yet — and return a personalized read of the "
+            "pattern and the next step that fits. It never promises delivery, confirms a specific person's "
+            "return, or sets a timeline; runs in your browser and never stores or sends anything."),
+    },
+    "guides/369-manifestation-method.html": {
+        "name": "369 Method Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read how your 369 "
+            "practice is actually running — a state-anchored practice with real felt contact, a structure "
+            "capture (months of mechanical copying or digit-audit focus), a wish that substitutes for "
+            "action, a stalled window quit too early, or not enough evidence yet — and return a "
+            "personalized read of the pattern and the next step that fits. It never promises delivery or "
+            "assigns power to the numbers; runs in your browser and never stores or sends anything."),
     },
     "guides/how-to-manifest-money.html": {
         "name": "How to Manifest Money Pattern Check",
@@ -546,6 +668,14 @@ QUIZ_TOOL_PAGES = {
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own practice already tracks — whether you are using shadow work as self-integration reflection, whether energy-clearing attribution is doing work the practice can’t support, and whether trauma-surfacing needs clinical support — and return a personalized read and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
     },
 
+    "questions/angel-numbers/111-meaning.html": {
+        "name": "What Does 111 Mean Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own sightings — "
+            "when they started, what you do with them, how you explain the frequency, and what you're actually "
+            "waiting for — return one of five patterns (reflective practice, decision surfacing, reassurance "
+            "loop, passive waiting, not enough evidence yet) and a next step that fits. Personalized from your "
+            "own answers rather than a fixed list of meanings; runs in your browser and never stores or sends anything."),
+    },
     "questions/angel-numbers/1111-meaning.html": {
         "name": "What does 1111 mean? Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — and return a personalized read of the pattern and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
@@ -574,9 +704,45 @@ QUIZ_TOOL_PAGES = {
         "name": "MysticDo Reciprocity & Abundance Diagnostic (4-Signal MRAA-888)",
         "description": "A free, interactive two-minute exchange and equity diagnostic. Eight questions evaluate effort-reward equity, transactional resentment, budgeting stewardship, and magical rescue beliefs, sorting your profile into five equity archetypes without storing data.",
     },
+    "questions/angel-numbers/1010-meaning.html": {
+        "name": "What Does 1010 Mean Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own in-between — "
+            "what ended, what's unformed, whether you're present in the space or filling it fast, and whether "
+            "your timing is active or passive — return one of five patterns (present in the space, a threshold "
+            "with a pull, premature filling, passive waiting, not enough evidence yet) and a next step that "
+            "fits. Personalized from your own answers rather than a fixed list of meanings; runs in your "
+            "browser and never stores or sends anything."),
+    },
+    "questions/angel-numbers/1212-meaning.html": {
+        "name": "What Does 1212 Mean Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own situation — "
+            "which side of the self-and-other dialogue is missing, whether the responsibility was chosen, your "
+            "tempo on the next step, and how you read the sightings — return one of five patterns (an honest "
+            "dialogue, a pause-for-angle, a borrowed responsibility, a one-sided balance, not enough evidence "
+            "yet) and a next step that fits. Personalized from your own answers rather than a fixed list of "
+            "meanings; runs in your browser and never stores or sends anything."),
+    },
+    "questions/angel-numbers/999-meaning.html": {
+        "name": "What Does 999 Mean Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own situation — "
+            "what the sightings are sitting next to, whether the ending is admitted, whether you're completing "
+            "or rushing, and what you most want to know — return one of five patterns (honest completion, ending "
+            "in progress, unacknowledged ending, premature release, not enough evidence yet) and a next step that "
+            "fits. Personalized from your own answers rather than a fixed list of meanings; runs in your browser "
+            "and never stores or sends anything."),
+    },
     "questions/angel-numbers/angel-numbers-meaning.html": {
         "name": "Angel numbers meaning Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — and return a personalized read of the pattern and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
+    },
+    "questions/angel-numbers/life-path-number.html": {
+        "name": "Life Path Number Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own relationship "
+            "with the number — how the description lands, how much authority it carries in your decisions, and "
+            "whether you can point to the pattern in your actual life — return one of five patterns (a working "
+            "lens, a pattern surfacing, an identity anchor, a flattery capture, not enough evidence yet) and a "
+            "next step that fits. Personalized from your own answers rather than a fixed description of the "
+            "number; runs in your browser and never stores or sends anything."),
     },
     "questions/angel-numbers/what-is-my-angel-number.html": {
         "name": "What is my angel number? Pattern Check",
@@ -586,17 +752,57 @@ QUIZ_TOOL_PAGES = {
         "name": "What does Mercury retrograde mean? Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — and return a personalized read of the pattern and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
     },
+    "questions/astrology/what-is-my-north-node.html": {
+        "name": "What Is My North Node Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read what work the Node question "
+            "is actually doing for you — a compass you are reading, a destiny you are hunting, or an exit you are "
+            "shopping for — and return a personalized read of the pattern and the next step that fits. It never "
+            "certifies a life purpose or stamps permission to leave a relationship or job; runs in your browser and "
+            "never stores or sends anything."),
+    },
     "questions/astrology/what-is-my-rising-sign.html": {
         "name": "What is my rising sign? Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — and return a personalized read of the pattern and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
+    },
+    "questions/astrology/what-is-my-venus-sign.html": {
+        "name": "What Is My Venus Sign Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read what work the Venus question "
+            "is actually doing for you — self-inquiry, reading another person, or hunting a compatibility verdict — "
+            "and return a personalized read of the pattern and the next step that fits. It never types your Venus "
+            "from a birthday table or grades a relationship from one placement; runs in your browser and never "
+            "stores or sends anything."),
     },
     "questions/astrology/zodiac-compatibility.html": {
         "name": "Zodiac compatibility Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — and return a personalized read of the pattern and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
     },
+    "questions/dreams/dream-about-someone.html": {
+        "name": "Dream About Someone Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own dream — "
+            "who appeared, how you're reading it, what's unresolved, and what you've done with it since "
+            "waking — return one of five patterns (honest processing, surfacing material, message-seeking, "
+            "avoided material, not enough evidence yet) and a next step that fits. Personalized from your "
+            "own answers rather than a fixed symbol table; runs in your browser and never stores or sends anything."),
+    },
     "questions/dreams/dream-about-snakes.html": {
         "name": "Dream about snakes meaning Pattern Check",
         "description": "A free, interactive two-minute self-check. Eight questions surface what your own experience already tracks — and return a personalized read of the pattern and the next step that fits. It never issues a verdict; runs in your browser and never stores or sends anything.",
+    },
+    "questions/dreams/dream-about-water.html": {
+        "name": "Dream About Water Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own dream — "
+            "the water's state, your position in it, the waking material it matches, and how it felt from "
+            "inside — return one of five patterns (fluent processing, an overwhelm signal, an avoided depth, "
+            "an omen reading, not enough evidence yet) and a next step that fits. Personalized from your own "
+            "answers rather than a fixed symbol table; runs in your browser and never stores or sends anything."),
+    },
+    "questions/dreams/dream-about-spiders.html": {
+        "name": "Dream About Spiders Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions about your own dream — "
+            "the spider's behavior, its emotional charge, your response in the dream, and the waking "
+            "dynamic it maps to — return one of five patterns (the weaver active, a pursuer being processed, "
+            "entrapment, fear-primary, not enough evidence yet) and a next step that fits. Personalized from "
+            "your own answers rather than a fixed symbol table; runs in your browser and never stores or sends anything."),
     },
     "questions/dreams/dream-about-teeth-falling-out.html": {
         "name": "Dream about teeth falling out Pattern Check",
@@ -646,6 +852,21 @@ QUIZ_TOOL_PAGES = {
         "name": "MysticDo Relational Transition & Shadow Boundary Screener (4-Signal MRTS)",
         "description": "A free, interactive two-minute dream transition screener. Eight questions evaluate relationship evolution, separation anxiety baseline, unexpressed resentment or guilt, and magical omen fears, classifying your death dream into five transition archetypes without storing data.",
     },
+    "questions/astrology/what-is-a-stellium.html": {
+        "name": "What Is a Stellium Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read what work the stellium "
+            "question is actually doing for you — a map of concentration, a trophy being hunted, or a loop being "
+            "repeated — and return a personalized read of the pattern and the next step that fits. It never claims "
+            "a configuration makes anyone rare or chosen; runs in your browser and never stores or sends anything."),
+    },
+    "questions/astrology/what-is-my-big-three.html": {
+        "name": "What Is My Big Three Pattern Check",
+        "description": ("A free, interactive two-minute self-check. Eight questions read what work the big-three "
+            "question is actually doing for you — three lenses you check against your life, a single layer "
+            "carrying the whole question, or a label worn as a certified identity — and return a personalized "
+            "read of the pattern and the next step that fits. It never certifies who you are from three "
+            "placements; runs in your browser and never stores or sends anything."),
+    },
     "questions/astrology/what-is-my-moon-sign.html": {
         "name": "MysticDo Somatic Regulation & Moon Sign Screener (4-Signal MSMS)",
         "description": "A free, interactive two-minute somatic astrology screener. Eight questions evaluate somatic self-soothing patterns, Sun-Moon internal dissonance, birth time precision certainty, and Barnum effect discernment, classifying your profile into five regulatory archetypes without storing data.",
@@ -662,23 +883,106 @@ QUIZ_TOOL_PAGES = {
         "name": "MysticDo Career Burnout vs. Values Alignment Matrix (4-Signal MCBA)",
         "description": "A free, interactive two-minute career psychology diagnostic. Eight questions evaluate craft versus environmental exhaustion, core career anchor alignment, day-to-day autonomy, and passion fantasy fixation, classifying your career into five archetypes without storing data.",
     },
+    "guides/crystals-for-protection.html": {
+        "name": "Crystals for Protection Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what the stones are actually doing for you — an honest practice, a stone in place of an exit, a premium shelf, or an honest examination — and return a personalized read of the pattern and the next step that fits. It never certifies a crystal's protective power; runs in your browser and never stores or sends anything.",
+    },
+    "guides/how-to-cleanse-negative-energy.html": {
+        "name": "How to Cleanse Negative Energy Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read where the heaviness actually lives — a space needing its ordinary reset, internal weather, an unguarded field, or a fear economy — and return a personalized read of what the cleansing is actually for, plus the next step that fits. It never confirms or denies a presence; runs in your browser and never stores or sends anything.",
+    },
+    "guides/how-to-manifest-a-specific-person.html": {
+        "name": "Specific Person Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read how your specific-person practice is actually running — honest state work, an evidence-surveillance loop, a past-reenactment capture, a parked life, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never verifies anyone's thoughts or promises a return; runs in your browser and never stores or sends anything.",
+    },
+    "guides/law-of-assumption.html": {
+        "name": "Law of Assumption Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read how your assumption practice is actually running — an inhabited state, an affirmation over a contrary assumption, bridge-checking, a form fixation, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never certifies the metaphysics or promises delivery; runs in your browser and never stores or sends anything.",
+    },
+    "guides/scripting-manifestation.html": {
+        "name": "Scripting Manifestation Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read how your scripting practice is actually running — a lived script, a wishlist script, a flat pen, a comfort loop, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never certifies delivery or writes your pages for you; runs in your browser and never stores or sends anything.",
+    },
+    "guides/how-to-raise-your-vibration.html": {
+        "name": "Raise Your Vibration Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what your vibration practice is actually doing — an open baseline, a consumption loop, a bypass pattern, a contracted baseline, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never measures a frequency or clears your state for you; runs in your browser and never stores or sends anything.",
+    },
+    "guides/how-to-do-shadow-work.html": {
+        "name": "How to Do Shadow Work Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what your shadow work is actually doing — a retrieval practice, a shame catalogue, a golden exile, a projection running unread, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never sees your blind spot or integrates your material for you; runs in your browser and never stores or sends anything.",
+    },
+    "guides/past-life-regression.html": {
+        "name": "Past Life Regression Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what your past life question is actually asking — a workable narrative, fact-hunting, an elsewhere identity, a sceptic's block, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never verifies a past life or supplies the history; runs in your browser and never stores or sends anything.",
+    },
+    "guides/which-chakra-is-blocked.html": {
+        "name": "Which Chakra Is Blocked Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read where the friction is actually showing up — a located friction held as reflection, a blockage diagnosis taken as a finding, clearance standing in for the response an issue needs, an unlocated friction, or not enough evidence yet — and return a personalized read of the pattern and the next step that fits. It never diagnoses a blocked chakra; runs in your browser and never stores or sends anything.",
+    },
+    "guides/what-is-karma.html": {
+        "name": "What Is Karma Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what work the karma idea is doing for you — a first-person practice, a spectator's seat, an inherited verdict, or a payable account being serviced — and return a personalized read of the pattern and the next step that fits. It never audits a karmic account; runs in your browser and never stores or sends anything.",
+    },
+    "guides/what-is-reiki.html": {
+        "name": "What Is Reiki Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what you want the session to do — rest, support during medical treatment, emotional processing, or answers — and return a personalized read of the pattern: relaxation seeker, complement during treatment, emotional processor, or answers seeker, with a next step that fits. It never promises healing outcomes; runs in your browser and never stores or sends anything.",
+    },
+    "questions/astrology/what-is-my-chiron.html": {
+        "name": "What Is My Chiron Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read how you are holding the placement — a wound being mapped and worked, a wound that has become an identity, a wound you want certified once and for all, or a wound being used as an exemption — and return a personalized read of the pattern and the next step that fits. It never certifies a wound or its healing; runs in your browser and never stores or sends anything.",
+    },
+    "questions/love-relationships/am-i-in-a-karmic-relationship.html": {
+        "name": "Am I in a Karmic Relationship Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what the label is doing for you — reading the curriculum, justifying staying, seeking the label, or preparing an exit — and return a personalized read of the pattern and the next step that fits. It never certifies a relationship as karmic; runs in your browser and never stores or sends anything.",
+    },
+    "questions/love-relationships/is-he-my-twin-flame.html": {
+        "name": "Is He My Twin Flame Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what the intensity is actually doing — a precise mirror, intensity misread, recognition hunger, or a cycle without development — and return a personalized read of the pattern and the next step that fits. It never confirms or denies a twin-flame bond; runs in your browser and never stores or sends anything.",
+    },
+    "questions/love-relationships/why-did-he-ghost-me.html": {
+        "name": "Why Did He Ghost Me Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read where the silence has left you — an open loop, a verdict you may have misplaced, a closure you are seeking, or a pattern you are recognizing — and return a personalized read of the pattern and the next step that fits. It never reads his mind or issues a verdict on him; runs in your browser and never stores or sends anything.",
+    },
+    "questions/signs/cardinal-meaning.html": {
+        "name": "Cardinal Meaning Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what the cardinal encounters are actually doing for you — feeding a continuing bond, a verification hunger, a red prompt toward a decision, or a debt of appearances — and return a personalized read of the pattern and the next step that fits. It never settles whether a sighting is a message; runs in your browser and never stores or sends anything.",
+    },
+    "questions/spiritual-growth/spiritual-awakening-symptoms.html": {
+        "name": "Spiritual Awakening Symptoms Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what the experiences track — steady integration, an unexamined attribution, an overwhelmed system, or a progress meter — and return a personalized read of the pattern and the next step that fits, with medical-first honesty where functioning is declining. It never diagnoses an awakening; runs in your browser and never stores or sends anything.",
+    },
+    "questions/spiritual-growth/what-is-my-spiritual-gift.html": {
+        "name": "What Is My Spiritual Gift Pattern Check",
+        "description": "A free, interactive two-minute self-check. Eight questions read what you are actually looking for — an honest inventory, a collection, chosen-ness, or a development path — and return a personalized read of the pattern and the next step that fits. It never certifies that you carry a special gift; runs in your browser and never stores or sends anything.",
+    },
 }
 
 ARTICLE_PAGES = {
+    "guides/369-manifestation-method.html",
     "guides/astrology-reading-vs-horoscope.html",
     "guides/before-paying-psychic-reading.html",
     "guides/birth-chart-reading-cost.html",
+    "guides/crystals-for-protection.html",
     "guides/dark-night-of-the-soul.html",
     "guides/evil-eye-meaning.html",
     "guides/full-moon-ritual.html",
     "guides/how-to-choose-astrologer.html",
     "guides/how-to-choose-psychic-reader.html",
     "guides/how-to-choose-tarot-reader.html",
+    "guides/how-to-cleanse-negative-energy.html",
+    "guides/how-to-manifest-a-specific-person.html",
+    "guides/how-to-manifest-love.html",
     "guides/how-to-manifest-money.html",
     "guides/how-to-manifest.html",
     "guides/how-to-open-your-third-eye.html",
     "guides/how-to-read-tarot.html",
     "guides/is-online-psychic-legit.html",
+    "guides/law-of-assumption.html",
+    "guides/scripting-manifestation.html",
+    "guides/how-to-raise-your-vibration.html",
+    "guides/how-to-do-shadow-work.html",
+    "guides/past-life-regression.html",
+    "guides/which-chakra-is-blocked.html",
     "guides/medium-reading-guide.html",
     "guides/new-moon-ritual.html",
     "guides/online-psychic-vs-in-person.html",
@@ -689,28 +993,43 @@ ARTICLE_PAGES = {
     "guides/tarot-vs-astrology.html",
     "guides/what-are-chakras.html",
     "guides/what-are-synchronicities.html",
+    "guides/what-is-karma.html",
+    "guides/what-is-reiki.html",
     "guides/what-is-shadow-work.html",
+    "questions/angel-numbers/111-meaning.html",
     "questions/angel-numbers/1111-meaning.html",
+    "questions/angel-numbers/1212-meaning.html",
     "questions/angel-numbers/222-meaning.html",
     "questions/angel-numbers/333-meaning.html",
     "questions/angel-numbers/444-meaning.html",
     "questions/angel-numbers/555-meaning.html",
     "questions/angel-numbers/777-meaning.html",
     "questions/angel-numbers/888-meaning.html",
+    "questions/angel-numbers/999-meaning.html",
+    "questions/angel-numbers/1010-meaning.html",
     "questions/angel-numbers/angel-numbers-meaning.html",
+    "questions/angel-numbers/life-path-number.html",
     "questions/angel-numbers/what-is-my-angel-number.html",
     "questions/astrology/mercury-retrograde-meaning.html",
+    "questions/astrology/what-is-a-stellium.html",
+    "questions/astrology/what-is-my-big-three.html",
+    "questions/astrology/what-is-my-chiron.html",
     "questions/astrology/what-is-my-moon-sign.html",
+    "questions/astrology/what-is-my-north-node.html",
     "questions/astrology/what-is-my-rising-sign.html",
     "questions/astrology/what-is-my-saturn-return.html",
+    "questions/astrology/what-is-my-venus-sign.html",
     "questions/astrology/zodiac-compatibility.html",
     "questions/career-work/am-i-in-the-right-career.html",
     "questions/career-work/should-i-quit-my-job.html",
     "questions/career-work/will-i-get-the-job.html",
     "questions/dreams/dream-about-being-chased.html",
     "questions/dreams/dream-about-snakes.html",
+    "questions/dreams/dream-about-someone.html",
     "questions/dreams/dream-about-someone-dying.html",
+    "questions/dreams/dream-about-spiders.html",
     "questions/dreams/dream-about-teeth-falling-out.html",
+    "questions/dreams/dream-about-water.html",
     "questions/dreams/dream-about-your-ex.html",
     "questions/life-direction/feeling-lost-in-life.html",
     "questions/life-direction/what-is-my-life-purpose.html",
@@ -718,6 +1037,7 @@ ARTICLE_PAGES = {
     "questions/loss-closure/is-my-loved-one-watching-over-me.html",
     "questions/loss-closure/signs-from-deceased-loved-ones.html",
     "questions/love-relationships/am-i-in-love.html",
+    "questions/love-relationships/am-i-in-a-karmic-relationship.html",
     "questions/love-relationships/does-he-like-me.html",
     "questions/love-relationships/does-he-love-me.html",
     "questions/love-relationships/does-he-miss-me.html",
@@ -725,22 +1045,35 @@ ARTICLE_PAGES = {
     "questions/love-relationships/does-my-crush-like-me-back.html",
     "questions/love-relationships/how-to-get-over-someone.html",
     "questions/love-relationships/is-he-cheating.html",
+    "questions/love-relationships/is-he-my-twin-flame.html",
     "questions/love-relationships/is-he-serious-about-me.html",
     "questions/love-relationships/is-he-the-one.html",
     "questions/love-relationships/should-i-break-up.html",
     "questions/love-relationships/should-i-text-him.html",
     "questions/love-relationships/twin-flame-separation.html",
+    "questions/love-relationships/twin-flame-stages.html",
+    "questions/love-relationships/twin-flame-vs-soulmate.html",
+    "questions/love-relationships/when-will-i-get-married.html",
     "questions/love-relationships/when-will-i-meet-my-soulmate.html",
     "questions/love-relationships/who-is-my-soulmate.html",
+    "questions/love-relationships/who-will-i-marry.html",
     "questions/love-relationships/will-he-come-back.html",
+    "questions/love-relationships/will-i-ever-find-love.html",
+    "questions/love-relationships/why-did-he-ghost-me.html",
     "questions/money-wealth/why-am-i-always-broke.html",
     "questions/money-wealth/will-i-be-rich.html",
+    "questions/signs/cardinal-meaning.html",
     "questions/signs/owl-meaning.html",
     "questions/spiritual-growth/am-i-an-empath.html",
     "questions/spiritual-growth/am-i-cursed.html",
     "questions/spiritual-growth/am-i-psychic.html",
     "questions/spiritual-growth/how-to-know-your-past-life.html",
+    "questions/spiritual-growth/waking-up-at-3am-meaning.html",
+    "questions/spiritual-growth/signs-of-spiritual-awakening.html",
+    "questions/spiritual-growth/spiritual-awakening-symptoms.html",
+    "questions/spiritual-growth/what-is-my-aura-color.html",
     "questions/spiritual-growth/what-is-my-spirit-animal.html",
+    "questions/spiritual-growth/what-is-my-spiritual-gift.html",
     "questions/tarot/death-card-meaning.html",
     "questions/tarot/lovers-card-meaning.html",
     "questions/tarot/tarot-yes-or-no.html",

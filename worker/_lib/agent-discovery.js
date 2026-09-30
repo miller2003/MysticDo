@@ -22,6 +22,8 @@
  * that. Do not advertise a capability the deployment does not have.
  */
 
+import { SKILL_META } from './agent-skills.js';
+
 export const ORIGIN = 'https://mysticdo.com';
 export const SITE_NAME = 'MysticDo';
 export const SITE_TAGLINE = 'Match Your Spiritual Needs. Choose What to Do Next.';
@@ -336,6 +338,30 @@ export function apiCatalog() {
 
 /* ═════════════════════════════ 3. ARD manifest ═════════════════════════════ */
 
+/**
+ * Agent Skills 在 ARD 清单里的媒体类型。profile 参数是 ARD 认可的
+ * "标准发现类型"写法（SKILL.md 本身就是技能 Markdown，语义为真）。
+ * 服务端对 SKILL.md 的响应头使用同一类型（见 worker/index.js），两边一致。
+ */
+export const SKILL_MD_TYPE = 'text/markdown; profile="urn:air:agent-skills"';
+
+/**
+ * 每个已发布技能各占一条 ARD entry。
+ * ⚠️ url 必须是绝对 URI —— ARD 的 JSON Schema 对 entries[].url 要求
+ * `format: "uri"`，相对路径会在 PageSpeed Insights / isitagentready 的
+ * 架构校验里直接报错（2026-09-24 修复的正是这一条）。
+ */
+function skillArdEntries() {
+  return SKILL_META.map((s) => ({
+    identifier: 'urn:air:mysticdo.com:skill:' + s.name,
+    displayName: 'MysticDo skill: ' + s.name,
+    description: s.summary,
+    type: SKILL_MD_TYPE,
+    url: ORIGIN + AGENT_SKILLS_PATH + '/' + s.name + '/SKILL.md',
+    representativeQueries: s.queries,
+  }));
+}
+
 export function aiCatalog() {
   return {
     specVersion: '1.0',
@@ -374,21 +400,18 @@ export function aiCatalog() {
           'give me the direct answer from the page about telling if an online psychic is legit',
         ],
       },
-      {
-        identifier: 'urn:air:mysticdo.com:index:agent-skills',
-        displayName: 'MysticDo agent skills',
-        description:
-          'Agent Skills discovery index. Each entry is a SKILL.md describing a decision ' +
-          'procedure an agent can apply directly: matching a spiritual need to a practice, ' +
-          'vetting a reader before payment, and estimating reading costs.',
-        type: 'application/json',
-        url: AGENT_SKILLS_PATH + '/index.json',
-        representativeQueries: [
-          'what skills does mysticdo.com publish for agents',
-          'give me a checklist for vetting a psychic reader before paying',
-          'how do I estimate what a reading should cost',
-        ],
-      },
+      /*
+       * 2026-09-24：原指向 agent-skills/index.json 的单一 entry 已替换为
+       * 逐技能 entry（见 skillArdEntries）。两个原因：
+       *   1) 原 url 漏了 ORIGIN 前缀，是相对路径，过不了 ARD schema 的
+       *      `format: "uri"` 校验（PageSpeed Insights 报 ERROR 的根因）；
+       *   2) SKILL.md 的 `text/markdown; profile="urn:air:agent-skills"`
+       *      属于 ARD 认可的标准发现类型，而 index.json 的
+       *      `application/json` 只会被判为低severity建议项。
+       * 索引本身仍由 api-catalog（RFC 9727 service-doc）、MCP server card
+       * 的 documentationUrl 与 PRM resource_documentation 三处引用，发现性不受影响。
+       */
+      ...skillArdEntries(),
       {
         identifier: 'urn:air:mysticdo.com:doc:llms',
         displayName: 'MysticDo site map for language models',

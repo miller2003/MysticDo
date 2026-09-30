@@ -174,6 +174,22 @@ group('discovery documents');
     check('every entry has 2–5 representativeQueries', queriesOk, entries.map((e) => e.representativeQueries?.length).join(','));
     const mediaOk = entries.every((e) => typeof e.type === 'string' && e.type.includes('/'));
     check('every entry type is an IANA media type', mediaOk);
+    // ARD schema 对 entries[].url 要求 format:"uri"（绝对 URI）。相对路径会被
+    // PageSpeed Insights / isitagentready 的架构校验判为 ERROR —— 2026-09-24 修复。
+    const badUrls = entries.filter((e) => e.url && !e.url.startsWith(ORIGIN + '/')).map((e) => e.url);
+    check('every entry url is an absolute origin URL', badUrls.length === 0, badUrls.join(' | ') || 'ok');
+    const skillEntries = entries.filter((e) => (e.identifier || '').startsWith('urn:air:mysticdo.com:skill:'));
+    check('one ARD entry per published skill (5)', skillEntries.length === 5, `n=${skillEntries.length}`);
+    check(
+      'skill entries use the standard discovery markdown type',
+      skillEntries.every((e) => e.type === 'text/markdown; profile="urn:air:agent-skills"'),
+      skillEntries.map((e) => e.type).join(' | ') || 'none',
+    );
+    check(
+      'skill entry urls resolve to real SKILL.md routes',
+      skillEntries.every((e) => /^urn:air:mysticdo\.com:skill:[a-z0-9-]+$/.test(e.identifier) && e.url === ORIGIN + '/.well-known/agent-skills/' + e.identifier.slice('urn:air:mysticdo.com:skill:'.length) + '/SKILL.md'),
+      skillEntries.map((e) => e.url).join(' | ') || 'none',
+    );
   }
 
   const card = await getJson('/.well-known/mcp/server-card.json');
@@ -541,11 +557,19 @@ group('cross-document consistency');
   check('AS scopes match PRM scopes', JSON.stringify(oas.scopes_supported) === JSON.stringify(prm.scopes_supported));
 
   const ardUrls = (ard.entries || []).map((e) => e.url);
-  check('ARD references the skills index', ardUrls.some((u) => u.endsWith('/agent-skills/index.json')), ardUrls.join(' | '));
+  // 2026-09-24：ARD 清单改为逐技能 entry（类型为标准发现 markdown），
+  // index.json 本身不再出现在 ARD 里 —— 它仍由 api-catalog、server card
+  // 与 PRM 三处引用。此处改为断言「索引里每个技能都被 ARD 指到」。
   check('ARD references the content index', ardUrls.some((u) => u.endsWith('/assets/data/content-index.json')));
 
-  const skillUrls = (idx.skills || []).map((s) => s.url);
-  check('ARD does not promise a skill URL that is missing', skillUrls.every((u) => u.startsWith('/.well-known/agent-skills/')));
+  const skillNames = (idx.skills || []).map((s) => s.name);
+  const ardSkillUrls = ardUrls.filter((u) => u.includes('/agent-skills/'));
+  check(
+    'every published skill has an ARD entry',
+    skillNames.length > 0 && skillNames.every((n) => ardSkillUrls.includes(ORIGIN + '/.well-known/agent-skills/' + n + '/SKILL.md')),
+    `index=[${skillNames.join(', ')}] ard=[${ardSkillUrls.join(' | ')}]`,
+  );
+  check('ARD promises no skill that the index does not publish', ardSkillUrls.every((u) => skillNames.includes(u.split('/').slice(-2)[0])));
 }
 
 /* ══════════════════════ report ══════════════════════ */

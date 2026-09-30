@@ -257,7 +257,10 @@ async function routeAgentSurface(request, env, pathname) {
     const name = pathname.slice(skillsPrefix.length, -'/SKILL.md'.length);
     if (name && !name.includes('/')) {
       const skill = findSkill(name);
-      if (skill) return textDoc(skill.body);
+      if (skill) {
+        // 与 ARD 清单里宣告的 SKILL_MD_TYPE 保持一致（ARD 认可的标准发现类型）。
+        return textDoc(skill.body, 'text/markdown; profile="urn:air:agent-skills"; charset=utf-8');
+      }
       return jsonDoc({ error: 'not_found', message: 'No skill named "' + name + '".', index: skillsPrefix + 'index.json' }, 404);
     }
     return jsonDoc({ error: 'not_found', index: skillsPrefix + 'index.json' }, 404);

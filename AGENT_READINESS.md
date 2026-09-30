@@ -277,3 +277,45 @@ curl.exe -s -X POST https://mysticdo.com/mcp -H "Content-Type: application/json"
   habit, or the MCP search will return outdated excerpts.
 - **`--text-faint` contrast** (#968C76 on ivory, 3.19:1) remains below WCAG AA —
   unchanged, untouched by this work, still awaiting a decision.
+
+---
+
+## 8. Addendum 2026-09-24 — PageSpeed Insights agent-detectability pass
+
+Google's PageSpeed Insights "agent detectability" audit found one ERROR and four
+LOW-severity media-type advisories in the ARD manifest.
+
+**ERROR (fixed).** `entries.2.url must match format "uri"` — the agent-skills
+entry pointed at `/.well-known/agent-skills/index.json` **without the origin
+prefix**, so the URL was a relative path. The ARD JSON Schema requires
+`format: "uri"` (absolute) on `entries[].url`. Fixed in
+`worker/_lib/agent-discovery.js`.
+
+**LOW advisories.** The scanner recognises a fixed list of "standard discovery
+types" and advises (does not fail) when an entry's `type` falls outside it:
+`application/ai-catalog+json`, `application/agent-card+json`,
+`application/a2a-agent-card+json`, `application/mcp-server-card+json`,
+`application/agent-skills+zip`, `application/agent-skills+gzip`,
+`text/markdown; profile="urn:air:agent-skills"`, `application/ai-registry`,
+`application/ai-registry+json`. Decisions, entry by entry:
+
+| Entry | Was | Now | Why |
+|---|---|---|---|
+| MCP server | `application/mcp-server-card+json` | unchanged | already a standard type; no advisory |
+| Content index | `application/json` | unchanged (advisory remains) | it is a plain JSON index; relabelling it `application/ai-registry+json` would claim a format we do not implement. Honest label beats a quiet report. |
+| Agent skills | `application/json` (index) | **replaced by 5 per-skill entries**, each `text/markdown; profile="urn:air:agent-skills"` pointing at the real `SKILL.md` | each SKILL.md genuinely is an agent skill in markdown, so the standard type is truthful — and per-skill `representativeQueries` improve registry matching. The skills index stays discoverable via api-catalog, the server card and the PRM. |
+| llms.txt | `text/markdown` | unchanged (advisory remains) | the recognised variant carries the `urn:air:agent-skills` profile, which would falsely claim llms.txt is a skills document. |
+| API catalog | `application/linkset+json` | unchanged (advisory remains) | RFC 9727 mandates exactly this media type; the scanner's list is simply narrower than the RFC. |
+
+Supporting changes: `SKILL.md` responses now carry
+`Content-Type: text/markdown; profile="urn:air:agent-skills"; charset=utf-8`
+(matching what the manifest advertises); per-skill `representativeQueries` live
+in `worker/_lib/agent-skills.js` next to the skill definitions and flow into the
+manifest via `SKILL_META`, so the two cannot drift;
+`scripts/test-worker-agent-routes.mjs` now asserts that every ARD entry URL is
+an absolute origin URL (the exact regression this audit caught) and that the
+per-skill entries match the skills index. 133 assertions pass.
+
+Expected post-deploy report: **0 errors, 3 LOW advisories** (content index,
+llms.txt, API catalog) — each documented above as a deliberate, truthful label
+rather than a defect.
