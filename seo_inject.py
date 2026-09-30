@@ -36,44 +36,47 @@ PUBLISHER_LOGO_W = 512
 PUBLISHER_LOGO_H = 512
 PUBLISHED_DEFAULT = "2026-09-17"
 
-# Per-page publish dates for the 2026-09-18..20 content batch.
+# Per-page publish dates. Single source of truth for datePublished / dateModified
+# (both meta tags and JSON-LD) AND for sitemap <lastmod>.
 # Staggered so the sitemap and JSON-LD reflect a natural multi-day rollout
-# rather than 40 pages appearing on one day.
+# rather than a whole content batch appearing on one day.
+# Re-stagger an existing batch with:
+#   python scripts/restagger-publish-dates.py --match <date> --start <d> --end <d>
 PUBLISH_DATES = {
-    "questions/angel-numbers/111-meaning.html": "2026-09-29",
+    "questions/angel-numbers/111-meaning.html": "2026-09-20",
     "questions/angel-numbers/1111-meaning.html": "2026-09-18",
-    "questions/angel-numbers/1212-meaning.html": "2026-09-29",
+    "questions/angel-numbers/1212-meaning.html": "2026-09-16",
     "questions/angel-numbers/222-meaning.html": "2026-09-18",
     "questions/angel-numbers/333-meaning.html": "2026-09-20",
     "questions/angel-numbers/444-meaning.html": "2026-09-20",
     "questions/angel-numbers/555-meaning.html": "2026-09-21",
     "questions/angel-numbers/777-meaning.html": "2026-09-21",
     "questions/angel-numbers/888-meaning.html": "2026-09-22",
-    "questions/angel-numbers/999-meaning.html": "2026-09-29",
-    "questions/angel-numbers/1010-meaning.html": "2026-09-29",
+    "questions/angel-numbers/999-meaning.html": "2026-09-26",
+    "questions/angel-numbers/1010-meaning.html": "2026-09-16",
     "questions/angel-numbers/angel-numbers-meaning.html": "2026-09-18",
-    "questions/angel-numbers/life-path-number.html": "2026-09-29",
+    "questions/angel-numbers/life-path-number.html": "2026-09-25",
     "questions/angel-numbers/what-is-my-angel-number.html": "2026-09-20",
     "questions/astrology/mercury-retrograde-meaning.html": "2026-09-19",
     "questions/astrology/what-is-a-stellium.html": "2026-09-29",
-    "questions/astrology/what-is-my-big-three.html": "2026-09-29",
-    "questions/astrology/what-is-my-chiron.html": "2026-09-29",
+    "questions/astrology/what-is-my-big-three.html": "2026-09-26",
+    "questions/astrology/what-is-my-chiron.html": "2026-09-22",
     "questions/astrology/what-is-my-moon-sign.html": "2026-09-22",
-    "questions/astrology/what-is-my-north-node.html": "2026-09-29",
+    "questions/astrology/what-is-my-north-node.html": "2026-09-22",
     "questions/astrology/what-is-my-rising-sign.html": "2026-09-19",
     "questions/astrology/what-is-my-saturn-return.html": "2026-09-22",
-    "questions/astrology/what-is-my-venus-sign.html": "2026-09-29",
+    "questions/astrology/what-is-my-venus-sign.html": "2026-09-20",
     "questions/astrology/zodiac-compatibility.html": "2026-09-20",
     "questions/career-work/am-i-in-the-right-career.html": "2026-09-22",
     "questions/career-work/should-i-quit-my-job.html": "2026-09-18",
     "questions/career-work/will-i-get-the-job.html": "2026-09-18",
     "questions/dreams/dream-about-being-chased.html": "2026-09-22",
     "questions/dreams/dream-about-snakes.html": "2026-09-20",
-    "questions/dreams/dream-about-someone.html": "2026-09-29",
+    "questions/dreams/dream-about-someone.html": "2026-09-16",
     "questions/dreams/dream-about-someone-dying.html": "2026-09-22",
-    "questions/dreams/dream-about-spiders.html": "2026-09-29",
+    "questions/dreams/dream-about-spiders.html": "2026-09-25",
     "questions/dreams/dream-about-teeth-falling-out.html": "2026-09-19",
-    "questions/dreams/dream-about-water.html": "2026-09-29",
+    "questions/dreams/dream-about-water.html": "2026-09-15",
     "questions/dreams/dream-about-your-ex.html": "2026-09-22",
     "questions/life-direction/feeling-lost-in-life.html": "2026-09-22",
     "questions/life-direction/what-is-my-life-purpose.html": "2026-09-20",
@@ -86,59 +89,59 @@ PUBLISH_DATES = {
     "questions/tarot/tarot-yes-or-no.html": "2026-09-22",
     "questions/tarot/tower-card-meaning.html": "2026-09-22",
     "questions/love-relationships/am-i-in-love.html": "2026-09-19",
-    "questions/love-relationships/am-i-in-a-karmic-relationship.html": "2026-09-29",
+    "questions/love-relationships/am-i-in-a-karmic-relationship.html": "2026-09-27",
     "questions/love-relationships/does-he-like-me.html": "2026-09-19",
     "questions/love-relationships/how-to-get-over-someone.html": "2026-09-18",
     "questions/love-relationships/is-he-cheating.html": "2026-09-20",
-    "questions/love-relationships/is-he-my-twin-flame.html": "2026-09-29",
+    "questions/love-relationships/is-he-my-twin-flame.html": "2026-09-28",
     "questions/love-relationships/should-i-break-up.html": "2026-09-20",
     "questions/love-relationships/should-i-text-him.html": "2026-09-20",
     "questions/love-relationships/twin-flame-separation.html": "2026-09-19",
-    "questions/love-relationships/twin-flame-stages.html": "2026-09-29",
-    "questions/love-relationships/twin-flame-vs-soulmate.html": "2026-09-29",
+    "questions/love-relationships/twin-flame-stages.html": "2026-09-24",
+    "questions/love-relationships/twin-flame-vs-soulmate.html": "2026-09-15",
     "questions/love-relationships/when-will-i-meet-my-soulmate.html": "2026-09-19",
     "questions/love-relationships/who-is-my-soulmate.html": "2026-09-19",
-    "questions/love-relationships/who-will-i-marry.html": "2026-09-29",
-    "questions/love-relationships/when-will-i-get-married.html": "2026-09-29",
+    "questions/love-relationships/who-will-i-marry.html": "2026-09-25",
+    "questions/love-relationships/when-will-i-get-married.html": "2026-09-26",
     "questions/love-relationships/will-he-come-back.html": "2026-09-20",
-    "questions/love-relationships/will-i-ever-find-love.html": "2026-09-29",
-    "questions/love-relationships/why-did-he-ghost-me.html": "2026-09-29",
-    "questions/signs/cardinal-meaning.html": "2026-09-29",
+    "questions/love-relationships/will-i-ever-find-love.html": "2026-09-24",
+    "questions/love-relationships/why-did-he-ghost-me.html": "2026-09-23",
+    "questions/signs/cardinal-meaning.html": "2026-09-21",
     "questions/signs/owl-meaning.html": "2026-09-20",
     "questions/spiritual-growth/am-i-an-empath.html": "2026-09-20",
     "questions/spiritual-growth/am-i-cursed.html": "2026-09-19",
     "questions/spiritual-growth/am-i-psychic.html": "2026-09-19",
     "questions/spiritual-growth/how-to-know-your-past-life.html": "2026-09-20",
-    "questions/spiritual-growth/waking-up-at-3am-meaning.html": "2026-09-29",
-    "questions/spiritual-growth/signs-of-spiritual-awakening.html": "2026-09-29",
-    "questions/spiritual-growth/spiritual-awakening-symptoms.html": "2026-09-29",
-    "questions/spiritual-growth/what-is-my-aura-color.html": "2026-09-29",
+    "questions/spiritual-growth/waking-up-at-3am-meaning.html": "2026-09-22",
+    "questions/spiritual-growth/signs-of-spiritual-awakening.html": "2026-09-19",
+    "questions/spiritual-growth/spiritual-awakening-symptoms.html": "2026-09-23",
+    "questions/spiritual-growth/what-is-my-aura-color.html": "2026-09-25",
     "questions/spiritual-growth/what-is-my-spirit-animal.html": "2026-09-20",
-    "questions/spiritual-growth/what-is-my-spiritual-gift.html": "2026-09-29",
+    "questions/spiritual-growth/what-is-my-spiritual-gift.html": "2026-09-20",
     "questions/tarot/death-card-meaning.html": "2026-09-18",
-    "guides/369-manifestation-method.html": "2026-09-29",
-    "guides/crystals-for-protection.html": "2026-09-29",
+    "guides/369-manifestation-method.html": "2026-09-28",
+    "guides/crystals-for-protection.html": "2026-09-17",
     "guides/dark-night-of-the-soul.html": "2026-09-18",
     "guides/evil-eye-meaning.html": "2026-09-20",
     "guides/full-moon-ritual.html": "2026-09-20",
     "guides/how-to-cleanse-negative-energy.html": "2026-09-29",
-    "guides/how-to-manifest-a-specific-person.html": "2026-09-29",
-    "guides/how-to-manifest-love.html": "2026-09-29",
+    "guides/how-to-manifest-a-specific-person.html": "2026-09-26",
+    "guides/how-to-manifest-love.html": "2026-09-28",
     "guides/how-to-manifest-money.html": "2026-09-18",
     "guides/how-to-manifest.html": "2026-09-18",
     "guides/how-to-open-your-third-eye.html": "2026-09-18",
     "guides/how-to-read-tarot.html": "2026-09-19",
     "guides/law-of-assumption.html": "2026-09-29",
-    "guides/scripting-manifestation.html": "2026-09-29",
-    "guides/how-to-raise-your-vibration.html": "2026-09-29",
+    "guides/scripting-manifestation.html": "2026-09-21",
+    "guides/how-to-raise-your-vibration.html": "2026-09-28",
     "guides/how-to-do-shadow-work.html": "2026-09-29",
-    "guides/past-life-regression.html": "2026-09-29",
-    "guides/which-chakra-is-blocked.html": "2026-09-29",
+    "guides/past-life-regression.html": "2026-09-17",
+    "guides/which-chakra-is-blocked.html": "2026-09-22",
     "guides/new-moon-ritual.html": "2026-09-19",
     "guides/what-are-chakras.html": "2026-09-19",
     "guides/what-are-synchronicities.html": "2026-09-18",
-    "guides/what-is-karma.html": "2026-09-29",
-    "guides/what-is-reiki.html": "2026-09-29",
+    "guides/what-is-karma.html": "2026-09-27",
+    "guides/what-is-reiki.html": "2026-09-17",
     "guides/what-is-shadow-work.html": "2026-09-18",
 }
 
@@ -1281,8 +1284,14 @@ def main():
         # sitemap entry
         if not is_noindex:
             url = BASE_URL + path_to_url(rel_norm)
-            mt = os.path.getmtime(path)
-            lastmod = datetime.utcfromtimestamp(mt).strftime("%Y-%m-%d")
+            # lastmod follows the registered publish date when there is one, so
+            # the sitemap reflects the same staggered rollout as datePublished
+            # (2026-09-30). Pages with no registered date fall back to mtime,
+            # which for this toolchain is simply the current build date.
+            lastmod = PUBLISH_DATES.get(rel_norm)
+            if not lastmod:
+                mt = os.path.getmtime(path)
+                lastmod = datetime.utcfromtimestamp(mt).strftime("%Y-%m-%d")
             sitemap_entries.append((url, lastmod))
             print("INJECTED: %-55s -> %s" % (rel_norm, url))
 
