@@ -3777,10 +3777,11 @@ The promises this practice makes, separated from what they can deliver:
 
 ## What the research can — and can’t — tell you
 
-Two verified findings bear directly on the move most specific-person practice gets wrong — the checking:
+Three verified findings bear directly on the move most specific-person practice gets wrong — the checking:
 
 - **The reassurance cycle runs on anxiety, not evidence.** Research on excessive reassurance seeking — the habit of repeatedly asking whether things are okay — found the cycle runs on attachment anxiety more than on the state of the relationship: reassurance received tends to be discounted, which is why the question keeps returning even when things are good. Applied here: re-reading the thread, re-asking friends, re-checking their status isn’t evidence-gathering. It’s a loop that discounts what it finds and re-opens the question by asking it.
 - **Checking the feed checks the wound.** Post-breakup research found that keeping tabs on a former partner online is associated with greater distress and slower recovery — the checking reads as staying informed and functions as re-opening the question. The behaviors feel like connection; the findings describe them operating more like surveillance, with a cost.
+- **The fantasy cancels the work.** A study tracking graduates, students, and patients found that positive fantasies — experiencing the desired future as already here — predicted lower effort and worse outcomes. The evidence-checking loop is the fantasy in surveillance form: it savors the question rather than acting on it, and the effort it consumes is the effort the practice needed.
 
 What neither study does is evaluate the metaphysical claim — whether consciousness reaches beyond the self, or whether anyone can influence another person’s choices. Both are population patterns, not a diagnosis of your situation. What they do is anchor the page’s central warning where it’s testable: the checking habit is the part of the practice most worth auditing, because it is the part with a measured cost.
 
@@ -3788,6 +3789,7 @@ What neither study does is evaluate the metaphysical claim — whether conscious
 
 - Shaver, P. R., Schachner, D. A., & Mikulincer, M. (2005). Attachment style, excessive reassurance seeking, relationship processes, and depression. *Personality and Social Psychology Bulletin, 31*(3), 343–359.
 - Marshall, T. C. (2012). Facebook surveillance of former romantic partners: Associations with post-breakup recovery and personal growth. *Cyberpsychology, Behavior, and Social Networking, 15*(10), 521–526.
+- Oettingen, G., & Mayer, D. (2002). The motivating function of thinking about the future: Expectations versus fantasies. *Journal of Personality and Social Psychology, 83*(5), 1198–1212.
 
 ## The four distinctions worth making
 
@@ -4014,7 +4016,7 @@ Take it](https://mysticdo.com/do-what-fits)
 > Source: https://mysticdo.com/guides/how-to-manifest-love
 
 Manifestation · Decision guide
-Love manifestation is among the most searched practices in the spirituality space — and among the most misapplied. The standard advice (write it down, visualize, feel it as real) isn’t exactly wrong; it’s incomplete in a way that explains why so many people practice for months and feel nothing shift. The honest version: manifesting love is not a technique for attracting a specific person. It is a practice for becoming someone for whom the right kind of love is possible — and that difference is the whole difference between real change and an extended fantasy that eventually disappoints.
+Love manifestation is among the most searched practices in the spirituality space — and among the most misapplied. The standard advice (write it down, visualize, feel it as real) isn’t exactly wrong; it’s incomplete in a way that explains why so many people practice for months and feel nothing shift. The honest version: manifesting love is not a technique for attracting a specific person. It is a practice for becoming someone for whom the right kind of love is possible — and that difference is the whole difference between real change and an extended fantasy that eventually disappoints. Research tracking graduates, students, and patients across four domains found that positive fantasies — experiencing the desired future as already good — predicted lower effort and worse outcomes, while positive expectations predicted the reverse: the fantasy that feels like inhabiting the state can quietly replace the work that would actually change anything.
 
 Updated: September 2026 · Reading time: ~11 min · No signup, no email required
 
@@ -4106,6 +4108,7 @@ What neither study does is evaluate the metaphysical claim — whether conscious
 
 - Hazan, C., & Shaver, P. R. (1987). Romantic love conceptualized as an attachment process. *Journal of Personality and Social Psychology, 52*(3), 511–524.
 - Kammrath, L. K., & Peetz, J. (2011). The limits of love: Predicting immediate versus sustained caring behaviors in close relationships. *Journal of Experimental Social Psychology, 47*(2), 411–417.
+- Oettingen, G., & Mayer, D. (2002). The motivating function of thinking about the future: Expectations versus fantasies. *Journal of Personality and Social Psychology, 83*(5), 1198–1212.
 
 ## The practices that actually carry the work
 
@@ -8349,13 +8352,14 @@ Each row separates the *phrase you’ll hear* from what the *original teaching* 
 
 ## What research can — and can’t — tell you
 
-Whether karmic consequences extend across lifetimes is not a question research can examine — no instrument reaches it, and honest engagement means saying so. What psychology *can* do is explain why the popular version is so persistent: classic research on belief in a just world documents the deep human tendency to see outcomes as deserved — good things for good people, suffering as somehow earned. The punitive karma of popular culture is that reflex wearing Sanskrit: it feels true because meaning-making around suffering is a documented human default, not because anyone audited an account.
+Whether karmic consequences extend across lifetimes is not a question research can examine — no instrument reaches it, and honest engagement means saying so. What psychology *can* do is explain why the popular version is so persistent: classic research on belief in a just world documents the deep human tendency to see outcomes as deserved — good things for good people, suffering as somehow earned. The punitive karma of popular culture is that reflex wearing Sanskrit: it feels true because meaning-making around suffering is a documented human default, not because anyone audited an account. A 2019 cross-cultural study in *Personality and Social Psychology Bulletin* examined belief in karma directly — not as a proxy for just-world thinking, but as its own construct — and found that its content and its correlates vary across cultures, which complicates any single reading of what “karma” is doing psychologically.
 
 What the just-world finding cannot do is settle the metaphysics — it explains the appeal of a story, not its truth or falsity. What it can do is sharpen the practical question: since the reflex will generate “they deserved it” readings automatically, the teaching’s insistence on first-person attention looks less like dogma and more like a correction for a documented bias. The tradition, on this point, anticipated the laboratory — the instruction to attend to your own actions and intentions is precisely the discipline that keeps the just-world reflex from running your interpretation of other people’s lives.
 
 **Sources**
 
 - Lerner, M. J., & Miller, D. T. (1978). Just world research and the attribution process: Looking back and ahead. *Psychological Bulletin, 85*(5), 1030–1051.
+- White, C. J. M., Norenzayan, A., & Schaller, M. (2019). The content and correlates of belief in Karma across cultures. *Personality and Social Psychology Bulletin, 45*(9), 1184–1201.
 
 ## What karma actually asks of you
 
@@ -31015,7 +31019,7 @@ Each row separates the *encounter* from what it *may indicate*, the *other expla
 
 ## What research can — and can’t — tell you
 
-The most important research here isn’t about birds — it’s about grief. The continuing-bonds framework, developed by Klass, Silverman, and Nickman and now central to grief psychology, documented something the older “let go and move on” models missed: maintaining an ongoing internal relationship with the deceased is a normal, often healthy part of grief, not a failure of it. People who find living forms of connection — memory practices, rituals, felt presences — tend to carry loss better than those instructed to sever.
+The most important research here isn’t about birds — it’s about grief. The continuing-bonds framework, developed by Klass, Silverman, and Nickman and now central to grief psychology, documented something the older “let go and move on” models missed: maintaining an ongoing internal relationship with the deceased is a normal, often healthy part of grief, not a failure of it. People who find living forms of connection — memory practices, rituals, felt presences — tend to carry loss better than those instructed to sever. A 2020 interdisciplinary review in *Schizophrenia Bulletin* found that sensing a deceased loved one’s presence — through felt presence, sound, sight, or scent — is reported by 30 to 60 percent of bereaved people across cultures, and is predominantly experienced as comforting rather than pathological.
 
 Read through that lens, the cardinal belief acquires serious standing: whatever its metaphysical status, it functions as a *continuing-bonds technology* — a vivid, accessible, beautiful way to maintain the felt sense of connection in the absence of physical presence. It gives the bond a shape you can see, at moments when the bond is what’s needed. That is not a small psychological achievement, and it’s why this page refuses both the certainty and the dismissal: one oversells the mechanism, the other discards a practice the research supports.
 
@@ -31024,6 +31028,7 @@ What the research cannot do is verify contact — no study can establish who, if
 **Sources**
 
 - Klass, D., Silverman, P. R., & Nickman, S. L. (Eds.). (1996). *Continuing bonds: New understandings of grief.* Taylor & Francis.
+- Kamp, K. S., Steffen, E. M., Alderson-Day, B., Allen, P., Austad, A., Hayes, J., Larøi, F., Ratcliffe, M., & Sabucedo, P. (2020). Sensory and quasi-sensory experiences of the deceased in bereavement: An interdisciplinary and integrative review. *Schizophrenia Bulletin, 46*(6), 1367–1381.
 
 ## Beyond the grief frame: the cardinal’s other meanings
 

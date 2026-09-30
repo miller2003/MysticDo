@@ -123,7 +123,7 @@ _(populated 2026-09-29 on 369-manifestation-method.)_
 - **Abstract supports:** Across four longitudinal domains (graduates seeking jobs, students with a crush, undergraduates facing exams, hip-replacement patients), positive expectations (judging the desired future as likely) predicted higher effort and better outcomes, while positive fantasies (experiencing the desired future as already good) predicted the opposite — measured weeks to two years later.
 - **Safe page phrasing:** "A 2002 study that followed graduates, students, and patients across four domains found positive expectations predicted higher effort and better outcomes — while positive fantasies, the kind that experience the desired future as already here, predicted the reverse."
 - **Do NOT say:** that positive thinking is always harmful; that visualization has no value; that fantasy directly causes failure.
-- **Used on:** 369-manifestation-method (2026-09-29); scripting-manifestation (2026-09-29).
+- **Used on:** 369-manifestation-method (2026-09-29); scripting-manifestation (2026-09-29); how-to-manifest-love (2026-09-30); how-to-manifest-a-specific-person (2026-09-30).
 
 ### 3. The self-fulfilling prophecy — the founding statement
 - **Citation:** Merton, R. K. (1948). The self-fulfilling prophecy. *The Antioch Review, 8*(2), 193–210. doi:10.2307/4609267
@@ -175,6 +175,14 @@ _(populated 2026-09-29 on 369-manifestation-method.)_
 - **Do NOT say:** that the framework certifies specific experiences (a bird visit, a dream) as messages from the deceased; that ongoing connection replaces clinical care where functioning declines; that it is uncontested — it revised the detachment model, and the field continues to debate its boundaries.
 - **Used on:** cardinal-meaning (2026-09-29).
 
+### 2. Sensory experiences of the deceased in bereavement — the integrative review
+- **Citation:** Kamp, K. S., Steffen, E. M., Alderson-Day, B., Allen, P., Austad, A., Hayes, J., Larøi, F., Ratcliffe, M., & Sabucedo, P. (2020). Sensory and quasi-sensory experiences of the deceased in bereavement: An interdisciplinary and integrative review. *Schizophrenia Bulletin, 46*(6), 1367–1381. doi:10.1093/schbul/sbaa113
+- **Verified:** 2026-09-30 (Schizophrenia Bulletin article page + PubMed + cited in Sage/PMC presence-experience literature).
+- **Abstract supports:** Interdisciplinary integrative review of sensory and quasi-sensory experiences of the deceased (felt presence, auditory, visual, olfactory, tactile). These experiences are common across cultures (reported by 30–60% of bereaved individuals), predominantly experienced as comforting, and should not automatically be viewed as pathological — they function as adaptive responses that help maintain emotional bonds, consistent with the continuing-bonds framework.
+- **Safe page phrasing:** "A 2020 interdisciplinary review found that sensing a deceased loved one's presence — through felt presence, sound, sight, or scent — is reported by 30 to 60 percent of bereaved people across cultures, and is predominantly experienced as comforting rather than pathological."
+- **Do NOT say:** that these experiences prove after-death contact; that they are always benign (5–30% are distressing); that the review covers bird sightings specifically — it covers felt/sensory presence, which the cardinal page extends by analogy.
+- **Used on:** cardinal-meaning (2026-09-30).
+
 Candidate themes still open: meaning reconstruction (Neimeyer), dual process model (Stroebe & Schut).
 
 ## Interpretation (numbers/dreams/signs) pool
@@ -219,6 +227,14 @@ _(populated 2026-09-21 on the first interpretation/curse-cluster page: am-i-curs
 - **Safe page phrasing:** "The just-world line of research describes a need to believe that people get what they deserve — a need that quietly shapes how fates, misfortunes, and debts get explained."
 - **Do NOT say:** that just-world belief explains every karmic claim; that believers are irrational; that the 1978 review addresses karma or astrology specifically — it addresses attribution processes.
 - **Used on:** am-i-in-a-karmic-relationship (2026-09-29); what-is-karma (2026-09-29).
+
+### 6. Belief in Karma across cultures — the direct study
+- **Citation:** White, C. J. M., Norenzayan, A., & Schaller, M. (2019). The content and correlates of belief in Karma across cultures. *Personality and Social Psychology Bulletin, 45*(9), 1184–1201. doi:10.1177/0146167218808502
+- **Verified:** 2026-09-30 (SAGE/PSPB article record + DOI confirmed; cited in multiple cross-cultural psychology reference lists).
+- **Abstract supports:** Cross-cultural study examining belief in karma as its own construct (not merely a proxy for just-world thinking). The content of karma belief — what people think karma does and how it operates — varies meaningfully across cultures, as do its cognitive and social correlates. Karma belief is partially distinct from both just-world belief and religiosity, though overlapping.
+- **Safe page phrasing:** "A 2019 cross-cultural study examined belief in karma directly — not as a proxy for just-world thinking, but as its own construct — and found that its content and its correlates vary across cultures, which complicates any single reading of what 'karma' is doing psychologically."
+- **Do NOT say:** that the study proves karma is real or false; that it dismisses the Hindu/Buddhist teaching; that all cultures understand karma identically — the finding is precisely that they do not.
+- **Used on:** what-is-karma (2026-09-30).
 
 ## Life direction / spiritual growth pool
 
