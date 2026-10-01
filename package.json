@@ -14,14 +14,14 @@
     "test:seo": "python scripts/seo_geo_deep_audit.py && python validate_seo.py",
     "test:agents": "node scripts/test-worker-agent-routes.mjs",
     "test:email": "node scripts/test-email-api.mjs",
-    "submit:indexnow": "node scripts/submit-indexnow.mjs",
+    "preflight:indexnow": "node scripts/indexnow-preflight.mjs",
+    "submit:indexnow": "node scripts/indexnow-preflight.mjs && node scripts/submit-indexnow.mjs",
     "submit:indexnow:changed": "node scripts/submit-indexnow.mjs --changed",
     "test:webmcp": "node scripts/test-webmcp.mjs",
     "test:markdown": "node scripts/test-markdown-for-agents.mjs --dist=.",
     "build:index": "python scripts/build-content-index.py",
     "build:llms": "node scripts/build-llms-full.mjs",
     "build:content": "python scripts/build-content-index.py && node scripts/build-llms-full.mjs",
-    "indexnow": "node scripts/indexnow.mjs",
     "verify": "python scripts/verify-agent-surface.py"
   }
 }

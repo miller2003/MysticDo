@@ -86,16 +86,26 @@ const RULES = [
 
 /* Resolve the git binary explicitly. `execFileSync('git', ...)` does not do
  * PATHEXT resolution on Windows, and Git-Bash puts a non-.exe wrapper first
- * on PATH — both failure modes silently turn this gate into a no-op. */
+ * on PATH — both failure modes silently turn this gate into a no-op.
+ *
+ * The static candidate list below cannot be complete: git may live at a
+ * version-pinned path (e.g. a PortableGit install) that changes over time.
+ * So the primary strategy is to SCAN `process.env.PATH` for a real
+ * executable, and only fall back to the hardcoded guesses. */
 function findGit() {
+  const exeNames = process.platform === 'win32' ? ['git.exe'] : ['git'];
+  const dirs = (process.env.PATH || '')
+    .split(path.delimiter)
+    .filter(Boolean);
   const candidates = [
     process.env.GIT_EXE,
+    ...dirs.flatMap((d) => exeNames.map((n) => path.join(d, n))),
     'git.exe',
     'git',
     'C:\\Program Files\\Git\\cmd\\git.exe',
     'C:\\Program Files (x86)\\Git\\cmd\\git.exe',
     '/usr/bin/git',
-    '/mingw64/bin/git',
+    '/mingw64/bin/git.exe',
   ].filter(Boolean);
   for (const c of candidates) {
     try {
