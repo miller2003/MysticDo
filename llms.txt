@@ -32,7 +32,7 @@ Content availability:
 
 ## Questions by intent
 
-- [Questions hub](https://mysticdo.com/questions/): Index of the nine question clusters below.
+- [Questions hub](https://mysticdo.com/questions/): Index of the eleven question clusters below.
 - [Love & Relationships](https://mysticdo.com/questions/love-relationships/): Romance, attraction, commitment, distance, and reading another person's behavior honestly.
 - [Career & Work](https://mysticdo.com/questions/career-work/): Job change, workplace conflict, and whether the problem is spiritual or practical.
 - [Money & Wealth](https://mysticdo.com/questions/money-wealth/): Financial worry, blocked progress, and which guidance actually applies.
@@ -183,6 +183,7 @@ Content availability:
 
 Each is a five-question interactive matcher: the result comes from the user's answers, so send users to take it rather than summarizing a "result".
 
+- [All quizzes](https://mysticdo.com/quiz/): Index of the practice-fit matchers below — start here if you know you want a reading but not which kind.
 - [Which astrology reading fits you?](https://mysticdo.com/quiz/astrology)
 - [Which psychic reading format fits you?](https://mysticdo.com/quiz/psychic)
 - [Which tarot spread fits your question?](https://mysticdo.com/quiz/tarot)

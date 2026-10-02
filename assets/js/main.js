@@ -1,14 +1,18 @@
 /* ============================================================
-   MysticDo shared JS — v0.3 "Apple Edition"
-   - Injects header + footer (single source of truth)
-   - Dropdown nav, mobile toggle
+   MysticDo shared JS — v0.4 "Apple Edition"
+   - Header + footer are BAKED into static HTML by
+     scripts/bake-chrome.py (single source of truth). This file
+     only wires behaviour onto the existing markup. Bingbot and
+     AI crawlers do not run JS — injected chrome was invisible
+     to them, which is why the site had no crawlable nav.
+   - Dropdown nav, mobile toggle, scroll-aware header
    - Multi-quiz engine with Apple-grade interactions
    - SVG icon system for quiz options
    - Enhanced result page with layered cards
    - Email capture (POST /api/subscribe → MailerLite via Worker)
    - Daily card (/tools/daily-card.html)
-   - Scroll-aware header + iOS safe-area handling
-   Pages need: <div id="site-header">, <div id="site-footer">,
+   - iOS safe-area handling
+   Pages need: baked #site-header / #site-footer chrome,
    optionally <div id="quiz" data-quiz="general">, plus this script.
    ============================================================ */
 (function () {
@@ -296,102 +300,6 @@
 
   function glyphStar() {
     return '<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>';
-  }
-
-  /* ---------- Shared header HTML ---------- */
-  var HEADER_HTML = ''
-    + '<header class="site-header">'
-    + '  <div class="container header-inner">'
-    + '    <a href="/" class="brand" aria-label="MysticDo home">'
-    + '      <span class="brand-word">MysticDo</span>'
-    + '    </a>'
-    + '    <nav class="nav" aria-label="Primary">'
-    + '      <div class="nav-item has-dropdown">'
-    + '        <button class="nav-link" type="button" data-nav="practices">Practices <svg class="nav-chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>'
-    + '        <div class="nav-dropdown">'
-    + '          <a href="/astrology/"><strong>Astrology</strong><span>timing, patterns, natal charts</span></a>'
-    + '          <a href="/psychic/"><strong>Psychic readings</strong><span>direct read on a specific question</span></a>'
-    + '          <a href="/medium/"><strong>Medium readings</strong><span>connection, closure, loss</span></a>'
-    + '          <a href="/tarot/"><strong>Tarot</strong><span>structured reflection, spreads</span></a>'
-    + '        </div>'
-    + '      </div>'
-    + '      <div class="nav-item has-dropdown">'
-    + '        <button class="nav-link" type="button" data-nav="questions">Questions <svg class="nav-chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>'
-    + '        <div class="nav-dropdown">'
-    + '          <a href="/questions/love-relationships/"><strong>Love &amp; Relationships</strong><span>breakups, ex, uncertainty, new</span></a>'
-    + '          <a href="/questions/career-work/"><strong>Career &amp; Work</strong><span>job, move, offer, direction</span></a>'
-    + '          <a href="/questions/money-wealth/"><strong>Money &amp; Wealth</strong><span>income, debt, financial decisions</span></a>'
-    + '          <a href="/questions/life-direction/"><strong>Life Direction</strong><span>purpose, crossroads, transitions</span></a>'
-    + '          <a href="/questions/loss-closure/"><strong>Loss &amp; Closure</strong><span>grief, connection, endings</span></a>'
-    + '          <a href="/questions/spiritual-growth/"><strong>Spiritual Growth</strong><span>intuition, patterns, meaning</span></a>'
-    + '        </div>'
-    + '      </div>'
-    + '      <a href="/guides/" class="nav-link" data-nav="guides">Guides</a>'
-    + '      <a href="/methodology" class="nav-link" data-nav="methodology">Methodology</a>'
-    + '      <a href="/about" class="nav-link" data-nav="about">About</a>'
-    + '    </nav>'
-    + '    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">'
-    + '      <span></span><span></span><span></span>'
-    + '    </button>'
-    + '    <a href="/do-what-fits" class="btn btn-primary btn-sm nav-cta-header">Do What Fits</a>'
-    + '  </div>'
-    + '</header>';
-
-  /* ---------- Shared footer HTML ---------- */
-  var FOOTER_HTML = ''
-    + '<footer class="site-footer">'
-    + '  <div class="container">'
-    + '    <div class="footer-grid">'
-    + '      <div>'
-    + '        <div class="footer-brand">'
-    + '          <img src="/assets/brand/mysticdo-mark-64.png" width="24" height="24" alt="" loading="lazy" decoding="async"> MysticDo'
-    + '        </div>'
-    + '        <p class="footer-tag">Match your spiritual needs. Choose what to do next \u2014 before you pay.</p>'
-    + '        <div class="tag-list mt-4">'
-    + '          <span class="badge badge-ghost">Psychic</span>'
-    + '          <span class="badge badge-ghost">Tarot</span>'
-    + '          <span class="badge badge-ghost">Astrology</span>'
-    + '          <span class="badge badge-ghost">Medium</span>'
-    + '          <span class="badge badge-ghost">Numerology</span>'
-    + '          <span class="badge badge-ghost">Manifestation</span>'
-    + '        </div>'
-    + '      </div>'
-    + '      <div class="footer-col"><h4>Practices</h4><ul>'
-    + '        <li><a href="/astrology/">Astrology</a></li>'
-    + '        <li><a href="/psychic/">Psychic</a></li>'
-    + '        <li><a href="/tarot/">Tarot</a></li>'
-    + '        <li><a href="/medium/">Medium</a></li>'
-    + '      </ul></div>'
-    + '      <div class="footer-col"><h4>Questions</h4><ul>'
-    + '        <li><a href="/questions/love-relationships/">Love &amp; Relationships</a></li>'
-    + '        <li><a href="/questions/career-work/">Career &amp; Work</a></li>'
-    + '        <li><a href="/questions/money-wealth/">Money &amp; Wealth</a></li>'
-    + '        <li><a href="/questions/">All questions</a></li>'
-    + '      </ul></div>'
-    + '      <div class="footer-col"><h4>Decide</h4><ul>'
-    + '        <li><a href="/do-what-fits">Do What Fits quiz</a></li>'
-    + '        <li><a href="/guides/">Decision guides</a></li>'
-    + '        <li><a href="/tools/daily-card">Free tools</a></li>'
-    + '        <li><a href="/methodology">Methodology</a></li>'
-    + '        <li><a href="/about">About</a></li>'
-    + '      </ul></div>'
-    + '    </div>'
-    + '    <div class="footer-disclosure">'
-    + '      <strong style="color:var(--accent-link)">Affiliate disclosure:</strong> As provider reviews publish, some outbound links will be affiliate links \u2014 meaning we may earn a commission if you sign up through them, at no extra cost to you. That never affects what we recommend or how it ranks. No affiliate links exist on MysticDo today. See <a href="/methodology" style="color:var(--accent-link)">methodology</a>.'
-    + '    </div>'
-    + '    <div class="footer-bottom mt-5">'
-    + '      <span>&copy; 2026 MysticDo \u2014 an intent-driven spiritual decision platform.</span>'
-    + '      <span>Not professional advice. See <a href="/about">disclaimers</a>.</span>'
-    + '    </div>'
-    + '  </div>'
-    + '</footer>';
-
-  /* ---------- Inject layout ---------- */
-  function injectLayout() {
-    var h = document.getElementById('site-header');
-    var f = document.getElementById('site-footer');
-    if (h) h.innerHTML = HEADER_HTML;
-    if (f) f.innerHTML = FOOTER_HTML;
   }
 
   /* ---------- Scroll-aware header ---------- */
@@ -1533,7 +1441,6 @@
 
   /* ---------- Init ---------- */
   document.addEventListener('DOMContentLoaded', function () {
-    injectLayout();
     initNav();
     highlightNav();
     initScrollHeader();

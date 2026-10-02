@@ -339,8 +339,12 @@ check('open_mysticdo_page refuses an unknown path', guard.rejectedUnknownPath ==
 
 /* ══════════════════════ main.js did not break the page ══════════════════════ */
 
-check('main.js still injected the header', /id="site-header"[^>]*>\s*<header|class="site-header"/.test(dom), 'header markup missing from DOM');
-check('main.js still injected the footer', /class="site-footer"|site-footer/.test(dom), 'footer markup missing from DOM');
+/* chrome is baked into static HTML by scripts/bake-chrome.py (single source
+   of truth); main.js must NOT inject it. Asserting non-injection here guards
+   against a regression to the old innerHTML-injection model, which left
+   Bingbot and AI crawlers with no crawlable nav. */
+check('main.js does not inject header (chrome is baked statically)', !/id="site-header"[^>]*>\s*<header/.test(dom), 'main.js unexpectedly injected header markup');
+check('main.js does not inject footer (chrome is baked statically)', !/id="site-footer"[^>]*>\s*<footer/.test(dom), 'main.js unexpectedly injected footer markup');
 
 /* ══════════════════════ report ══════════════════════ */
 

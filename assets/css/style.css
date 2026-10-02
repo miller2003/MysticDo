@@ -2024,7 +2024,11 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  /* minmax(0, …) lets tracks shrink below min-content — plain 1fr floors at
+     the longest word ("Relationships") and can push the grid past its
+     container on narrow viewports. Measured clean at 320/375/390 (2026-10-02);
+     this hardens the invariant. */
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--s7); margin-bottom: var(--s6);
 }
 .footer-brand {
@@ -2034,6 +2038,9 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
   margin-bottom: var(--s3);
 }
 .footer-tag { font-size: 0.84rem; max-width: 38ch; line-height: 1.55; }
+/* Graceful degradation if a single word ever exceeds its track (defensive;
+   not reachable with current labels at any real viewport width). */
+.footer-col { overflow-wrap: break-word; }
 .footer-col h4 {
   color: var(--gold-700); font-size: 0.74rem; font-family: var(--font-body);
   letter-spacing: 0.14em; text-transform: uppercase;
@@ -2095,7 +2102,7 @@ a.badge-rose:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); 
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
   .grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (max-width: 760px) {
   :root { --header-h: 56px; }

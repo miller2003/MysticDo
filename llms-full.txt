@@ -1,7 +1,7 @@
 # MysticDo — full corpus
 
-> The complete text of all 149 public pages on https://mysticdo.com, as markdown.
-> Generated from the live HTML on 2026-09-30. Each page keeps its canonical URL on the `> Source:` line.
+> The complete text of all 150 public pages on https://mysticdo.com, as markdown.
+> Generated from the live HTML on 2026-10-02. Each page keeps its canonical URL on the `> Source:` line.
 
 Citation rules (condensed from https://mysticdo.com/llms.txt):
 
@@ -456,7 +456,7 @@ L5
 All guides
 ## The decision library
 
-25 guides and counting — each follows the content methodology: Problem → Context → Options → Differences → Risks → Decision Criteria → Recommendation → Action.
+38 guides and counting — each follows the content methodology: Problem → Context → Options → Differences → Risks → Decision Criteria → Recommendation → Action.
 
 ### Purchase validation (Level 4) · Psychic
 
@@ -499,7 +499,7 @@ Read ](https://mysticdo.com/guides/how-to-choose-tarot-reader)
 [ L4 · Astrology
 #### How Much Does a Birth Chart Reading Cost?
 
-What $30, $100, and $300 actually buy — and why the chart itself is free but the synthesis isn't.
+What $30, $100, and $300 actually buy — and why the chart itself is free but the synthesis isn’t.
 
 Read ](https://mysticdo.com/guides/birth-chart-reading-cost) [ L4 · Astrology
 #### How to Choose an Astrology Reader
@@ -509,7 +509,7 @@ Credentials that actually signal skill, the synthesis test, and reading-type mat
 Read ](https://mysticdo.com/guides/how-to-choose-astrologer) [ L4 · Medium
 #### What Does a Medium Reading Actually Do?
 
-Session structure, costs, the evidence standard, how to prepare — and when it's too soon to book.
+Session structure, costs, the evidence standard, how to prepare — and when it’s too soon to book.
 
 Read ](https://mysticdo.com/guides/medium-reading-guide)
 ### Comparisons (Level 3)
@@ -537,9 +537,116 @@ Price, choice, accountability, rapport — the channel changes more than you thi
 Compare ](https://mysticdo.com/guides/online-psychic-vs-in-person) [ L3 · Compare
 #### Astrology Reading vs Horoscope
 
-What a paid reading buys that your free daily horoscope structurally can't.
+What a paid reading buys that your free daily horoscope structurally can’t.
 
 Compare ](https://mysticdo.com/guides/astrology-reading-vs-horoscope)
+### Manifestation, read honestly (Level 2)
+
+[ L2 · Manifestation
+#### How to Manifest: What Actually Works
+
+What actually works in manifestation — goal-clarity and action, separated from the supernatural framing.
+
+Read ](https://mysticdo.com/guides/how-to-manifest) [ L2 · Manifestation
+#### How to Manifest Love: What Actually Works
+
+The assumption and state work the framework proposes — and the mistake that quietly undoes it.
+
+Read ](https://mysticdo.com/guides/how-to-manifest-love) [ L2 · Manifestation
+#### How to Manifest Money: The Honest Mechanism
+
+Real financial action separated from magical thinking — the mechanism and the scarcity trap.
+
+Read ](https://mysticdo.com/guides/how-to-manifest-money) [ L2 · Manifestation
+#### How to Manifest a Specific Person, Honestly
+
+The free-will problem, the five-move practice, and the sabotage habit behind the wish.
+
+Read ](https://mysticdo.com/guides/how-to-manifest-a-specific-person) [ L2 · Manifestation
+#### The 369 Method: Tesla, the Numbers, and What Works
+
+The 369 method minus its mythology — what the repetition actually does, and when it helps.
+
+Read ](https://mysticdo.com/guides/369-manifestation-method) [ L2 · Manifestation
+#### Scripting Manifestation, Explained Honestly
+
+Why the writing works, the three versions, and the felt-engagement requirement.
+
+Read ](https://mysticdo.com/guides/scripting-manifestation) [ L2 · Manifestation
+#### The Law of Assumption, Explained Honestly
+
+Neville’s law stated precisely — why assumption runs deeper than affirmation, and his three steps.
+
+Read ](https://mysticdo.com/guides/law-of-assumption)
+### Energy & the subtle body (Level 2)
+
+[ L2 · Energy
+#### What Are Chakras? A Cultural Framework
+
+A real cultural framework, honestly distinguished from literal anatomical energy centers.
+
+Read ](https://mysticdo.com/guides/what-are-chakras) [ L2 · Energy
+#### Which Chakra Is Blocked? How to Read It
+
+What each centre governs, where the friction sits, and why ‘blocked’ is a metaphor.
+
+Read ](https://mysticdo.com/guides/which-chakra-is-blocked) [ L2 · Energy
+#### How to Open Your Third Eye: Intuition, Honestly
+
+A meditative, attentional practice — honestly distinguished from a literal third eye.
+
+Read ](https://mysticdo.com/guides/how-to-open-your-third-eye) [ L2 · Energy
+#### How to Raise Your Vibration, Honestly Explained
+
+The metaphor vs the physics, and the five practices that shift your baseline.
+
+Read ](https://mysticdo.com/guides/how-to-raise-your-vibration)
+### Shadow work & inner depth (Level 2)
+
+[ L2 · Shadow
+#### What Is Shadow Work? Integration, Honestly
+
+A Jungian reflective practice honestly framed — and how it differs from therapy.
+
+Read ](https://mysticdo.com/guides/what-is-shadow-work) [ L2 · Shadow
+#### How to Do Shadow Work, Honestly Explained
+
+Shadow work as Jung meant it — the three-step method and the golden shadow most guides miss.
+
+Read ](https://mysticdo.com/guides/how-to-do-shadow-work) [ L2 · Shadow
+#### Past Life Regression: What It Is and Shows
+
+What the experience is, what the evidence can and can’t show, and the risks.
+
+Read ](https://mysticdo.com/guides/past-life-regression) [ L2 · Shadow
+#### Dark Night of the Soul: An Honest Frame
+
+A meaningful frame for the dark night — honestly distinguished from clinical depression.
+
+Read ](https://mysticdo.com/guides/dark-night-of-the-soul)
+### Signs, symbols & moon ritual (Level 2)
+
+[ L2 · Signs
+#### What Are Synchronicities? Meaningful Coincidence
+
+Meaningful coincidence, honestly framed — the pattern-making mind vs the meaning-making value.
+
+Read ](https://mysticdo.com/guides/what-are-synchronicities) [ L2 · Signs
+#### What Is the Evil Eye? A Cultural Concept
+
+A real cross-cultural belief, honestly explained — and the supernatural harm-force it doesn’t support.
+
+Read ](https://mysticdo.com/guides/evil-eye-meaning) [ L2 · Ritual
+#### Full Moon Ritual: An Honest Reflective Practice
+
+A reflective full-moon practice — what it can offer and what it can’t.
+
+Read ](https://mysticdo.com/guides/full-moon-ritual) [ L2 · Ritual
+#### New Moon Ritual: Setting Intentions Honestly
+
+Intention-setting as reflective practice — the tradition, and where magical thinking begins.
+
+Read ](https://mysticdo.com/guides/new-moon-ritual)
 ### Practice & protection guides (Level 2–3)
 
 [ L2 · Practice
@@ -550,19 +657,24 @@ What a session is and what it honestly offers — rest, ritual, reflection — a
 Read ](https://mysticdo.com/guides/what-is-reiki) [ L2 · Practice
 #### How to Cleanse Negative Energy
 
-Where the heaviness lives — the space, the self, or between people — and the honest stack: ordinary reset first, ritual as the seal.
+Where the heaviness lives — the space, the self, or between people — and the honest stack.
 
 Read ](https://mysticdo.com/guides/how-to-cleanse-negative-energy) [ L2 · Practice
 #### Crystals for Protection
 
-The stones read honestly — ritual and reflection, where a stone substitutes for an exit, and the one qualified study, labeled as such.
+The stones read honestly — ritual and reflection, where a stone substitutes for an exit.
 
 Read ](https://mysticdo.com/guides/crystals-for-protection) [ L2 · Practice
 #### What Is Karma?
 
-The framework from the inside — act well, release the fruits — against the spectator’s seat and the clearance industry.
+The framework from the inside — act well, release the fruits — against the spectator’s seat.
 
-Read ](https://mysticdo.com/guides/what-is-karma)
+Read ](https://mysticdo.com/guides/what-is-karma) [ L2 · Practice
+#### How to Read Tarot: A Reflective Practice
+
+Tarot as structured reflection, honestly explained — not fortune-telling.
+
+Read ](https://mysticdo.com/guides/how-to-read-tarot)
 Stay in the loop
 ### Get notified when new guides publish
 
@@ -10261,24 +10373,61 @@ Browse by question
 If you don't know whether you need a psychic, tarot, astrology, or medium reading—start from the question, not the practice. We map each intent to the practices that fit it.
 
 [
-## Love & Relationships Breakups, ex, no-contact, uncertainty, new relationships, future-of-relationship, emotional closure.
+## Love & Relationships
+
+Breakups, ex, no-contact, uncertainty, new relationships, future-of-relationship, emotional closure.
 
 Fits: psychic, tarot, astrology ](https://mysticdo.com/questions/love-relationships/) [
-## Career & Work Job offers, moves, team dynamics, direction, vocation, switching paths.
+## Career & Work
+
+Job offers, moves, team dynamics, direction, vocation, switching paths.
 
 Fits: psychic, astrology, tarot ](https://mysticdo.com/questions/career-work/) [
-## Money & Wealth Income anxiety, debt decisions, financial crossroads, abundance mindset.
+## Money & Wealth
+
+Income anxiety, debt decisions, financial crossroads, abundance mindset.
 
 Fits: astrology, psychic ](https://mysticdo.com/questions/money-wealth/) [
-## Life Direction Purpose, crossroads, transitions, “what's next?”
+## Life Direction
+
+Purpose, crossroads, transitions, “what's next?”
 
 Fits: astrology, tarot ](https://mysticdo.com/questions/life-direction/) [
-## Loss & Closure Grief, someone who passed, unanswered questions, endings.
+## Loss & Closure
+
+Grief, someone who passed, unanswered questions, endings.
 
 Fits: medium ](https://mysticdo.com/questions/loss-closure/) [
-## Spiritual Growth Intuition, recurring patterns, manifestation, personal transformation.
+## Spiritual Growth
 
-Fits: tarot, astrology ](https://mysticdo.com/questions/spiritual-growth/)
+Intuition, recurring patterns, manifestation, personal transformation.
+
+Fits: tarot, astrology ](https://mysticdo.com/questions/spiritual-growth/) [
+## Angel Numbers
+
+11:11, 444, repeating sequences — what the numbers are read to mean, and what they can’t tell you.
+
+Fits: numerology lens, self-read ](https://mysticdo.com/questions/angel-numbers/) [
+## Dream Meanings
+
+Last night’s dream — someone, snakes, water, teeth, being chased — read as information about you.
+
+Fits: self-read, tarot ](https://mysticdo.com/questions/dreams/) [
+## Signs & Symbols
+
+Owls, feathers, synchronicity — when repetition is a message and when it’s pattern-making.
+
+Fits: self-read ](https://mysticdo.com/questions/signs/) [
+## Tarot Card Meanings
+
+Death, Tower, Lovers — what each card actually describes, and the yes/no spread.
+
+Fits: tarot ](https://mysticdo.com/questions/tarot/) [
+## Astrology & Your Chart
+
+Big three, moon and rising, retrogrades, saturn return, compatibility — your chart as a map.
+
+Fits: astrology ](https://mysticdo.com/questions/astrology/)
 Don't see your question?
 ### Take Do What Fits
 
@@ -22898,7 +23047,42 @@ Read](https://mysticdo.com/questions/love-relationships/why-did-he-ghost-me) [Gu
 
 The label tested — when the karmic frame explains and when it excuses, and the clean-slate test that reads agency.
 
-Read](https://mysticdo.com/questions/love-relationships/am-i-in-a-karmic-relationship)
+Read](https://mysticdo.com/questions/love-relationships/am-i-in-a-karmic-relationship) [ Guide
+#### Am I in Love?
+
+Infatuation, attachment, and love — and what survives the early intensity fading.
+
+Read ](https://mysticdo.com/questions/love-relationships/am-i-in-love) [ Guide
+#### Does He Like Me?
+
+Reading interest honestly across any stage — behaviour, and the inconvenience-survival test.
+
+Read ](https://mysticdo.com/questions/love-relationships/does-he-like-me) [ Guide
+#### How to Get Over Someone
+
+The honest recovery process — three phases, what moves it, and what resets it.
+
+Read ](https://mysticdo.com/questions/love-relationships/how-to-get-over-someone) [ Guide
+#### Should I Break Up?
+
+An honest decision framework — repairability, mismatch, avoidance, and cost-benefit.
+
+Read ](https://mysticdo.com/questions/love-relationships/should-i-break-up) [ Guide
+#### Should I Text Him?
+
+Initiative balance and whether silence is information — an honest read on the impulse.
+
+Read ](https://mysticdo.com/questions/love-relationships/should-i-text-him) [ Guide
+#### When Will I Meet My Soulmate?
+
+What timing can and can’t tell you — the forecast that isn’t available, the waiting shape that is.
+
+Read ](https://mysticdo.com/questions/love-relationships/when-will-i-meet-my-soulmate) [ Guide
+#### Who Is My Soulmate?
+
+What the soulmate concept can and can’t tell you — identity, recognition, and anxiety work.
+
+Read ](https://mysticdo.com/questions/love-relationships/who-is-my-soulmate)
 Which practice fits
 ## Psychic, tarot, or astrology—depending on the question
 
@@ -31654,7 +31838,12 @@ Read](https://mysticdo.com/questions/spiritual-growth/spiritual-awakening-sympto
 
 The gift question honestly framed — the honest inventory, chosen-ness capture, and what a development path looks like.
 
-Read](https://mysticdo.com/questions/spiritual-growth/what-is-my-spiritual-gift)
+Read](https://mysticdo.com/questions/spiritual-growth/what-is-my-spiritual-gift) [ Guide
+#### What Is My Spirit Animal?
+
+A cross-cultural symbolic framework used as a reflective lens — and where the evidence stops.
+
+Read ](https://mysticdo.com/questions/spiritual-growth/what-is-my-spirit-animal)
 Decision guides for this intent
 ## Read before you pay
 
@@ -35831,6 +36020,48 @@ Try it](https://mysticdo.com/tools/daily-card) [Before you pay
 How intro offers work and the single question to ask yourself first.
 
 Read](https://mysticdo.com/guides/before-paying-psychic-reading)
+
+---
+
+# Which practice fits your question?
+
+> Source: https://mysticdo.com/quiz/
+
+Free two-minute checkers
+Each quiz matches your situation to the practice that fits—and tells you what to do next. No scores, no verdicts, no fabricated percentages: a structured match, then a clear next step.
+
+[ The full matcher
+## Do What Fits
+
+Seven questions map you to the practice that fits—psychic, tarot, astrology, or medium—and what to do next when you don’t know where to start.
+
+Take it ](https://mysticdo.com/do-what-fits) [ For one specific question
+## Which Psychic Reading Fits You?
+
+Chat, phone, video, or specialist? Five questions to match you to the right psychic reading format—and redirect you to tarot if that’s the better fit.
+
+Take it ](https://mysticdo.com/quiz/psychic) [ For patterns and reflection
+## Which Tarot Reading Fits You?
+
+Self-read, platform session, Celtic Cross, or relationship spread? Five questions match you to the right tarot approach.
+
+Take it ](https://mysticdo.com/quiz/tarot) [ For a self-map
+## Which Astrology Reading Fits You?
+
+Natal, transit, synastry, or solar return? Five questions to match you to the right kind of astrology reading—and flag if you don’t need one yet.
+
+Take it ](https://mysticdo.com/quiz/astrology) [ For grief and connection
+## Is a Medium Reading Right for You?
+
+Five questions to help you decide whether a medium reading fits your stage of grief, what kind to look for, and when to wait.
+
+Take it ](https://mysticdo.com/quiz/medium)
+How these fit together
+## Start with the question, not the practice
+
+If you already know your question is love, career, or a specific situation, start from [Questions](https://mysticdo.com/questions/) and pick the cluster that matches. If you only know you want a reading but not which kind, take [Do What Fits](https://mysticdo.com/do-what-fits) first—it narrows the field. The single-practice quizzes are for when you’ve already chosen a practice and want the right format within it.
+
+Every quiz result is a structured match, not a verdict. See [how the matching works](https://mysticdo.com/methodology).
 
 ---
 
